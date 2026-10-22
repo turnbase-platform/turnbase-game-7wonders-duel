@@ -1,0 +1,39 @@
+{
+  "name": "turnbase-game-7wonders-duel-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "7 Wonders Duel game frontend (React) — bundled to frontend/main.js in the game bundle.",
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "scripts": {
+    "build": "esbuild src/main/ts/main.tsx --bundle --format=esm --target=es2022 --minify --jsx=automatic --define:process.env.NODE_ENV=\\\"production\\\" --outfile=target/bundle/frontend/main.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/main/ts src/test/ts",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@turnbase/gdk": "file:vendor/turnbase-gdk-0.1.0.tgz",
+    "react": "19.2.9",
+    "react-dom": "19.2.9"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.3.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "4.1.11",
+    "esbuild": "0.27.7",
+    "eslint": "10.9.1",
+    "eslint-config-prettier": "10.1.8",
+    "jsdom": "29.1.1",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.68.0",
+    "vitest": "4.1.11",
+    "ws": "8.18.3"
+  }
+}

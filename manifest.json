@@ -1,0 +1,17 @@
+{
+  "manifestVersion": "1",
+  "title": "7 Wonders Duel",
+  "shortDescription": "Draft cards, raise wonders and race to a military, scientific or civilian victory.",
+  "version": "0.1.0",
+  "gdkApiVersion": "0.3.0",
+  "runtime": "jvm",
+  "backend": { "path": "backend/sevenwondersduel.jar", "entryPoint": "io.turnbase.games.sevenwondersduel.SevenWondersDuelGame" },
+  "frontend": { "entryPoint": "frontend/main.js" },
+  "infoDoc": "INFO.md",
+  "tags": ["cards", "strategy", "two-player"],
+  "capabilities": { "ai": false, "spectators": true, "midGameJoin": false },
+  "teamTemplates": [
+    { "name": "Player 1", "size": { "min": 1, "max": 1 }, "count": { "min": 1, "max": 1 } },
+    { "name": "Player 2", "size": { "min": 1, "max": 1 }, "count": { "min": 1, "max": 1 } }
+  ]
+}
