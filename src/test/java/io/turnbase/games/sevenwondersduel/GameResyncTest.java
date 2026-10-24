@@ -14,6 +14,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.view.CatalogViews;
 import io.turnbase.games.sevenwondersduel.view.Viewer;
 import io.turnbase.games.sevenwondersduel.view.Views;
 import io.turnbase.games.sevenwondersduel.wire.ServerMessage;
@@ -36,9 +37,13 @@ class GameResyncTest {
   void aPlayerSeesTheirSeatAndASpectatorThePublicPosition() {
     assertThat(viewFor(viewer(ONE)))
         .isEqualTo(
-            ServerMessage.view(Views.of(DUEL, RULES, new Viewer.Seat(PlayerId.of(ONE.id())))));
+            ServerMessage.resync(
+                Views.of(DUEL, RULES, new Viewer.Seat(PlayerId.of(ONE.id()))),
+                CatalogViews.of(RULES)));
     assertThat(viewFor(spectator()))
-        .isEqualTo(ServerMessage.view(Views.of(DUEL, RULES, new Viewer.Spectator())));
+        .isEqualTo(
+            ServerMessage.resync(
+                Views.of(DUEL, RULES, new Viewer.Spectator()), CatalogViews.of(RULES)));
   }
 
   @Test
@@ -46,6 +51,14 @@ class GameResyncTest {
     Player stranger = player("00000000-0000-0000-0000-000000000009", "Stranger");
 
     assertThat(viewFor(viewer(stranger))).isEqualTo(viewFor(spectator()));
+  }
+
+  @Test
+  void onlyAResyncCarriesTheCatalog() {
+    assertThat(viewFor(spectator()).catalog().entries()).isNotEmpty();
+    assertThat(ServerMessage.view(Views.of(DUEL, RULES, new Viewer.Spectator())).catalog())
+        .isNull();
+    assertThat(ServerMessage.rejected("no").catalog()).isNull();
   }
 
   @Test

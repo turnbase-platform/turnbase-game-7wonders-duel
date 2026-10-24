@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.wire;
 
+import io.turnbase.games.sevenwondersduel.view.CatalogView;
 import io.turnbase.games.sevenwondersduel.view.DuelView;
 import io.turnbase.games.sevenwondersduel.view.EventView;
 import java.util.List;
@@ -12,8 +13,11 @@ import java.util.List;
  * @param reason why the action was refused, for {@code rejected}
  * @param events what happened to bring the game to {@code view}, as this client may know it; empty
  *     for a resync and for a refusal. The view is the truth, the events only explain it.
+ * @param catalog every component's static data, sent with a resync and null otherwise: ids in the
+ *     view and the events are looked up here
  */
-public record ServerMessage(String kind, DuelView view, String reason, List<EventView> events) {
+public record ServerMessage(
+    String kind, DuelView view, String reason, List<EventView> events, CatalogView catalog) {
 
   public ServerMessage {
     events = List.copyOf(events);
@@ -24,11 +28,16 @@ public record ServerMessage(String kind, DuelView view, String reason, List<Even
     return view(view, List.of());
   }
 
+  /** A picture for a client that has just (re)connected, with the catalog its ids refer to. */
+  public static ServerMessage resync(DuelView view, CatalogView catalog) {
+    return new ServerMessage("view", view, null, List.of(), catalog);
+  }
+
   public static ServerMessage view(DuelView view, List<EventView> events) {
-    return new ServerMessage("view", view, null, events);
+    return new ServerMessage("view", view, null, events, null);
   }
 
   public static ServerMessage rejected(String reason) {
-    return new ServerMessage("rejected", null, reason, List.of());
+    return new ServerMessage("rejected", null, reason, List.of(), null);
   }
 }

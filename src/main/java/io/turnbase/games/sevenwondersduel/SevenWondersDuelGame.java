@@ -15,6 +15,7 @@ import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.Victory;
+import io.turnbase.games.sevenwondersduel.view.CatalogViews;
 import io.turnbase.games.sevenwondersduel.view.EventViews;
 import io.turnbase.games.sevenwondersduel.view.Viewer;
 import io.turnbase.games.sevenwondersduel.view.Views;
@@ -156,6 +157,7 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
         viewer = new Viewer.Seat(id);
       }
     }
-    return ViewResult.of(ServerMessage.view(Views.of(duel, rules, viewer)));
+    return ViewResult.of(
+        ServerMessage.resync(Views.of(duel, rules, viewer), CatalogViews.of(rules)));
   }
 }
