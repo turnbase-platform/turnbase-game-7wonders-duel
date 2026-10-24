@@ -29,6 +29,7 @@ import java.util.UUID;
  * @param pawnSpace the pawn's distance from the centre
  * @param victoryWinner who won by supremacy, or null while the game is running
  * @param victoryReason name of the {@code Victory.Reason}, null exactly when there is no winner
+ * @param teams each player's team id, as the platform gave them; the engine never reads it
  */
 public record SevenWondersDuelState(
     String phase,
@@ -46,5 +47,29 @@ public record SevenWondersDuelState(
     UUID pawnSide,
     int pawnSpace,
     UUID victoryWinner,
-    String victoryReason)
-    implements GameState {}
+    String victoryReason,
+    Map<UUID, UUID> teams)
+    implements GameState {
+
+  /** This snapshot with the platform's team ids. */
+  public SevenWondersDuelState withTeams(Map<UUID, UUID> teams) {
+    return new SevenWondersDuelState(
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rngSeed,
+        rngDraws,
+        packs,
+        agenda,
+        pawnSide,
+        pawnSpace,
+        victoryWinner,
+        victoryReason,
+        Map.copyOf(teams));
+  }
+}

@@ -123,7 +123,8 @@ class SnapshotsTest {
         side,
         space,
         good.victoryWinner(),
-        good.victoryReason());
+        good.victoryReason(),
+        good.teams());
   }
 
   @Test
@@ -246,7 +247,8 @@ class SnapshotsTest {
             good.pawnSide(),
             good.pawnSpace(),
             good.victoryWinner(),
-            good.victoryReason());
+            good.victoryReason(),
+            good.teams());
     SevenWondersDuelState blankId =
         new SevenWondersDuelState(
             good.phase(),
@@ -264,7 +266,8 @@ class SnapshotsTest {
             good.pawnSide(),
             good.pawnSpace(),
             good.victoryWinner(),
-            good.victoryReason());
+            good.victoryReason(),
+            good.teams());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(badPhase))
         .isInstanceOf(IllegalArgumentException.class)
@@ -293,7 +296,8 @@ class SnapshotsTest {
             good.pawnSide(),
             good.pawnSpace(),
             good.victoryWinner(),
-            good.victoryReason());
+            good.victoryReason(),
+            good.teams());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(bad))
         .isInstanceOf(IllegalArgumentException.class)

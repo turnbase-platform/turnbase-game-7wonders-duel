@@ -76,7 +76,8 @@ public final class Snapshots {
         state.victory() == null || state.victory().winner() == null
             ? null
             : state.victory().winner().value(),
-        state.victory() == null ? null : state.victory().reason().name());
+        state.victory() == null ? null : state.victory().reason().name(),
+        Map.of());
   }
 
   public static DuelState fromSnapshot(SevenWondersDuelState snapshot) {
