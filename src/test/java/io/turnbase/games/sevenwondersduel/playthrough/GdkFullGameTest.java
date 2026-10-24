@@ -20,6 +20,7 @@ import io.turnbase.games.sevenwondersduel.engine.BuildWonder;
 import io.turnbase.games.sevenwondersduel.engine.ChooseStarter;
 import io.turnbase.games.sevenwondersduel.engine.Discard;
 import io.turnbase.games.sevenwondersduel.engine.DraftWonder;
+import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.PlayerAction;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -89,7 +90,9 @@ class GdkFullGameTest {
           game.onAction(state, action(seat(move.actor()), wire(chosen)));
 
       DuelState after = Snapshots.fromSnapshot(result.state());
-      assertThat(after).as("step " + steps).isNotEqualTo(duel);
+      assertThat(after)
+          .as("step " + steps + " matches the engine")
+          .isEqualTo(new Engine(RULES).apply(duel, move.actor(), chosen).state());
       gameOvers += (int) result.effects().stream().filter(GameOverEffect.class::isInstance).count();
       assertNoLeaks(after, result.effects(), steps);
       state = result.state();
@@ -99,6 +102,19 @@ class GdkFullGameTest {
   }
 
   private static void assertNoLeaks(DuelState after, List<Effect> effects, int step) {
+    for (Effect effect : effects) {
+      ServerMessage message =
+          effect instanceof SendToPlayerEffect send
+              ? (ServerMessage) send.payload()
+              : effect instanceof BroadcastEffect broadcast
+                  ? (ServerMessage) broadcast.payload()
+                  : null;
+      if (message != null) {
+        assertThat(faceDownShown(after, message))
+            .as("step " + step + ": hidden structure cards in a view")
+            .noneMatch(id -> !Zones.BOX.value().equals(zoneOf(after, id)));
+      }
+    }
     for (Effect effect : effects) {
       if (effect instanceof SendToPlayerEffect send) {
         Set<ComponentId> known = after.knowledge().get(PlayerId.of(send.playerId()));

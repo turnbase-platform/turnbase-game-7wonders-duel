@@ -12,6 +12,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.science.Science;
 import io.turnbase.games.sevenwondersduel.scoring.Scorecard;
 import io.turnbase.games.sevenwondersduel.scoring.Scoring;
+import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
@@ -45,6 +46,9 @@ class FullGameTest {
           } catch (AssertionError e) {
             throw new AssertionError(label + ": " + e.getMessage(), e);
           }
+          assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(state)))
+              .as(label + " snapshot round trip")
+              .isEqualTo(state);
           reached.addAll(acquired(state));
           previous = state;
         }
@@ -113,5 +117,13 @@ class FullGameTest {
       }
       default -> throw new AssertionError(label + ": unexpected reason " + v.reason());
     }
+  }
+
+  /** Pinned so that a game differing between JVM runs (hash order) cannot pass unnoticed. */
+  @Test
+  void aKnownGameEndsAsItAlwaysHas() {
+    Playthrough.Result game = Playthrough.play(RULES, 5, Policy.RANDOM, CAP);
+
+    assertThat(game.steps()).isEqualTo(75);
   }
 }
