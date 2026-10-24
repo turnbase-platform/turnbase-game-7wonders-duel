@@ -25,9 +25,17 @@ public final class Turn {
     end(resolution);
   }
 
-  /** Turns newly uncovered cards face up, then gives the move to the opponent. */
+  /**
+   * Turns newly uncovered cards face up, then gives the move to the opponent, unless the active
+   * player has a play-again flag, which is used up (B-TURN-4, B-TURN-6).
+   */
   public static void end(Resolution resolution) {
     Structure.revealUncovered(resolution);
+    PlayerId active = resolution.state().active();
+    if (resolution.state().player(active).playAgain()) {
+      resolution.setPlayAgain(active, false);
+      return;
+    }
     PlayerId next = resolution.state().opponentOf(resolution.state().active());
     resolution.advance(s -> s.withActive(next));
   }
