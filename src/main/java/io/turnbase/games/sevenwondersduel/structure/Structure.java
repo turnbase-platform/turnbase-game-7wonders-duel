@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.structure;
 
+import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
@@ -73,11 +74,21 @@ public final class Structure {
    * one so the deal appears in the event record.
    */
   public static void deal(Resolution resolution, Layout layout, List<ComponentId> cards) {
+    requireBacks(resolution.rules(), cards);
     deal(resolution.state().placements(), layout, cards, resolution.rules().zones());
     List<Slot> slots = layout.slots();
     for (int i = 0; i < slots.size(); i++) {
       Slot slot = slots.get(i);
       resolution.move(cards.get(i), slot.location(layout.faceUp(slot) ? UP : DOWN));
+    }
+  }
+
+  /** A card laid face down shows its back to everybody (B-BACK-1), so it must have one. */
+  public static void requireBacks(RuleSet rules, List<ComponentId> cards) {
+    for (ComponentId id : cards) {
+      if (rules.catalog().get(id).back().isEmpty()) {
+        throw new IllegalArgumentException("card '" + id.value() + "' has no back group");
+      }
     }
   }
 

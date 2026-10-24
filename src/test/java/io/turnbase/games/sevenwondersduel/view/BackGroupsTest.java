@@ -93,10 +93,23 @@ class BackGroupsTest {
     DuelView view = Views.of(faceDown(), RULES, new Viewer.Spectator());
 
     assertThat(view.hidden())
-        .containsExactly(
-            new HiddenView("box", "", null, 1),
-            new HiddenView("deck", "", "age1", 2),
-            new HiddenView("deck", "", "guild", 1));
+        .containsExactly(new HiddenView("box", "", null, 1), new HiddenView("deck", "", null, 3));
+  }
+
+  @Test
+  void aFaceDownStructureCardShowsItsBackPerSlotPlace() {
+    Location down =
+        new io.turnbase.games.sevenwondersduel.structure.Slot(0, 0)
+            .location(io.turnbase.games.sevenwondersduel.zone.Zones.STRUCTURE_DOWN);
+    Location down2 =
+        new io.turnbase.games.sevenwondersduel.structure.Slot(0, 1)
+            .location(io.turnbase.games.sevenwondersduel.zone.Zones.STRUCTURE_DOWN);
+    DuelState state =
+        Fixtures.state(RULES, P1, 0, 0, ComponentId.of("a"), down, ComponentId.of("c"), down2);
+
+    assertThat(Views.of(state, RULES, new Viewer.Spectator()).hidden())
+        .extracting(HiddenView::back)
+        .containsExactlyInAnyOrder("age1", "guild");
   }
 
   @Test

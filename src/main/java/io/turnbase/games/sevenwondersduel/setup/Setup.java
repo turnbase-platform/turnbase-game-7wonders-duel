@@ -15,6 +15,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
+import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
@@ -125,22 +126,13 @@ public final class Setup {
               + " cards, found "
               + cards.size());
     }
-    requireBacks(rules, cards);
-    requireBacks(rules, guilds.subList(0, added));
+    Structure.requireBacks(rules, cards);
+    Structure.requireBacks(rules, guilds.subList(0, added));
     List<ComponentId> shuffled = table.shuffle(cards);
     table.placeAll(shuffled.subList(0, REMOVED_PER_AGE), new Location(BOX, ""));
     List<ComponentId> deck = new ArrayList<>(shuffled.subList(REMOVED_PER_AGE, shuffled.size()));
     deck.addAll(guilds.subList(0, added));
     table.placeAll(table.shuffle(deck), ageDeck(age));
-  }
-
-  /** A card lies face down in the structure, so its back must be there for both players to see. */
-  private static void requireBacks(RuleSet rules, List<ComponentId> cards) {
-    for (ComponentId id : cards) {
-      if (rules.catalog().get(id).back().isEmpty()) {
-        throw new IllegalArgumentException("card '" + id.value() + "' has no back group");
-      }
-    }
   }
 
   private static List<ComponentId> ids(List<Component> components) {

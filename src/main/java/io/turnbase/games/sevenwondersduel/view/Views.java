@@ -82,7 +82,11 @@ public final class Views {
         quotes(state, rules));
   }
 
+  /** Only a face-down structure card shows its back (B-BACK-1); elsewhere nothing is shown. */
   private static String backOf(RuleSet rules, Placement placement) {
+    if (!placement.at().zone().equals(Structure.DOWN)) {
+      return null;
+    }
     return rules.catalog().get(placement.component()).back().map(BackId::value).orElse(null);
   }
 

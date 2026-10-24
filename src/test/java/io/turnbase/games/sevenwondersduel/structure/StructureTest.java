@@ -195,4 +195,14 @@ class StructureTest {
     assertThatThrownBy(() -> Structure.deal(all, age(2), deckOrder(), RULES.zones()))
         .isInstanceOf(IllegalArgumentException.class);
   }
+
+  @Test
+  void aCardCannotBeLaidFaceDownWithoutABack() {
+    Resolution r = resolution(deck());
+
+    assertThatThrownBy(() -> Structure.deal(r, age(1), deckOrder()))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("c0")
+        .hasMessageContaining("no back");
+  }
 }
