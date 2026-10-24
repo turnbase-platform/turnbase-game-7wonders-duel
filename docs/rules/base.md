@@ -226,7 +226,7 @@ Wonder shields are **not** boosted by *Strategy* (B-PRG table).
 | Philosophy | 7 VP | score |
 | Strategy | your **future red cards** give +1 shield (not Wonders; not retroactive) | shield modifier |
 | Theology | your **future Wonders** gain "play again" (a Wonder that already has it does not get it twice) | trigger on own Wonder built |
-| Urbanism | +6$ immediately; +4$ each time you construct a Building **for free via a chain** — chain symbols granted by effects (Agora decree #15, Extra Wonders) count; *Engineering* does not | instant + chain hook |
+| Urbanism | +6$ immediately; +4$ each time you construct a Building **for free via a chain** — chain symbols granted by effects (Agora decree #15, Extra Wonders) count; *Engineering* does not. A card that is free anyway but whose chain symbol the player holds still counts as chained and pays the +4$ (owner's ruling, 2026-10-25: the player gets the better outcome; no base card is both) | instant + chain hook |
 
 Economy clarification: the opponent's trade discounts (reserves, Customs House) change the price; you
 receive the **actual** amount they paid for goods.

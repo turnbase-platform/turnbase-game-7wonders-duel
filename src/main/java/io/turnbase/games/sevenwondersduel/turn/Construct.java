@@ -23,7 +23,7 @@ public final class Construct {
     pay(resolution, actor, quote);
     resolution.move(card, Places.city(actor));
     if (quote.chained()) {
-      resolution.chainBuilt(actor);
+      resolution.chainBuilt(actor, card);
     }
     resolution.queue(List.of(new TurnEndStep()));
     resolution.queueEffects(card, actor);

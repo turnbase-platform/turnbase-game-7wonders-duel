@@ -147,7 +147,18 @@ class BuildTest {
 
     assertThat(g.build().events())
         .extracting(e -> e.event())
-        .containsOnlyOnce(new ChainBuilt(g.actor()));
+        .containsOnlyOnce(new ChainBuilt(g.actor(), CARD));
+  }
+
+  @Test
+  void aFreeCardWithAHeldChainIsStillAChainBuild() {
+    Part source = Part.card("stable").withModifiers(new ChainSource(java.util.Set.of(HORSESHOE)));
+    Game g = game(card().costing(Cost.FREE.withFreedBy(HORSESHOE)), source);
+    g = g.holding(source, g.actor());
+
+    assertThat(g.build().events())
+        .extracting(e -> e.event())
+        .containsOnlyOnce(new ChainBuilt(g.actor(), CARD));
   }
 
   @Test

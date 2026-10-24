@@ -183,9 +183,9 @@ public final class Resolution {
     emit(new TradePaid(payer, amount));
   }
 
-  /** Records that {@code builder} built a card through a chain symbol (B-COST-5). */
-  public void chainBuilt(PlayerId builder) {
-    emit(new ChainBuilt(builder));
+  /** Records that {@code builder} built {@code card} through a chain symbol (B-COST-5). */
+  public void chainBuilt(PlayerId builder, ComponentId card) {
+    emit(new ChainBuilt(builder, card));
   }
 
   /** Sets a player's play-again flag; records {@link PlayAgainChanged} only on a change. */

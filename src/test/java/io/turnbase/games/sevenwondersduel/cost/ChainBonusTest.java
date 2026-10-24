@@ -8,6 +8,7 @@ import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.effect.Fixtures;
 import io.turnbase.games.sevenwondersduel.effect.Fixtures.Card;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
+import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import org.junit.jupiter.api.Test;
 
 class ChainBonusTest {
@@ -22,7 +23,7 @@ class ChainBonusTest {
   void theOwnersChainBuildPaysTheBonus() {
     Resolution r = holding();
 
-    r.chainBuilt(P1);
+    r.chainBuilt(P1, ComponentId.of("any"));
 
     assertThat(r.state().player(P1).coins()).isEqualTo(11);
   }
@@ -31,7 +32,7 @@ class ChainBonusTest {
   void theOpponentsChainBuildPaysNothing() {
     Resolution r = holding();
 
-    r.chainBuilt(P2);
+    r.chainBuilt(P2, ComponentId.of("any"));
 
     assertThat(r.state().player(P1).coins()).isEqualTo(7);
     assertThat(r.state().player(P2).coins()).isEqualTo(7);
