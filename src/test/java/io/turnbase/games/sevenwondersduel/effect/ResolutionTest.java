@@ -240,4 +240,34 @@ class ResolutionTest {
 
     assertThatThrownBy(() -> r.events().clear()).isInstanceOf(UnsupportedOperationException.class);
   }
+
+  @Test
+  void aComponentMovedIntoAPublicZoneIsKnownToBothPlayers() {
+    Resolution r = resolution();
+
+    r.move(CARD, Location.of(ZoneId.of("structure.up")));
+
+    assertThat(r.state().knowledge().get(P1)).containsExactly(CARD);
+    assertThat(r.state().knowledge().get(P2)).containsExactly(CARD);
+  }
+
+  @Test
+  void whatWasSeenStaysKnownInAHiddenZone() {
+    Resolution r = resolution();
+    r.move(CARD, Location.of(ZoneId.of("structure.up")));
+
+    r.move(CARD, Location.of(ZoneId.of("underWonder")));
+
+    assertThat(r.state().knowledge().get(P1)).containsExactly(CARD);
+  }
+
+  @Test
+  void aComponentMovedIntoAHiddenZoneIsKnownToNobody() {
+    Resolution r = resolution();
+
+    r.move(CARD, Location.of(ZoneId.of("box")));
+
+    assertThat(r.state().knowledge().get(P1)).isEmpty();
+    assertThat(r.state().knowledge().get(P2)).isEmpty();
+  }
 }

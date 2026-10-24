@@ -22,14 +22,17 @@ import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
@@ -82,11 +85,26 @@ public final class Resolution {
     return Optional.ofNullable(running).map(r -> r.effect().source());
   }
 
-  /** Moves a component (rejected out of a terminal zone) and records {@link ComponentMoved}. */
+  /**
+   * Moves a component (rejected out of a terminal zone) and records {@link ComponentMoved}. Both
+   * players learn what enters a public zone and keep knowing it wherever it goes next.
+   */
   public void move(ComponentId component, Location to) {
     Location from = Placements.locationOf(state.placements(), component);
     state = state.withPlacements(Placements.move(state.placements(), component, to, rules.zones()));
+    if (rules.zones().kind(to.zone()).visibility() == Visibility.PUBLIC) {
+      reveal(component);
+    }
     emit(new ComponentMoved(component, from, to));
+  }
+
+  private void reveal(ComponentId component) {
+    for (PlayerId player : state.players().keySet()) {
+      Set<ComponentId> known = new HashSet<>(state.knowledge().getOrDefault(player, Set.of()));
+      if (known.add(component)) {
+        state = state.withKnowledge(player, known);
+      }
+    }
   }
 
   /**
