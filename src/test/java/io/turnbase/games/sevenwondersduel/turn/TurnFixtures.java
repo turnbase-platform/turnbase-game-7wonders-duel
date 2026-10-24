@@ -10,6 +10,7 @@ import io.turnbase.games.sevenwondersduel.effect.Modifier;
 import io.turnbase.games.sevenwondersduel.effect.Trigger;
 import io.turnbase.games.sevenwondersduel.engine.Discard;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -17,6 +18,7 @@ import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /** Base-sized catalogs in which a few chosen components carry cost, effects and modifiers. */
@@ -29,12 +31,20 @@ public final class TurnFixtures {
       Cost cost,
       List<Effect> effects,
       List<Modifier> modifiers,
-      List<Trigger<?>> triggers)
+      List<Trigger<?>> triggers,
+      Optional<BackId> back)
       implements Component {
 
     public static Part of(String id, ComponentType type) {
       return new Part(
-          ComponentId.of(id), type, Set.of(), Cost.FREE, List.of(), List.of(), List.of());
+          ComponentId.of(id),
+          type,
+          Set.of(),
+          Cost.FREE,
+          List.of(),
+          List.of(),
+          List.of(),
+          Optional.empty());
     }
 
     public static Part card(String id) {
@@ -46,23 +56,23 @@ public final class TurnFixtures {
     }
 
     public Part costing(Cost cost) {
-      return new Part(id, type, tags, cost, effects, modifiers, triggers);
+      return new Part(id, type, tags, cost, effects, modifiers, triggers, back);
     }
 
     public Part withEffects(Effect... effects) {
-      return new Part(id, type, tags, cost, List.of(effects), modifiers, triggers);
+      return new Part(id, type, tags, cost, List.of(effects), modifiers, triggers, back);
     }
 
     public Part withModifiers(Modifier... modifiers) {
-      return new Part(id, type, tags, cost, effects, List.of(modifiers), triggers);
+      return new Part(id, type, tags, cost, effects, List.of(modifiers), triggers, back);
     }
 
     public Part withTriggers(Trigger<?>... triggers) {
-      return new Part(id, type, tags, cost, effects, modifiers, List.of(triggers));
+      return new Part(id, type, tags, cost, effects, modifiers, List.of(triggers), back);
     }
 
     public Part tagged(Tag... tags) {
-      return new Part(id, type, Set.of(tags), cost, effects, modifiers, triggers);
+      return new Part(id, type, Set.of(tags), cost, effects, modifiers, triggers, back);
     }
 
     @Override
@@ -80,12 +90,27 @@ public final class TurnFixtures {
     for (Component part : parts) {
       int at = indexOf(all, part.id());
       if (at >= 0) {
-        all.set(at, part);
+        all.set(at, inheritingBack(part, all.get(at)));
       } else {
         all.add(part);
       }
     }
     return SetupFixtures.rules(all);
+  }
+
+  private static Component inheritingBack(Component part, Component replaced) {
+    if (part instanceof Part p && p.back().isEmpty()) {
+      return new Part(
+          p.id(),
+          p.type(),
+          p.tags(),
+          p.cost(),
+          p.effects(),
+          p.modifiers(),
+          p.triggers(),
+          replaced.back());
+    }
+    return part;
   }
 
   /** Cards still laid out in the structure, face up or down. */

@@ -3,6 +3,7 @@ package io.turnbase.games.sevenwondersduel.catalog;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.LayoutId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
@@ -12,6 +13,7 @@ import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class RuleSetTest {
@@ -191,5 +193,81 @@ class RuleSetTest {
     assertThatThrownBy(() -> RuleSet.assemble(List.of(new BasePack(), other)))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("duplicate age '1'");
+  }
+
+  private record BackedCard(ComponentId id, BackId backId) implements Component {
+    @Override
+    public String name() {
+      return id.value();
+    }
+
+    @Override
+    public ComponentType type() {
+      return ComponentType.CARD;
+    }
+
+    @Override
+    public Optional<BackId> back() {
+      return Optional.of(backId);
+    }
+  }
+
+  private record BackPack(PackId id, List<BackId> backs, List<Component> components)
+      implements ContentPack {
+    @Override
+    public List<ZoneKind> zoneKinds() {
+      return List.of();
+    }
+  }
+
+  @Test
+  void aDeclaredBackIsAccepted() {
+    ContentPack pack =
+        new BackPack(
+            PackId.of("p"),
+            List.of(BackId.of("brown")),
+            List.of(new BackedCard(ComponentId.of("c"), BackId.of("brown"))));
+
+    assertThat(RuleSet.assemble(List.of(pack)).catalog().get(ComponentId.of("c")).back())
+        .contains(BackId.of("brown"));
+  }
+
+  @Test
+  void aBackNoPackDeclaresIsRejectedByCardAndBack() {
+    ContentPack pack =
+        new BackPack(
+            PackId.of("p"),
+            List.of(),
+            List.of(new BackedCard(ComponentId.of("c"), BackId.of("brown"))));
+
+    assertThatThrownBy(() -> RuleSet.assemble(List.of(pack)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("'c'")
+        .hasMessageContaining("brown");
+  }
+
+  @Test
+  void aBackMayBeDeclaredByAnotherPack() {
+    ContentPack declares = new BackPack(PackId.of("a"), List.of(BackId.of("brown")), List.of());
+    ContentPack uses =
+        new BackPack(
+            PackId.of("b"),
+            List.of(),
+            List.of(new BackedCard(ComponentId.of("c"), BackId.of("brown"))));
+
+    assertThat(RuleSet.assemble(List.of(declares, uses)).catalog().get(ComponentId.of("c")))
+        .isNotNull();
+  }
+
+  @Test
+  void duplicateBackAcrossPacksNamesBothPacksAndId() {
+    ContentPack one = new BackPack(PackId.of("one"), List.of(BackId.of("brown")), List.of());
+    ContentPack two = new BackPack(PackId.of("two"), List.of(BackId.of("brown")), List.of());
+
+    assertThatThrownBy(() -> RuleSet.assemble(List.of(one, two)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("duplicate back 'brown'")
+        .hasMessageContaining("one")
+        .hasMessageContaining("two");
   }
 }

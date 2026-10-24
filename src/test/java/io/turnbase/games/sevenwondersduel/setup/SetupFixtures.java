@@ -13,6 +13,7 @@ import io.turnbase.games.sevenwondersduel.draft.Draft;
 import io.turnbase.games.sevenwondersduel.engine.ChooseStarter;
 import io.turnbase.games.sevenwondersduel.engine.DraftWonder;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -22,20 +23,30 @@ import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /** A catalog sized like the base game: 23/23/20 Age cards, 7 Guilds, 12 Wonders, 10 tokens. */
 public final class SetupFixtures {
 
-  record Piece(ComponentId id, ComponentType type, Set<Tag> tags) implements Component {
+  record Piece(ComponentId id, ComponentType type, Set<Tag> tags, Optional<BackId> back)
+      implements Component {
     @Override
     public String name() {
       return id.value();
     }
   }
 
+  /** The fixture back groups: one per Age and one for the Guilds. */
+  public static final List<BackId> BACKS =
+      List.of(BackId.of("age1"), BackId.of("age2"), BackId.of("age3"), BackId.of("guild"));
+
   static Piece piece(String id, ComponentType type, Tag... tags) {
-    return new Piece(ComponentId.of(id), type, Set.of(tags));
+    return new Piece(ComponentId.of(id), type, Set.of(tags), Optional.empty());
+  }
+
+  static Piece backed(Piece piece, String back) {
+    return new Piece(piece.id(), piece.type(), piece.tags(), Optional.of(BackId.of(back)));
   }
 
   public static List<Component> pieces(
@@ -44,11 +55,11 @@ public final class SetupFixtures {
     int[] perAge = {age1, age2, age3};
     for (int age = 1; age <= 3; age++) {
       for (int i = 0; i < perAge[age - 1]; i++) {
-        all.add(piece("a" + age + "-" + i, ComponentType.CARD, Tag.age(age)));
+        all.add(backed(piece("a" + age + "-" + i, ComponentType.CARD, Tag.age(age)), "age" + age));
       }
     }
     for (int i = 0; i < guilds; i++) {
-      all.add(piece("guild-" + i, ComponentType.CARD, Tag.GUILD));
+      all.add(backed(piece("guild-" + i, ComponentType.CARD, Tag.GUILD), "guild"));
     }
     for (int i = 0; i < wonders; i++) {
       all.add(piece("wonder-" + i, ComponentType.WONDER));
@@ -70,6 +81,11 @@ public final class SetupFixtures {
           @Override
           public List<ZoneKind> zoneKinds() {
             return List.of();
+          }
+
+          @Override
+          public List<BackId> backs() {
+            return BACKS;
           }
 
           @Override

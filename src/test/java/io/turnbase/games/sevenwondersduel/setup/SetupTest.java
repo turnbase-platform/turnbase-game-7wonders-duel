@@ -5,6 +5,8 @@ import static io.turnbase.games.sevenwondersduel.effect.Fixtures.P2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.turnbase.games.sevenwondersduel.catalog.Component;
+import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
@@ -14,6 +16,7 @@ import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -157,5 +160,19 @@ class SetupTest {
   void aPlayerCannotPlayThemself() {
     assertThatThrownBy(() -> Setup.newGame(RULES, 1, P1, P1))
         .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void aCardDealtFaceDownNeedsABack() {
+    List<Component> pieces = new ArrayList<>(SetupFixtures.pieces(23, 23, 20, 7, 12, 10));
+    int at = 0;
+    pieces.set(
+        at, SetupFixtures.piece(pieces.get(at).id().value(), ComponentType.CARD, Tag.age(1)));
+    RuleSet rules = SetupFixtures.rules(pieces);
+
+    assertThatThrownBy(() -> Setup.newGame(rules, 1, P1, P2))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining(pieces.get(at).id().value())
+        .hasMessageContaining("back");
   }
 }

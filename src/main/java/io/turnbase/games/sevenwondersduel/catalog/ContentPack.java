@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.catalog;
 
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.LayoutId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.structure.Layout;
@@ -18,6 +19,11 @@ public interface ContentPack {
   List<ZoneKind> zoneKinds();
 
   List<Component> components();
+
+  /** Card-back groups this pack adds (B-BACK-1); most packs add none. */
+  default List<BackId> backs() {
+    return List.of();
+  }
 
   /** Structure layouts this pack adds; most packs add none. */
   default List<Layout> layouts() {

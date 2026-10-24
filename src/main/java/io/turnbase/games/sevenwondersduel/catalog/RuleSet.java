@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.catalog;
 
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.LayoutId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
@@ -44,7 +45,14 @@ public final class RuleSet {
     Map<LayoutId, PackId> layoutOwner = new LinkedHashMap<>();
     Map<Integer, LayoutId> ageLayouts = new LinkedHashMap<>();
     Map<Integer, PackId> ageOwner = new LinkedHashMap<>();
+    Map<BackId, PackId> backOwner = new LinkedHashMap<>();
     for (ContentPack pack : packs) {
+      for (BackId back : pack.backs()) {
+        PackId previous = backOwner.putIfAbsent(back, pack.id());
+        if (previous != null) {
+          throw duplicate("back", back.value(), previous, pack.id());
+        }
+      }
       for (ZoneKind kind : pack.zoneKinds()) {
         PackId previous = zoneOwner.putIfAbsent(kind.id(), pack.id());
         if (previous != null) {
@@ -76,6 +84,22 @@ public final class RuleSet {
                 ageLayouts.put(age, layout);
               });
     }
+    components
+        .values()
+        .forEach(
+            component ->
+                component
+                    .back()
+                    .filter(back -> !backOwner.containsKey(back))
+                    .ifPresent(
+                        back -> {
+                          throw new IllegalArgumentException(
+                              "component '"
+                                  + component.id().value()
+                                  + "' has back '"
+                                  + back.value()
+                                  + "' that no pack declares");
+                        }));
     ageLayouts.forEach(
         (age, layout) -> {
           if (!layouts.containsKey(layout)) {

@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.cost.CostSolver;
 import io.turnbase.games.sevenwondersduel.cost.Quote;
+import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -30,6 +31,12 @@ public final class Views {
   private static final Comparator<Location> PLACE_ORDER =
       Comparator.comparing((Location l) -> l.zone().value()).thenComparing(Location::key);
 
+  private record HiddenKey(Location at, String back) {}
+
+  private static final Comparator<HiddenKey> HIDDEN_ORDER =
+      Comparator.comparing(HiddenKey::at, PLACE_ORDER)
+          .thenComparing(HiddenKey::back, Comparator.nullsFirst(Comparator.naturalOrder()));
+
   private static final Comparator<PlayerId> PLAYER_ORDER = Comparator.comparing(PlayerId::value);
 
   private Views() {}
@@ -37,18 +44,24 @@ public final class Views {
   /** The game as {@code viewer} may see it. */
   public static DuelView of(DuelState state, RuleSet rules, Viewer viewer) {
     List<PlacedView> visible = new ArrayList<>();
-    Map<Location, Integer> hidden = new TreeMap<>(PLACE_ORDER);
+    Map<HiddenKey, Integer> hidden = new TreeMap<>(HIDDEN_ORDER);
     for (Placement placement : state.placements()) {
       if (canSee(state, rules, viewer, placement.component())) {
         Location at = placement.at();
         visible.add(new PlacedView(placement.component().value(), at.zone().value(), at.key()));
       } else {
-        hidden.merge(placement.at(), 1, Integer::sum);
+        hidden.merge(new HiddenKey(placement.at(), backOf(rules, placement)), 1, Integer::sum);
       }
     }
     List<HiddenView> collapsed =
         hidden.entrySet().stream()
-            .map(e -> new HiddenView(e.getKey().zone().value(), e.getKey().key(), e.getValue()))
+            .map(
+                e ->
+                    new HiddenView(
+                        e.getKey().at().zone().value(),
+                        e.getKey().at().key(),
+                        e.getKey().back(),
+                        e.getValue()))
             .toList();
     return new DuelView(
         state.phase().name(),
@@ -67,6 +80,10 @@ public final class Views {
         collapsed,
         pending(state, rules, viewer),
         quotes(state, rules));
+  }
+
+  private static String backOf(RuleSet rules, Placement placement) {
+    return rules.catalog().get(placement.component()).back().map(BackId::value).orElse(null);
   }
 
   private static List<PlayerView> players(DuelState state) {
