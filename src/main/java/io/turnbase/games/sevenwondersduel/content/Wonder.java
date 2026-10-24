@@ -13,7 +13,6 @@ import io.turnbase.games.sevenwondersduel.effect.Modifier;
 import io.turnbase.games.sevenwondersduel.effect.Shields;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.scoring.Points;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -45,11 +44,11 @@ public record Wonder(
   }
 
   public Wonder effects(Effect... more) {
-    return new Wonder(id, name, cost, append(effects, more), modifiers);
+    return new Wonder(id, name, cost, Fluent.append(effects, more), modifiers);
   }
 
   public Wonder modifiers(Modifier... more) {
-    return new Wonder(id, name, cost, effects, append(modifiers, more));
+    return new Wonder(id, name, cost, effects, Fluent.append(modifiers, more));
   }
 
   public Wonder shields(int count) {
@@ -81,11 +80,5 @@ public record Wonder(
   @Override
   public Set<Tag> tags() {
     return Set.of(Tag.WONDER);
-  }
-
-  private static <T> List<T> append(List<T> list, T[] more) {
-    List<T> all = new ArrayList<>(list);
-    all.addAll(List.of(more));
-    return all;
   }
 }

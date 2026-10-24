@@ -7,7 +7,6 @@ import io.turnbase.games.sevenwondersduel.effect.Effect;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
 import io.turnbase.games.sevenwondersduel.effect.Trigger;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -43,25 +42,19 @@ public record Token(
   }
 
   public Token effects(Effect... more) {
-    return new Token(id, name, tags, append(effects, more), modifiers, triggers);
+    return new Token(id, name, tags, Fluent.append(effects, more), modifiers, triggers);
   }
 
   public Token modifiers(Modifier... more) {
-    return new Token(id, name, tags, effects, append(modifiers, more), triggers);
+    return new Token(id, name, tags, effects, Fluent.append(modifiers, more), triggers);
   }
 
   public Token triggers(Trigger<?>... more) {
-    return new Token(id, name, tags, effects, modifiers, append(triggers, more));
+    return new Token(id, name, tags, effects, modifiers, Fluent.append(triggers, more));
   }
 
   @Override
   public ComponentType type() {
     return ComponentType.TOKEN;
-  }
-
-  private static <T> List<T> append(List<T> list, T[] more) {
-    List<T> all = new ArrayList<>(list);
-    all.addAll(List.of(more));
-    return all;
   }
 }

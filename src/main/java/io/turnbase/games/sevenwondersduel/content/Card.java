@@ -17,7 +17,6 @@ import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.science.ScienceSymbol;
 import io.turnbase.games.sevenwondersduel.science.Symbol;
 import io.turnbase.games.sevenwondersduel.scoring.Points;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -71,11 +70,11 @@ public record Card(
   }
 
   public Card effects(Effect... more) {
-    return new Card(id, name, tags, backGroup, cost, append(effects, more), modifiers);
+    return new Card(id, name, tags, backGroup, cost, Fluent.append(effects, more), modifiers);
   }
 
   public Card modifiers(Modifier... more) {
-    return new Card(id, name, tags, backGroup, cost, effects, append(modifiers, more));
+    return new Card(id, name, tags, backGroup, cost, effects, Fluent.append(modifiers, more));
   }
 
   /** {@code count} units of {@code resource}, which raise the opponent's price (B-TRADE-2). */
@@ -113,11 +112,5 @@ public record Card(
   @Override
   public Optional<BackId> back() {
     return Optional.of(backGroup);
-  }
-
-  private static <T> List<T> append(List<T> list, T[] more) {
-    List<T> all = new ArrayList<>(list);
-    all.addAll(List.of(more));
-    return all;
   }
 }
