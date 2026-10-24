@@ -20,6 +20,7 @@ import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.scoring.Points;
 import io.turnbase.games.sevenwondersduel.scoring.ScoreContext;
+import io.turnbase.games.sevenwondersduel.scoring.Scoring;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
@@ -200,6 +201,16 @@ class GuildsTest {
   void merchantsScoreOnePerYellowInTheCityWithMost() {
     assertThat(points("merchants-guild", 0, 0, List.of("tavern"), List.of("brewery", "forum")))
         .isEqualTo(2);
+  }
+
+  @Test
+  void guildPointsCountInTheBuildingsLineNeverTheBlueTieBreak() {
+    var card =
+        Scoring.score(
+            state(0, 0, "magistrates-guild", List.of("theater", "baths"), List.of()), RULES, P1);
+
+    assertThat(card.line(Scoring.BUILDINGS)).isEqualTo(2);
+    assertThat(card.line(Scoring.BLUE)).isEqualTo(6);
   }
 
   @Test
