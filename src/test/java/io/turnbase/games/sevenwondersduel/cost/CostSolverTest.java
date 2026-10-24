@@ -18,6 +18,7 @@ import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class CostSolverTest {
@@ -117,7 +118,7 @@ class CostSolverTest {
             List.of(Piece.producing("w", Production.fixed(WOOD, 1, false))),
             List.of());
 
-    assertThat(s.quote().bought()).containsOnly(java.util.Map.entry(WOOD, 2));
+    assertThat(s.quote().bought()).containsOnly(Map.entry(WOOD, 2));
     assertThat(s.quote().total()).isEqualTo(4);
   }
 
@@ -144,6 +145,18 @@ class CostSolverTest {
 
     // clay costs 5 to buy, wood and stone 2: c1 must take wood, c2 must take clay -> pay stone 2
     assertThat(s.quote().total()).isEqualTo(2);
+  }
+
+  @Test
+  void equallyPricedAssignmentsResolveByResourceIdNotSetOrder() {
+    Setup s =
+        setup(
+            Piece.target("t", Cost.of(0, WOOD, CLAY, STONE)),
+            List.of(Piece.producing("c", Production.choice(false, WOOD, CLAY, STONE))),
+            List.of());
+
+    // the unit covers the alphabetically first resource, so the others are bought
+    assertThat(s.quote().bought()).containsOnly(Map.entry(STONE, 1), Map.entry(WOOD, 1));
   }
 
   @Test

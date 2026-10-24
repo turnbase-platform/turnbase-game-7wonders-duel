@@ -111,7 +111,7 @@ public final class CostSolver {
       return remove(needs, removals, prices);
     }
     Map<Resource, Integer> best = null;
-    for (Resource option : choices.get(next)) {
+    for (Resource option : inIdOrder(choices.get(next))) {
       Map<Resource, Integer> after = new HashMap<>(needs);
       cover(after, option);
       Map<Resource, Integer> candidate = cheapest(after, choices, next + 1, removals, prices);
@@ -122,12 +122,21 @@ public final class CostSolver {
     return best;
   }
 
+  /** Alternatives in a fixed order, so equal-priced assignments resolve the same way every run. */
+  private static List<Resource> inIdOrder(Set<Resource> alternatives) {
+    return alternatives.stream().sorted(Comparator.comparing(Resource::id)).toList();
+  }
+
   private static Map<Resource, Integer> remove(
       Map<Resource, Integer> needs, int removals, Map<Resource, Integer> prices) {
     Map<Resource, Integer> left = new HashMap<>(needs);
     for (int i = 0; i < removals && !left.isEmpty(); i++) {
       Resource dearest =
-          left.keySet().stream().max(Comparator.comparingInt(prices::get)).orElseThrow();
+          left.keySet().stream()
+              .min(
+                  Comparator.comparingInt((Resource r) -> -prices.get(r))
+                      .thenComparing(Resource::id))
+              .orElseThrow();
       cover(left, dearest);
     }
     return Map.copyOf(left);
