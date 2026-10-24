@@ -9,6 +9,7 @@ public record Tag(String value) {
   public static final Tag GUILD = new Tag("guild");
   public static final Tag PROGRESS = new Tag("progress");
   public static final Tag YELLOW = new Tag("color:yellow");
+  public static final Tag RED = new Tag("color:red");
 
   public Tag {
     if (value == null || value.isBlank()) {
