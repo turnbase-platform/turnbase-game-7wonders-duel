@@ -13,6 +13,14 @@ public interface Census {
 
   /** The owner's live components carrying {@code tag}. */
   static Census of(Tag tag) {
-    return (state, rules, owner) -> Ownership.count(state, rules, owner, tag);
+    return new OfTag(tag);
+  }
+
+  /** Counts by tag; a record so that equal cards compare equal. */
+  record OfTag(Tag tag) implements Census {
+    @Override
+    public int count(DuelState state, RuleSet rules, PlayerId owner) {
+      return Ownership.count(state, rules, owner, tag);
+    }
   }
 }
