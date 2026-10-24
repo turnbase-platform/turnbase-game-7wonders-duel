@@ -1,11 +1,14 @@
 package io.turnbase.games.sevenwondersduel.cost;
 
+import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.effect.Ownership;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,11 @@ public final class CostSolver {
   }
 
   public Quote quote(DuelState state, PlayerId player, ComponentId target) {
-    Cost cost = rules.catalog().get(target).cost();
+    Component component = rules.catalog().get(target);
+    Cost cost = component.cost();
+    if (chained(state, player, cost)) {
+      return new Quote(0, Map.of(), 0, true);
+    }
     List<Set<Resource>> units = productionUnits(state, player);
     Map<Resource, Integer> needs = new HashMap<>(cost.resources());
     List<Set<Resource>> choices = new ArrayList<>();
@@ -39,8 +46,21 @@ public final class CostSolver {
     for (Resource resource : needs.keySet()) {
       prices.put(resource, unitPrice(state, player, resource));
     }
-    Map<Resource, Integer> bought = cheapest(needs, choices, 0, prices);
+    int removals = removals(state, player, component);
+    Map<Resource, Integer> bought = cheapest(needs, choices, 0, removals, prices);
     return new Quote(cost.coins(), bought, tradeCost(bought, prices), false);
+  }
+
+  private boolean chained(DuelState state, PlayerId player, Cost cost) {
+    return Ownership.modifiers(state, rules, player, ChainSource.class).stream()
+        .anyMatch(source -> !Collections.disjoint(source.symbols(), cost.freedBy()));
+  }
+
+  private int removals(DuelState state, PlayerId player, Component target) {
+    return Ownership.modifiers(state, rules, player, Reduction.class).stream()
+        .filter(reduction -> reduction.appliesTo().test(target))
+        .mapToInt(Reduction::symbols)
+        .sum();
   }
 
   /** What {@code player} pays for one symbol of {@code resource} from the bank (B-TRADE-1..3). */
@@ -77,25 +97,40 @@ public final class CostSolver {
     needs.computeIfPresent(resource, (r, n) -> n > 1 ? n - 1 : null);
   }
 
-  /** The assignment of choice units to resources that leaves the cheapest symbols to buy. */
+  /**
+   * The symbols left to buy after the best assignment of choice units to resources and the removal
+   * of the dearest {@code removals} symbols.
+   */
   private static Map<Resource, Integer> cheapest(
       Map<Resource, Integer> needs,
       List<Set<Resource>> choices,
       int next,
+      int removals,
       Map<Resource, Integer> prices) {
     if (next == choices.size()) {
-      return Map.copyOf(needs);
+      return remove(needs, removals, prices);
     }
     Map<Resource, Integer> best = null;
     for (Resource option : choices.get(next)) {
       Map<Resource, Integer> after = new HashMap<>(needs);
       cover(after, option);
-      Map<Resource, Integer> candidate = cheapest(after, choices, next + 1, prices);
+      Map<Resource, Integer> candidate = cheapest(after, choices, next + 1, removals, prices);
       if (best == null || tradeCost(candidate, prices) < tradeCost(best, prices)) {
         best = candidate;
       }
     }
     return best;
+  }
+
+  private static Map<Resource, Integer> remove(
+      Map<Resource, Integer> needs, int removals, Map<Resource, Integer> prices) {
+    Map<Resource, Integer> left = new HashMap<>(needs);
+    for (int i = 0; i < removals && !left.isEmpty(); i++) {
+      Resource dearest =
+          left.keySet().stream().max(Comparator.comparingInt(prices::get)).orElseThrow();
+      cover(left, dearest);
+    }
+    return Map.copyOf(left);
   }
 
   private static int tradeCost(Map<Resource, Integer> bought, Map<Resource, Integer> prices) {
