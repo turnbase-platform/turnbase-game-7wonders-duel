@@ -20,7 +20,7 @@ public final class Construct {
   /** The actor builds {@code card} for {@code quote}. The caller has checked legality and cost. */
   public static void building(
       Resolution resolution, PlayerId actor, ComponentId card, Quote quote) {
-    resolution.changeCoins(actor, -quote.total());
+    pay(resolution, actor, quote);
     resolution.move(card, Places.city(actor));
     resolution.queue(List.of(new TurnEndStep()));
     resolution.queueEffects(card, actor);
@@ -33,13 +33,19 @@ public final class Construct {
    */
   public static void wonder(
       Resolution resolution, PlayerId actor, ComponentId card, ComponentId wonder, Quote quote) {
-    resolution.changeCoins(actor, -quote.total());
+    pay(resolution, actor, quote);
     resolution.move(card, Places.underWonder(wonder));
     resolution.move(wonder, Places.built(actor));
     WonderLimit.enforce(resolution);
     resolution.queue(List.of(new TurnEndStep()));
     resolution.queueEffects(wonder, actor);
     Turn.settle(resolution);
+  }
+
+  /** The printed coins go to the bank; the bought resources are a trade payment (B-TRADE-4). */
+  private static void pay(Resolution resolution, PlayerId actor, Quote quote) {
+    resolution.changeCoins(actor, -quote.coins());
+    resolution.payTrade(actor, quote.tradeCost());
   }
 
   /** Whether another Wonder may still be built. */

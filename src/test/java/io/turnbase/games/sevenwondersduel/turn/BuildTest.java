@@ -24,6 +24,7 @@ import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.engine.Outcome;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
+import io.turnbase.games.sevenwondersduel.event.TradePaid;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
@@ -103,6 +104,28 @@ class BuildTest {
 
     assertThat(out.state().player(g.actor()).coins())
         .isEqualTo(g.state().player(g.actor()).coins() - 3);
+  }
+
+  @Test
+  void onlyTheBoughtResourcesAreARecordedTradePayment() {
+    Part clay = Part.card("opp-clay").withModifiers(Production.fixed(Resource.CLAY, 1, true));
+    Game g = game(card().costing(Cost.of(2, Resource.CLAY)), clay);
+    g = g.holding(clay, g.state().opponentOf(g.actor()));
+
+    Outcome out = g.build();
+
+    assertThat(out.events())
+        .extracting(e -> e.event())
+        .contains(new CoinsChanged(g.actor(), -2), new TradePaid(g.actor(), 3));
+  }
+
+  @Test
+  void printedCoinsAloneAreNotATradePayment() {
+    Game g = game(card().costing(Cost.coins(2)));
+
+    assertThat(g.build().events())
+        .extracting(e -> e.event())
+        .noneMatch(TradePaid.class::isInstance);
   }
 
   @Test

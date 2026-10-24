@@ -13,6 +13,7 @@ import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.event.GameEvent;
 import io.turnbase.games.sevenwondersduel.event.PawnMoved;
 import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
+import io.turnbase.games.sevenwondersduel.event.TradePaid;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -132,6 +133,18 @@ public final class Resolution {
     }
     state = state.withPlayer(player, state.player(player).withCoins(coins + delta));
     emit(new CoinsChanged(player, delta));
+  }
+
+  /**
+   * Charges {@code payer} {@code amount} for resources bought from the bank and records {@link
+   * TradePaid}, which Economy reacts to; nothing happens for zero.
+   */
+  public void payTrade(PlayerId payer, int amount) {
+    if (amount == 0) {
+      return;
+    }
+    changeCoins(payer, -amount);
+    emit(new TradePaid(payer, amount));
   }
 
   /** Sets a player's play-again flag; records {@link PlayAgainChanged} only on a change. */

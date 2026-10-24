@@ -13,6 +13,7 @@ import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.event.PawnMoved;
 import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
+import io.turnbase.games.sevenwondersduel.event.TradePaid;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
@@ -135,6 +136,27 @@ class ResolutionTest {
 
     assertThat(r.state().player(P2).coins()).isEqualTo(4);
     assertThat(r.events().get(0).event()).isEqualTo(new CoinsChanged(P2, -3));
+  }
+
+  @Test
+  void payTradeChargesThePayerAndRecordsThePayment() {
+    Resolution r = resolution();
+
+    r.payTrade(P1, 3);
+
+    assertThat(r.state().player(P1).coins()).isEqualTo(4);
+    assertThat(r.events())
+        .extracting(EventRecord::event)
+        .containsExactly(new CoinsChanged(P1, -3), new TradePaid(P1, 3));
+  }
+
+  @Test
+  void payingNoTradeRecordsNothing() {
+    Resolution r = resolution();
+
+    r.payTrade(P1, 0);
+
+    assertThat(r.events()).isEmpty();
   }
 
   @Test
