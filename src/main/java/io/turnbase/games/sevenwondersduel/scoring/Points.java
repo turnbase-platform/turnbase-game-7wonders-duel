@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.scoring;
 
+import io.turnbase.games.sevenwondersduel.effect.Census;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
 
 /**
@@ -13,5 +14,10 @@ public interface Points extends Modifier {
   /** Worth {@code points} whatever the city holds. */
   static Points fixed(int points) {
     return context -> points;
+  }
+
+  /** Worth {@code each} for every unit {@code census} counts at scoring. */
+  static Points per(Census census, int each) {
+    return new PointsPer(census, each);
   }
 }
