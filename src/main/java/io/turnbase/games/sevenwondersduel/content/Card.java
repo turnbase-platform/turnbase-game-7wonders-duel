@@ -5,10 +5,17 @@ import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.cost.ChainSymbol;
 import io.turnbase.games.sevenwondersduel.cost.Cost;
+import io.turnbase.games.sevenwondersduel.cost.Production;
+import io.turnbase.games.sevenwondersduel.cost.Resource;
 import io.turnbase.games.sevenwondersduel.effect.Effect;
+import io.turnbase.games.sevenwondersduel.effect.GainCoins;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
+import io.turnbase.games.sevenwondersduel.effect.Shields;
 import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
+import io.turnbase.games.sevenwondersduel.science.ScienceSymbol;
+import io.turnbase.games.sevenwondersduel.science.Symbol;
+import io.turnbase.games.sevenwondersduel.scoring.Points;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,6 +73,32 @@ public record Card(
 
   public Card modifiers(Modifier... more) {
     return new Card(id, name, tags, backGroup, cost, effects, append(modifiers, more));
+  }
+
+  /** {@code count} units of {@code resource}, which raise the opponent's price (B-TRADE-2). */
+  public Card producing(Resource resource, int count) {
+    return modifiers(Production.fixed(resource, count, true));
+  }
+
+  public Card shields(int count) {
+    return effects(new Shields(count));
+  }
+
+  public Card coins(int amount) {
+    return effects(new GainCoins(amount));
+  }
+
+  public Card worth(int points) {
+    return modifiers(Points.fixed(points));
+  }
+
+  public Card showing(ScienceSymbol symbol) {
+    return modifiers(new Symbol(symbol));
+  }
+
+  /** The card shows these chain symbols, freeing the cards that name them. */
+  public Card giving(ChainSymbol... symbols) {
+    return modifiers(Chains.gives(symbols));
   }
 
   @Override
