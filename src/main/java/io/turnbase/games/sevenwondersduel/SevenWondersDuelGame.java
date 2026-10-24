@@ -6,13 +6,16 @@ import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.content.BaseContent;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
+import io.turnbase.games.sevenwondersduel.engine.Outcome;
 import io.turnbase.games.sevenwondersduel.engine.PlayerAction;
+import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.setup.Setup;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.Victory;
+import io.turnbase.games.sevenwondersduel.view.EventViews;
 import io.turnbase.games.sevenwondersduel.view.Viewer;
 import io.turnbase.games.sevenwondersduel.view.Views;
 import io.turnbase.games.sevenwondersduel.wire.Outcomes;
@@ -84,9 +87,10 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
         throw new IllegalActionException("you are not playing in this game");
       }
       PlayerAction action = WireActions.decode(ctx.action(WireAction.class));
-      DuelState next = new Engine(rules).apply(duel, actor, action).state();
+      Outcome outcome = new Engine(rules).apply(duel, actor, action);
+      DuelState next = outcome.state();
       return ActionResult.from(Snapshots.toSnapshot(next).withTeams(state.teams()))
-          .effects(shown(next, duel.victory() == null ? state.teams() : null))
+          .effects(shown(next, outcome.events(), duel.victory() == null ? state.teams() : null))
           .build();
     } catch (IllegalActionException | ActionDecodeException e) {
       return ActionResult.from(state)
@@ -96,23 +100,21 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
   }
 
   /**
-   * The public view for everybody, then each seat its own, in id order. When {@code endingTeams} is
-   * given and the game is over, the game-over effect follows; it is given only on the move that
-   * ends the game, so it is emitted once.
+   * The public view and events for everybody, then each seat its own, in id order. When {@code
+   * endingTeams} is given and the game is over, the game-over effect follows; it is given only on
+   * the move that ends the game, so it is emitted once.
    */
-  private List<Effect> shown(DuelState state, Map<UUID, UUID> endingTeams) {
+  private List<Effect> shown(
+      DuelState state, List<EventRecord> events, Map<UUID, UUID> endingTeams) {
     // A broadcast reaches the seats too, so it goes first and each seat's own view lands last.
     List<Effect> effects = new ArrayList<>();
-    effects.add(
-        Effects.broadcast(ServerMessage.view(Views.of(state, rules, new Viewer.Spectator()))));
+    effects.add(Effects.broadcast(message(state, events, new Viewer.Spectator())));
     state.players().keySet().stream()
         .sorted(Comparator.comparing(PlayerId::value))
         .forEach(
             id ->
                 effects.add(
-                    Effects.sendToPlayer(
-                        id.value(),
-                        ServerMessage.view(Views.of(state, rules, new Viewer.Seat(id))))));
+                    Effects.sendToPlayer(id.value(), message(state, events, new Viewer.Seat(id)))));
     if (endingTeams != null && state.victory() != null) {
       effects.add(
           Effects.gameOver(
@@ -120,6 +122,11 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
               ServerMessage.view(Views.of(state, rules, new Viewer.Spectator()))));
     }
     return effects;
+  }
+
+  private ServerMessage message(DuelState state, List<EventRecord> events, Viewer viewer) {
+    return ServerMessage.view(
+        Views.of(state, rules, viewer), EventViews.of(events, state, rules, viewer));
   }
 
   @Override
@@ -135,7 +142,7 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
             .withVictory(new Victory(duel.opponentOf(leaver), Victory.Reason.FORFEIT))
             .withAgenda(Agenda.EMPTY);
     return PlayerLeftResult.from(Snapshots.toSnapshot(ended).withTeams(state.teams()))
-        .effects(shown(ended, state.teams()))
+        .effects(shown(ended, List.of(), state.teams()))
         .build();
   }
 

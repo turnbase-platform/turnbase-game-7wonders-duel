@@ -13,12 +13,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.cost.Cost;
 import io.turnbase.games.sevenwondersduel.draft.Draft;
+import io.turnbase.games.sevenwondersduel.engine.DraftWonder;
+import io.turnbase.games.sevenwondersduel.engine.Engine;
+import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.turn.TurnFixtures;
+import io.turnbase.games.sevenwondersduel.view.EventViews;
 import io.turnbase.games.sevenwondersduel.view.Viewer;
 import io.turnbase.games.sevenwondersduel.view.Views;
 import io.turnbase.games.sevenwondersduel.wire.ServerMessage;
@@ -29,6 +33,7 @@ import io.turnbase.gdk.effect.BroadcastEffect;
 import io.turnbase.gdk.effect.SendToPlayerEffect;
 import io.turnbase.gdk.model.Player;
 import io.turnbase.gdk.result.ActionResult;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -66,18 +71,28 @@ class GameActionTest {
             action(seat(mover), new WireAction("draftWonder", offered(duel).value(), null, null)));
 
     DuelState after = Snapshots.fromSnapshot(result.state());
+    List<EventRecord> events =
+        new Engine(BASE).apply(duel, mover, new DraftWonder(offered(duel))).events();
     assertThat(after.placements()).isNotEqualTo(duel.placements());
     assertThat(result.state().teams()).isEqualTo(TEAMS);
+    assertThat(events).isNotEmpty();
     assertThat(result.effects()).hasSize(3);
     for (PlayerId id : after.players().keySet()) {
+      Viewer viewer = new Viewer.Seat(id);
       assertThat(result.effects())
           .contains(
               new SendToPlayerEffect(
-                  id.value(), ServerMessage.view(Views.of(after, BASE, new Viewer.Seat(id)))));
+                  id.value(),
+                  ServerMessage.view(
+                      Views.of(after, BASE, viewer), EventViews.of(events, after, BASE, viewer))));
     }
+    Viewer spectator = new Viewer.Spectator();
     assertThat(result.effects())
         .contains(
-            new BroadcastEffect(ServerMessage.view(Views.of(after, BASE, new Viewer.Spectator()))));
+            new BroadcastEffect(
+                ServerMessage.view(
+                    Views.of(after, BASE, spectator),
+                    EventViews.of(events, after, BASE, spectator))));
   }
 
   @Test

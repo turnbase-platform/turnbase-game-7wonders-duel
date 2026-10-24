@@ -5,6 +5,7 @@ import static io.turnbase.games.sevenwondersduel.GdkDoubles.TWO;
 import static io.turnbase.games.sevenwondersduel.GdkDoubles.action;
 import static io.turnbase.games.sevenwondersduel.GdkDoubles.init;
 import static io.turnbase.games.sevenwondersduel.GdkDoubles.team;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelGame;
@@ -110,6 +111,19 @@ class GdkFullGameTest {
                   ? (ServerMessage) broadcast.payload()
                   : null;
       if (message != null) {
+        Set<String> identified =
+            message.view().visible().stream().map(PlacedView::component).collect(toSet());
+        assertThat(message.events())
+            .as("step " + step + ": events name only what the view identifies")
+            .allSatisfy(
+                event -> {
+                  assertThat(event.component())
+                      .satisfiesAnyOf(
+                          c -> assertThat(c).isNull(), c -> assertThat(identified).contains(c));
+                  assertThat(event.cause())
+                      .satisfiesAnyOf(
+                          c -> assertThat(c).isNull(), c -> assertThat(identified).contains(c));
+                });
         assertThat(faceDownShown(after, message))
             .as("step " + step + ": hidden structure cards in a view")
             .noneMatch(id -> !Zones.BOX.value().equals(zoneOf(after, id)));
