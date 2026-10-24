@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.catalog;
 
+import io.turnbase.games.sevenwondersduel.cost.Cost;
 import io.turnbase.games.sevenwondersduel.effect.Effect;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
 import io.turnbase.games.sevenwondersduel.effect.Trigger;
@@ -19,6 +20,11 @@ public interface Component {
   /** Labels by which rules find this component (Age, guild, progress token...). */
   default Set<Tag> tags() {
     return Set.of();
+  }
+
+  /** What constructing this component costs (B-COST-1..5); free unless stated. */
+  default Cost cost() {
+    return Cost.FREE;
   }
 
   /** Instant effects applied once, in printed order, when the component is acquired (B-EFF-1). */
