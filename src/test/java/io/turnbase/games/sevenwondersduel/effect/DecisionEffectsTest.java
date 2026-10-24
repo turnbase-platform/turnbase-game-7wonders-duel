@@ -25,6 +25,8 @@ class DecisionEffectsTest {
   private static final Piece THEIRS_GREY = Piece.of("theirs-grey", GREY);
   private static final Piece THEIRS_GREY_2 = Piece.of("theirs-grey-2", GREY);
   private static final Piece THEIRS_BROWN = Piece.of("theirs-brown", BROWN);
+  private static final Piece ASKING = Piece.of("asking").with(new Fixtures.Choose());
+  private static final Piece BOARD_ITEM = Piece.of("board-item");
   private static final Piece GAIN = Piece.of("gain").with(new GainCoins(4));
 
   private static final RuleSet RULES =
@@ -34,7 +36,9 @@ class DecisionEffectsTest {
           THEIRS_GREY,
           THEIRS_GREY_2,
           THEIRS_BROWN,
-          GAIN);
+          GAIN,
+          ASKING,
+          BOARD_ITEM);
 
   private static List<ComponentId> optionsOf(Resolution r) {
     DecisionStep step = (DecisionStep) r.state().agenda().top();
@@ -108,5 +112,18 @@ class DecisionEffectsTest {
     r.drain();
 
     assertThat(r.state().agenda().isEmpty()).isTrue();
+  }
+
+  @Test
+  void aRebuiltCardThatOpensADecisionAsksItAfterwards() {
+    Resolution r = start(ASKING.id(), Spots.DISCARD, BOARD_ITEM.id(), Fixtures.zone("board"));
+    r.drain();
+
+    r.resume(new ComponentOption(ASKING.id()));
+    r.drain();
+
+    assertThat(optionsOf(r)).containsExactly(BOARD_ITEM.id());
+    r.resume(new ComponentOption(BOARD_ITEM.id()));
+    assertThat(where(r, BOARD_ITEM)).isEqualTo(Fixtures.city(P1));
   }
 }
