@@ -16,7 +16,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -124,18 +126,23 @@ public final class Resolution {
    */
   private void dispatch(int id, GameEvent event) {
     PlayerId active = state.active();
+    Map<PlayerId, List<ComponentId>> candidates = new LinkedHashMap<>();
     for (PlayerId player : List.of(active, state.opponentOf(active))) {
-      for (ComponentId component : Ownership.liveComponents(state, rules.zones(), player)) {
-        List<Trigger<?>> triggers = rules.catalog().get(component).triggers();
-        for (int i = 0; i < triggers.size(); i++) {
-          Trigger<?> trigger = triggers.get(i);
-          if (trigger.eventType().isInstance(event)
-              && Ownership.liveComponents(state, rules.zones(), player).contains(component)) {
-            react(trigger, event, player, new EffectRef(component, i), id);
-          }
-        }
-      }
+      candidates.put(player, Ownership.liveComponents(state, rules.zones(), player));
     }
+    candidates.forEach(
+        (player, components) -> {
+          for (ComponentId component : components) {
+            List<Trigger<?>> triggers = rules.catalog().get(component).triggers();
+            for (int i = 0; i < triggers.size(); i++) {
+              Trigger<?> trigger = triggers.get(i);
+              if (trigger.eventType().isInstance(event)
+                  && Ownership.liveComponents(state, rules.zones(), player).contains(component)) {
+                react(trigger, event, player, new EffectRef(component, i), id);
+              }
+            }
+          }
+        });
   }
 
   private <E extends GameEvent> void react(

@@ -196,6 +196,29 @@ class TriggerBusTest {
   }
 
   @Test
+  void componentEnteringPlayMidDispatchDoesNotSeeTheEventThatPrecededIt() {
+    List<String> log = new ArrayList<>();
+    ComponentId newcomer = ComponentId.of("newcomer");
+    Card mover =
+        Card.of("mover")
+            .withTriggers(
+                on(CoinsChanged.class, (e, owner, r) -> r.move(newcomer, Fixtures.city(P2))));
+    Card late = new Card(newcomer, List.of(), List.of(), List.of(noting(log, "newcomer")));
+    Resolution r =
+        resolution(
+            P1,
+            new Card[] {mover, late},
+            mover.id(),
+            Fixtures.city(P1),
+            newcomer,
+            Fixtures.zone("discard"));
+
+    r.changeCoins(P1, 1);
+
+    assertThat(log).isEmpty();
+  }
+
+  @Test
   void selfRetriggeringTriggerStopsWithClearError() {
     Card loop =
         Card.of("loop").withTriggers(on(CoinsChanged.class, (e, owner, r) -> r.changeCoins(P1, 1)));
