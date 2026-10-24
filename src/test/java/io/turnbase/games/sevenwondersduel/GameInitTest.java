@@ -30,10 +30,10 @@ class GameInitTest {
   }
 
   @Test
-  void twoPlayersOnOneTeamAreStillADuel() {
-    SevenWondersDuelState state = GAME.onInit(init(7, team(ONE, TWO))).state();
-
-    assertThat(state.players()).containsOnlyKeys(ONE.id(), TWO.id());
+  void twoPlayersOnOneTeamAreNotADuel() {
+    assertThatThrownBy(() -> GAME.onInit(init(7, team(ONE, TWO))))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("two teams");
   }
 
   @Test

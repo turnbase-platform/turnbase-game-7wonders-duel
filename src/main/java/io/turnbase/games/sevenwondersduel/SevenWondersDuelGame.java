@@ -58,8 +58,13 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
   public InitResult<SevenWondersDuelState> onInit(InitContext ctx) {
     Map<UUID, UUID> teams = new HashMap<>();
     List<Player> seated = ctx.teams().stream().flatMap(team -> team.players().stream()).toList();
-    if (seated.size() != 2) {
-      throw new IllegalArgumentException("a duel needs exactly two players, got " + seated.size());
+    if (ctx.teams().size() != 2 || seated.size() != 2) {
+      throw new IllegalArgumentException(
+          "a duel needs two teams of one player, got "
+              + ctx.teams().size()
+              + " teams and "
+              + seated.size()
+              + " players");
     }
     seated.forEach(player -> teams.put(player.id(), player.teamId()));
     DuelState state =

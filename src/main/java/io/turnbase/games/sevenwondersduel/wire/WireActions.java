@@ -18,6 +18,13 @@ public final class WireActions {
 
   private WireActions() {}
 
+  /**
+   * Decodes {@code wire}, which must carry exactly the fields its type uses. Only the fields of
+   * {@link WireAction} are checked: the platform's JSON mapper ignores unknown properties, so a
+   * payload with extra keys reaches this method without them.
+   *
+   * @throws ActionDecodeException if the type is unknown or the fields do not fit it
+   */
   public static PlayerAction decode(WireAction wire) {
     if (wire == null || wire.type() == null) {
       throw new ActionDecodeException("no action type given");

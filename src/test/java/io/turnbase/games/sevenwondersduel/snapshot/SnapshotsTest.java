@@ -178,6 +178,24 @@ class SnapshotsTest {
   }
 
   @Test
+  void aFinishedGameWithItsTeamsSurvivesTheJsonRoundTrip() {
+    UUID teamOne = UUID.nameUUIDFromBytes("one".getBytes());
+    UUID teamTwo = UUID.nameUUIDFromBytes("two".getBytes());
+    DuelState forfeited =
+        sample().withPhase(Phase.OVER).withVictory(new Victory(P2, Victory.Reason.FORFEIT));
+    SevenWondersDuelState snapshot =
+        Snapshots.toSnapshot(forfeited).withTeams(Map.of(P1.value(), teamOne, P2.value(), teamTwo));
+    GdkSerialization serialization = new GdkSerialization();
+
+    String json = serialization.writeState(snapshot, Long.MAX_VALUE);
+    SevenWondersDuelState read = serialization.readState(json, SevenWondersDuelState.class);
+
+    assertThat(read).isEqualTo(snapshot);
+    assertThat(read.teams()).containsEntry(P1.value(), teamOne).containsEntry(P2.value(), teamTwo);
+    assertThat(Snapshots.fromSnapshot(read)).isEqualTo(forfeited);
+  }
+
+  @Test
   void snapshotSurvivesJsonRoundTrip() {
     GdkSerialization serialization = new GdkSerialization();
     SevenWondersDuelState snapshot = Snapshots.toSnapshot(sample());
