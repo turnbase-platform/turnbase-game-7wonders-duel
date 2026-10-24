@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
 
@@ -22,20 +23,20 @@ public final class BasePack implements ContentPack {
   @Override
   public List<ZoneKind> zoneKinds() {
     return List.of(
-        zone("deck", Visibility.NONE, true, false),
-        zone("structure.up", Visibility.PUBLIC, false, false),
+        zone(Zones.DECK, Visibility.NONE, true, false),
+        zone(Zones.STRUCTURE_UP, Visibility.PUBLIC, false, false),
         // Face-down cards live apart so visibility stays a per-zone property; revealing is a move.
-        zone("structure.down", Visibility.NONE, false, false),
-        live("city"),
-        zone("underWonder", Visibility.NONE, false, false),
-        zone("discard", Visibility.PUBLIC, true, false),
-        zone("draft", Visibility.PUBLIC, false, false),
-        zone("wonders.unbuilt", Visibility.PUBLIC, false, false),
-        live("wonders.built"),
-        zone("board", Visibility.PUBLIC, false, false),
-        zone("box", Visibility.NONE, false, false),
-        zone("military", Visibility.PUBLIC, false, false),
-        zone("destroyed", Visibility.PUBLIC, false, true));
+        zone(Zones.STRUCTURE_DOWN, Visibility.NONE, false, false),
+        live(Zones.CITY),
+        zone(Zones.UNDER_WONDER, Visibility.NONE, false, false),
+        zone(Zones.DISCARD, Visibility.PUBLIC, true, false),
+        zone(Zones.DRAFT, Visibility.PUBLIC, false, false),
+        zone(Zones.WONDERS_UNBUILT, Visibility.PUBLIC, false, false),
+        live(Zones.WONDERS_BUILT),
+        zone(Zones.BOARD, Visibility.PUBLIC, false, false),
+        zone(Zones.BOX, Visibility.NONE, false, false),
+        zone(Zones.MILITARY, Visibility.PUBLIC, false, false),
+        zone(Zones.DESTROYED, Visibility.PUBLIC, false, true));
   }
 
   @Override
@@ -88,12 +89,12 @@ public final class BasePack implements ContentPack {
     return new Layout.Row(false, List.of(xs));
   }
 
-  private static ZoneKind live(String id) {
-    return new ZoneKind(ZoneId.of(id), Visibility.PUBLIC, false, false, true);
+  private static ZoneKind live(ZoneId id) {
+    return new ZoneKind(id, Visibility.PUBLIC, false, false, true);
   }
 
   private static ZoneKind zone(
-      String id, Visibility visibility, boolean ordered, boolean terminal) {
-    return new ZoneKind(ZoneId.of(id), visibility, ordered, terminal);
+      ZoneId id, Visibility visibility, boolean ordered, boolean terminal) {
+    return new ZoneKind(id, visibility, ordered, terminal);
   }
 }

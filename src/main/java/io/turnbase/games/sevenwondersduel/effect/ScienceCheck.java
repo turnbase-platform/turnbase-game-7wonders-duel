@@ -12,6 +12,7 @@ import io.turnbase.games.sevenwondersduel.science.Symbol;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,8 @@ import java.util.Map;
  */
 public record ScienceCheck() implements Effect {
 
-  private static final ZoneId BOARD = ZoneId.of("board");
-  private static final ZoneId CITY = ZoneId.of("city");
+  private static final ZoneId BOARD = Zones.BOARD;
+  private static final ZoneId CITY = Zones.CITY;
 
   @Override
   public void apply(Resolution resolution, PlayerId owner) {

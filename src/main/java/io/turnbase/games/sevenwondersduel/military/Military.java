@@ -8,13 +8,14 @@ import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Moving the military pawn (B-MIL-2..4). */
 public final class Military {
 
-  private static final ZoneId DESTROYED = ZoneId.of("destroyed");
+  private static final ZoneId DESTROYED = Zones.DESTROYED;
 
   private record Spent(ComponentId token, PlayerId side) {}
 

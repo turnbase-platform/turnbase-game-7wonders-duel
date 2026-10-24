@@ -7,12 +7,13 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 
 /** What discarding a card for coins pays (B-ACT-2): 2 coins, plus 1 per yellow card owned. */
 final class DiscardValue {
 
   static final int BASE = 2;
-  private static final ZoneId CITY = ZoneId.of("city");
+  private static final ZoneId CITY = Zones.CITY;
   private static final Tag YELLOW_CARD = Tag.color("yellow");
 
   private DiscardValue() {}

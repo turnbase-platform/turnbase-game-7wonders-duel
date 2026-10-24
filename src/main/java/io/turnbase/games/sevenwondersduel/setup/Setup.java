@@ -18,6 +18,7 @@ import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +31,10 @@ import java.util.Set;
  */
 public final class Setup {
 
-  private static final ZoneId DECK = ZoneId.of("deck");
-  private static final ZoneId BOARD = ZoneId.of("board");
-  private static final ZoneId BOX = ZoneId.of("box");
-  private static final ZoneId DRAFT = ZoneId.of("draft");
+  private static final ZoneId DECK = Zones.DECK;
+  private static final ZoneId BOARD = Zones.BOARD;
+  private static final ZoneId BOX = Zones.BOX;
+  private static final ZoneId DRAFT = Zones.DRAFT;
 
   /** The shuffled Wonders still to be revealed to the draft. */
   public static final Location WONDER_POOL = new Location(DECK, "wonders");

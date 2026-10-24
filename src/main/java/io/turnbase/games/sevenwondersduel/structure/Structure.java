@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.ZoneRegistry;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +20,15 @@ import java.util.TreeMap;
  */
 public final class Structure {
 
-  public static final ZoneId UP = ZoneId.of("structure.up");
-  public static final ZoneId DOWN = ZoneId.of("structure.down");
+  public static final ZoneId UP = Zones.STRUCTURE_UP;
+  public static final ZoneId DOWN = Zones.STRUCTURE_DOWN;
 
   private static final Comparator<Slot> ORDER =
       Comparator.comparingInt(Slot::row).thenComparingInt(Slot::x);
 
   private Structure() {}
 
-  private static final ZoneId DECK = ZoneId.of("deck");
+  private static final ZoneId DECK = Zones.DECK;
 
   /**
    * Lays {@code cards} out in {@code layout}, card {@code i} at slot {@code i}, face up or down as

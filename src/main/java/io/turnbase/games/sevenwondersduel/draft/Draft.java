@@ -10,6 +10,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,9 @@ import java.util.Optional;
  */
 public final class Draft {
 
-  private static final ZoneId DRAFT = ZoneId.of("draft");
-  private static final ZoneId UNBUILT = ZoneId.of("wonders.unbuilt");
-  private static final ZoneId BOX = ZoneId.of("box");
+  private static final ZoneId DRAFT = Zones.DRAFT;
+  private static final ZoneId UNBUILT = Zones.WONDERS_UNBUILT;
+  private static final ZoneId BOX = Zones.BOX;
 
   private Draft() {}
 
