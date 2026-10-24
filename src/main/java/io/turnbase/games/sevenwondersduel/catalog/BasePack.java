@@ -34,6 +34,7 @@ public final class BasePack implements ContentPack {
         live("wonders.built"),
         zone("board", Visibility.PUBLIC, false, false),
         zone("box", Visibility.NONE, false, false),
+        zone("military", Visibility.PUBLIC, false, false),
         zone("destroyed", Visibility.PUBLIC, false, true));
   }
 

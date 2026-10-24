@@ -41,6 +41,7 @@ class BasePackTest {
           "wonders.built",
           "board",
           "box",
+          "military",
           "destroyed");
 
   private static final RuleSet RULES = RuleSet.assemble(List.of(new BasePack()));
