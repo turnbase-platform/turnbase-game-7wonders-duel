@@ -4,8 +4,14 @@ import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
 import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
 import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.cost.CostSolver;
+import io.turnbase.games.sevenwondersduel.cost.Quote;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
+import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Phase;
+import io.turnbase.games.sevenwondersduel.structure.Structure;
+import io.turnbase.games.sevenwondersduel.turn.Construct;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
@@ -21,6 +27,8 @@ public final class Views {
 
   private static final Comparator<Location> PLACE_ORDER =
       Comparator.comparing((Location l) -> l.zone().value()).thenComparing(Location::key);
+
+  private static final Comparator<PlayerId> PLAYER_ORDER = Comparator.comparing(PlayerId::value);
 
   private Views() {}
 
@@ -55,7 +63,8 @@ public final class Views {
         state.victory() == null ? null : state.victory().reason().name(),
         visible,
         collapsed,
-        pending(state));
+        pending(state),
+        quotes(state, rules));
   }
 
   private static List<PlayerView> players(DuelState state) {
@@ -64,6 +73,33 @@ public final class Views {
             e -> new PlayerView(e.getKey().value(), e.getValue().coins(), e.getValue().playAgain()))
         .sorted(Comparator.comparing(PlayerView::id))
         .toList();
+  }
+
+  /** Both players are quoted every takeable card and their own unbuilt Wonders (B-COST-1..5). */
+  private static List<QuoteView> quotes(DuelState state, RuleSet rules) {
+    if (state.phase() != Phase.AGE) {
+      return List.of();
+    }
+    CostSolver solver = new CostSolver(rules);
+    List<ComponentId> cards = Structure.takeable(state.placements());
+    List<QuoteView> quotes = new ArrayList<>();
+    for (PlayerId player : state.players().keySet().stream().sorted(PLAYER_ORDER).toList()) {
+      List<ComponentId> targets = new ArrayList<>(cards);
+      targets.addAll(Placements.idsIn(state.placements(), Construct.unbuilt(player)));
+      for (ComponentId target : targets) {
+        Quote quote = solver.quote(state, player, target);
+        quotes.add(
+            new QuoteView(
+                player.value(),
+                target.value(),
+                quote.coins(),
+                quote.tradeCost(),
+                quote.total(),
+                quote.chained(),
+                quote.payableWith(state.player(player).coins())));
+      }
+    }
+    return quotes;
   }
 
   private static PendingView pending(DuelState state) {

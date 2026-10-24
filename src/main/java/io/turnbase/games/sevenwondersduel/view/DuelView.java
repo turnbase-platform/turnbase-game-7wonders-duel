@@ -20,6 +20,8 @@ import java.util.UUID;
  * @param visible every component the viewer may identify, in placement order
  * @param hidden the rest, by place
  * @param pending the decision waiting for an answer, or null
+ * @param quotes what each player would pay for every Building and Wonder within reach, during an
+ *     Age only
  */
 public record DuelView(
     String phase,
@@ -34,4 +36,5 @@ public record DuelView(
     String victoryReason,
     List<PlacedView> visible,
     List<HiddenView> hidden,
-    PendingView pending) {}
+    PendingView pending,
+    List<QuoteView> quotes) {}
