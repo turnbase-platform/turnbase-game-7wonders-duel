@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.turn;
 
+import io.turnbase.games.sevenwondersduel.age.AgeEnd;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -26,11 +27,16 @@ public final class Turn {
   }
 
   /**
-   * Turns newly uncovered cards face up, then gives the move to the opponent, unless the active
-   * player has a play-again flag, which is used up (B-TURN-4, B-TURN-6).
+   * Turns newly uncovered cards face up, ends the Age if the structure is empty (B-AGE-1), else
+   * gives the move to the opponent, unless the active player has a play-again flag, which is used
+   * up (B-TURN-4, B-TURN-6).
    */
   public static void end(Resolution resolution) {
     Structure.revealUncovered(resolution);
+    if (Structure.isEmpty(resolution.state().placements())) {
+      AgeEnd.finish(resolution);
+      return;
+    }
     PlayerId active = resolution.state().active();
     if (resolution.state().player(active).playAgain()) {
       resolution.setPlayAgain(active, false);

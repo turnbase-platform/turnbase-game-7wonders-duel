@@ -80,6 +80,11 @@ public final class Structure {
     }
   }
 
+  /** Whether no card is left in the structure: the Age is over (B-AGE-1). */
+  public static boolean isEmpty(List<Placement> all) {
+    return occupied(all).isEmpty();
+  }
+
   /** Occupied slots with nothing covering them, by row then x. */
   public static List<Slot> uncovered(List<Placement> all) {
     java.util.Set<Slot> slots = occupied(all).keySet();
