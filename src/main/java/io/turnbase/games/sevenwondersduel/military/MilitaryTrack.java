@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
+import java.util.List;
 
 /**
  * The geometry of the military track (B-MIL-1): which spaces form a zone, and where the token of a
@@ -16,6 +17,9 @@ public final class MilitaryTrack {
 
   /** Where unspent military tokens lie, keyed by {@link #tokenSpot}. */
   public static final ZoneId TOKENS = Zones.MILITARY;
+
+  /** The zones that hold a military token on each side. */
+  public static final List<Integer> TOKEN_ZONES = List.of(1, 2, 3);
 
   /** The zone number of a capital space. */
   public static final int CAPITAL_ZONE = 4;

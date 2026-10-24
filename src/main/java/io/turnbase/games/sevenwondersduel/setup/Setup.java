@@ -8,6 +8,7 @@ import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
+import io.turnbase.games.sevenwondersduel.military.MilitaryTrack;
 import io.turnbase.games.sevenwondersduel.rng.Rng;
 import io.turnbase.games.sevenwondersduel.rng.Rng.Drawn;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
@@ -72,6 +73,8 @@ public final class Setup {
     table.placeAll(
         shuffledProgress.subList(PROGRESS_ON_BOARD, progress.size()), new Location(BOX, ""));
 
+    placeMilitaryTokens(table, rules, List.of(a, b));
+
     List<ComponentId> guilds = ids(rules.catalog().tagged(Tag.GUILD));
     require(guilds.size() >= GUILDS_IN_PLAY, "guilds", GUILDS_IN_PLAY, guilds);
     List<ComponentId> shuffledGuilds = table.shuffle(guilds);
@@ -133,6 +136,23 @@ public final class Setup {
     List<ComponentId> deck = new ArrayList<>(shuffled.subList(REMOVED_PER_AGE, shuffled.size()));
     deck.addAll(guilds.subList(0, added));
     table.placeAll(table.shuffle(deck), ageDeck(age));
+  }
+
+  /**
+   * B-SET-2: the military tokens of each zone lie face up on that zone, one per side; the i-th
+   * token tagged for a zone goes to the i-th player's side.
+   */
+  private static void placeMilitaryTokens(Table table, RuleSet rules, List<PlayerId> sides) {
+    for (int zone : MilitaryTrack.TOKEN_ZONES) {
+      List<ComponentId> tokens = ids(rules.catalog().tagged(MilitaryTrack.zoneTag(zone)));
+      if (tokens.size() > sides.size()) {
+        throw new IllegalArgumentException(
+            "zone " + zone + " holds one military token per side, found " + tokens.size());
+      }
+      for (int i = 0; i < tokens.size(); i++) {
+        table.placeAll(List.of(tokens.get(i)), MilitaryTrack.tokenSpot(sides.get(i), zone));
+      }
+    }
   }
 
   private static List<ComponentId> ids(List<Component> components) {
