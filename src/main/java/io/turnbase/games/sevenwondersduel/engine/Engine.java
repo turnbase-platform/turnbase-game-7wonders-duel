@@ -7,6 +7,8 @@ import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
+import io.turnbase.games.sevenwondersduel.structure.Structure;
+import io.turnbase.games.sevenwondersduel.turn.Turn;
 
 /**
  * The single entry point for player actions: decides whether the actor may act, then resolves the
@@ -29,6 +31,7 @@ public final class Engine {
       case Answer answer -> answer(state, actor, answer);
       case DraftWonder pick -> draft(state, actor, pick);
       case ChooseStarter choice -> chooseStarter(state, actor, choice);
+      case Discard discard -> discard(state, actor, discard);
     };
   }
 
@@ -79,5 +82,35 @@ public final class Engine {
     Resolution resolution = new Resolution(state, rules);
     resolution.advance(s -> s.withActive(choice.starter()).withDeciding(null));
     return new Outcome(resolution.state(), resolution.events());
+  }
+
+  /**
+   * Only the active player may take a card, and only one that is available, in an Age with nothing
+   * left to settle (B-TURN-2, B-STR-1).
+   */
+  private Outcome discard(DuelState state, PlayerId actor, Discard discard) {
+    requireTurnToTake(state, actor);
+    if (discard.card() == null
+        || !Structure.takeable(state.placements()).contains(discard.card())) {
+      throw new IllegalActionException("card is not available");
+    }
+    Resolution resolution = new Resolution(state, rules);
+    Turn.discard(resolution, actor, discard.card());
+    return new Outcome(resolution.state(), resolution.events());
+  }
+
+  private static void requireTurnToTake(DuelState state, PlayerId actor) {
+    if (state.phase() != Phase.AGE) {
+      throw new IllegalActionException("no Age is under way");
+    }
+    if (state.deciding() != null) {
+      throw new IllegalActionException("the starting player must be chosen first");
+    }
+    if (!state.agenda().isEmpty()) {
+      throw new IllegalActionException("a decision or effect is pending");
+    }
+    if (!state.active().equals(actor)) {
+      throw new IllegalActionException("not your turn");
+    }
   }
 }

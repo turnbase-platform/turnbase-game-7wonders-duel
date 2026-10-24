@@ -1,13 +1,24 @@
 package io.turnbase.games.sevenwondersduel.setup;
 
+import static io.turnbase.games.sevenwondersduel.effect.Fixtures.P1;
+import static io.turnbase.games.sevenwondersduel.effect.Fixtures.P2;
+
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.ContentPack;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
+import io.turnbase.games.sevenwondersduel.draft.Draft;
+import io.turnbase.games.sevenwondersduel.engine.ChooseStarter;
+import io.turnbase.games.sevenwondersduel.engine.DraftWonder;
+import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
+import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.id.ZoneId;
+import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +82,18 @@ public final class SetupFixtures {
 
   public static RuleSet baseSized() {
     return rules(pieces(23, 23, 20, 7, 12, 10));
+  }
+
+  /** A game in Age I with the starter choice made: the first player moves, nothing is pending. */
+  public static DuelState startedAgeOne(RuleSet rules, long seed) {
+    Engine engine = new Engine(rules);
+    DuelState state = Setup.newGame(rules, seed, P1, P2);
+    while (Draft.toMove(state).isPresent()) {
+      PlayerId mover = Draft.toMove(state).get();
+      ComponentId wonder = Placements.idsIn(state.placements(), ZoneId.of("draft")).get(0);
+      state = engine.apply(state, mover, new DraftWonder(wonder)).state();
+    }
+    return engine.apply(state, state.deciding(), new ChooseStarter(state.deciding())).state();
   }
 
   private SetupFixtures() {}
