@@ -22,6 +22,11 @@ public final class Catalog {
     return component;
   }
 
+  /** Every component, in registration order. */
+  public List<Component> all() {
+    return List.copyOf(byId.values());
+  }
+
   public List<Component> ofType(ComponentType type) {
     return byId.values().stream().filter(c -> c.type() == type).toList();
   }
