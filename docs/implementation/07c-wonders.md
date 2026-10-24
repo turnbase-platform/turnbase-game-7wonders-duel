@@ -60,5 +60,5 @@
 
 **Files:** create `content/Wonder.java`, `content/Wonders.java`; modify `content/BaseContent.java`. Tests: `content/WondersTest`.
 
-- [ ] Tests first: 12 distinct Wonders, all `Tag.WONDER`, type WONDER, no back; every cost/effect/points row of `base.md` §3.7; effects played through `Resolution`; Setup over `BaseContent` has ≥ 8 Wonders.
+- [x] Tests first: 12 distinct Wonders, all `Tag.WONDER`, type WONDER, no back; every cost/effect/points row of `base.md` §3.7; effects played through `Resolution`. (Setup over `BaseContent` needs the progress tokens: moved to 7d.)
 - [ ] Implement; verify, commit; register this plan in `docs/INDEX.md`.
