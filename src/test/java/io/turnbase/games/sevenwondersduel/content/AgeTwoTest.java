@@ -31,7 +31,7 @@ class AgeTwoTest {
     Card sawmill = named(CARDS, "Sawmill");
     assertThat(sawmill.cost()).isEqualTo(Cost.coins(2));
     assertThat(sawmill.modifiers()).containsExactly(Production.fixed(Resource.WOOD, 2, true));
-    assertThat(named(CARDS, "Glass-blower").cost()).isEqualTo(Cost.FREE);
+    assertThat(named(CARDS, "Glass-Blower").cost()).isEqualTo(Cost.FREE);
     assertThat(named(CARDS, "Drying Room").modifiers())
         .containsExactly(Production.fixed(Resource.PAPYRUS, 1, true));
   }

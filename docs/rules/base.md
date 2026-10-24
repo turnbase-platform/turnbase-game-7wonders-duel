@@ -101,18 +101,18 @@ Chain: `gives ▸X` — the card grants chain symbol X; `◂X` — free if the c
 | Guard Tower | red | — | 1 shield | |
 | Stable | red | W | 1 shield | gives ▸Horseshoe |
 | Garrison | red | C | 1 shield | gives ▸Sword |
-| Palisade | red | 2$ | 1 shield | gives ▸Tower |
+| Palisade | red | 2$ | 1 shield | gives ▸Fortress |
 | Workshop | green | P | Plumb, 1 VP | |
 | Apothecary | green | G | Wheel, 1 VP | |
 | Scriptorium | green | 2$ | Quill | gives ▸Book |
 | Pharmacist | green | 2$ | Mortar | gives ▸Gear |
-| Theater | blue | — | 3 VP | gives ▸Mask |
+| Theater | blue | — | 3 VP | gives ▸Theater |
 | Altar | blue | — | 3 VP | gives ▸Moon |
-| Baths | blue | S | 3 VP | gives ▸Drop |
+| Baths | blue | S | 3 VP | gives ▸Water |
 | Stone Reserve | yellow | 3$ | Stone trades at 1$ | |
 | Clay Reserve | yellow | 3$ | Clay trades at 1$ | |
 | Wood Reserve | yellow | 3$ | Wood trades at 1$ | |
-| Tavern | yellow | — | +4$ (once) | gives ▸Amphora |
+| Tavern | yellow | — | +4$ (once) | gives ▸Vase |
 
 ### 3.4 Age II cards (23)
 
@@ -132,11 +132,11 @@ Chain: `gives ▸X` — the card grants chain symbol X; `◂X` — free if the c
 | Dispensary | green | C C S | Mortar, 2 VP | ◂Gear |
 | School | green | W P P | Wheel, 1 VP | gives ▸Lyre |
 | Laboratory | green | W G G | Plumb, 1 VP | gives ▸Lamp |
-| Tribunal | blue | W W G | 5 VP | |
-| Statue | blue | C C | 4 VP | ◂Mask, gives ▸Column |
+| Courthouse | blue | W W G | 5 VP | |
+| Statue | blue | C C | 4 VP | ◂Theater, gives ▸Columns |
 | Temple | blue | W P | 4 VP | ◂Moon, gives ▸Sun |
-| Aqueduct | blue | S S S | 5 VP | ◂Drop |
-| Rostrum | blue | S W | 4 VP | gives ▸Senate |
+| Aqueduct | blue | S S S | 5 VP | ◂Water |
+| Rostrum | blue | S W | 4 VP | gives ▸Temple |
 | Forum | yellow | 3$ C | produces 1 of G / P (choice, per turn) | |
 | Caravansery | yellow | 2$ G P | produces 1 of W / C / S (choice, per turn) | |
 | Customs House | yellow | 4$ | Papyrus and Glass trade at 1$ | |
@@ -147,8 +147,8 @@ Chain: `gives ▸X` — the card grants chain symbol X; `◂X` — free if the c
 | Card | Color | Cost | Effect | Chain |
 |---|---|---|---|---|
 | Arsenal | red | C C C W W | 3 shields | |
-| Courthouse | red | 8$ | 3 shields | |
-| Fortifications | red | S S C P | 2 shields | ◂Tower |
+| Pretorium | red | 8$ | 3 shields | |
+| Fortifications | red | S S C P | 2 shields | ◂Fortress |
 | Siege Workshop | red | W W W G | 2 shields | ◂Target |
 | Circus | red | C C S S | 2 shields | ◂Helmet |
 | Academy | green | S W G G | Sundial, 3 VP | |
@@ -158,18 +158,17 @@ Chain: `gives ▸X` — the card grants chain symbol X; `◂X` — free if the c
 | Palace | blue | C S W G G | 7 VP | |
 | Town Hall | blue | S S S W W | 7 VP | |
 | Obelisk | blue | S S G | 5 VP | |
-| Gardens | blue | C C W W | 6 VP | ◂Column |
+| Gardens | blue | C C W W | 6 VP | ◂Columns |
 | Pantheon | blue | C W P P | 6 VP | ◂Sun |
-| Senate | blue | C C S P | 5 VP | ◂Senate |
+| Senate | blue | C C S P | 5 VP | ◂Temple |
 | Chamber of Commerce | yellow | P P | +3$ per grey card in your city (once); 3 VP | |
 | Port | yellow | W G P | +2$ per brown card in your city (once); 3 VP | |
 | Armory | yellow | S S G | +1$ per red card in your city (once); 3 VP | |
-| Lighthouse | yellow | C C G | +1$ per yellow card in your city, itself included (once); 3 VP | ◂Amphora |
+| Lighthouse | yellow | C C G | +1$ per yellow card in your city, itself included (once); 3 VP | ◂Vase |
 | Arena | yellow | C S W | +2$ per Wonder constructed in your city (once); 3 VP | ◂Barrel |
 
-> **Naming note.** Later printings and the Pantheon rulebook call the 8-coin, 3-shield card
-> *Pretorium* (French *Prétoire*); this rulebook calls it *Courthouse*. Same card. Use one canonical
-> id and keep the other as an alias.
+
+> **Naming note.** The 8-coin, 3-shield card is *Pretorium* (French *Prétoire*); the rulebook text also calls it *Courthouse*, which here names the Age II blue card (W W G, 5 VP). Chain symbols are named after the reference implementation (`Chains`).
 
 ### 3.6 Guilds (7) — 3 random per game, shuffled into Age III
 
@@ -307,20 +306,20 @@ opponent producing 1 Glass, none Papyrus → 2 + 3 + 2 = 7$.
 |---|---|---|
 | Horseshoe | Stable (I) | Horse Breeders (II) |
 | Sword | Garrison (I) | Barracks (II) |
-| Tower | Palisade (I) | Fortifications (III) |
+| Fortress | Palisade (I) | Fortifications (III) |
 | Target | Archery Range (II) | Siege Workshop (III) |
 | Helmet | Parade Ground (II) | Circus (III) |
 | Book | Scriptorium (I) | Library (II) |
 | Gear | Pharmacist (I) | Dispensary (II) |
 | Lyre | School (II) | University (III) |
 | Lamp | Laboratory (II) | Observatory (III) |
-| Mask | Theater (I) | Statue (II) |
-| Column | Statue (II) | Gardens (III) |
+| Theater | Theater (I) | Statue (II) |
+| Columns | Statue (II) | Gardens (III) |
 | Moon | Altar (I) | Temple (II) |
 | Sun | Temple (II) | Pantheon (III) |
-| Drop | Baths (I) | Aqueduct (II) |
-| Senate | Rostrum (II) | Senate (III) |
-| Amphora | Tavern (I) | Lighthouse (III) |
+| Water | Baths (I) | Aqueduct (II) |
+| Temple | Rostrum (II) | Senate (III) |
+| Vase | Tavern (I) | Lighthouse (III) |
 | Barrel | Brewery (II) | Arena (III) |
 
 ### 4.6 Cost evaluation — what the engine must answer
@@ -624,7 +623,7 @@ Card data in `grmp/…/deck/DeckFactory.java` was checked against rulebook pp. 1
 |---|---|---|
 | Duplicate name | Age III has two "Fortifications"; the second (C C S S, ◂Helmet) | is **Circus** |
 | Wrong chain | Arena ◂Vase (Amphora) | Arena ◂**Barrel**; Lighthouse ◂Amphora |
-| Naming | Age II "Courthouse" (W W G, 5 VP); Age III "Pretorium" (8$, 3 shields) | Age II **Tribunal**; Age III **Courthouse** (= Pretorium) |
+| Naming | Age II "Courthouse" (W W G, 5 VP); Age III "Pretorium" (8$, 3 shields) | kept as in the reference (the rulebook text calls the Age III card "Courthouse") |
 | Typo | "Cirrus Maximus" | Circus Maximus |
 | Scoring | `Map.of(6,10,3,5,1,2)` iterated for military VP — `Map.of` has no iteration order | ordered thresholds |
 

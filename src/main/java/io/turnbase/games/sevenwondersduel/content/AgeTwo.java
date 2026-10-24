@@ -18,7 +18,7 @@ public final class AgeTwo {
         card("Sawmill", Colors.BROWN).costing(Cost.coins(2)).producing(WOOD, 2),
         card("Brickyard", Colors.BROWN).costing(Cost.coins(2)).producing(CLAY, 2),
         card("Shelf Quarry", Colors.BROWN).costing(Cost.coins(2)).producing(STONE, 2),
-        card("Glass-blower", Colors.GREY).producing(GLASS, 1),
+        card("Glass-Blower", Colors.GREY).producing(GLASS, 1),
         card("Drying Room", Colors.GREY).producing(PAPYRUS, 1),
         card("Walls", Colors.RED).costing(Cost.of(0, STONE, STONE)).shields(2),
         card("Forum", Colors.YELLOW)

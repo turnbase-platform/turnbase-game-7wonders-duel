@@ -3,6 +3,7 @@ package io.turnbase.games.sevenwondersduel;
 import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.content.BaseContent;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.engine.PlayerAction;
@@ -46,7 +47,7 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
 
   /** The base game. */
   public SevenWondersDuelGame() {
-    this(RuleSet.assemble(List.of(new BasePack())));
+    this(RuleSet.assemble(List.of(new BasePack(), new BaseContent())));
   }
 
   /** A game over any assembled rule set, so tests and expansions bring their own content. */

@@ -4,7 +4,7 @@
 
 **Goal:** The 66 Age I–III cards (23 + 23 + 20) as declarative data in the base pack, with backs, tags, costs, chains, production, shields, science, points and commerce.
 
-**Architecture:** (1) A `content` package: `Card` (a `Component` record) with a small fluent builder, and one table class per Age (`AgeOne`, `AgeTwo`, `AgeThree`) listing cards through that builder; `Chains`, `Colors` and `Backs` name the shared constants once. (2) One new mechanic, `Census` (how many of something an owner has) and `GainCoinsPer(Census, each)`, which covers Chamber of Commerce, Port, Armory, Lighthouse and Arena; a census counts the owner's live components by tag, so Wonders only need the `Tag.WONDER` tag. Guilds (7b) add a "larger of both cities" census without touching this one. (3) `BasePack.components()` and `backs()` return the tables.
+**Architecture:** (1) A `content` package: `Card` (a `Component` record) with a small fluent builder, and one table class per Age (`AgeOne`, `AgeTwo`, `AgeThree`) listing cards through that builder; `Chains`, `Colors` and `Backs` name the shared constants once. (2) One new mechanic, `Census` (how many of something an owner has) and `GainCoinsPer(Census, each)`, which covers Chamber of Commerce, Port, Armory, Lighthouse and Arena; a census counts the owner's live components by tag, so Wonders only need the `Tag.WONDER` tag. Guilds (7b) add a "larger of both cities" census without touching this one. (3) A separate `BaseContent` pack (`base-content`) returns the tables and `Backs.ALL`; `BasePack` stays zones, layouts and age mapping, so fixture-based tests never see the real catalogue.
 
 **Tech Stack:** Java 21, JUnit 6, AssertJ.
 
@@ -16,7 +16,7 @@
 
 ## Global Constraints
 
-- Names follow the old code, with its clear defects fixed (`base.md` §13): Age II blue W W G is **Courthouse**, Age III red 8$ is **Pretorium**, the duplicate Age III "Fortifications" is **Circus** (C C S S, ◂helmet), **Circus Maximus**, Arena ◂barrel, Lighthouse ◂vase, **Glass-blower** keeps the old spelling. Ids are the name in lower-case with dashes.
+- Names follow the old code, with its clear defects fixed (`base.md` §13): Age II blue W W G is **Courthouse**, Age III red 8$ is **Pretorium**, the duplicate Age III "Fortifications" is **Circus** (C C S S, ◂helmet), **Circus Maximus**, Arena ◂barrel, Lighthouse ◂vase, **Glass-Blower** keeps the docs spelling (the user chose it). Ids are the name in lower-case with dashes.
 - Chain symbol ids are the old enum names lower-cased (`vase`, `barrel`, `theater`, `temple`, `sun`, `water`, `columns`, `moon`, `target`, `helmet`, `horseshoe`, `sword`, `fortress`, `lyre`, `gear`, `book`, `lamp`). Which card gives and which frees follows `base.md` §4.5.
 - Back groups: `brown` (Age I), `blue` (Age II), `violet` (Age III), `dark-purple` (guilds). Every card has the tags `Tag.age(n)` and `Tag.color(c)`.
 - Brown and grey production raises the opponent's price (B-TRADE-2); Forum and Caravansery do not.
@@ -68,7 +68,7 @@
 
 ### Task 6: Base pack and docs
 
-**Files:** modify `catalog/BasePack.java` (`components()`, `backs()`), `docs/rules/base.md` (§3.4, §3.5, §13 names), `docs/INDEX.md`. Tests: `catalog/BasePackTest`, `content/AgeCardsTest`.
+**Files:** create `content/BaseContent.java`, modify `SevenWondersDuelGame` default constructor, `docs/rules/base.md` (§3.4, §3.5, §13 names), `docs/INDEX.md`. Tests: `catalog/BasePackTest`, `content/AgeCardsTest`.
 
-- [ ] Tests first: 66 distinct ids; every card has a back the pack declares, one Age tag and one colour tag; every symbol given by exactly one card is freed by at least one card and vice versa; `Setup` over `BasePack` alone (no fixtures) fails only because Wonders and tokens are missing, not because of cards; Lighthouse counts itself in a played state through `Construct`.
+- [ ] Tests first: 66 distinct ids; every card has a back the pack declares, one Age tag and one colour tag; every symbol given by exactly one card is freed by at least one card and vice versa; Age deck sizes after `Setup`'s removal/guild addition equal the layout sizes; Lighthouse counts itself in a played state through `Construct`.
 - [ ] Wire the pack, update `base.md` names (Courthouse/Pretorium/Circus Maximus/chain symbol names) and `docs/INDEX.md`; run `spotless:apply` and the full suite.
