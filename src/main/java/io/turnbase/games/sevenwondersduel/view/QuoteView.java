@@ -11,7 +11,8 @@ import java.util.UUID;
  * @param tradeCost coins paid to the bank for missing resources
  * @param total {@code coins + tradeCost}
  * @param chained whether a chain symbol waives the whole cost
- * @param affordable whether the player's treasury covers {@code total}
+ * @param affordable whether the player's treasury covers {@code total}; it says nothing of whose
+ *     turn it is or whether a decision is pending
  */
 public record QuoteView(
     UUID player,

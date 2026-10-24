@@ -147,7 +147,27 @@ class ViewsTest {
 
     PendingView pending = Views.of(asking, RULES, SPECTATOR).pending();
 
-    assertThat(pending).isEqualTo(new PendingView(P2.value(), List.of(token.value())));
+    assertThat(pending).isEqualTo(new PendingView(P2.value(), List.of(token.value()), 0));
     assertThat(Views.of(STARTED, RULES, ONE).pending()).isNull();
+  }
+
+  @Test
+  void aSecretOptionIsOfferedOnlyToTheDecider() {
+    ComponentId secret = in(STARTED, ZoneId.of("box")).get(0);
+    ComponentId token = in(STARTED, ZoneId.of("board")).get(0);
+    DecisionStep step =
+        new DecisionStep(
+            P2,
+            P1,
+            new EffectRef(token, 0),
+            List.of(new ComponentOption(secret), new ComponentOption(token)));
+    DuelState asking = STARTED.withAgenda(STARTED.agenda().pushAll(List.of(step)));
+
+    assertThat(Views.of(asking, RULES, new Viewer.Seat(P2)).pending())
+        .isEqualTo(new PendingView(P2.value(), List.of(secret.value(), token.value()), 0));
+    for (Viewer other : List.of(ONE, SPECTATOR)) {
+      assertThat(Views.of(asking, RULES, other).pending())
+          .isEqualTo(new PendingView(P2.value(), List.of(token.value()), 1));
+    }
   }
 }

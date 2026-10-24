@@ -12,7 +12,7 @@
 
 **Builds on:** 1 (`DuelState.knowledge`, zones), 5a (`CostSolver`), 6a (`Scoring`). Decided with the user: quotes for both players; hiding driven by `DuelState.knowledge`; spectators see only public zones.
 
-**Out of scope:** `onResync`/`sendToPlayer` wiring and the action codec (6c); per-event hidden-information effects (6c); expansion knowledge writers (Great Library, Espionage, Athena: they call the same rule through their own `Resolution` primitive); a score display (the `Scorecard` already exists; 6c adds it to `GameOutcome`).
+**Out of scope:** `onResync`/`sendToPlayer` wiring and the action codec (6c); per-event hidden-information effects (6c); knowledge writers (the base Great Library, Espionage, Athena: they call the same rule through their own `Resolution` primitive); a score display (the `Scorecard` already exists; 6c adds it to `GameOutcome`).
 
 ## Global Constraints
 

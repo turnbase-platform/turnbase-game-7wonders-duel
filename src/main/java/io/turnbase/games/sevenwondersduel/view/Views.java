@@ -2,6 +2,7 @@ package io.turnbase.games.sevenwondersduel.view;
 
 import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
 import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
+import io.turnbase.games.sevenwondersduel.agenda.Option;
 import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.cost.CostSolver;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /** What each viewer may see of a game (base.md §10.8), derived from the state alone. */
@@ -63,7 +65,7 @@ public final class Views {
         state.victory() == null ? null : state.victory().reason().name(),
         visible,
         collapsed,
-        pending(state),
+        pending(state, rules, viewer),
         quotes(state, rules));
   }
 
@@ -102,20 +104,23 @@ public final class Views {
     return quotes;
   }
 
-  private static PendingView pending(DuelState state) {
+  private static PendingView pending(DuelState state, RuleSet rules, Viewer viewer) {
     if (state.agenda().isEmpty() || !(state.agenda().top() instanceof DecisionStep decision)) {
       return null;
     }
-    List<String> options =
-        decision.options().stream()
-            .map(
-                option ->
-                    switch (option) {
-                      case ComponentOption c -> c.component().value();
-                      case PlayerOption p -> p.player().value().toString();
-                    })
-            .toList();
-    return new PendingView(decision.decider().value(), options);
+    boolean decides =
+        viewer instanceof Viewer.Seat seat && seat.player().equals(decision.decider());
+    List<String> options = new ArrayList<>();
+    int hidden = 0;
+    for (Option option : decision.options()) {
+      switch (option) {
+        case ComponentOption c when decides || canSee(state, rules, viewer, c.component()) ->
+            options.add(c.component().value());
+        case ComponentOption c -> hidden++;
+        case PlayerOption p -> options.add(p.player().value().toString());
+      }
+    }
+    return new PendingView(decision.decider().value(), options, hidden);
   }
 
   /**
@@ -135,6 +140,6 @@ public final class Views {
     if (visibility == Visibility.OWNER && at.key().equals(seat.player().value().toString())) {
       return true;
     }
-    return state.knowledge().getOrDefault(seat.player(), java.util.Set.of()).contains(component);
+    return state.knowledge().getOrDefault(seat.player(), Set.of()).contains(component);
   }
 }
