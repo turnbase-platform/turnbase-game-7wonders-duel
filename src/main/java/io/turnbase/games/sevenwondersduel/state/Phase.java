@@ -5,6 +5,5 @@ public enum Phase {
   SETUP,
   WONDER_DRAFT,
   AGE,
-  SCORING,
   OVER
 }

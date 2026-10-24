@@ -15,6 +15,7 @@ import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import org.junit.jupiter.api.Test;
@@ -116,7 +117,7 @@ class AgeEndTest {
   }
 
   @Test
-  void endingTheLastAgeMovesToScoringWithNothingLeftToDo() {
+  void endingTheLastAgeScoresTheGameWithNothingLeftToDo() {
     DuelState state = playOutAge(started());
     state = ENGINE.apply(state, state.deciding(), new ChooseStarter(state.deciding())).state();
     state = playOutAge(state);
@@ -125,7 +126,8 @@ class AgeEndTest {
 
     DuelState scoring = discardOne(last);
 
-    assertThat(scoring.phase()).isEqualTo(Phase.SCORING);
+    assertThat(scoring.phase()).isEqualTo(Phase.OVER);
+    assertThat(scoring.victory().reason()).isEqualTo(Victory.Reason.POINTS);
     assertThat(scoring.age()).isEqualTo(3);
     assertThat(scoring.deciding()).isNull();
     assertThat(cardsLeft(scoring)).isZero();

@@ -2,11 +2,14 @@ package io.turnbase.games.sevenwondersduel.age;
 
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.scoring.Scoring;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
-import io.turnbase.games.sevenwondersduel.state.Phase;
 import java.util.List;
 
-/** Ending an Age: the next Age begins, or scoring after the last one (B-AGE-1, B-AGE-3). */
+/**
+ * Ending an Age: the next Age begins, or the game is scored after the last one (B-AGE-1, B-AGE-3,
+ * B-END-1).
+ */
 public final class AgeEnd {
 
   private AgeEnd() {}
@@ -25,7 +28,7 @@ public final class AgeEnd {
     if (resolution.rules().ages().contains(next)) {
       AgeStart.begin(resolution, next, deciding);
     } else {
-      resolution.advance(s -> s.withPhase(Phase.SCORING));
+      Scoring.conclude(resolution);
     }
   }
 }
