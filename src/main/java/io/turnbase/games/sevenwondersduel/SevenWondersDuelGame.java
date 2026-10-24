@@ -20,6 +20,7 @@ import io.turnbase.gdk.context.ActionDecodeException;
 import io.turnbase.gdk.context.InitContext;
 import io.turnbase.gdk.context.PlayerLeftContext;
 import io.turnbase.gdk.context.ResyncContext;
+import io.turnbase.gdk.context.ViewerRole;
 import io.turnbase.gdk.effect.Effect;
 import io.turnbase.gdk.effect.Effects;
 import io.turnbase.gdk.model.Player;
@@ -108,6 +109,14 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
 
   @Override
   public ViewResult onResync(SevenWondersDuelState state, ResyncContext ctx) {
-    return null;
+    DuelState duel = Snapshots.fromSnapshot(state);
+    Viewer viewer = new Viewer.Spectator();
+    if (ctx.role() == ViewerRole.PLAYER && ctx.viewer().isPresent()) {
+      PlayerId id = PlayerId.of(ctx.viewer().get().id());
+      if (duel.players().containsKey(id)) {
+        viewer = new Viewer.Seat(id);
+      }
+    }
+    return ViewResult.of(ServerMessage.view(Views.of(duel, rules, viewer)));
   }
 }
