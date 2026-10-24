@@ -1,5 +1,9 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
+import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
+import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
+import io.turnbase.games.sevenwondersduel.agenda.Option;
+import io.turnbase.games.sevenwondersduel.agenda.Step;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
@@ -20,11 +24,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * The working object for one player action: holds the current {@link DuelState}, changes it only
  * through a few primitive operations and records each change as an {@link EventRecord} in the
  * causation tree. Effects never touch the state directly.
+ *
+ * <p>After an exception the instance is poisoned and must be discarded; the caller keeps the {@link
+ * DuelState} it started from, which is never modified.
  */
 public final class Resolution {
 
@@ -36,7 +44,9 @@ public final class Resolution {
   private final List<EventRecord> events = new ArrayList<>();
   private final Deque<Frame> frames = new ArrayDeque<>();
   private DuelState state;
+  private final List<Step> staged = new ArrayList<>();
   private int triggerDepth;
+  private boolean draining;
 
   public Resolution(DuelState state, RuleSet rules) {
     this.state = state;
@@ -86,12 +96,106 @@ public final class Resolution {
     emit(new PlayAgainChanged(player, granted));
   }
 
-  /** Applies the instant effects of {@code source} in printed order for {@code owner} (B-EFF-4). */
+  /**
+   * Applies the instant effects of {@code source} in printed order for {@code owner} (B-EFF-4),
+   * stopping early if one of them opens a decision; the rest wait on the agenda for the answer.
+   */
   public void resolveEffects(ComponentId source, PlayerId owner) {
-    List<Effect> effects = rules.catalog().get(source).effects();
-    for (int i = 0; i < effects.size(); i++) {
-      Effect effect = effects.get(i);
-      within(new EffectRef(source, i), () -> effect.apply(this, owner));
+    queueEffects(source, owner);
+    drain();
+  }
+
+  /** Puts one {@link EffectStep} per effect of {@code source} on the agenda, printed order. */
+  public void queueEffects(ComponentId source, PlayerId owner) {
+    requireOutsideTrigger();
+    int count = rules.catalog().get(source).effects().size();
+    List<Step> steps = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      steps.add(new EffectStep(new EffectRef(source, i), owner));
+    }
+    queue(steps);
+  }
+
+  /** Puts {@code steps} on the agenda in front of everything pending; the first becomes the top. */
+  public void queue(List<Step> steps) {
+    state = state.withAgenda(state.agenda().pushAll(steps));
+  }
+
+  /**
+   * Asks {@code decider} to pick one of {@code options} for the effect that is running; the answer
+   * goes to that effect's {@code resume}. With no options nothing is asked (B-EFF-3). Decisions
+   * asked by one effect are answered in call order, so an effect puts the active player first
+   * (B-EFF-4).
+   */
+  public void decide(PlayerId decider, List<Option> options) {
+    requireOutsideTrigger();
+    EffectRef running = frames.isEmpty() ? null : frames.peek().source().orElse(null);
+    if (running == null) {
+      throw new IllegalStateException("a decision can only be asked by a running effect");
+    }
+    if (!options.isEmpty()) {
+      staged.add(new DecisionStep(decider, running, options));
+    }
+  }
+
+  /**
+   * Applies pending effect steps from the top of the agenda until it is empty or its top is a
+   * decision.
+   */
+  public void drain() {
+    if (draining) {
+      throw new IllegalStateException("already draining the agenda");
+    }
+    draining = true;
+    try {
+      while (!state.agenda().isEmpty() && state.agenda().top() instanceof EffectStep step) {
+        state = state.withAgenda(state.agenda().pop());
+        runEffect(step.effect(), effect -> effect.apply(this, step.owner()));
+      }
+    } finally {
+      draining = false;
+    }
+  }
+
+  /**
+   * Gives {@code answer} to the effect that asked the decision on top of the agenda. The caller
+   * then drains to carry on with the steps below it.
+   */
+  public void resume(Option answer) {
+    if (state.agenda().isEmpty() || !(state.agenda().top() instanceof DecisionStep step)) {
+      throw new IllegalStateException("no decision is pending");
+    }
+    state = state.withAgenda(state.agenda().pop());
+    runEffect(step.effect(), effect -> effect.resume(this, step.owner(), answer));
+  }
+
+  private void runEffect(EffectRef ref, Consumer<Effect> action) {
+    Effect effect = effectOf(ref);
+    within(ref, () -> action.accept(effect));
+    queue(staged);
+    staged.clear();
+  }
+
+  private Effect effectOf(EffectRef ref) {
+    List<Effect> effects;
+    try {
+      effects = rules.catalog().get(ref.source()).effects();
+    } catch (IllegalArgumentException e) {
+      throw new IllegalStateException("stale effect reference " + describe(ref), e);
+    }
+    if (ref.index() < 0 || ref.index() >= effects.size()) {
+      throw new IllegalStateException("stale effect reference " + describe(ref));
+    }
+    return effects.get(ref.index());
+  }
+
+  private static String describe(EffectRef ref) {
+    return ref.source().value() + "#" + ref.index();
+  }
+
+  private void requireOutsideTrigger() {
+    if (triggerDepth > 0) {
+      throw new IllegalStateException("triggers cannot open decisions or queue effects");
     }
   }
 

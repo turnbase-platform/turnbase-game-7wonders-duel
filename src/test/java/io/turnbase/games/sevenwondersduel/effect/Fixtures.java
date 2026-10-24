@@ -1,6 +1,8 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
 import io.turnbase.games.sevenwondersduel.agenda.Agenda;
+import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
+import io.turnbase.games.sevenwondersduel.agenda.Option;
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
@@ -9,6 +11,7 @@ import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
@@ -52,6 +55,26 @@ final class Fixtures {
     @Override
     public ComponentType type() {
       return ComponentType.CARD;
+    }
+  }
+
+  /**
+   * Asks the owner to pick one component from the board; the pick goes into the owner's city. Each
+   * option is a {@link ComponentOption}.
+   */
+  static final class Choose implements Effect {
+    @Override
+    public void apply(Resolution resolution, PlayerId owner) {
+      resolution.decide(
+          owner,
+          Placements.idsIn(resolution.state().placements(), ZoneId.of("board")).stream()
+              .<Option>map(ComponentOption::new)
+              .toList());
+    }
+
+    @Override
+    public void resume(Resolution resolution, PlayerId owner, Option answer) {
+      resolution.move(((ComponentOption) answer).component(), city(owner));
     }
   }
 
