@@ -81,6 +81,22 @@ class GameActionTest {
   }
 
   @Test
+  void thePublicViewComesFirstSoNoSeatEndsWithIt() {
+    SevenWondersDuelState before = drafting();
+    DuelState duel = Snapshots.fromSnapshot(before);
+    PlayerId mover = Draft.toMove(duel).orElseThrow();
+
+    ActionResult<SevenWondersDuelState> result =
+        GAME.onAction(
+            before,
+            action(seat(mover), new WireAction("draftWonder", offered(duel).value(), null, null)));
+
+    assertThat(result.effects().get(0)).isInstanceOf(BroadcastEffect.class);
+    assertThat(result.effects().subList(1, result.effects().size()))
+        .allMatch(SendToPlayerEffect.class::isInstance);
+  }
+
+  @Test
   void theBroadcastNamesNoHiddenCard() {
     SevenWondersDuelState before = drafting();
     DuelState duel = Snapshots.fromSnapshot(before);

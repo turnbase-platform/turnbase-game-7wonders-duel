@@ -90,12 +90,15 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
   }
 
   /**
-   * Each seat its own view, in id order, then the public one for everybody. When {@code
-   * endingTeams} is given and the game is over, the game-over effect follows; it is given only on
-   * the move that ends the game, so it is emitted once.
+   * The public view for everybody, then each seat its own, in id order. When {@code endingTeams} is
+   * given and the game is over, the game-over effect follows; it is given only on the move that
+   * ends the game, so it is emitted once.
    */
   private List<Effect> shown(DuelState state, Map<UUID, UUID> endingTeams) {
+    // A broadcast reaches the seats too, so it goes first and each seat's own view lands last.
     List<Effect> effects = new ArrayList<>();
+    effects.add(
+        Effects.broadcast(ServerMessage.view(Views.of(state, rules, new Viewer.Spectator()))));
     state.players().keySet().stream()
         .sorted(Comparator.comparing(PlayerId::value))
         .forEach(
@@ -104,8 +107,6 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
                     Effects.sendToPlayer(
                         id.value(),
                         ServerMessage.view(Views.of(state, rules, new Viewer.Seat(id))))));
-    effects.add(
-        Effects.broadcast(ServerMessage.view(Views.of(state, rules, new Viewer.Spectator()))));
     if (endingTeams != null && state.victory() != null) {
       effects.add(
           Effects.gameOver(
