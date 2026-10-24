@@ -48,7 +48,7 @@ public final class Engine {
     }
     Resolution resolution = new Resolution(state, rules);
     resolution.resume(answer.choice());
-    resolution.drain();
+    Turn.settle(resolution);
     return new Outcome(resolution.state(), resolution.events());
   }
 

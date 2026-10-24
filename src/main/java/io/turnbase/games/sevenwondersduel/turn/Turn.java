@@ -1,6 +1,8 @@
 package io.turnbase.games.sevenwondersduel.turn;
 
 import io.turnbase.games.sevenwondersduel.age.AgeEnd;
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
+import io.turnbase.games.sevenwondersduel.agenda.TurnEndStep;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -24,6 +26,19 @@ public final class Turn {
     resolution.move(card, DISCARD);
     resolution.changeCoins(actor, value);
     end(resolution);
+  }
+
+  /**
+   * Applies pending effects until the agenda is empty or waits for a decision. If the action's
+   * {@link TurnEndStep} is then on top, the action is done and the turn ends.
+   */
+  public static void settle(Resolution resolution) {
+    resolution.drain();
+    Agenda agenda = resolution.state().agenda();
+    if (!agenda.isEmpty() && agenda.top() instanceof TurnEndStep) {
+      resolution.advance(s -> s.withAgenda(s.agenda().pop()));
+      end(resolution);
+    }
   }
 
   /**

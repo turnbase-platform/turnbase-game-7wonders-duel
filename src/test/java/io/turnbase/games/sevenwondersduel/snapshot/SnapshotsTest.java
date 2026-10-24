@@ -9,6 +9,7 @@ import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
 import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
 import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
 import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
+import io.turnbase.games.sevenwondersduel.agenda.TurnEndStep;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
@@ -66,7 +67,8 @@ class SnapshotsTest {
                     P2,
                     P1,
                     new EffectRef(ComponentId.of("c2"), 0),
-                    List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))))),
+                    List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))),
+                new TurnEndStep())),
         new Pawn(P2, 3));
   }
 

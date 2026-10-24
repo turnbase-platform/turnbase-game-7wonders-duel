@@ -8,6 +8,7 @@ import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
 import io.turnbase.games.sevenwondersduel.agenda.Option;
 import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
 import io.turnbase.games.sevenwondersduel.agenda.Step;
+import io.turnbase.games.sevenwondersduel.agenda.TurnEndStep;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
@@ -36,6 +37,7 @@ public final class Snapshots {
 
   private static final String EFFECT = "EFFECT";
   private static final String DECISION = "DECISION";
+  private static final String TURN_END = "TURN_END";
   private static final String COMPONENT = "COMPONENT";
   private static final String PLAYER = "PLAYER";
 
@@ -127,10 +129,14 @@ public final class Snapshots {
               d.effect().index(),
               d.decider().value(),
               d.options().stream().map(Snapshots::optionData).toList());
+      case TurnEndStep t -> new StepData(TURN_END, null, null, 0, null, List.of());
     };
   }
 
   private static Step step(StepData data) {
+    if (TURN_END.equals(data.kind())) {
+      return new TurnEndStep();
+    }
     EffectRef ref = new EffectRef(ComponentId.of(data.source()), data.index());
     PlayerId owner = PlayerId.of(data.owner());
     return switch (data.kind()) {
