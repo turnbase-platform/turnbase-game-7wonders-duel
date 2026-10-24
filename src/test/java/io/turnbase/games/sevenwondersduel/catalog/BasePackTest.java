@@ -128,7 +128,8 @@ class BasePackTest {
             new RngCursor(5, 3),
             RULES.packIds(),
             Agenda.EMPTY,
-            Pawn.CENTRE);
+            Pawn.CENTRE,
+            null);
 
     GdkSerialization serialization = new GdkSerialization();
     String json = serialization.writeState(Snapshots.toSnapshot(state), Long.MAX_VALUE);

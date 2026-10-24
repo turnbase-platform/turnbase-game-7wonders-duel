@@ -96,7 +96,8 @@ class OwnershipTest {
         RngCursor.start(1),
         RULES.packIds(),
         Agenda.EMPTY,
-        Pawn.CENTRE);
+        Pawn.CENTRE,
+        null);
   }
 
   @Test

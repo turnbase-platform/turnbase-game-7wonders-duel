@@ -34,6 +34,9 @@ public final class Engine {
     if (action == null) {
       throw new IllegalActionException("no action given");
     }
+    if (state.phase() == Phase.OVER) {
+      throw new IllegalActionException("the game is over");
+    }
     return switch (action) {
       case Answer answer -> answer(state, actor, answer);
       case DraftWonder pick -> draft(state, actor, pick);

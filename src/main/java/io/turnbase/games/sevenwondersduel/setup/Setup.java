@@ -99,7 +99,8 @@ public final class Setup {
         table.cursor(),
         rules.packIds(),
         Agenda.EMPTY,
-        Pawn.CENTRE);
+        Pawn.CENTRE,
+        null);
   }
 
   /**

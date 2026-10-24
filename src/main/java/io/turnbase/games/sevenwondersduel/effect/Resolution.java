@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
 import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
 import io.turnbase.games.sevenwondersduel.agenda.Option;
@@ -14,6 +15,8 @@ import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Phase;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import java.util.ArrayDeque;
@@ -86,6 +89,18 @@ public final class Resolution {
   public void advance(UnaryOperator<DuelState> change) {
     requireOutsideTrigger();
     state = change.apply(state);
+  }
+
+  /**
+   * Ends the game at once: nothing pending survives, and the game is over with the given winner
+   * (B-END-1). Records nothing.
+   */
+  public void declareVictory(PlayerId winner, Victory.Reason reason) {
+    advance(
+        s ->
+            s.withPhase(Phase.OVER)
+                .withVictory(new Victory(winner, reason))
+                .withAgenda(Agenda.EMPTY));
   }
 
   /** Changes a treasury by {@code delta}; a result below zero is a defect in the caller. */
@@ -162,7 +177,9 @@ public final class Resolution {
     }
     draining = true;
     try {
-      while (!state.agenda().isEmpty() && state.agenda().top() instanceof EffectStep step) {
+      while (state.phase() != Phase.OVER
+          && !state.agenda().isEmpty()
+          && state.agenda().top() instanceof EffectStep step) {
         state = state.withAgenda(state.agenda().pop());
         runEffect(step.effect(), step.owner(), effect -> effect.apply(this, step.owner()));
       }

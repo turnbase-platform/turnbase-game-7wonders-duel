@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.turnbase.games.sevenwondersduel.agenda.Agenda;
+import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
+import io.turnbase.games.sevenwondersduel.agenda.TurnEndStep;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
@@ -18,6 +20,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import java.util.List;
@@ -47,11 +50,36 @@ class ResolutionTest {
         RngCursor.start(1),
         RULES.packIds(),
         Agenda.EMPTY,
-        Pawn.CENTRE);
+        Pawn.CENTRE,
+        null);
   }
 
   private static Resolution resolution() {
     return new Resolution(state(ZoneId.of("deck")), RULES);
+  }
+
+  @Test
+  void declareVictoryEndsTheGameAndDropsPendingSteps() {
+    Resolution r = resolution();
+    r.queue(List.of(new TurnEndStep(), new EffectStep(new EffectRef(CARD, 0), P1)));
+
+    r.declareVictory(P2, Victory.Reason.MILITARY);
+
+    assertThat(r.state().phase()).isEqualTo(Phase.OVER);
+    assertThat(r.state().victory()).isEqualTo(new Victory(P2, Victory.Reason.MILITARY));
+    assertThat(r.state().agenda().isEmpty()).isTrue();
+  }
+
+  @Test
+  void nothingIsDrainedOnceTheGameIsOver() {
+    RuleSet rules = Fixtures.rules(Fixtures.Card.of("card").withEffects(new GainCoins(3)));
+    Resolution r = new Resolution(state(ZoneId.of("deck")), rules);
+    r.queueEffects(CARD, P1);
+    r.advance(s -> s.withPhase(Phase.OVER));
+
+    r.drain();
+
+    assertThat(r.state().player(P1).coins()).isEqualTo(7);
   }
 
   @Test

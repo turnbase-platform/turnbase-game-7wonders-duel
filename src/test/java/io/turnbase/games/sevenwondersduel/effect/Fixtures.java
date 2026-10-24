@@ -132,7 +132,8 @@ public final class Fixtures {
         RngCursor.start(1),
         rules.packIds(),
         Agenda.EMPTY,
-        Pawn.CENTRE);
+        Pawn.CENTRE,
+        null);
   }
 
   private Fixtures() {}

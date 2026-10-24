@@ -38,11 +38,22 @@ class DuelStateTest {
         RngCursor.start(1),
         List.of(PackId.of("base")),
         Agenda.EMPTY,
-        Pawn.CENTRE);
+        Pawn.CENTRE,
+        null);
   }
 
   private static DuelState state() {
     return state(List.of());
+  }
+
+  @Test
+  void aVictoryNeedsTheGameToBeOver() {
+    Victory won = new Victory(P1, Victory.Reason.MILITARY);
+
+    assertThatThrownBy(() -> state().withVictory(won))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("over");
+    assertThat(state().withPhase(Phase.OVER).withVictory(won).victory()).isEqualTo(won);
   }
 
   @Test
@@ -111,7 +122,8 @@ class DuelStateTest {
                     RngCursor.start(1),
                     List.of(),
                     Agenda.EMPTY,
-                    Pawn.CENTRE))
+                    Pawn.CENTRE,
+                    null))
         .isInstanceOf(IllegalArgumentException.class);
   }
 
@@ -165,7 +177,8 @@ class DuelStateTest {
                     RngCursor.start(1),
                     List.of(),
                     Agenda.EMPTY,
-                    Pawn.CENTRE))
+                    Pawn.CENTRE,
+                    null))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining(stranger.value().toString());
   }

@@ -27,6 +27,8 @@ import java.util.UUID;
  * @param agenda the pending steps, top first
  * @param pawnSide the player whose side the military pawn is on, or null at the centre
  * @param pawnSpace the pawn's distance from the centre
+ * @param victoryWinner who won by supremacy, or null while the game is running
+ * @param victoryReason name of the {@code Victory.Reason}, null exactly when there is no winner
  */
 public record SevenWondersDuelState(
     String phase,
@@ -42,5 +44,7 @@ public record SevenWondersDuelState(
     List<String> packs,
     List<StepData> agenda,
     UUID pawnSide,
-    int pawnSpace)
+    int pawnSpace,
+    UUID victoryWinner,
+    String victoryReason)
     implements GameState {}

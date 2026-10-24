@@ -20,6 +20,8 @@ import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Phase;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.serialization.GdkSerialization;
 import java.util.List;
@@ -178,5 +180,26 @@ class EngineTest {
         .isInstanceOf(IllegalActionException.class);
     assertThatThrownBy(() -> ENGINE.apply(paused(), P1, null))
         .isInstanceOf(IllegalActionException.class);
+  }
+
+  @Test
+  void everyActionIsRejectedOnceTheGameIsOver() {
+    DuelState over =
+        paused().withPhase(Phase.OVER).withVictory(new Victory(P1, Victory.Reason.MILITARY));
+    List<PlayerAction> actions =
+        List.of(
+            new Answer(pick(T1)),
+            new Discard(T1.id()),
+            new Build(T1.id()),
+            new BuildWonder(T1.id(), T2.id()),
+            new DraftWonder(T1.id()),
+            new ChooseStarter(P1));
+
+    for (PlayerAction action : actions) {
+      assertThatThrownBy(() -> ENGINE.apply(over, P1, action))
+          .as(action.getClass().getSimpleName())
+          .isInstanceOf(IllegalActionException.class)
+          .hasMessageContaining("over");
+    }
   }
 }

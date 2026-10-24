@@ -19,6 +19,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import java.util.HashMap;
@@ -71,7 +72,9 @@ public final class Snapshots {
         state.packs().stream().map(PackId::value).toList(),
         state.agenda().steps().stream().map(Snapshots::stepData).toList(),
         state.pawn().side() == null ? null : state.pawn().side().value(),
-        state.pawn().space());
+        state.pawn().space(),
+        state.victory() == null ? null : state.victory().winner().value(),
+        state.victory() == null ? null : state.victory().reason().name());
   }
 
   public static DuelState fromSnapshot(SevenWondersDuelState snapshot) {
@@ -108,7 +111,19 @@ public final class Snapshots {
         new Agenda(snapshot.agenda().stream().map(Snapshots::step).toList()),
         new Pawn(
             snapshot.pawnSide() == null ? null : PlayerId.of(snapshot.pawnSide()),
-            snapshot.pawnSpace()));
+            snapshot.pawnSpace()),
+        victory(snapshot));
+  }
+
+  private static Victory victory(SevenWondersDuelState snapshot) {
+    if (snapshot.victoryWinner() == null && snapshot.victoryReason() == null) {
+      return null;
+    }
+    if (snapshot.victoryWinner() == null || snapshot.victoryReason() == null) {
+      throw new IllegalArgumentException("a victory needs both a winner and a reason");
+    }
+    return new Victory(
+        PlayerId.of(snapshot.victoryWinner()), Victory.Reason.valueOf(snapshot.victoryReason()));
   }
 
   private static StepData stepData(Step step) {

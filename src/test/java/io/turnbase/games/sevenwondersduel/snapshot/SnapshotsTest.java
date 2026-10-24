@@ -20,6 +20,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
+import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.serialization.GdkSerialization;
@@ -69,7 +70,8 @@ class SnapshotsTest {
                     new EffectRef(ComponentId.of("c2"), 0),
                     List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))),
                 new TurnEndStep())),
-        new Pawn(P2, 3));
+        new Pawn(P2, 3),
+        null);
   }
 
   @Test
@@ -119,7 +121,23 @@ class SnapshotsTest {
         good.packs(),
         good.agenda(),
         side,
-        space);
+        space,
+        good.victoryWinner(),
+        good.victoryReason());
+  }
+
+  @Test
+  void aVictoryTravelsThroughTheSnapshotAndARunningGameHasNone() {
+    DuelState over =
+        sample().withPhase(Phase.OVER).withVictory(new Victory(P2, Victory.Reason.MILITARY));
+
+    SevenWondersDuelState snapshot = Snapshots.toSnapshot(over);
+
+    assertThat(snapshot.victoryWinner()).isEqualTo(P2.value());
+    assertThat(snapshot.victoryReason()).isEqualTo("MILITARY");
+    assertThat(Snapshots.fromSnapshot(snapshot)).isEqualTo(over);
+    assertThat(Snapshots.toSnapshot(sample()).victoryWinner()).isNull();
+    assertThat(Snapshots.toSnapshot(sample()).victoryReason()).isNull();
   }
 
   @Test
@@ -164,7 +182,8 @@ class SnapshotsTest {
             empty.rng(),
             List.of(),
             empty.agenda(),
-            empty.pawn());
+            empty.pawn(),
+            null);
 
     assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(noPacks))).isEqualTo(noPacks);
   }
@@ -202,7 +221,9 @@ class SnapshotsTest {
             good.packs(),
             good.agenda(),
             good.pawnSide(),
-            good.pawnSpace());
+            good.pawnSpace(),
+            good.victoryWinner(),
+            good.victoryReason());
     SevenWondersDuelState blankId =
         new SevenWondersDuelState(
             good.phase(),
@@ -218,7 +239,9 @@ class SnapshotsTest {
             good.packs(),
             good.agenda(),
             good.pawnSide(),
-            good.pawnSpace());
+            good.pawnSpace(),
+            good.victoryWinner(),
+            good.victoryReason());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(badPhase))
         .isInstanceOf(IllegalArgumentException.class)
@@ -245,7 +268,9 @@ class SnapshotsTest {
             good.packs(),
             List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, null, List.of())),
             good.pawnSide(),
-            good.pawnSpace());
+            good.pawnSpace(),
+            good.victoryWinner(),
+            good.victoryReason());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(bad))
         .isInstanceOf(IllegalArgumentException.class)

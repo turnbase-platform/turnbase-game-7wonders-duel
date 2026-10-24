@@ -28,6 +28,7 @@ import java.util.Set;
  * @param packs the content packs the game was set up with
  * @param agenda the pending steps: effects still to apply and decisions still to be answered
  * @param pawn where the military pawn stands (B-MIL-1)
+ * @param victory how and for whom the game ended, null while it is running (B-END-1)
  */
 public record DuelState(
     Phase phase,
@@ -41,7 +42,8 @@ public record DuelState(
     RngCursor rng,
     List<PackId> packs,
     Agenda agenda,
-    Pawn pawn) {
+    Pawn pawn,
+    Victory victory) {
 
   public DuelState {
     placements = List.copyOf(placements);
@@ -62,6 +64,9 @@ public record DuelState(
     }
     if (pawn.side() != null && !players.containsKey(pawn.side())) {
       throw new IllegalArgumentException("pawn side is not seated: " + pawn.side().value());
+    }
+    if (victory != null && phase != Phase.OVER) {
+      throw new IllegalArgumentException("a victory needs the game to be over: " + phase);
     }
     if (deciding != null && !players.containsKey(deciding)) {
       throw new IllegalArgumentException("deciding player is not seated: " + deciding);
@@ -106,7 +111,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withActive(PlayerId active) {
@@ -122,7 +128,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withAge(int age) {
@@ -138,7 +145,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withFirst(PlayerId first) {
@@ -154,7 +162,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withDeciding(PlayerId deciding) {
@@ -170,7 +179,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withPlacements(List<Placement> placements) {
@@ -186,7 +196,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withPlayer(PlayerId id, PlayerState state) {
@@ -194,7 +205,19 @@ public record DuelState(
     Map<PlayerId, PlayerState> next = new HashMap<>(players);
     next.put(id, state);
     return new DuelState(
-        phase, active, age, first, deciding, placements, next, knowledge, rng, packs, agenda, pawn);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        next,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn,
+        victory);
   }
 
   public DuelState withKnowledge(PlayerId id, Set<ComponentId> known) {
@@ -202,7 +225,19 @@ public record DuelState(
     Map<PlayerId, Set<ComponentId>> next = new HashMap<>(knowledge);
     next.put(id, known);
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, next, rng, packs, agenda, pawn);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        next,
+        rng,
+        packs,
+        agenda,
+        pawn,
+        victory);
   }
 
   public DuelState withAgenda(Agenda agenda) {
@@ -218,7 +253,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withPawn(Pawn pawn) {
@@ -234,7 +270,8 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   public DuelState withRng(RngCursor rng) {
@@ -250,12 +287,30 @@ public record DuelState(
         rng,
         packs,
         agenda,
-        pawn);
+        pawn,
+        victory);
   }
 
   private static Map<PlayerId, Set<ComponentId>> copyOfSets(Map<PlayerId, Set<ComponentId>> in) {
     Map<PlayerId, Set<ComponentId>> out = new HashMap<>();
     in.forEach((player, ids) -> out.put(player, Set.copyOf(ids)));
     return Map.copyOf(out);
+  }
+
+  public DuelState withVictory(Victory victory) {
+    return new DuelState(
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn,
+        victory);
   }
 }
