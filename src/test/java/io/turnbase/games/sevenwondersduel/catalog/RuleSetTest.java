@@ -11,6 +11,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,7 +58,7 @@ class RuleSetTest {
     RuleSet rules = RuleSet.assemble(List.of(BASE, AGORA));
 
     assertThat(rules.packIds()).containsExactly(PackId.of("base"), PackId.of("agora"));
-    assertThat(rules.zones().knows(ZoneId.of("deck"))).isTrue();
+    assertThat(rules.zones().knows(Zones.DECK)).isTrue();
     assertThat(rules.zones().knows(ZoneId.of("senate"))).isTrue();
     assertThat(rules.catalog().get(ComponentId.of("t1")).type()).isEqualTo(ComponentType.TOKEN);
   }

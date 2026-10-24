@@ -14,10 +14,10 @@ import io.turnbase.games.sevenwondersduel.effect.Fixtures;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.zone.Location;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ class ScoringTest {
   }
 
   private static Location built(PlayerId player) {
-    return new Location(ZoneId.of("wonders.built"), player.value().toString());
+    return new Location(Zones.WONDERS_BUILT, player.value().toString());
   }
 
   private static RuleSet rules(Part... parts) {

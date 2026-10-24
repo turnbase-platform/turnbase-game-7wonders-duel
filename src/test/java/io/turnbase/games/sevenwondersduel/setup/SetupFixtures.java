@@ -17,10 +17,10 @@ import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,7 +106,7 @@ public final class SetupFixtures {
     DuelState state = Setup.newGame(rules, seed, P1, P2);
     while (Draft.toMove(state).isPresent()) {
       PlayerId mover = Draft.toMove(state).get();
-      ComponentId wonder = Placements.idsIn(state.placements(), ZoneId.of("draft")).get(0);
+      ComponentId wonder = Placements.idsIn(state.placements(), Zones.DRAFT).get(0);
       state = engine.apply(state, mover, new DraftWonder(wonder)).state();
     }
     return engine.apply(state, state.deciding(), new ChooseStarter(state.deciding())).state();

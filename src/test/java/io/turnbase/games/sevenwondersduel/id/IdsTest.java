@@ -3,6 +3,7 @@ package io.turnbase.games.sevenwondersduel.id;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class IdsTest {
     UUID uuid = UUID.randomUUID();
 
     assertThat(ComponentId.of("lumber-yard")).isEqualTo(new ComponentId("lumber-yard"));
-    assertThat(ZoneId.of("city")).isEqualTo(new ZoneId("city"));
+    assertThat(Zones.CITY).isEqualTo(new ZoneId("city"));
     assertThat(PackId.of("base")).isEqualTo(new PackId("base"));
     assertThat(PlayerId.of(uuid)).isEqualTo(new PlayerId(uuid));
   }

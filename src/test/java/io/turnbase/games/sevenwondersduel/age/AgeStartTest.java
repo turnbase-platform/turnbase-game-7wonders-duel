@@ -14,13 +14,13 @@ import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.Setup;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class AgeStartTest {
     DuelState state = Setup.newGame(RULES, 42, P1, P2);
     while (Draft.toMove(state).isPresent()) {
       PlayerId mover = Draft.toMove(state).get();
-      ComponentId wonder = Placements.idsIn(state.placements(), ZoneId.of("draft")).get(0);
+      ComponentId wonder = Placements.idsIn(state.placements(), Zones.DRAFT).get(0);
       state = ENGINE.apply(state, mover, new DraftWonder(wonder)).state();
     }
     return state;

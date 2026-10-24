@@ -25,6 +25,7 @@ import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,7 +58,7 @@ class ResolutionTest {
   }
 
   private static Resolution resolution() {
-    return new Resolution(state(ZoneId.of("deck")), RULES);
+    return new Resolution(state(Zones.DECK), RULES);
   }
 
   @Test
@@ -75,7 +76,7 @@ class ResolutionTest {
   @Test
   void nothingIsDrainedOnceTheGameIsOver() {
     RuleSet rules = Fixtures.rules(Fixtures.Card.of("card").withEffects(new GainCoins(3)));
-    Resolution r = new Resolution(state(ZoneId.of("deck")), rules);
+    Resolution r = new Resolution(state(Zones.DECK), rules);
     r.queueEffects(CARD, P1);
     r.advance(s -> s.withPhase(Phase.OVER));
 
@@ -109,21 +110,21 @@ class ResolutionTest {
   @Test
   void moveUpdatesStateAndEmitsComponentMovedWithFromAndTo() {
     Resolution r = resolution();
-    Location to = new Location(ZoneId.of("city"), P1.value().toString());
+    Location to = new Location(Zones.CITY, P1.value().toString());
 
     r.move(CARD, to);
 
     assertThat(Placements.locationOf(r.state().placements(), CARD)).isEqualTo(to);
     assertThat(r.events()).hasSize(1);
     assertThat(r.events().get(0).event())
-        .isEqualTo(new ComponentMoved(CARD, Location.of(ZoneId.of("deck")), to));
+        .isEqualTo(new ComponentMoved(CARD, Location.of(Zones.DECK), to));
   }
 
   @Test
   void moveOutOfTerminalZoneThrowsAndEmitsNothing() {
-    Resolution r = new Resolution(state(ZoneId.of("destroyed")), RULES);
+    Resolution r = new Resolution(state(Zones.DESTROYED), RULES);
 
-    assertThatThrownBy(() -> r.move(CARD, Location.of(ZoneId.of("discard"))))
+    assertThatThrownBy(() -> r.move(CARD, Location.of(Zones.DISCARD)))
         .isInstanceOf(IllegalStateException.class);
     assertThat(r.events()).isEmpty();
   }
@@ -224,7 +225,7 @@ class ResolutionTest {
     java.util.List<Optional<ComponentId>> seen = new java.util.ArrayList<>();
     Effect probe = (resolution, owner) -> seen.add(resolution.source());
     RuleSet rules = Fixtures.rules(Fixtures.Card.of("card").withEffects(probe));
-    Resolution r = new Resolution(state(ZoneId.of("deck")), rules);
+    Resolution r = new Resolution(state(Zones.DECK), rules);
 
     assertThat(r.source()).isEmpty();
     r.resolveEffects(CARD, P1);
@@ -245,7 +246,7 @@ class ResolutionTest {
   void aComponentMovedIntoAPublicZoneIsKnownToBothPlayers() {
     Resolution r = resolution();
 
-    r.move(CARD, Location.of(ZoneId.of("structure.up")));
+    r.move(CARD, Location.of(Zones.STRUCTURE_UP));
 
     assertThat(r.state().knowledge().get(P1)).containsExactly(CARD);
     assertThat(r.state().knowledge().get(P2)).containsExactly(CARD);
@@ -254,9 +255,9 @@ class ResolutionTest {
   @Test
   void whatWasSeenStaysKnownInAHiddenZone() {
     Resolution r = resolution();
-    r.move(CARD, Location.of(ZoneId.of("structure.up")));
+    r.move(CARD, Location.of(Zones.STRUCTURE_UP));
 
-    r.move(CARD, Location.of(ZoneId.of("underWonder")));
+    r.move(CARD, Location.of(Zones.UNDER_WONDER));
 
     assertThat(r.state().knowledge().get(P1)).containsExactly(CARD);
   }
@@ -265,7 +266,7 @@ class ResolutionTest {
   void aComponentMovedIntoAHiddenZoneIsKnownToNobody() {
     Resolution r = resolution();
 
-    r.move(CARD, Location.of(ZoneId.of("box")));
+    r.move(CARD, Location.of(Zones.BOX));
 
     assertThat(r.state().knowledge().get(P1)).isEmpty();
     assertThat(r.state().knowledge().get(P2)).isEmpty();

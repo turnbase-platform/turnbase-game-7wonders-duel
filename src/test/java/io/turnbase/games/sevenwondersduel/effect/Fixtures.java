@@ -11,7 +11,6 @@ import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
@@ -20,6 +19,7 @@ import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +70,7 @@ public final class Fixtures {
     public void apply(Resolution resolution, PlayerId owner) {
       resolution.decide(
           owner,
-          Placements.idsIn(resolution.state().placements(), ZoneId.of("board")).stream()
+          Placements.idsIn(resolution.state().placements(), Zones.BOARD).stream()
               .<Option>map(ComponentOption::new)
               .toList());
     }
@@ -103,8 +103,7 @@ public final class Fixtures {
   }
 
   public static Location city(PlayerId player) {
-    return new Location(
-        io.turnbase.games.sevenwondersduel.id.ZoneId.of("city"), player.value().toString());
+    return new Location(Zones.CITY, player.value().toString());
   }
 
   public static Location zone(String id) {

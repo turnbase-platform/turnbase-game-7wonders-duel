@@ -18,7 +18,6 @@ import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.engine.Outcome;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.military.MilitaryTrack;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -28,6 +27,7 @@ import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.turn.TurnFixtures.Part;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import org.junit.jupiter.api.Test;
 
 class ShieldsTest {
@@ -86,8 +86,7 @@ class ShieldsTest {
     PlayerId actor = seen.active();
     ComponentId wonder =
         Placements.idsIn(
-                seen.placements(),
-                new Location(ZoneId.of("wonders.unbuilt"), actor.value().toString()))
+                seen.placements(), new Location(Zones.WONDERS_UNBUILT, actor.value().toString()))
             .get(0);
     RuleSet rules =
         TurnFixtures.rulesWith(
@@ -118,7 +117,7 @@ class ShieldsTest {
     assertThat(after.player(g.rival()).coins()).isEqualTo(g.state().player(g.rival()).coins() - 2);
     assertThat(after.active()).isEqualTo(g.rival());
     assertThat(Placements.locationOf(after.placements(), LOOT.id()).zone())
-        .isEqualTo(ZoneId.of("destroyed"));
+        .isEqualTo(Zones.DESTROYED);
   }
 
   @Test

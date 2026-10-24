@@ -16,6 +16,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -26,8 +27,8 @@ class StructureTest {
   private static final Card[] CARDS =
       IntStream.range(0, 20).mapToObj(i -> Card.of("c" + i)).toArray(Card[]::new);
   private static final RuleSet RULES = Fixtures.rules(CARDS);
-  private static final ZoneId UP = ZoneId.of("structure.up");
-  private static final ZoneId DOWN = ZoneId.of("structure.down");
+  private static final ZoneId UP = Zones.STRUCTURE_UP;
+  private static final ZoneId DOWN = Zones.STRUCTURE_DOWN;
 
   private static Layout age(int n) {
     return RULES.layout(LayoutId.of("age" + n));

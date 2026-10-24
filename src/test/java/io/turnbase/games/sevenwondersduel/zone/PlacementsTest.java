@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 class PlacementsTest {
 
-  private static final ZoneId DECK = ZoneId.of("deck");
-  private static final ZoneId CITY = ZoneId.of("city");
-  private static final ZoneId DESTROYED = ZoneId.of("destroyed");
+  private static final ZoneId DECK = Zones.DECK;
+  private static final ZoneId CITY = Zones.CITY;
+  private static final ZoneId DESTROYED = Zones.DESTROYED;
   private static final ZoneRegistry ZONES =
       ZoneRegistry.of(
           List.of(

@@ -19,6 +19,7 @@ import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.ZoneRegistry;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import io.turnbase.serialization.GdkSerialization;
 import java.util.List;
 import java.util.Map;
@@ -73,13 +74,11 @@ class BasePackTest {
   void boxedComponentCanBeDrawnButDestroyedCannot() {
     ComponentId token = ComponentId.of("token-1");
     ComponentId wonder = ComponentId.of("wonder-1");
-    List<Placement> all =
-        Placements.place(List.of(), token, Location.of(ZoneId.of("box")), ZONE_REGISTRY);
-    all = Placements.place(all, wonder, Location.of(ZoneId.of("destroyed")), ZONE_REGISTRY);
+    List<Placement> all = Placements.place(List.of(), token, Location.of(Zones.BOX), ZONE_REGISTRY);
+    all = Placements.place(all, wonder, Location.of(Zones.DESTROYED), ZONE_REGISTRY);
 
-    List<Placement> drawn =
-        Placements.move(all, token, Location.of(ZoneId.of("board")), ZONE_REGISTRY);
-    assertThat(Placements.idsIn(drawn, ZoneId.of("board"))).containsExactly(token);
+    List<Placement> drawn = Placements.move(all, token, Location.of(Zones.BOARD), ZONE_REGISTRY);
+    assertThat(Placements.idsIn(drawn, Zones.BOARD)).containsExactly(token);
 
     List<Placement> stuck = all;
     assertThatThrownBy(
@@ -87,7 +86,7 @@ class BasePackTest {
                 Placements.move(
                     stuck,
                     wonder,
-                    new Location(ZoneId.of("wonders.unbuilt"), P1.value().toString()),
+                    new Location(Zones.WONDERS_UNBUILT, P1.value().toString()),
                     ZONE_REGISTRY))
         .isInstanceOf(IllegalStateException.class);
   }
@@ -95,14 +94,14 @@ class BasePackTest {
   @Test
   void faceDownCardRevealsByMove() {
     ComponentId card = ComponentId.of("card-1");
-    Location down = new Location(ZoneId.of("structure.down"), "2:1");
-    Location up = new Location(ZoneId.of("structure.up"), "2:1");
+    Location down = new Location(Zones.STRUCTURE_DOWN, "2:1");
+    Location up = new Location(Zones.STRUCTURE_UP, "2:1");
     List<Placement> all = Placements.place(List.of(), card, down, ZONE_REGISTRY);
 
     List<Placement> revealed = Placements.move(all, card, up, ZONE_REGISTRY);
 
     assertThat(Placements.locationOf(revealed, card)).isEqualTo(up);
-    assertThat(Placements.idsIn(revealed, ZoneId.of("structure.down"))).isEmpty();
+    assertThat(Placements.idsIn(revealed, Zones.STRUCTURE_DOWN)).isEmpty();
   }
 
   @Test
@@ -110,11 +109,10 @@ class BasePackTest {
     ComponentId a = ComponentId.of("card-a");
     ComponentId b = ComponentId.of("card-b");
     ComponentId w = ComponentId.of("wonder-w");
-    Location city = new Location(ZoneId.of("city"), P1.value().toString());
-    List<Placement> all =
-        Placements.place(List.of(), a, Location.of(ZoneId.of("deck")), ZONE_REGISTRY);
-    all = Placements.place(all, b, Location.of(ZoneId.of("deck")), ZONE_REGISTRY);
-    all = Placements.place(all, w, Location.of(ZoneId.of("draft")), ZONE_REGISTRY);
+    Location city = new Location(Zones.CITY, P1.value().toString());
+    List<Placement> all = Placements.place(List.of(), a, Location.of(Zones.DECK), ZONE_REGISTRY);
+    all = Placements.place(all, b, Location.of(Zones.DECK), ZONE_REGISTRY);
+    all = Placements.place(all, w, Location.of(Zones.DRAFT), ZONE_REGISTRY);
     all = Placements.move(all, a, city, ZONE_REGISTRY);
     DuelState state =
         new DuelState(
@@ -139,7 +137,7 @@ class BasePackTest {
 
     assertThat(restored).isEqualTo(state);
     assertThat(Placements.idsIn(restored.placements(), city)).containsExactly(a);
-    assertThat(Placements.idsIn(restored.placements(), ZoneId.of("deck"))).containsExactly(b);
-    assertThat(Placements.idsIn(restored.placements(), ZoneId.of("draft"))).containsExactly(w);
+    assertThat(Placements.idsIn(restored.placements(), Zones.DECK)).containsExactly(b);
+    assertThat(Placements.idsIn(restored.placements(), Zones.DRAFT)).containsExactly(w);
   }
 }

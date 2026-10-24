@@ -28,11 +28,11 @@ import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.TradePaid;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.turn.TurnFixtures.Part;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -200,7 +200,7 @@ class BuildTest {
   @Test
   void aCardOutsideTheStructureCannotBeBuilt() {
     Game g = game(card());
-    ComponentId buried = Placements.idsIn(g.state().placements(), ZoneId.of("deck")).get(0);
+    ComponentId buried = Placements.idsIn(g.state().placements(), Zones.DECK).get(0);
 
     assertThatThrownBy(() -> new Engine(g.rules()).apply(g.state(), g.actor(), new Build(buried)))
         .isInstanceOf(IllegalActionException.class)

@@ -8,6 +8,7 @@ import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
+import io.turnbase.games.sevenwondersduel.zone.Spots;
 
 /**
  * What happens around the action a player takes: the Discard action itself (B-ACT-2) and the end of
@@ -20,7 +21,7 @@ public final class Turn {
   /** The actor sells {@code card} for coins and the turn ends. The caller has checked legality. */
   public static void discard(Resolution resolution, PlayerId actor, ComponentId card) {
     int value = DiscardValue.of(resolution.rules(), resolution.state(), actor);
-    resolution.move(card, Places.DISCARD);
+    resolution.move(card, Spots.DISCARD);
     resolution.changeCoins(actor, value);
     end(resolution);
   }

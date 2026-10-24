@@ -15,7 +15,6 @@ import io.turnbase.games.sevenwondersduel.cost.Cost;
 import io.turnbase.games.sevenwondersduel.draft.Draft;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -25,6 +24,7 @@ import io.turnbase.games.sevenwondersduel.view.Views;
 import io.turnbase.games.sevenwondersduel.wire.ServerMessage;
 import io.turnbase.games.sevenwondersduel.wire.WireAction;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import io.turnbase.gdk.effect.BroadcastEffect;
 import io.turnbase.gdk.effect.SendToPlayerEffect;
 import io.turnbase.gdk.model.Player;
@@ -51,7 +51,7 @@ class GameActionTest {
   }
 
   private static ComponentId offered(DuelState state) {
-    return Placements.idsIn(state.placements(), ZoneId.of("draft")).get(0);
+    return Placements.idsIn(state.placements(), Zones.DRAFT).get(0);
   }
 
   @Test
@@ -113,7 +113,7 @@ class GameActionTest {
             .map(e -> ((BroadcastEffect) e).payload().toString())
             .findFirst()
             .orElseThrow();
-    for (ComponentId hidden : Placements.idsIn(duel.placements(), ZoneId.of("box"))) {
+    for (ComponentId hidden : Placements.idsIn(duel.placements(), Zones.BOX)) {
       assertThat(broadcast)
           .doesNotContain("\"" + hidden.value() + "\"")
           .doesNotContain("component=" + hidden.value() + ",");

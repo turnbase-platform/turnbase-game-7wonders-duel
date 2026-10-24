@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ final class WonderLimit {
   private WonderLimit() {}
 
   static int built(DuelState state) {
-    return (int) state.placements().stream().filter(p -> inZone(p, Places.BUILT)).count();
+    return (int) state.placements().stream().filter(p -> inZone(p, Zones.WONDERS_BUILT)).count();
   }
 
   static boolean allows(DuelState state) {
@@ -32,10 +33,12 @@ final class WonderLimit {
       return;
     }
     List<Placement> left =
-        resolution.state().placements().stream().filter(p -> inZone(p, Places.UNBUILT)).toList();
+        resolution.state().placements().stream()
+            .filter(p -> inZone(p, Zones.WONDERS_UNBUILT))
+            .toList();
     for (Placement p : left) {
       ComponentId wonder = p.component();
-      resolution.move(wonder, new Location(Places.DESTROYED, p.at().key()));
+      resolution.move(wonder, new Location(Zones.DESTROYED, p.at().key()));
     }
   }
 

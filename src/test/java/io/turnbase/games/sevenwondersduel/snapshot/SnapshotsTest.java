@@ -14,7 +14,6 @@ import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
@@ -23,6 +22,7 @@ import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import io.turnbase.serialization.GdkSerialization;
 import java.io.IOException;
 import java.lang.reflect.GenericArrayType;
@@ -55,8 +55,8 @@ class SnapshotsTest {
         P2,
         P1,
         List.of(
-            new Placement(ComponentId.of("c1"), new Location(ZoneId.of("city"), "p1")),
-            new Placement(ComponentId.of("c2"), Location.of(ZoneId.of("deck")))),
+            new Placement(ComponentId.of("c1"), new Location(Zones.CITY, "p1")),
+            new Placement(ComponentId.of("c2"), Location.of(Zones.DECK))),
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(0, true)),
         Map.of(P1, Set.of(ComponentId.of("c2"), ComponentId.of("c1")), P2, Set.of()),
         new RngCursor(99, 12),

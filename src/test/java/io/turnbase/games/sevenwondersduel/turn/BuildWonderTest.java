@@ -23,6 +23,7 @@ import io.turnbase.games.sevenwondersduel.turn.TurnFixtures.Part;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.Test;
@@ -93,7 +94,7 @@ class BuildWonderTest {
 
     assertThat(after.placements())
         .contains(
-            new Placement(CARD, new Location(ZoneId.of("underWonder"), g.wonder().value())),
+            new Placement(CARD, new Location(Zones.UNDER_WONDER, g.wonder().value())),
             new Placement(g.wonder(), at("wonders.built", g.actor())));
     assertThat(after.active()).isEqualTo(g.other());
   }

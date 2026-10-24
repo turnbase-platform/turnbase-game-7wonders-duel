@@ -20,12 +20,12 @@ import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +57,7 @@ class TurnTest {
 
     DuelState after = ENGINE.apply(state, actor, new Discard(card)).state();
 
-    assertThat(Placements.idsIn(after.placements(), ZoneId.of("discard"))).containsExactly(card);
+    assertThat(Placements.idsIn(after.placements(), Zones.DISCARD)).containsExactly(card);
     assertThat(after.player(actor).coins()).isEqualTo(state.player(actor).coins() + 2);
   }
 
@@ -141,7 +141,7 @@ class TurnTest {
   @Test
   void aCardOutsideTheStructureCannotBeDiscarded() {
     DuelState state = started();
-    ComponentId wonder = Placements.idsIn(state.placements(), ZoneId.of("wonders.unbuilt")).get(0);
+    ComponentId wonder = Placements.idsIn(state.placements(), Zones.WONDERS_UNBUILT).get(0);
 
     assertRejected(state, state.active(), wonder, "not available");
   }

@@ -18,12 +18,12 @@ import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.Outcome;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.turn.TurnFixtures.Part;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -128,8 +128,7 @@ class EconomyTest {
     PlayerId actor = seen.active();
     ComponentId wonder =
         Placements.idsIn(
-                seen.placements(),
-                new Location(ZoneId.of("wonders.unbuilt"), actor.value().toString()))
+                seen.placements(), new Location(Zones.WONDERS_UNBUILT, actor.value().toString()))
             .get(0);
     Game g =
         rivalHoldsEconomy(

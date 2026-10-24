@@ -24,6 +24,7 @@ import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import io.turnbase.games.sevenwondersduel.zone.ZoneRegistry;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,8 +50,8 @@ class OwnershipTest {
     }
   }
 
-  private static final ZoneId CITY = ZoneId.of("city");
-  private static final ZoneId DISCARD = ZoneId.of("discard");
+  private static final ZoneId CITY = Zones.CITY;
+  private static final ZoneId DISCARD = Zones.DISCARD;
   private static final ComponentId A = ComponentId.of("a");
   private static final ComponentId B = ComponentId.of("b");
 

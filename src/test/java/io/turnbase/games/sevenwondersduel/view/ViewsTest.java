@@ -20,6 +20,7 @@ import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -46,8 +47,8 @@ class ViewsTest {
   void theDecksAreCountsPerAgeWithNoIdsAndNoOrder() {
     DuelView view = Views.of(STARTED, RULES, ONE);
 
-    assertThat(in(STARTED, ZoneId.of("deck"))).isNotEmpty();
-    assertThat(hiddenIn(view, "deck")).isEqualTo(in(STARTED, ZoneId.of("deck")).size());
+    assertThat(in(STARTED, Zones.DECK)).isNotEmpty();
+    assertThat(hiddenIn(view, "deck")).isEqualTo(in(STARTED, Zones.DECK).size());
     assertThat(view.hidden().stream().filter(h -> h.zone().equals("deck")))
         .allMatch(h -> !h.key().isEmpty());
     assertThat(view.visible()).noneMatch(p -> p.zone().equals("deck"));
@@ -75,7 +76,7 @@ class ViewsTest {
 
   @Test
   void swappingTwoHiddenCardsChangesNothingTheViewerCanSee() {
-    List<ComponentId> deck = in(STARTED, ZoneId.of("deck"));
+    List<ComponentId> deck = in(STARTED, Zones.DECK);
     List<Placement> swapped = new ArrayList<>();
     for (Placement p : STARTED.placements()) {
       if (p.component().equals(deck.get(0))) {
@@ -95,7 +96,7 @@ class ViewsTest {
   void noHiddenIdAppearsAnywhereInAView() {
     for (Viewer viewer : List.of(ONE, new Viewer.Seat(P2), SPECTATOR)) {
       String text = Views.of(STARTED, RULES, viewer).toString();
-      for (ZoneId zone : List.of(ZoneId.of("deck"), Structure.DOWN, ZoneId.of("box"))) {
+      for (ZoneId zone : List.of(Zones.DECK, Structure.DOWN, Zones.BOX)) {
         for (ComponentId id : in(STARTED, zone)) {
           assertThat(text).as(zone.value()).doesNotContain("\"" + id.value() + "\"");
           assertThat(text).doesNotContain("component=" + id.value() + ",");
@@ -108,7 +109,7 @@ class ViewsTest {
   void aCardUnderAWonderIsShownToThePlayersWhoSawItButNotToSpectators() {
     ComponentId card = in(STARTED, Structure.UP).get(0);
     Resolution r = new Resolution(STARTED, RULES);
-    r.move(card, new Location(ZoneId.of("underWonder"), "w"));
+    r.move(card, new Location(Zones.UNDER_WONDER, "w"));
     DuelState tucked = r.state();
 
     assertThat(Views.of(tucked, RULES, ONE).visible())
@@ -140,7 +141,7 @@ class ViewsTest {
 
   @Test
   void aPendingDecisionShowsItsDeciderAndOptions() {
-    ComponentId token = in(STARTED, ZoneId.of("board")).get(0);
+    ComponentId token = in(STARTED, Zones.BOARD).get(0);
     DecisionStep step =
         new DecisionStep(P2, P1, new EffectRef(token, 0), List.of(new ComponentOption(token)));
     DuelState asking = STARTED.withAgenda(STARTED.agenda().pushAll(List.of(step)));
@@ -153,8 +154,8 @@ class ViewsTest {
 
   @Test
   void aSecretOptionIsOfferedOnlyToTheDecider() {
-    ComponentId secret = in(STARTED, ZoneId.of("box")).get(0);
-    ComponentId token = in(STARTED, ZoneId.of("board")).get(0);
+    ComponentId secret = in(STARTED, Zones.BOX).get(0);
+    ComponentId token = in(STARTED, Zones.BOARD).get(0);
     DecisionStep step =
         new DecisionStep(
             P2,

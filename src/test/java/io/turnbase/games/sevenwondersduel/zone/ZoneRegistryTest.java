@@ -9,17 +9,16 @@ import org.junit.jupiter.api.Test;
 
 class ZoneRegistryTest {
 
-  private static final ZoneKind CITY =
-      new ZoneKind(ZoneId.of("city"), Visibility.PUBLIC, false, false);
+  private static final ZoneKind CITY = new ZoneKind(Zones.CITY, Visibility.PUBLIC, false, false);
   private static final ZoneKind DESTROYED =
-      new ZoneKind(ZoneId.of("destroyed"), Visibility.PUBLIC, false, true);
+      new ZoneKind(Zones.DESTROYED, Visibility.PUBLIC, false, true);
 
   @Test
   void lookupReturnsTheRegisteredKind() {
     ZoneRegistry zones = ZoneRegistry.of(List.of(CITY, DESTROYED));
 
-    assertThat(zones.kind(ZoneId.of("destroyed"))).isEqualTo(DESTROYED);
-    assertThat(zones.knows(ZoneId.of("city"))).isTrue();
+    assertThat(zones.kind(Zones.DESTROYED)).isEqualTo(DESTROYED);
+    assertThat(zones.knows(Zones.CITY)).isTrue();
     assertThat(zones.knows(ZoneId.of("moon"))).isFalse();
   }
 
@@ -41,6 +40,6 @@ class ZoneRegistryTest {
 
   @Test
   void locationWithoutKeyUsesEmptyKey() {
-    assertThat(Location.of(ZoneId.of("box"))).isEqualTo(new Location(ZoneId.of("box"), ""));
+    assertThat(Location.of(Zones.BOX)).isEqualTo(new Location(Zones.BOX, ""));
   }
 }

@@ -13,12 +13,12 @@ import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.event.PawnMoved;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -76,7 +76,7 @@ class MilitaryTest {
 
     assertThat(lossesOf(r, RIVAL)).containsExactly(-2);
     assertThat(locationOf(r, LOOT_TWO))
-        .isEqualTo(new Location(ZoneId.of("destroyed"), RIVAL.value().toString()));
+        .isEqualTo(new Location(Zones.DESTROYED, RIVAL.value().toString()));
   }
 
   @Test
@@ -98,7 +98,7 @@ class MilitaryTest {
 
     assertThat(r.state().pawn()).isEqualTo(new Pawn(RIVAL, 5));
     assertThat(r.state().agenda().isEmpty()).isTrue();
-    assertThat(locationOf(r, LOOT_TWO).zone()).isEqualTo(ZoneId.of("military"));
+    assertThat(locationOf(r, LOOT_TWO).zone()).isEqualTo(Zones.MILITARY);
   }
 
   @Test

@@ -11,7 +11,6 @@ import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.Setup;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
@@ -19,6 +18,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class DraftTest {
   }
 
   private static List<ComponentId> offered(DuelState state) {
-    return Placements.idsIn(state.placements(), ZoneId.of("draft"));
+    return Placements.idsIn(state.placements(), Zones.DRAFT);
   }
 
   private static DuelState pickFirstOffered(DuelState state) {
@@ -43,7 +43,7 @@ class DraftTest {
 
   private static List<ComponentId> unbuilt(DuelState state, PlayerId player) {
     return Placements.idsIn(
-        state.placements(), new Location(ZoneId.of("wonders.unbuilt"), player.value().toString()));
+        state.placements(), new Location(Zones.WONDERS_UNBUILT, player.value().toString()));
   }
 
   @Test
@@ -85,7 +85,7 @@ class DraftTest {
     assertThat(unbuilt(state, P1)).hasSize(4);
     assertThat(unbuilt(state, P2)).hasSize(4);
     assertThat(
-            Placements.idsIn(state.placements(), ZoneId.of("box")).stream()
+            Placements.idsIn(state.placements(), Zones.BOX).stream()
                 .filter(id -> id.value().startsWith("wonder-")))
         .hasSize(4);
     assertThat(offered(state)).isEmpty();

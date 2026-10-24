@@ -7,10 +7,10 @@ import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,8 +91,7 @@ class DuelStateTest {
             .withPlayer(P1, new PlayerState(3, false))
             .withKnowledge(P1, Set.of(ComponentId.of("c1")))
             .withRng(new RngCursor(1, 4))
-            .withPlacements(
-                List.of(new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("deck")))));
+            .withPlacements(List.of(new Placement(ComponentId.of("c1"), Location.of(Zones.DECK))));
 
     assertThat(changed.phase()).isEqualTo(Phase.AGE);
     assertThat(changed.active()).isEqualTo(P2);
@@ -140,7 +139,7 @@ class DuelStateTest {
     List<Placement> input = new ArrayList<>();
     DuelState state = state(input);
 
-    input.add(new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("deck"))));
+    input.add(new Placement(ComponentId.of("c1"), Location.of(Zones.DECK)));
 
     assertThat(state.placements()).isEmpty();
     assertThatThrownBy(() -> state.placements().add(input.get(0)))
@@ -149,8 +148,8 @@ class DuelStateTest {
 
   @Test
   void duplicatePlacementOfOneComponentIsRejected() {
-    Placement first = new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("deck")));
-    Placement second = new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("discard")));
+    Placement first = new Placement(ComponentId.of("c1"), Location.of(Zones.DECK));
+    Placement second = new Placement(ComponentId.of("c1"), Location.of(Zones.DISCARD));
 
     assertThatThrownBy(() -> state(List.of(first, second)))
         .isInstanceOf(IllegalArgumentException.class)

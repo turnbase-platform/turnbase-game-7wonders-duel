@@ -15,11 +15,11 @@ import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
-import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.setup.SetupFixtures;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.turn.TurnFixtures.Part;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,7 @@ class SettleTest {
   }
 
   private DecisionStep decisionFor(DuelState state, PlayerId decider) {
-    List<ComponentId> board = Placements.idsIn(state.placements(), ZoneId.of("board"));
+    List<ComponentId> board = Placements.idsIn(state.placements(), Zones.BOARD);
     return new DecisionStep(
         decider,
         decider,

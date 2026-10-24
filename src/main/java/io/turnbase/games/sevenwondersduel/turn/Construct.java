@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
+import io.turnbase.games.sevenwondersduel.zone.Spots;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public final class Construct {
   public static void building(
       Resolution resolution, PlayerId actor, ComponentId card, Quote quote) {
     pay(resolution, actor, quote);
-    resolution.move(card, Places.city(actor));
+    resolution.move(card, Spots.city(actor));
     if (quote.chained()) {
       resolution.chainBuilt(actor, card);
     }
@@ -37,8 +38,8 @@ public final class Construct {
   public static void wonder(
       Resolution resolution, PlayerId actor, ComponentId card, ComponentId wonder, Quote quote) {
     pay(resolution, actor, quote);
-    resolution.move(card, Places.underWonder(wonder));
-    resolution.move(wonder, Places.built(actor));
+    resolution.move(card, Spots.underWonder(wonder));
+    resolution.move(wonder, Spots.built(actor));
     WonderLimit.enforce(resolution);
     resolution.queue(List.of(new TurnEndStep()));
     resolution.queueEffects(wonder, actor);
@@ -58,6 +59,6 @@ public final class Construct {
 
   /** Where {@code player}'s unbuilt Wonders lie. */
   public static Location unbuilt(PlayerId player) {
-    return Places.unbuilt(player);
+    return Spots.unbuilt(player);
   }
 }
