@@ -44,13 +44,19 @@ Source of truth for the rules: `docs/rules/` (`INDEX.md`, then `base.md` §10). 
 - Java 21 in Espresso: no Java 22+ APIs, no I/O, no clocks, no unseeded randomness
   (`backend-gdk-api.md` §9). All randomness from `InitContext.seed()`; the RNG position is part of
   the state.
-- Game state is a value (`backend-gdk-api.md` §5.1): records, `List`, `Map`, `Set`, `String`,
-  `UUID`, enums, boxed numerics. **Fatal** if violated: an interface-, abstract- or `Object`-typed
-  field (so no sealed interfaces *inside* state — a variant is one record with a kind enum), and a
-  `Map` key that is not `String`, `enum`, `UUID` or a boxed integral type. `Set`/`Map` order is not
-  preserved, so ordered data is a `List`. Behaviour is looked up by id in the catalog.
-- Therefore **ids inside state are `String`s** (components) and `UUID`s (players); typed wrappers
-  exist only in code outside state.
+- **The domain model does not bend to the GDK's serialization rules.** The engine uses ordinary
+  OOP: typed ids (`ComponentId`, `ZoneId`, `PlayerId`), sealed interfaces, value objects, rich
+  collections. A separate **snapshot layer** converts between that model and
+  `SevenWondersDuelState`, a flat record that obeys `backend-gdk-api.md` §5.1 (records, `List`,
+  `Map` with `String`/`UUID`/enum keys, `String`, `UUID`, enums, boxed numerics; no interface-typed
+  fields; ordered data as `List`). Only the snapshot package is subject to those rules, and a guard
+  test enforces them there. Conversion is lossless: `fromSnapshot(toSnapshot(x)).equals(x)`.
+- The GDK's `onAction(S state, …)` receives the snapshot, the game maps it to the domain model,
+  applies the action, and maps the result back. The snapshot is the only thing that crosses the
+  platform boundary.
+- The GDK may be improved where it hinders game authors (we own it). A candidate is a game-supplied
+  state codec, which would make the snapshot layer unnecessary; that is a later SDK item, not a
+  prerequisite for this work.
 - Depends on `turnbase-sdk` only. SDK gaps are fixed in the SDK, not worked around here.
 - `SevenWondersDuelState` is what the round-trip test serializes.
 - Output reaches players only through GDK effects (`Broadcast`, `SendToPlayer`, `Log`, `GameOver`).
@@ -61,12 +67,14 @@ Source of truth for the rules: `docs/rules/` (`INDEX.md`, then `base.md` §10). 
 ### 4.1 State — an immutable value, ownership is the only truth
 
 ```java
-record GameState(Phase phase, UUID active, List<Placement> placements,
-                 Map<UUID, PlayerState> players, Board board, Military military,
-                 List<Step> agenda, Map<UUID, Set<String>> knowledge,
-                 RngCursor rng, List<String> packs)
+// domain model (free OOP)
+record DuelState(Phase phase, PlayerId active, List<Placement> placements,
+                 Map<PlayerId, PlayerState> players, Board board, Military military,
+                 Agenda agenda, Map<PlayerId, Set<ComponentId>> knowledge,
+                 RngCursor rng, List<PackId> packs)
 record PlayerState(int coins, boolean playAgain, ...)
-record Placement(String componentId, Location at)
+record Placement(ComponentId component, Location at)
+// GDK boundary: SevenWondersDuelState — the same data as flat, serializer-safe records
 ```
 
 - **Stored:** placements, coins, pawn position, agenda, per-player `playAgain` flag, per-player
@@ -127,9 +135,9 @@ A card is declarative data, e.g. `Stable = {cost: Wood, chainOut: Horseshoe, eff
   `Decision(owner, options)` (waits for that player; the owner may be the opponent).
 - The engine pops steps, resolving effects until it reaches a decision, then returns. `Answer`
   resumes the loop. Follow-ups are pushed to the front: deterministic, depth-first, printed order.
-- A `Step` is **one record** with a `StepKind` enum (`EFFECT`, `DECISION`), the source id and effect
-  index, the owner, and the choices bound so far as `List<String>` — never a sealed interface
-  (§3). The catalog turns it back into behaviour.
+- A `Step` is a sealed interface in the domain (`EffectStep`, `DecisionStep`) holding
+  `EffectRef(sourceId, index)` and the choices bound so far; the snapshot layer flattens it to a
+  kind-tagged record.
 - Infeasible options are not offered; an effect with no feasible option does nothing (B-EFF-3).
 
 ### 4.6 Flow
