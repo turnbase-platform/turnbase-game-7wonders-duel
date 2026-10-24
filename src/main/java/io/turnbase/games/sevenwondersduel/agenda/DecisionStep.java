@@ -6,14 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * A choice some player must make before the game goes on (B-EFF-3). The owner may be the opponent
+ * A choice some player must make before the game goes on (B-EFF-3). The decider may be the opponent
  * of whoever is playing. The answer resumes {@code effect}.
  *
- * @param owner the player who must answer
+ * @param decider the player who must answer
+ * @param owner the player who owns the effect's source; the effect is resumed on their behalf
  * @param effect the effect that asked and will receive the answer
  * @param options what the owner may pick; never empty, never repeated
  */
-public record DecisionStep(PlayerId owner, EffectRef effect, List<Option> options) implements Step {
+public record DecisionStep(PlayerId decider, PlayerId owner, EffectRef effect, List<Option> options)
+    implements Step {
 
   public DecisionStep {
     options = List.copyOf(options);

@@ -60,6 +60,7 @@ class SnapshotsTest {
                 new EffectStep(new EffectRef(ComponentId.of("c1"), 1), P1),
                 new DecisionStep(
                     P2,
+                    P1,
                     new EffectRef(ComponentId.of("c2"), 0),
                     List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))))));
   }
@@ -162,7 +163,7 @@ class SnapshotsTest {
             good.rngSeed(),
             good.rngDraws(),
             good.packs(),
-            List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, List.of())));
+            List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, null, List.of())));
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(bad))
         .isInstanceOf(IllegalArgumentException.class)

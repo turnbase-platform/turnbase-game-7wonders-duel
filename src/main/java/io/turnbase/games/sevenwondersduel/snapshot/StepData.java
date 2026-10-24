@@ -7,10 +7,11 @@ import java.util.UUID;
  * Wire form of an agenda {@code Step}.
  *
  * @param kind {@code EFFECT} or {@code DECISION}
- * @param owner the player the step belongs to
+ * @param owner the player who owns the step's source
+ * @param decider the player who must answer; {@code null} for {@code EFFECT}
  * @param source id of the component whose effect the step names
  * @param index position of that effect in the component's declaration order
  * @param options the offered options; empty for {@code EFFECT}
  */
 public record StepData(
-    String kind, UUID owner, String source, int index, List<OptionData> options) {}
+    String kind, UUID owner, String source, int index, UUID decider, List<OptionData> options) {}

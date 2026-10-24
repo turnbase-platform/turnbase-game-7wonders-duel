@@ -69,7 +69,8 @@ class AgendaRunTest {
     assertThat(r.state().player(P1).coins()).isEqualTo(7);
     assertThat(r.state().agenda().steps())
         .containsExactly(
-            new DecisionStep(P1, new EffectRef(source.id(), 0), List.of(option(T1), option(T2))),
+            new DecisionStep(
+                P1, P1, new EffectRef(source.id(), 0), List.of(option(T1), option(T2))),
             new EffectStep(new EffectRef(source.id(), 1), P1));
   }
 
@@ -118,7 +119,7 @@ class AgendaRunTest {
     r.resolveEffects(source.id(), P1);
 
     assertThat(r.state().agenda().steps())
-        .extracting(s -> ((DecisionStep) s).owner())
+        .extracting(s -> ((DecisionStep) s).decider())
         .containsExactly(P2, P1);
   }
 
@@ -126,7 +127,7 @@ class AgendaRunTest {
   void effectWithoutResumeRejectsAnAnswer() {
     Card source = Card.of("s").withEffects(new GainCoins(1));
     Resolution r = resolution(source, T1);
-    r.queue(List.of(new DecisionStep(P1, new EffectRef(source.id(), 0), List.of(option(T1)))));
+    r.queue(List.of(new DecisionStep(P1, P1, new EffectRef(source.id(), 0), List.of(option(T1)))));
 
     assertThatThrownBy(() -> r.resume(option(T1)))
         .isInstanceOf(IllegalStateException.class)
@@ -187,5 +188,63 @@ class AgendaRunTest {
         .isInstanceOf(IllegalStateException.class)
         .hasMessageContaining("triggers cannot");
     assertThat(r.state().agenda()).isEqualTo(Agenda.EMPTY);
+  }
+
+  @Test
+  void resumeReceivesTheOwnerOfTheSourceNotTheDecider() {
+    List<PlayerId> seen = new java.util.ArrayList<>();
+    Effect askOpponent =
+        new Effect() {
+          @Override
+          public void apply(Resolution resolution, PlayerId owner) {
+            resolution.decide(P2, List.of(option(T1)));
+          }
+
+          @Override
+          public void resume(Resolution resolution, PlayerId owner, Option answer) {
+            seen.add(owner);
+          }
+        };
+    Card source = Card.of("s").withEffects(askOpponent);
+    Resolution r = resolution(source, T1);
+    r.resolveEffects(source.id(), P1);
+
+    r.resume(option(T1));
+
+    assertThat(seen).containsExactly(P1);
+  }
+
+  @Test
+  void drainingFromInsideAResumeIsRejected() {
+    Effect nested =
+        new Effect() {
+          @Override
+          public void apply(Resolution resolution, PlayerId owner) {
+            resolution.decide(owner, List.of(option(T1)));
+          }
+
+          @Override
+          public void resume(Resolution resolution, PlayerId owner, Option answer) {
+            resolution.drain();
+          }
+        };
+    Card source = Card.of("s").withEffects(nested);
+    Resolution r = resolution(source, T1);
+    r.resolveEffects(source.id(), P1);
+
+    assertThatThrownBy(() -> r.resume(option(T1)))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("already draining");
+  }
+
+  @Test
+  void decisionOutsideARunningEffectIsRejected() {
+    Card source = Card.of("s");
+    Resolution r = resolution(source, T1);
+
+    assertThatThrownBy(
+            () -> r.within(new EffectRef(source.id(), 0), () -> r.decide(P1, List.of(option(T1)))))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("running effect");
   }
 }

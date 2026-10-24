@@ -105,6 +105,7 @@ public final class Snapshots {
               e.owner().value(),
               e.effect().source().value(),
               e.effect().index(),
+              null,
               List.of());
       case DecisionStep d ->
           new StepData(
@@ -112,6 +113,7 @@ public final class Snapshots {
               d.owner().value(),
               d.effect().source().value(),
               d.effect().index(),
+              d.decider().value(),
               d.options().stream().map(Snapshots::optionData).toList());
     };
   }
@@ -122,7 +124,11 @@ public final class Snapshots {
     return switch (data.kind()) {
       case EFFECT -> new EffectStep(ref, owner);
       case DECISION ->
-          new DecisionStep(owner, ref, data.options().stream().map(Snapshots::option).toList());
+          new DecisionStep(
+              PlayerId.of(data.decider()),
+              owner,
+              ref,
+              data.options().stream().map(Snapshots::option).toList());
       default -> throw new IllegalArgumentException("unknown step kind: " + data.kind());
     };
   }

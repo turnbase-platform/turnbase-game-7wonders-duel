@@ -83,7 +83,7 @@ class EngineTest {
 
           @Override
           public void resume(Resolution resolution, PlayerId owner, Option answer) {
-            resolution.changeCoins(P2, 1);
+            resolution.changeCoins(owner, 1);
           }
         };
     Card source = Card.of("steal").withEffects(askOpponent);
@@ -101,7 +101,8 @@ class EngineTest {
         .hasMessageContaining("not your decision");
     Outcome outcome = engine.apply(r.state(), P2, new Answer(pick(T1)));
 
-    assertThat(outcome.state().player(P2).coins()).isEqualTo(8);
+    assertThat(outcome.state().player(P1).coins()).isEqualTo(8);
+    assertThat(outcome.state().player(P2).coins()).isEqualTo(7);
   }
 
   @Test
@@ -156,7 +157,7 @@ class EngineTest {
     Outcome outcome = new Engine(rules).apply(r.state(), P1, new Answer(pick(T1)));
 
     assertThat(outcome.state().agenda().top())
-        .isEqualTo(new DecisionStep(P1, new EffectRef(twice.id(), 1), List.of(pick(T2))));
+        .isEqualTo(new DecisionStep(P1, P1, new EffectRef(twice.id(), 1), List.of(pick(T2))));
   }
 
   @Test
@@ -169,5 +170,13 @@ class EngineTest {
 
     assertThat(ENGINE.apply(restored, P1, new Answer(pick(T2))))
         .isEqualTo(ENGINE.apply(original, P1, new Answer(pick(T2))));
+  }
+
+  @Test
+  void answerWithoutAChoiceIsRejected() {
+    assertThatThrownBy(() -> ENGINE.apply(paused(), P1, new Answer(null)))
+        .isInstanceOf(IllegalActionException.class);
+    assertThatThrownBy(() -> ENGINE.apply(paused(), P1, null))
+        .isInstanceOf(IllegalActionException.class);
   }
 }

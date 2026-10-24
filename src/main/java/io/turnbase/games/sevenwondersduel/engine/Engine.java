@@ -20,6 +20,9 @@ public final class Engine {
   }
 
   public Outcome apply(DuelState state, PlayerId actor, PlayerAction action) {
+    if (action == null) {
+      throw new IllegalActionException("no action given");
+    }
     return switch (action) {
       case Answer answer -> answer(state, actor, answer);
     };
@@ -30,10 +33,10 @@ public final class Engine {
     if (state.agenda().isEmpty() || !(state.agenda().top() instanceof DecisionStep decision)) {
       throw new IllegalActionException("no decision is pending");
     }
-    if (!decision.owner().equals(actor)) {
+    if (!decision.decider().equals(actor)) {
       throw new IllegalActionException("not your decision");
     }
-    if (!decision.options().contains(answer.choice())) {
+    if (answer.choice() == null || !decision.options().contains(answer.choice())) {
       throw new IllegalActionException("not an offered option");
     }
     Resolution resolution = new Resolution(state, rules);

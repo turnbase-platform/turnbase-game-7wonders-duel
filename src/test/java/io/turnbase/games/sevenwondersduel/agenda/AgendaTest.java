@@ -48,9 +48,9 @@ class AgendaTest {
     EffectRef ref = new EffectRef(ComponentId.of("c"), 0);
     Option token = new ComponentOption(ComponentId.of("t"));
 
-    assertThatThrownBy(() -> new DecisionStep(P1, ref, List.of()))
+    assertThatThrownBy(() -> new DecisionStep(P1, P1, ref, List.of()))
         .isInstanceOf(IllegalArgumentException.class);
-    assertThatThrownBy(() -> new DecisionStep(P1, ref, List.of(token, token)))
+    assertThatThrownBy(() -> new DecisionStep(P1, P1, ref, List.of(token, token)))
         .isInstanceOf(IllegalArgumentException.class);
   }
 

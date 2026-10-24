@@ -45,6 +45,10 @@ public final class Resolution {
   private final Deque<Frame> frames = new ArrayDeque<>();
   private DuelState state;
   private final List<Step> staged = new ArrayList<>();
+
+  private record Running(EffectRef effect, PlayerId owner) {}
+
+  private Running running;
   private int triggerDepth;
   private boolean draining;
 
@@ -129,12 +133,11 @@ public final class Resolution {
    */
   public void decide(PlayerId decider, List<Option> options) {
     requireOutsideTrigger();
-    EffectRef running = frames.isEmpty() ? null : frames.peek().source().orElse(null);
     if (running == null) {
       throw new IllegalStateException("a decision can only be asked by a running effect");
     }
     if (!options.isEmpty()) {
-      staged.add(new DecisionStep(decider, running, options));
+      staged.add(new DecisionStep(decider, running.owner(), running.effect(), options));
     }
   }
 
@@ -143,14 +146,14 @@ public final class Resolution {
    * decision.
    */
   public void drain() {
-    if (draining) {
+    if (draining || running != null) {
       throw new IllegalStateException("already draining the agenda");
     }
     draining = true;
     try {
       while (!state.agenda().isEmpty() && state.agenda().top() instanceof EffectStep step) {
         state = state.withAgenda(state.agenda().pop());
-        runEffect(step.effect(), effect -> effect.apply(this, step.owner()));
+        runEffect(step.effect(), step.owner(), effect -> effect.apply(this, step.owner()));
       }
     } finally {
       draining = false;
@@ -166,12 +169,17 @@ public final class Resolution {
       throw new IllegalStateException("no decision is pending");
     }
     state = state.withAgenda(state.agenda().pop());
-    runEffect(step.effect(), effect -> effect.resume(this, step.owner(), answer));
+    runEffect(step.effect(), step.owner(), effect -> effect.resume(this, step.owner(), answer));
   }
 
-  private void runEffect(EffectRef ref, Consumer<Effect> action) {
+  private void runEffect(EffectRef ref, PlayerId owner, Consumer<Effect> action) {
     Effect effect = effectOf(ref);
-    within(ref, () -> action.accept(effect));
+    running = new Running(ref, owner);
+    try {
+      within(ref, () -> action.accept(effect));
+    } finally {
+      running = null;
+    }
     queue(staged);
     staged.clear();
   }
