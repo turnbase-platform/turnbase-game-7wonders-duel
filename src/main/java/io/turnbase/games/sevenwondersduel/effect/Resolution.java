@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
 import io.turnbase.games.sevenwondersduel.agenda.Option;
 import io.turnbase.games.sevenwondersduel.agenda.Step;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.event.ChainBuilt;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
@@ -180,6 +181,11 @@ public final class Resolution {
     }
     changeCoins(payer, -amount);
     emit(new TradePaid(payer, amount));
+  }
+
+  /** Records that {@code builder} built a card through a chain symbol (B-COST-5). */
+  public void chainBuilt(PlayerId builder) {
+    emit(new ChainBuilt(builder));
   }
 
   /** Sets a player's play-again flag; records {@link PlayAgainChanged} only on a change. */

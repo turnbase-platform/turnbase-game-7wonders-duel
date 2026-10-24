@@ -22,6 +22,7 @@ import io.turnbase.games.sevenwondersduel.engine.Build;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.engine.Outcome;
+import io.turnbase.games.sevenwondersduel.event.ChainBuilt;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.TradePaid;
@@ -136,6 +137,26 @@ class BuildTest {
 
     assertThat(g.build().state().player(g.actor()).coins())
         .isEqualTo(g.state().player(g.actor()).coins());
+  }
+
+  @Test
+  void aChainedBuildAnnouncesItself() {
+    Part source = Part.card("stable").withModifiers(new ChainSource(java.util.Set.of(HORSESHOE)));
+    Game g = game(card().costing(Cost.coins(5).withFreedBy(HORSESHOE)), source);
+    g = g.holding(source, g.actor());
+
+    assertThat(g.build().events())
+        .extracting(e -> e.event())
+        .containsOnlyOnce(new ChainBuilt(g.actor()));
+  }
+
+  @Test
+  void anOrdinaryBuildIsNotAChainBuild() {
+    Game g = game(card().costing(Cost.coins(1)));
+
+    assertThat(g.build().events())
+        .extracting(e -> e.event())
+        .noneMatch(ChainBuilt.class::isInstance);
   }
 
   @Test

@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 class ScienceTest {
 
   private static final ScienceSymbol WHEEL = new ScienceSymbol("wheel");
-  private static final ScienceSymbol SCALES = new ScienceSymbol("scales");
 
   private static Card with(String id, ScienceSymbol symbol) {
     return new Card(
@@ -28,7 +27,7 @@ class ScienceTest {
 
   private static final Card A = with("a", WHEEL);
   private static final Card B = with("b", WHEEL);
-  private static final Card C = with("c", SCALES);
+  private static final Card C = with("c", ScienceSymbol.SCALES);
   private static final RuleSet RULES = Fixtures.rules(A, B, C);
 
   private static DuelState state(Object... placed) {
@@ -44,7 +43,7 @@ class ScienceTest {
             C.id(), Fixtures.city(P2));
 
     assertThat(Science.counts(s, RULES, P1)).isEqualTo(Map.of(WHEEL, 1));
-    assertThat(Science.counts(s, RULES, P2)).isEqualTo(Map.of(SCALES, 1));
+    assertThat(Science.counts(s, RULES, P2)).isEqualTo(Map.of(ScienceSymbol.SCALES, 1));
   }
 
   @Test
@@ -52,7 +51,7 @@ class ScienceTest {
     DuelState s =
         state(A.id(), Fixtures.city(P1), B.id(), Fixtures.city(P1), C.id(), Fixtures.city(P1));
 
-    assertThat(Science.counts(s, RULES, P1)).isEqualTo(Map.of(WHEEL, 2, SCALES, 1));
+    assertThat(Science.counts(s, RULES, P1)).isEqualTo(Map.of(WHEEL, 2, ScienceSymbol.SCALES, 1));
     assertThat(Science.distinct(s, RULES, P1)).isEqualTo(2);
   }
 
