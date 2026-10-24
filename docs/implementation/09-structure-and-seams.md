@@ -47,4 +47,4 @@ Urbanism pays when the chain is used. A card that is free anyway but has a chain
 ### Task 5: Setup parameters are declared by the pack
 
 - [ ] Test: `RuleSet.setup()` of `BasePack` equals today's constants; two packs declaring setup are rejected by name; `Setup.newGame` output for fixed seeds is unchanged.
-- [ ] `SetupParams` record (startingCoins, progressOnBoard, removedPerAge, guildsInPlay, draftWonders, draftRound); `ContentPack.setup()` default `Optional.empty()`; `RuleSet.setup()`; `Setup` reads it.
+- [ ] `SetupParams` record (startingCoins, progressOnBoard, removedPerAge, guildsInPlay; the draft stays a procedure, B-WND-3); `ContentPack.setup()` default `Optional.empty()`; `RuleSet.setup()`; `Setup` reads it.

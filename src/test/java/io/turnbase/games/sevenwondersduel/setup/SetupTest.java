@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.catalog.SetupParams;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
@@ -174,5 +175,16 @@ class SetupTest {
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining(pieces.get(at).id().value())
         .hasMessageContaining("back");
+  }
+
+  @Test
+  void theDeclaredSetupParametersDriveTheStart() {
+    RuleSet rules = SetupFixtures.baseSized();
+    SetupParams params = rules.setup();
+
+    DuelState state = Setup.newGame(rules, 1, P1, P2);
+
+    assertThat(state.player(P1).coins()).isEqualTo(params.startingCoins());
+    assertThat(in(state, "board")).hasSize(params.progressOnBoard());
   }
 }

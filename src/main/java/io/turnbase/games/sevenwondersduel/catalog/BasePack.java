@@ -9,6 +9,7 @@ import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * The base game's content. Zones and Age layouts for now; card, Wonder and token data arrive later.
@@ -70,6 +71,11 @@ public final class BasePack implements ContentPack {
             up(0, 2, 4, 6),
             down(1, 3, 5),
             up(2, 4)));
+  }
+
+  @Override
+  public Optional<SetupParams> setup() {
+    return Optional.of(new SetupParams(7, 5, 3, 3));
   }
 
   @Override

@@ -4,6 +4,7 @@ import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.catalog.SetupParams;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -42,11 +43,6 @@ public final class Setup {
   /** The shuffled Wonders still to be revealed to the draft. */
   public static final Location WONDER_POOL = new Location(DECK, "wonders");
 
-  static final int STARTING_COINS = 7;
-  static final int PROGRESS_ON_BOARD = 5;
-  static final int REMOVED_PER_AGE = 3;
-  static final int GUILDS_IN_PLAY = 3;
-
   /** Wonders the draft takes from the pool; whatever stays in the pool goes to the box. */
   public static final int DRAFT_WONDERS = 8;
 
@@ -64,27 +60,33 @@ public final class Setup {
     if (a.equals(b)) {
       throw new IllegalArgumentException("a duel needs two different players");
     }
+    SetupParams params = rules.setup();
     Table table = new Table(rules, RngCursor.start(seed));
     PlayerId first = table.pick(List.of(a, b));
 
     List<ComponentId> progress = ids(rules.catalog().tagged(Tag.PROGRESS));
-    require(progress.size() >= PROGRESS_ON_BOARD, "progress tokens", PROGRESS_ON_BOARD, progress);
+    require(
+        progress.size() >= params.progressOnBoard(),
+        "progress tokens",
+        params.progressOnBoard(),
+        progress);
     List<ComponentId> shuffledProgress = table.shuffle(progress);
-    table.placeAll(shuffledProgress.subList(0, PROGRESS_ON_BOARD), new Location(BOARD, ""));
+    table.placeAll(shuffledProgress.subList(0, params.progressOnBoard()), new Location(BOARD, ""));
     table.placeAll(
-        shuffledProgress.subList(PROGRESS_ON_BOARD, progress.size()), new Location(BOX, ""));
+        shuffledProgress.subList(params.progressOnBoard(), progress.size()), new Location(BOX, ""));
 
     placeMilitaryTokens(table, rules, List.of(a, b));
 
     List<ComponentId> guilds = ids(rules.catalog().tagged(Tag.GUILD));
-    require(guilds.size() >= GUILDS_IN_PLAY, "guilds", GUILDS_IN_PLAY, guilds);
+    require(guilds.size() >= params.guildsInPlay(), "guilds", params.guildsInPlay(), guilds);
     List<ComponentId> shuffledGuilds = table.shuffle(guilds);
     List<Integer> ages = rules.ages();
     int lastAge = ages.get(ages.size() - 1);
     for (int age : ages) {
-      buildAgeDeck(table, rules, age, age == lastAge ? shuffledGuilds : List.of());
+      buildAgeDeck(table, rules, params, age, age == lastAge ? shuffledGuilds : List.of());
     }
-    table.placeAll(shuffledGuilds.subList(GUILDS_IN_PLAY, guilds.size()), new Location(BOX, ""));
+    table.placeAll(
+        shuffledGuilds.subList(params.guildsInPlay(), guilds.size()), new Location(BOX, ""));
 
     List<ComponentId> wonders = ids(rules.catalog().ofType(ComponentType.WONDER));
     require(wonders.size() >= DRAFT_WONDERS, "wonders", DRAFT_WONDERS, wonders);
@@ -100,7 +102,10 @@ public final class Setup {
         null,
         table.placements(),
         Map.of(
-            a, new PlayerState(STARTING_COINS, false), b, new PlayerState(STARTING_COINS, false)),
+            a,
+            new PlayerState(params.startingCoins(), false),
+            b,
+            new PlayerState(params.startingCoins(), false)),
         Map.of(a, Set.of(), b, Set.of()),
         table.cursor(),
         rules.packIds(),
@@ -110,31 +115,33 @@ public final class Setup {
   }
 
   /**
-   * B-SET-6: removes {@link #REMOVED_PER_AGE} random cards to the box, adds the drawn Guilds (the
-   * first {@link #GUILDS_IN_PLAY} of {@code guilds}, if any) and shuffles the result into the deck.
+   * B-SET-6: removes {@code removedPerAge} random cards to the box, adds the drawn Guilds (the
+   * first {@code guildsInPlay} of {@code guilds}, if any) and shuffles the result into the deck.
    */
-  private static void buildAgeDeck(Table table, RuleSet rules, int age, List<ComponentId> guilds) {
+  private static void buildAgeDeck(
+      Table table, RuleSet rules, SetupParams params, int age, List<ComponentId> guilds) {
     List<ComponentId> cards =
         ids(
             rules.catalog().tagged(Tag.age(age)).stream()
                 .filter(c -> !c.tags().contains(Tag.GUILD))
                 .toList());
     int expected = rules.layoutForAge(age).size();
-    int added = guilds.isEmpty() ? 0 : GUILDS_IN_PLAY;
-    if (cards.size() - REMOVED_PER_AGE + added != expected) {
+    int added = guilds.isEmpty() ? 0 : params.guildsInPlay();
+    if (cards.size() - params.removedPerAge() + added != expected) {
       throw new IllegalArgumentException(
           "age "
               + age
               + " needs "
-              + (expected - added + REMOVED_PER_AGE)
+              + (expected - added + params.removedPerAge())
               + " cards, found "
               + cards.size());
     }
     Structure.requireBacks(rules, cards);
     Structure.requireBacks(rules, guilds.subList(0, added));
     List<ComponentId> shuffled = table.shuffle(cards);
-    table.placeAll(shuffled.subList(0, REMOVED_PER_AGE), new Location(BOX, ""));
-    List<ComponentId> deck = new ArrayList<>(shuffled.subList(REMOVED_PER_AGE, shuffled.size()));
+    table.placeAll(shuffled.subList(0, params.removedPerAge()), new Location(BOX, ""));
+    List<ComponentId> deck =
+        new ArrayList<>(shuffled.subList(params.removedPerAge(), shuffled.size()));
     deck.addAll(guilds.subList(0, added));
     table.placeAll(table.shuffle(deck), ageDeck(age));
   }

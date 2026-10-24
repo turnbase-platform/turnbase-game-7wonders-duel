@@ -21,18 +21,21 @@ public final class RuleSet {
   private final Map<LayoutId, Layout> layouts;
   private final Map<Integer, LayoutId> ageLayouts;
   private final List<PackId> packIds;
+  private final SetupParams setup;
 
   private RuleSet(
       ZoneRegistry zones,
       Catalog catalog,
       Map<LayoutId, Layout> layouts,
       Map<Integer, LayoutId> ageLayouts,
-      List<PackId> packIds) {
+      List<PackId> packIds,
+      SetupParams setup) {
     this.zones = zones;
     this.catalog = catalog;
     this.layouts = layouts;
     this.ageLayouts = ageLayouts;
     this.packIds = packIds;
+    this.setup = setup;
   }
 
   /** Merges packs in order; a zone or component id defined by two packs is rejected. */
@@ -46,7 +49,16 @@ public final class RuleSet {
     Map<Integer, LayoutId> ageLayouts = new LinkedHashMap<>();
     Map<Integer, PackId> ageOwner = new LinkedHashMap<>();
     Map<BackId, PackId> backOwner = new LinkedHashMap<>();
+    SetupParams setup = null;
+    PackId setupOwner = null;
     for (ContentPack pack : packs) {
+      if (pack.setup().isPresent()) {
+        if (setup != null) {
+          throw duplicate("setup", "parameters", setupOwner, pack.id());
+        }
+        setup = pack.setup().get();
+        setupOwner = pack.id();
+      }
       for (BackId back : pack.backs()) {
         PackId previous = backOwner.putIfAbsent(back, pack.id());
         if (previous != null) {
@@ -112,7 +124,16 @@ public final class RuleSet {
         new Catalog(components),
         Map.copyOf(layouts),
         Map.copyOf(ageLayouts),
-        packs.stream().map(ContentPack::id).toList());
+        packs.stream().map(ContentPack::id).toList(),
+        setup);
+  }
+
+  /** The setup numbers the packs declare. */
+  public SetupParams setup() {
+    if (setup == null) {
+      throw new IllegalStateException("no pack declares setup parameters");
+    }
+    return setup;
   }
 
   public ZoneRegistry zones() {

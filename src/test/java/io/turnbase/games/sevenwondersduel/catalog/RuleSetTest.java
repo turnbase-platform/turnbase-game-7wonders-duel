@@ -271,4 +271,61 @@ class RuleSetTest {
         .hasMessageContaining("one")
         .hasMessageContaining("two");
   }
+
+  private record SetupPack(PackId id, SetupParams params) implements ContentPack {
+    @Override
+    public List<ZoneKind> zoneKinds() {
+      return List.of();
+    }
+
+    @Override
+    public List<Component> components() {
+      return List.of();
+    }
+
+    @Override
+    public Optional<SetupParams> setup() {
+      return Optional.of(params);
+    }
+  }
+
+  private static final SetupParams ODD = new SetupParams(9, 4, 2, 2);
+
+  @Test
+  void baseDeclaresTheSetupOfTheBaseGame() {
+    assertThat(RuleSet.assemble(List.of(new BasePack())).setup())
+        .isEqualTo(new SetupParams(7, 5, 3, 3));
+  }
+
+  @Test
+  void theDeclaredSetupIsUsed() {
+    assertThat(RuleSet.assemble(List.of(new SetupPack(PackId.of("odd"), ODD))).setup())
+        .isEqualTo(ODD);
+  }
+
+  @Test
+  void assemblyWithoutSetupFailsOnlyWhenItIsAsked() {
+    RuleSet rules = RuleSet.assemble(List.of(BASE));
+
+    assertThatThrownBy(rules::setup)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("no pack declares");
+  }
+
+  @Test
+  void twoPacksDeclaringSetupAreRejectedByName() {
+    assertThatThrownBy(
+            () -> RuleSet.assemble(List.of(new BasePack(), new SetupPack(PackId.of("odd"), ODD))))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("duplicate setup")
+        .hasMessageContaining("base")
+        .hasMessageContaining("odd");
+  }
+
+  @Test
+  void setupParametersMustBePositive() {
+    assertThatThrownBy(() -> new SetupParams(7, 0, 3, 3))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("progressOnBoard");
+  }
 }
