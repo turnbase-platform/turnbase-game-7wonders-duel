@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelState;
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -121,7 +122,8 @@ class BasePackTest {
             Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, true)),
             Map.of(P1, Set.of(a), P2, Set.of()),
             new RngCursor(5, 3),
-            RULES.packIds());
+            RULES.packIds(),
+            Agenda.EMPTY);
 
     GdkSerialization serialization = new GdkSerialization();
     String json = serialization.writeState(Snapshots.toSnapshot(state), Long.MAX_VALUE);

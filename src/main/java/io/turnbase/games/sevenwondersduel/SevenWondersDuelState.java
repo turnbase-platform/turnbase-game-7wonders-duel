@@ -2,6 +2,7 @@ package io.turnbase.games.sevenwondersduel;
 
 import io.turnbase.games.sevenwondersduel.snapshot.PlacementData;
 import io.turnbase.games.sevenwondersduel.snapshot.PlayerData;
+import io.turnbase.games.sevenwondersduel.snapshot.StepData;
 import io.turnbase.gdk.GameState;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.UUID;
  * @param rngSeed seed of the random stream
  * @param rngDraws values already drawn from the stream
  * @param packs ids of the content packs in play
+ * @param agenda the pending steps, top first
  */
 public record SevenWondersDuelState(
     String phase,
@@ -29,5 +31,6 @@ public record SevenWondersDuelState(
     Map<UUID, List<String>> knowledge,
     long rngSeed,
     long rngDraws,
-    List<String> packs)
+    List<String> packs,
+    List<StepData> agenda)
     implements GameState {}

@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.state;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -22,6 +23,7 @@ import java.util.Set;
  * @param knowledge for each player, the components whose identity they have seen
  * @param rng position in the seeded random stream
  * @param packs the content packs the game was set up with
+ * @param agenda the pending steps: effects still to apply and decisions still to be answered
  */
 public record DuelState(
     Phase phase,
@@ -30,7 +32,8 @@ public record DuelState(
     Map<PlayerId, PlayerState> players,
     Map<PlayerId, Set<ComponentId>> knowledge,
     RngCursor rng,
-    List<PackId> packs) {
+    List<PackId> packs,
+    Agenda agenda) {
 
   public DuelState {
     placements = List.copyOf(placements);
@@ -71,33 +74,37 @@ public record DuelState(
   }
 
   public DuelState withPhase(Phase phase) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs);
+    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withActive(PlayerId active) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs);
+    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withPlacements(List<Placement> placements) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs);
+    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withPlayer(PlayerId id, PlayerState state) {
     player(id);
     Map<PlayerId, PlayerState> next = new HashMap<>(players);
     next.put(id, state);
-    return new DuelState(phase, active, placements, next, knowledge, rng, packs);
+    return new DuelState(phase, active, placements, next, knowledge, rng, packs, agenda);
   }
 
   public DuelState withKnowledge(PlayerId id, Set<ComponentId> known) {
     player(id);
     Map<PlayerId, Set<ComponentId>> next = new HashMap<>(knowledge);
     next.put(id, known);
-    return new DuelState(phase, active, placements, players, next, rng, packs);
+    return new DuelState(phase, active, placements, players, next, rng, packs, agenda);
+  }
+
+  public DuelState withAgenda(Agenda agenda) {
+    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withRng(RngCursor rng) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs);
+    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
   }
 
   private static Map<PlayerId, Set<ComponentId>> copyOfSets(Map<PlayerId, Set<ComponentId>> in) {

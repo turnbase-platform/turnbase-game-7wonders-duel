@@ -4,6 +4,7 @@ import static io.turnbase.games.sevenwondersduel.effect.ResolutionTest.P1;
 import static io.turnbase.games.sevenwondersduel.effect.ResolutionTest.P2;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
@@ -89,7 +90,8 @@ class OwnershipTest {
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
-        RULES.packIds());
+        RULES.packIds(),
+        Agenda.EMPTY);
   }
 
   @Test

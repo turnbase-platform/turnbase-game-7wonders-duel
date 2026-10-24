@@ -3,6 +3,7 @@ package io.turnbase.games.sevenwondersduel.state;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -32,7 +33,8 @@ class DuelStateTest {
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
-        List.of(PackId.of("base")));
+        List.of(PackId.of("base")),
+        Agenda.EMPTY);
   }
 
   private static DuelState state() {
@@ -100,7 +102,8 @@ class DuelStateTest {
                     Map.of(P1, new PlayerState(7, false)),
                     Map.of(),
                     RngCursor.start(1),
-                    List.of()))
+                    List.of(),
+                    Agenda.EMPTY))
         .isInstanceOf(IllegalArgumentException.class);
   }
 
@@ -149,7 +152,8 @@ class DuelStateTest {
                     Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
                     Map.of(stranger, Set.of()),
                     RngCursor.start(1),
-                    List.of()))
+                    List.of(),
+                    Agenda.EMPTY))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining(stranger.value().toString());
   }

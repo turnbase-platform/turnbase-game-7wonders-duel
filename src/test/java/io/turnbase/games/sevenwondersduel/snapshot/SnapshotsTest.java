@@ -4,6 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelState;
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
+import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
+import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
+import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
+import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
+import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -48,7 +54,14 @@ class SnapshotsTest {
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(0, true)),
         Map.of(P1, Set.of(ComponentId.of("c2"), ComponentId.of("c1")), P2, Set.of()),
         new RngCursor(99, 12),
-        List.of(PackId.of("base")));
+        List.of(PackId.of("base")),
+        new Agenda(
+            List.of(
+                new EffectStep(new EffectRef(ComponentId.of("c1"), 1), P1),
+                new DecisionStep(
+                    P2,
+                    new EffectRef(ComponentId.of("c2"), 0),
+                    List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))))));
   }
 
   @Test
@@ -82,7 +95,8 @@ class SnapshotsTest {
             empty.players(),
             empty.knowledge(),
             empty.rng(),
-            List.of());
+            List.of(),
+            empty.agenda());
 
     assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(noPacks))).isEqualTo(noPacks);
   }
@@ -114,7 +128,8 @@ class SnapshotsTest {
             good.knowledge(),
             good.rngSeed(),
             good.rngDraws(),
-            good.packs());
+            good.packs(),
+            good.agenda());
     SevenWondersDuelState blankId =
         new SevenWondersDuelState(
             good.phase(),
@@ -124,13 +139,34 @@ class SnapshotsTest {
             good.knowledge(),
             good.rngSeed(),
             good.rngDraws(),
-            good.packs());
+            good.packs(),
+            good.agenda());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(badPhase))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("NOT_A_PHASE");
     assertThatThrownBy(() -> Snapshots.fromSnapshot(blankId))
         .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void unknownStepKindIsRejectedByName() {
+    SevenWondersDuelState good = Snapshots.toSnapshot(sample());
+    SevenWondersDuelState bad =
+        new SevenWondersDuelState(
+            good.phase(),
+            good.active(),
+            good.placements(),
+            good.players(),
+            good.knowledge(),
+            good.rngSeed(),
+            good.rngDraws(),
+            good.packs(),
+            List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, List.of())));
+
+    assertThatThrownBy(() -> Snapshots.fromSnapshot(bad))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("NOT_A_KIND");
   }
 
   @Test

@@ -1,6 +1,14 @@
 package io.turnbase.games.sevenwondersduel.snapshot;
 
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelState;
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
+import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
+import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
+import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
+import io.turnbase.games.sevenwondersduel.agenda.Option;
+import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
+import io.turnbase.games.sevenwondersduel.agenda.Step;
+import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -24,6 +32,11 @@ import java.util.UUID;
  * equal snapshots.
  */
 public final class Snapshots {
+
+  private static final String EFFECT = "EFFECT";
+  private static final String DECISION = "DECISION";
+  private static final String COMPONENT = "COMPONENT";
+  private static final String PLAYER = "PLAYER";
 
   private Snapshots() {}
 
@@ -49,7 +62,8 @@ public final class Snapshots {
         Map.copyOf(knowledge),
         state.rng().seed(),
         state.rng().draws(),
-        state.packs().stream().map(PackId::value).toList());
+        state.packs().stream().map(PackId::value).toList(),
+        state.agenda().steps().stream().map(Snapshots::stepData).toList());
   }
 
   public static DuelState fromSnapshot(SevenWondersDuelState snapshot) {
@@ -79,7 +93,53 @@ public final class Snapshots {
         players,
         knowledge,
         new RngCursor(snapshot.rngSeed(), snapshot.rngDraws()),
-        snapshot.packs().stream().map(PackId::of).toList());
+        snapshot.packs().stream().map(PackId::of).toList(),
+        new Agenda(snapshot.agenda().stream().map(Snapshots::step).toList()));
+  }
+
+  private static StepData stepData(Step step) {
+    return switch (step) {
+      case EffectStep e ->
+          new StepData(
+              EFFECT,
+              e.owner().value(),
+              e.effect().source().value(),
+              e.effect().index(),
+              List.of());
+      case DecisionStep d ->
+          new StepData(
+              DECISION,
+              d.owner().value(),
+              d.effect().source().value(),
+              d.effect().index(),
+              d.options().stream().map(Snapshots::optionData).toList());
+    };
+  }
+
+  private static Step step(StepData data) {
+    EffectRef ref = new EffectRef(ComponentId.of(data.source()), data.index());
+    PlayerId owner = PlayerId.of(data.owner());
+    return switch (data.kind()) {
+      case EFFECT -> new EffectStep(ref, owner);
+      case DECISION ->
+          new DecisionStep(owner, ref, data.options().stream().map(Snapshots::option).toList());
+      default -> throw new IllegalArgumentException("unknown step kind: " + data.kind());
+    };
+  }
+
+  private static OptionData optionData(Option option) {
+    return switch (option) {
+      case ComponentOption c -> new OptionData(COMPONENT, c.component().value());
+      case PlayerOption p -> new OptionData(PLAYER, p.player().value().toString());
+    };
+  }
+
+  private static Option option(OptionData data) {
+    return switch (data.kind()) {
+      case COMPONENT -> new ComponentOption(ComponentId.of(data.value()));
+      case PLAYER -> new PlayerOption(PlayerId.of(UUID.fromString(data.value())));
+      default -> throw new IllegalArgumentException("unknown option kind: " + data.kind());
+    };
   }
 
   private static Phase phase(String name) {

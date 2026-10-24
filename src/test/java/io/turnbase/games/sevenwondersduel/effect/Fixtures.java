@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
@@ -99,7 +100,8 @@ final class Fixtures {
         Map.of(P1, new PlayerState(coins1, false), P2, new PlayerState(coins2, false)),
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
-        rules.packIds());
+        rules.packIds(),
+        Agenda.EMPTY);
   }
 
   private Fixtures() {}

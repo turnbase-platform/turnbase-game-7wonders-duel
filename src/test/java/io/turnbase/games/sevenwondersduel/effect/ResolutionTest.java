@@ -3,6 +3,7 @@ package io.turnbase.games.sevenwondersduel.effect;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
@@ -40,7 +41,8 @@ class ResolutionTest {
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
-        RULES.packIds());
+        RULES.packIds(),
+        Agenda.EMPTY);
   }
 
   private static Resolution resolution() {
