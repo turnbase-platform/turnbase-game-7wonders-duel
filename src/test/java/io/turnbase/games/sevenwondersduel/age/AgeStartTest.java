@@ -103,4 +103,21 @@ class AgeStartTest {
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("needs 20 cards");
   }
+
+  @Test
+  void theDecidingPlayerIsTheActivePlayerWhileTheyChoose() {
+    DuelState state = drafted();
+
+    assertThat(state.active()).isEqualTo(state.deciding());
+  }
+
+  @Test
+  void theStarterCannotBeChosenOutsideAnAge() {
+    DuelState state =
+        drafted().withPhase(io.turnbase.games.sevenwondersduel.state.Phase.WONDER_DRAFT);
+
+    assertThatThrownBy(() -> ENGINE.apply(state, state.first(), new ChooseStarter(state.first())))
+        .isInstanceOf(IllegalActionException.class)
+        .hasMessageContaining("nobody has to choose");
+  }
 }

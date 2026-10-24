@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.draft.Draft;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Phase;
 
 /**
  * The single entry point for player actions: decides whether the actor may act, then resolves the
@@ -66,7 +67,7 @@ public final class Engine {
 
   /** Only the deciding player may choose, and only a seated player (B-AGE-0). */
   private Outcome chooseStarter(DuelState state, PlayerId actor, ChooseStarter choice) {
-    if (state.deciding() == null) {
+    if (state.phase() != Phase.AGE || state.deciding() == null) {
       throw new IllegalActionException("nobody has to choose a starting player");
     }
     if (!state.deciding().equals(actor)) {

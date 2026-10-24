@@ -22,7 +22,7 @@
 
 - Draft order: first, second, second, first; then second, first, first, second — and only the player to move may pick, only from `draft`.
 - A pick of a Wonder not offered, a pick after the draft, a pick before setup, and a second pick by the same player out of turn all throw `IllegalActionException` and leave the state unchanged.
-- A catalog whose counts do not fit the rules (not 10 progress tokens, not 12 wonders, fewer than 3 guilds, an Age deck that cannot reach 20) fails setup by name.
+- A catalog whose counts do not fit the rules (fewer than 5 progress tokens, fewer than 8 wonders, fewer than 3 guilds, an Age deck that cannot reach 20) fails setup by name.
 - Same seed gives identical setup; different seeds differ somewhere; every component is placed exactly once.
 - `ChooseStarter` by the non-deciding player, when nothing is pending, or naming a non-seated player is rejected.
 - A snapshot taken mid-draft and mid-starter-choice round-trips.

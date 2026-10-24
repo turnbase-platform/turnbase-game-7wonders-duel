@@ -22,6 +22,7 @@ public final class AgeStart {
         resolution.rules().layoutForAge(age),
         Placements.idsIn(resolution.state().placements(), Setup.ageDeck(age)));
     Structure.revealUncovered(resolution);
-    resolution.advance(s -> s.withPhase(Phase.AGE).withAge(age).withDeciding(deciding));
+    resolution.advance(
+        s -> s.withPhase(Phase.AGE).withAge(age).withDeciding(deciding).withActive(deciding));
   }
 }
