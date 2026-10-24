@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.cost.Cost;
 import io.turnbase.games.sevenwondersduel.effect.Effect;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
+import io.turnbase.games.sevenwondersduel.effect.Trigger;
 import io.turnbase.games.sevenwondersduel.engine.Discard;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
@@ -27,11 +28,13 @@ public final class TurnFixtures {
       Set<Tag> tags,
       Cost cost,
       List<Effect> effects,
-      List<Modifier> modifiers)
+      List<Modifier> modifiers,
+      List<Trigger<?>> triggers)
       implements Component {
 
     public static Part of(String id, ComponentType type) {
-      return new Part(ComponentId.of(id), type, Set.of(), Cost.FREE, List.of(), List.of());
+      return new Part(
+          ComponentId.of(id), type, Set.of(), Cost.FREE, List.of(), List.of(), List.of());
     }
 
     public static Part card(String id) {
@@ -43,19 +46,23 @@ public final class TurnFixtures {
     }
 
     public Part costing(Cost cost) {
-      return new Part(id, type, tags, cost, effects, modifiers);
+      return new Part(id, type, tags, cost, effects, modifiers, triggers);
     }
 
     public Part withEffects(Effect... effects) {
-      return new Part(id, type, tags, cost, List.of(effects), modifiers);
+      return new Part(id, type, tags, cost, List.of(effects), modifiers, triggers);
     }
 
     public Part withModifiers(Modifier... modifiers) {
-      return new Part(id, type, tags, cost, effects, List.of(modifiers));
+      return new Part(id, type, tags, cost, effects, List.of(modifiers), triggers);
+    }
+
+    public Part withTriggers(Trigger<?>... triggers) {
+      return new Part(id, type, tags, cost, effects, modifiers, List.of(triggers));
     }
 
     public Part tagged(Tag... tags) {
-      return new Part(id, type, Set.of(tags), cost, effects, modifiers);
+      return new Part(id, type, Set.of(tags), cost, effects, modifiers, triggers);
     }
 
     @Override
