@@ -14,7 +14,9 @@ public record Victory(PlayerId winner, Reason reason) {
   public enum Reason {
     MILITARY,
     SCIENCE,
-    POINTS
+    POINTS,
+    /** The other player left the game; the opponent wins. */
+    FORFEIT
   }
 
   public Victory {
