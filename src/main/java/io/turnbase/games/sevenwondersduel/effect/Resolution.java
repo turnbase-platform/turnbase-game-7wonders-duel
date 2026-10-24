@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 /**
  * The working object for one player action: holds the current {@link DuelState}, changes it only
@@ -75,6 +76,16 @@ public final class Resolution {
     Location from = Placements.locationOf(state.placements(), component);
     state = state.withPlacements(Placements.move(state.placements(), component, to, rules.zones()));
     emit(new ComponentMoved(component, from, to));
+  }
+
+  /**
+   * Changes the flow of the game (phase, active player, Age...), which belongs to the rules of play
+   * and not to any effect; nothing is recorded. Components and treasuries still change only through
+   * the other primitives.
+   */
+  public void advance(UnaryOperator<DuelState> change) {
+    requireOutsideTrigger();
+    state = change.apply(state);
   }
 
   /** Changes a treasury by {@code delta}; a result below zero is a defect in the caller. */

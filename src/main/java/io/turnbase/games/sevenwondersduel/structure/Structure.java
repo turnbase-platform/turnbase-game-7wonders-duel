@@ -67,6 +67,19 @@ public final class Structure {
     return result;
   }
 
+  /**
+   * Deals {@code cards} as {@link #deal(List, Layout, List, ZoneRegistry)} does, moving them one by
+   * one so the deal appears in the event record.
+   */
+  public static void deal(Resolution resolution, Layout layout, List<ComponentId> cards) {
+    deal(resolution.state().placements(), layout, cards, resolution.rules().zones());
+    List<Slot> slots = layout.slots();
+    for (int i = 0; i < slots.size(); i++) {
+      Slot slot = slots.get(i);
+      resolution.move(cards.get(i), slot.location(layout.faceUp(slot) ? UP : DOWN));
+    }
+  }
+
   /** Occupied slots with nothing covering them, by row then x. */
   public static List<Slot> uncovered(List<Placement> all) {
     java.util.Set<Slot> slots = occupied(all).keySet();

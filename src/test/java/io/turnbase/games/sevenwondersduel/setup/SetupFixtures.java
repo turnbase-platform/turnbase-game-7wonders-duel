@@ -27,7 +27,7 @@ public final class SetupFixtures {
     return new Piece(ComponentId.of(id), type, Set.of(tags));
   }
 
-  static List<Component> pieces(
+  public static List<Component> pieces(
       int age1, int age2, int age3, int guilds, int wonders, int progress) {
     List<Component> all = new ArrayList<>();
     int[] perAge = {age1, age2, age3};
@@ -48,7 +48,7 @@ public final class SetupFixtures {
     return all;
   }
 
-  static RuleSet rules(List<Component> components) {
+  public static RuleSet rules(List<Component> components) {
     ContentPack pack =
         new ContentPack() {
           @Override
@@ -69,7 +69,7 @@ public final class SetupFixtures {
     return RuleSet.assemble(List.of(new BasePack(), pack));
   }
 
-  static RuleSet baseSized() {
+  public static RuleSet baseSized() {
     return rules(pieces(23, 23, 20, 7, 12, 10));
   }
 
