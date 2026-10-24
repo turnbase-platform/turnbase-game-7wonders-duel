@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.military;
 
+import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
@@ -45,6 +46,11 @@ public final class MilitaryTrack {
       case 3 -> 10;
       default -> 0;
     };
+  }
+
+  /** The tag of the military tokens that lie in {@code zone} on each side. */
+  public static Tag zoneTag(int zone) {
+    return Tag.of("military-zone:" + zone);
   }
 
   /** Where the token of {@code zone} on {@code side}'s part of the track lies. */

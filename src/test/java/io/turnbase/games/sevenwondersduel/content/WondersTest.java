@@ -6,9 +6,7 @@ import static io.turnbase.games.sevenwondersduel.effect.Fixtures.P2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
-import io.turnbase.games.sevenwondersduel.catalog.Component;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
-import io.turnbase.games.sevenwondersduel.catalog.ContentPack;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.cost.Cost;
@@ -22,12 +20,9 @@ import io.turnbase.games.sevenwondersduel.effect.LoseCoins;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.effect.Shields;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
-import io.turnbase.games.sevenwondersduel.id.PackId;
-import io.turnbase.games.sevenwondersduel.military.ShieldBonus;
 import io.turnbase.games.sevenwondersduel.scoring.Points;
 import io.turnbase.games.sevenwondersduel.scoring.ScoreContext;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
-import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -148,38 +143,9 @@ class WondersTest {
     assertThat(wonder("Piraeus").modifiers()).contains(Production.choice(false, GLASS, PAPYRUS));
   }
 
-  private static RuleSet rulesWithStrategy() {
-    Fixtures.Card strategy =
-        new Fixtures.Card(
-            ComponentId.of("strategy"),
-            List.of(),
-            List.of(new ShieldBonus(Colors.RED, 1)),
-            List.of());
-    return RuleSet.assemble(
-        List.of(
-            new BasePack(),
-            new BaseContent(),
-            new ContentPack() {
-              @Override
-              public PackId id() {
-                return PackId.of("test-strategy");
-              }
-
-              @Override
-              public List<ZoneKind> zoneKinds() {
-                return List.of();
-              }
-
-              @Override
-              public List<Component> components() {
-                return List.of(strategy);
-              }
-            }));
-  }
-
   @Test
   void appianWayPlaysThroughAndStrategyDoesNotBoostAWonderShield() {
-    RuleSet rules = rulesWithStrategy();
+    RuleSet rules = RuleSet.assemble(List.of(new BasePack(), new BaseContent()));
     ComponentId zeus = wonder("The Statue of Zeus").id();
     Resolution r =
         new Resolution(

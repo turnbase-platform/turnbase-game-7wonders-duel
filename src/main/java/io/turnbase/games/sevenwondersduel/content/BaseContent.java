@@ -27,7 +27,13 @@ public final class BaseContent implements ContentPack {
   @Override
   public List<Component> components() {
     return Stream.<List<? extends Component>>of(
-            AgeOne.cards(), AgeTwo.cards(), AgeThree.cards(), Guilds.cards(), Wonders.all())
+            AgeOne.cards(),
+            AgeTwo.cards(),
+            AgeThree.cards(),
+            Guilds.cards(),
+            Wonders.all(),
+            ProgressTokens.all(),
+            MilitaryTokens.all())
         .flatMap(List::stream)
         .<Component>map(component -> component)
         .toList();
