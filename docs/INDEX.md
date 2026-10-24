@@ -4,7 +4,7 @@
 |---|---|
 | [`rules/`](rules/INDEX.md) | Consolidated, ID-tagged rules: base game and the three expansions |
 | [`design/`](design/core-mechanics.md) | How the engine is designed: `core-mechanics.md` (state, zones, effects, agenda, views) |
-| [`implementation/`](implementation/01-foundation.md) | The build plan, one numbered file per plan: `01-foundation.md` (done), `02-effects-and-events.md` (done), `03-agenda-and-decisions.md` (done), `04a-structure.md` |
+| [`implementation/`](implementation/01-foundation.md) | The build plan, one numbered file per plan: `01-foundation.md` (done), `02-effects-and-events.md` (done), `03-agenda-and-decisions.md` (done), `04a-structure.md` (done), `04b-setup-and-draft.md` |
 
 Add new documents under the matching subdirectory (`design`, `implementation`, and later
 `requirements`, `decisions` as needed) and register them here. There is no `superpowers/` directory.
