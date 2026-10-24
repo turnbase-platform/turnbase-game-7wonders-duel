@@ -21,12 +21,12 @@ public final class BasePack implements ContentPack {
         zone("structure.up", Visibility.PUBLIC, false, false),
         // Face-down cards live apart so visibility stays a per-zone property; revealing is a move.
         zone("structure.down", Visibility.NONE, false, false),
-        zone("city", Visibility.PUBLIC, false, false),
+        live("city"),
         zone("underWonder", Visibility.NONE, false, false),
         zone("discard", Visibility.PUBLIC, true, false),
         zone("draft", Visibility.PUBLIC, false, false),
         zone("wonders.unbuilt", Visibility.PUBLIC, false, false),
-        zone("wonders.built", Visibility.PUBLIC, false, false),
+        live("wonders.built"),
         zone("board", Visibility.PUBLIC, false, false),
         zone("box", Visibility.NONE, false, false),
         zone("destroyed", Visibility.PUBLIC, false, true));
@@ -35,6 +35,10 @@ public final class BasePack implements ContentPack {
   @Override
   public List<Component> components() {
     return List.of();
+  }
+
+  private static ZoneKind live(String id) {
+    return new ZoneKind(ZoneId.of(id), Visibility.PUBLIC, false, false, true);
   }
 
   private static ZoneKind zone(
