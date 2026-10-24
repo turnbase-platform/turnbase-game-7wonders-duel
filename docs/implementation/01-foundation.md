@@ -8,7 +8,7 @@
 
 **Tech Stack:** Java 21, JUnit 6 + AssertJ, `turnbase-serialization` (test scope) for round trips, Maven (`./mvnw`).
 
-**Spec:** `docs/superpowers/specs/2026-10-24-core-mechanics-design.md` (§3, §4.1–4.3). Rules: `docs/rules/base.md` §10.4, §10.8.
+**Spec:** `docs/design/core-mechanics.md` (§3, §4.1–4.3). Rules: `docs/rules/base.md` §10.4, §10.8.
 
 **Roadmap:** this plan → (2) effects, modifiers, event bus → (3) agenda, actions, phases → (4) cost solver, views, events, quotes. Each is planned when the previous one is done.
 
