@@ -7,6 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.effect.Fixtures.Card;
+import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
+import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
@@ -14,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 class WonderBonusTurnTest {
 
-  private record Wonder(io.turnbase.games.sevenwondersduel.id.ComponentId id)
+  private record Wonder(ComponentId id)
       implements io.turnbase.games.sevenwondersduel.catalog.Component {
     @Override
     public String name() {
@@ -37,7 +39,7 @@ class WonderBonusTurnTest {
 
   private static Resolution game() {
     Card token = Card.of("theology").withTriggers(new WonderBonusTurn());
-    Wonder wonder = new Wonder(io.turnbase.games.sevenwondersduel.id.ComponentId.of("w"));
+    Wonder wonder = new Wonder(ComponentId.of("w"));
     Card plain = Card.of("plain");
     RuleSet rules = Fixtures.rules(token, wonder, plain);
     return new Resolution(
@@ -59,7 +61,7 @@ class WonderBonusTurnTest {
   void buildingAWonderGrantsAnotherTurn() {
     Resolution r = game();
 
-    r.move(io.turnbase.games.sevenwondersduel.id.ComponentId.of("w"), built(P1));
+    r.move(ComponentId.of("w"), built(P1));
 
     assertThat(r.state().player(P1).playAgain()).isTrue();
   }
@@ -68,7 +70,7 @@ class WonderBonusTurnTest {
   void theOpponentsWonderGrantsNothing() {
     Resolution r = game();
 
-    r.move(io.turnbase.games.sevenwondersduel.id.ComponentId.of("w"), built(P2));
+    r.move(ComponentId.of("w"), built(P2));
 
     assertThat(r.state().player(P1).playAgain()).isFalse();
     assertThat(r.state().player(P2).playAgain()).isFalse();
@@ -78,7 +80,33 @@ class WonderBonusTurnTest {
   void anotherComponentEnteringTheWondersGrantsNothing() {
     Resolution r = game();
 
-    r.move(io.turnbase.games.sevenwondersduel.id.ComponentId.of("plain"), built(P1));
+    r.move(ComponentId.of("plain"), built(P1));
+
+    assertThat(r.state().player(P1).playAgain()).isFalse();
+  }
+
+  @Test
+  void aWondersOwnPlayAgainDoesNotStackWithTheBonus() {
+    Resolution r = game();
+    ComponentId w = ComponentId.of("w");
+
+    r.move(w, built(P1));
+    r.setPlayAgain(P1, true);
+
+    assertThat(r.events())
+        .extracting(e -> e.event())
+        .filteredOn(PlayAgainChanged.class::isInstance)
+        .hasSize(1);
+  }
+
+  @Test
+  void takingTheTokenAfterAWonderWasBuiltGrantsNothing() {
+    Resolution r = game();
+    ComponentId w = ComponentId.of("w");
+    r.move(w, built(P1));
+    r.setPlayAgain(P1, false);
+
+    r.move(ComponentId.of("plain"), Fixtures.city(P1));
 
     assertThat(r.state().player(P1).playAgain()).isFalse();
   }
