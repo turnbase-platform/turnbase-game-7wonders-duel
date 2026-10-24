@@ -56,7 +56,7 @@ the bank; **⚔n**: shields; **↻**: play again; **VP**: printed VP. Tags refer
 | Aqueduct of Segovia | Chains for Lighthouse, Arena (Age III); +9$ | | ↻ | | CHAIN |
 | Arc de Triomphe | End: 1 VP per red card in your city; opp −6$ | | ↻ | | SCORE |
 | Athena Pronaia Sanctuary | Look secretly at 1 face-down structure card, may repeat once; +6$ | | ↻ | | PEEK |
-| Atlantis | Return 1 opponent **constructed** Wonder to the box (instant effects kept; its tucked card → discard pile; the limit re-opens per `base.md` B-ACT-5); +3$ | | | 3 | UNBUILD |
+| Atlantis | Destroy 1 opponent **constructed** Wonder (instant effects kept; its tucked card → discard pile; the limit re-opens per `base.md` B-ACT-5); +3$ | | | 3 | UNBUILD |
 | Borobudur | Each new Building or Wonder of yours worth ≥1 shield (this one included) → steal 1$ | 1 | | 3 | TRIGGER |
 | Çamlıca Mosque | End: 6 VP per complete set of 6 colors (red, yellow, brown, grey, blue, green); each card in one set; +6$ | | | | SCORE |
 | Chichen Itza | Choose: take 1 opponent blue card, **or** steal 5$ | | | 2 | CHOICE, STEAL |
@@ -129,7 +129,7 @@ marked ★.
 | DESTROY | discard an opponent card of color set C | Circus Maximus, Statue of Zeus, Agora |
 | STEAL | take an opponent card of color set C / an unbuilt Wonder | Baal, Ra, Agora |
 | SWAP | exchange cards between cities under a color rule | Agora |
-| UNBUILD | return a built Wonder to the box / discard its tucked card | Anubis, Agora |
+| UNBUILD | Destroy a built Wonder, or un-build it back to its owner's unbuilt Wonders / discard its tucked card | Anubis, Agora |
 | PROGRESS | take / lock / give progress tokens; draw from the setup pool | Great Library, Enki, Agora |
 | STRUCTURE | discard / construct structure cards regardless of accessibility | Zeus, Agora |
 | SETUP-POOL | draw from cards removed at setup | Agora |

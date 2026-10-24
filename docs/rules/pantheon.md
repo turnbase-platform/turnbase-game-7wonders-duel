@@ -149,7 +149,7 @@ one for free, put the others back face down on their decks (same order).
 - **P-FAQ-1** Impossible effects can still be activated.
 - **P-FAQ-2** Offerings never refund.
 - **P-FAQ-3** Ra: a player can own 5 Wonders (the other 2+); still max 7 constructed overall.
-- **P-FAQ-4** Anubis after the 7th Wonder: the 8th stays in the box; the un-built Wonder may be
+- **P-FAQ-4** Anubis after the 7th Wonder: the 8th stays Destroyed; the un-built Wonder may be
   rebuilt, because the count dropped to 6 (`base.md` B-ACT-5).
 - **P-FAQ-5** Nisaba's and Ishtar's symbols count for pairs (progress tokens) and supremacy.
 - **P-FAQ-6** Minerva can be placed on a capital.

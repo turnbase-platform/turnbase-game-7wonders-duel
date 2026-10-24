@@ -28,7 +28,8 @@ Companion documents — each one is written as a delta against this one:
 | **Accessible card** | A card in the structure not partially covered by any other card. |
 | **Bank** | Unlimited supply of coins. All payments go to the bank; all gains come from it unless stated. |
 | **Treasury** | A player's coins. |
-| **Box** | Out of the game. Distinguish *removed at setup* (some effects draw from it) from *removed during play*. |
+| **Box** | Out of the game since setup (removed cards, progress tokens, undrafted Wonders, unused Guilds). Effects that draw from "the components removed at setup" are queries over the Box (type, Age), see §10.4. |
+| **Destroyed** | Out of the game for good: anything that enters it can never leave it. Holds components removed during play (used military tokens, Wonders removed by the limit or by an effect). Never a source for draws. |
 | **Discard pile** | Face-down pile next to the board; **public** — players may consult it at any time. Holds only cards discarded during play, never setup removals. |
 | **Shield** | Military strength; each shield moves the Conflict pawn one space. |
 | **Conflict pawn** | Marker on the military track (§8). |
@@ -201,7 +202,7 @@ reference implementation). Effects in the order printed — apply in that order.
 | The Appian Way | S S C C P | +3$; opponent loses 3$; play again | 3 |
 | Circus Maximus | S S W G | discard one grey card from the opponent's city; 1 shield | 3 |
 | The Colossus | C C C G | 2 shields | 3 |
-| The Great Library | W W W G P | draw 3 random progress tokens from those **removed at setup**; take 1, return 2 to that pool (they stay drawable by later effects); only the drawer sees the 3 | 4 |
+| The Great Library | W W W G P | draw 3 random progress tokens from the progress tokens **in the Box**; take 1, return 2 to the Box (they stay drawable by later effects); only the drawer sees the 3 | 4 |
 | The Great Lighthouse | W S P P | produces 1 of W / C / S (choice, per turn) | 4 |
 | The Hanging Gardens | W W G P | +6$; play again | 3 |
 | The Mausoleum | C C G G P | look through the discard pile, construct 1 card from it for free | 2 |
@@ -235,8 +236,8 @@ receive the **actual** amount they paid for goods.
 
 | Token | Location | Effect when the pawn enters the zone |
 |---|---|---|
-| Loot 2 | each side, zone at spaces 3–5 from centre | opponent of the advancing player loses 2$ (all they have if fewer); token → box |
-| Loot 5 | each side, zone at spaces 6–8 from centre | opponent loses 5$ (all if fewer); token → box |
+| Loot 2 | each side, zone at spaces 3–5 from centre | opponent of the advancing player loses 2$ (all they have if fewer); token → Destroyed |
+| Loot 5 | each side, zone at spaces 6–8 from centre | opponent loses 5$ (all if fewer); token → Destroyed |
 
 Lost coins go to the bank. A token is single-use: once applied it leaves the game.
 
@@ -338,12 +339,11 @@ search. Expansions add modifiers to every step — see §10.2.
 - **B-SET-1** Conflict pawn on the centre (neutral) space.
 - **B-SET-2** 4 military tokens face up on their spaces (§3.9).
 - **B-SET-3** Shuffle the 10 progress tokens; 5 random face-up on the board; the other 5 go to the
-  box **(kept as the "removed at setup" pool — Great Library draws from it; their identity is
-  hidden from both players)**.
+  box **(their identity is hidden from both players; Great Library draws from the progress tokens in the Box)**.
 - **B-SET-4** Each player takes 7$.
 - **B-SET-5** Wonder selection (§5.3).
-- **B-SET-6** Age decks: remove 3 random cards from each of Age I, II, III, unseen (kept as the
-  per-Age "removed at setup" pool — expansions draw from it). Draw 3 random Guilds into the Age III
+- **B-SET-6** Age decks: remove 3 random cards from each of Age I, II, III to the Box, unseen
+  (expansions draw from them by type and Age). Draw 3 random Guilds into the Age III
   deck, unseen; the other 4 Guilds go to the box.
 
 ### 5.2 Structure layouts
@@ -404,9 +404,11 @@ Horizontal positions in half-card units (`x`), centre-aligned, derived from pp. 
 - **B-TURN-4** "Play again": the same player takes a new turn after the reveal step. It is a full,
   new turn in every respect ("next turn" effects, once-per-turn limits, start-of-turn steps).
 - **B-TURN-5** A "play again" earned on the turn that empties the structure is **lost**.
-- **B-TURN-6** "Play again" is a **flag per turn**, not a counter: several sources in one turn give
-  one extra turn. One earned anywhere in the turn — including the start-of-turn step (Agora
-  Conspiracy) — is taken at the end of that turn, after the reveal.
+- **B-TURN-6** "Play again" is a **flag per player**, not a counter: several sources give one extra
+  turn. The flag can be set on either player (Shwedagon Pagoda gives it to the opponent) and is
+  consumed at the end of the **flag holder's** next turn; the owner's flag is therefore played first.
+  One earned anywhere in the turn — including the start-of-turn step (Agora Conspiracy) — is taken
+  at the end of that turn, after the reveal.
 
 ### 6.1 Actions
 
@@ -418,15 +420,15 @@ Horizontal positions in half-card units (`x`), centre-aligned, derived from pp. 
   (the Age card's cost is ignored), tuck the Age card face down under the Wonder (it has no other
   effect), resolve the Wonder's effects.
 - **B-ACT-4 Seven Wonders limit** — only 7 Wonders may be constructed in total. The moment the 7th
-  is constructed, the one remaining unbuilt Wonder goes to the box. Hence a player cannot construct
+  is constructed, the one remaining unbuilt Wonder is Destroyed. Hence a player cannot construct
   a Wonder if 7 already exist.
 - **B-ACT-5 Limit as a count** (needed once expansions can un-build or remove Wonders). Let
   `built` = Wonders constructed right now, both cities. A player may construct a Wonder iff
   `built < 7`, or they own a constructed *Easter Island*, or the Wonder *is* Easter Island
   (`extra-wonders.md`). Whenever a construction brings `built` to ≥ 7, every unbuilt Wonder held by a
-  player without a constructed Easter Island goes to the box. A boxed Wonder never returns. So
+  player without a constructed Easter Island is Destroyed. A Destroyed Wonder never returns. So
   un-building (Anubis, Easter Island) or removing (Sabotage, Atlantis) a Wonder re-opens the limit
-  for the Wonders still unbuilt — in practice only the un-built one, since the rest were boxed.
+  for the Wonders still unbuilt — in practice only the un-built one, since the rest were Destroyed.
 
 ## 7. Ages
 
@@ -518,7 +520,7 @@ taxonomy. Classify each effect by **when** it acts:
 | **Supremacy contributor** | continuously checked | shields, science symbols, chamber control |
 
 - **B-EFF-1** Instant effects are **permanent**: once applied, they are never undone, even if their
-  source later leaves play (a card discarded, stolen or swapped; a Wonder returned to the box or
+  source later leaves play (a card discarded, stolen or swapped; a Wonder Destroyed or
   un-built). Only static, triggered and scoring effects follow the source. The single exception is
   Agora's **Shield decree**, whose shield is tied to chamber control (`agora.md` §6.1).
 
@@ -542,11 +544,10 @@ Wonders) automatically update production, chains, and scoring.
 
 ### 10.4 Card zones & movement
 
-Zones a card/component can be in: `deck(age)`, `removedAtSetup(age)`, `structure(slot, faceUp)`,
-`city(player)`, `underWonder(wonder)`, `discard`, `box`. Movements: take from structure, build,
-discard, tuck under Wonder; and (expansions) steal, swap, discard-from-city, return-Wonder-to-box,
-un-build a Wonder. The same applies to tokens (progress: `board / removedAtSetup / player / box /
-locked`) and Wonders (`draft / player.unbuilt / player.built / box`).
+Zones a card/component can be in: `deck(age)`, `structure(slot, faceUp)`,
+`city(player)`, `underWonder(wonder)`, `discard`, `box`, `destroyed`. `destroyed` is terminal (nothing leaves it) and never a draw source; there is **one** `box`: effects that "draw from the cards/tokens/Wonders removed at setup" are queries over it (type, and Age for cards). Movements: take from structure, build,
+discard, tuck under Wonder; and (expansions) steal, swap, discard-from-city, destroy-Wonder,
+un-build a Wonder. The same applies to tokens (progress: `board / player / box / destroyed / locked`) and Wonders (`draft / player.unbuilt / player.built / box / destroyed`).
 
 ### 10.5 Military track
 
