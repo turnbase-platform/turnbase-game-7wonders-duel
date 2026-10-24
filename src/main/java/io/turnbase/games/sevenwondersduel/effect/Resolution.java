@@ -11,10 +11,12 @@ import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.event.GameEvent;
+import io.turnbase.games.sevenwondersduel.event.PawnMoved;
 import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -101,6 +103,16 @@ public final class Resolution {
             s.withPhase(Phase.OVER)
                 .withVictory(new Victory(winner, reason))
                 .withAgenda(Agenda.EMPTY));
+  }
+
+  /** Moves the military pawn and records {@link PawnMoved}; nothing happens if it is there. */
+  public void setPawn(Pawn pawn) {
+    Pawn from = state.pawn();
+    if (from.equals(pawn)) {
+      return;
+    }
+    state = state.withPawn(pawn);
+    emit(new PawnMoved(from, pawn));
   }
 
   /** Changes a treasury by {@code delta}; a result below zero is a defect in the caller. */

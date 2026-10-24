@@ -28,4 +28,21 @@ public record Pawn(PlayerId side, int space) {
       throw new IllegalArgumentException("a pawn off the centre needs a side");
     }
   }
+
+  /**
+   * The pawn one space closer to {@code target}'s capital (B-MIL-2): out along the target's side,
+   * back along the other player's side, and onto the target's side from the centre. A pawn on a
+   * capital stays there.
+   *
+   * @param target the player whose capital is approached
+   */
+  public Pawn stepToward(PlayerId target) {
+    if (side == null) {
+      return new Pawn(target, 1);
+    }
+    if (side.equals(target)) {
+      return new Pawn(side, Math.min(space + 1, CAPITAL));
+    }
+    return space == 1 ? CENTRE : new Pawn(side, space - 1);
+  }
 }

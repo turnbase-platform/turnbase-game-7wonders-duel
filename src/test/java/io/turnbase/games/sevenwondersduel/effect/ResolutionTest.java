@@ -11,6 +11,7 @@ import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
 import io.turnbase.games.sevenwondersduel.event.EventRecord;
+import io.turnbase.games.sevenwondersduel.event.PawnMoved;
 import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
@@ -80,6 +81,28 @@ class ResolutionTest {
     r.drain();
 
     assertThat(r.state().player(P1).coins()).isEqualTo(7);
+  }
+
+  @Test
+  void setPawnMovesItAndRecordsWhereFromAndTo() {
+    Resolution r = resolution();
+    Pawn there = new Pawn(P2, 3);
+
+    r.setPawn(there);
+
+    assertThat(r.state().pawn()).isEqualTo(there);
+    assertThat(r.events())
+        .extracting(EventRecord::event)
+        .containsExactly(new PawnMoved(Pawn.CENTRE, there));
+  }
+
+  @Test
+  void setPawnToWhereItIsRecordsNothing() {
+    Resolution r = resolution();
+
+    r.setPawn(Pawn.CENTRE);
+
+    assertThat(r.events()).isEmpty();
   }
 
   @Test
