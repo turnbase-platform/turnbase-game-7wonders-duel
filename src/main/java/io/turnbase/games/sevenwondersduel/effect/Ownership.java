@@ -1,6 +1,7 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
@@ -34,5 +35,13 @@ public final class Ownership {
         .filter(type::isInstance)
         .map(type::cast)
         .toList();
+  }
+
+  /** How many live components carrying {@code tag} the player has. */
+  public static int count(DuelState state, RuleSet rules, PlayerId player, Tag tag) {
+    return (int)
+        liveComponents(state, rules.zones(), player).stream()
+            .filter(id -> rules.catalog().get(id).tags().contains(tag))
+            .count();
   }
 }

@@ -14,9 +14,6 @@ public record ScoreContext(DuelState state, RuleSet rules, PlayerId owner) {
 
   /** How many live components carrying {@code tag} the player has. */
   public int count(PlayerId player, Tag tag) {
-    return (int)
-        Ownership.liveComponents(state, rules.zones(), player).stream()
-            .filter(id -> rules.catalog().get(id).tags().contains(tag))
-            .count();
+    return Ownership.count(state, rules, player, tag);
   }
 }
