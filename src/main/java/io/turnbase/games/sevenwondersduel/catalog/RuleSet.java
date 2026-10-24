@@ -117,6 +117,11 @@ public final class RuleSet {
     return layout(id);
   }
 
+  /** The Age numbers the packs define layouts for, ascending. */
+  public List<Integer> ages() {
+    return ageLayouts.keySet().stream().sorted().toList();
+  }
+
   public List<PackId> packIds() {
     return packIds;
   }

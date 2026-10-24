@@ -25,4 +25,9 @@ public final class Catalog {
   public List<Component> ofType(ComponentType type) {
     return byId.values().stream().filter(c -> c.type() == type).toList();
   }
+
+  /** Components carrying {@code tag}, in catalog order. */
+  public List<Component> tagged(Tag tag) {
+    return byId.values().stream().filter(c -> c.tags().contains(tag)).toList();
+  }
 }
