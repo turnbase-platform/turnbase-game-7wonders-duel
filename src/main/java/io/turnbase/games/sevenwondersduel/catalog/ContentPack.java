@@ -1,6 +1,7 @@
 package io.turnbase.games.sevenwondersduel.catalog;
 
 import io.turnbase.games.sevenwondersduel.id.PackId;
+import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
 
@@ -15,4 +16,9 @@ public interface ContentPack {
   List<ZoneKind> zoneKinds();
 
   List<Component> components();
+
+  /** Structure layouts this pack adds; most packs add none. */
+  default List<Layout> layouts() {
+    return List.of();
+  }
 }

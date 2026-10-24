@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
+import io.turnbase.games.sevenwondersduel.id.LayoutId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
+import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
@@ -16,8 +18,13 @@ class RuleSetTest {
   private record TestComponent(ComponentId id, String name, ComponentType type)
       implements Component {}
 
-  private record TestPack(PackId id, List<ZoneKind> zoneKinds, List<Component> components)
-      implements ContentPack {}
+  private record TestPack(
+      PackId id, List<ZoneKind> zoneKinds, List<Component> components, List<Layout> layouts)
+      implements ContentPack {
+    TestPack(PackId id, List<ZoneKind> zoneKinds, List<Component> components) {
+      this(id, zoneKinds, components, List.of());
+    }
+  }
 
   private static ZoneKind zone(String id) {
     return new ZoneKind(ZoneId.of(id), Visibility.PUBLIC, false, false);
@@ -98,5 +105,39 @@ class RuleSetTest {
     assertThatThrownBy(() -> catalog.get(ComponentId.of("nope")))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("nope");
+  }
+
+  private static Layout layout(String id) {
+    return new Layout(LayoutId.of(id), List.of(new Layout.Row(true, List.of(0))));
+  }
+
+  private static ContentPack packWith(String pack, Layout... layouts) {
+    return new TestPack(PackId.of(pack), List.of(), List.of(), List.of(layouts));
+  }
+
+  @Test
+  void layoutIsLookedUpById() {
+    RuleSet rules = RuleSet.assemble(List.of(packWith("base", layout("a"), layout("b"))));
+
+    assertThat(rules.layout(LayoutId.of("b"))).isEqualTo(layout("b"));
+  }
+
+  @Test
+  void unknownLayoutIsRejectedByName() {
+    RuleSet rules = RuleSet.assemble(List.of(packWith("base", layout("a"))));
+
+    assertThatThrownBy(() -> rules.layout(LayoutId.of("missing")))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("missing");
+  }
+
+  @Test
+  void duplicateLayoutAcrossPacksIsRejected() {
+    assertThatThrownBy(
+            () ->
+                RuleSet.assemble(
+                    List.of(packWith("base", layout("a")), packWith("agora", layout("a")))))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("duplicate layout 'a'");
   }
 }

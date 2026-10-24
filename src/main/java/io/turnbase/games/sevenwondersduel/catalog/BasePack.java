@@ -1,12 +1,16 @@
 package io.turnbase.games.sevenwondersduel.catalog;
 
+import io.turnbase.games.sevenwondersduel.id.LayoutId;
 import io.turnbase.games.sevenwondersduel.id.PackId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
+import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
 
-/** The base game's content. Zones only for now; card, Wonder and token data arrive later. */
+/**
+ * The base game's content. Zones and Age layouts for now; card, Wonder and token data arrive later.
+ */
 public final class BasePack implements ContentPack {
 
   @Override
@@ -35,6 +39,46 @@ public final class BasePack implements ContentPack {
   @Override
   public List<Component> components() {
     return List.of();
+  }
+
+  @Override
+  public List<Layout> layouts() {
+    return List.of(
+        layout(
+            "age1",
+            up(4, 6),
+            down(3, 5, 7),
+            up(2, 4, 6, 8),
+            down(1, 3, 5, 7, 9),
+            up(0, 2, 4, 6, 8, 10)),
+        layout(
+            "age2",
+            up(0, 2, 4, 6, 8, 10),
+            down(1, 3, 5, 7, 9),
+            up(2, 4, 6, 8),
+            down(3, 5, 7),
+            up(4, 6)),
+        layout(
+            "age3",
+            up(2, 4),
+            down(1, 3, 5),
+            up(0, 2, 4, 6),
+            down(1, 5),
+            up(0, 2, 4, 6),
+            down(1, 3, 5),
+            up(2, 4)));
+  }
+
+  private static Layout layout(String id, Layout.Row... rows) {
+    return new Layout(LayoutId.of(id), List.of(rows));
+  }
+
+  private static Layout.Row up(Integer... xs) {
+    return new Layout.Row(true, List.of(xs));
+  }
+
+  private static Layout.Row down(Integer... xs) {
+    return new Layout.Row(false, List.of(xs));
   }
 
   private static ZoneKind live(String id) {
