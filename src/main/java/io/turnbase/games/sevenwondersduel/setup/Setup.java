@@ -12,6 +12,7 @@ import io.turnbase.games.sevenwondersduel.rng.Rng;
 import io.turnbase.games.sevenwondersduel.rng.Rng.Drawn;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -97,7 +98,8 @@ public final class Setup {
         Map.of(a, Set.of(), b, Set.of()),
         table.cursor(),
         rules.packIds(),
-        Agenda.EMPTY);
+        Agenda.EMPTY,
+        Pawn.CENTRE);
   }
 
   /**

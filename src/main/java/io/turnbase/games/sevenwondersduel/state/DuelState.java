@@ -27,6 +27,7 @@ import java.util.Set;
  * @param rng position in the seeded random stream
  * @param packs the content packs the game was set up with
  * @param agenda the pending steps: effects still to apply and decisions still to be answered
+ * @param pawn where the military pawn stands (B-MIL-1)
  */
 public record DuelState(
     Phase phase,
@@ -39,7 +40,8 @@ public record DuelState(
     Map<PlayerId, Set<ComponentId>> knowledge,
     RngCursor rng,
     List<PackId> packs,
-    Agenda agenda) {
+    Agenda agenda,
+    Pawn pawn) {
 
   public DuelState {
     placements = List.copyOf(placements);
@@ -57,6 +59,9 @@ public record DuelState(
     }
     if (!players.containsKey(first)) {
       throw new IllegalArgumentException("first player is not seated: " + first);
+    }
+    if (pawn.side() != null && !players.containsKey(pawn.side())) {
+      throw new IllegalArgumentException("pawn side is not seated: " + pawn.side().value());
     }
     if (deciding != null && !players.containsKey(deciding)) {
       throw new IllegalArgumentException("deciding player is not seated: " + deciding);
@@ -90,32 +95,98 @@ public record DuelState(
 
   public DuelState withPhase(Phase phase) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withActive(PlayerId active) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withAge(int age) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withFirst(PlayerId first) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withDeciding(PlayerId deciding) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withPlacements(List<Placement> placements) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withPlayer(PlayerId id, PlayerState state) {
@@ -123,7 +194,7 @@ public record DuelState(
     Map<PlayerId, PlayerState> next = new HashMap<>(players);
     next.put(id, state);
     return new DuelState(
-        phase, active, age, first, deciding, placements, next, knowledge, rng, packs, agenda);
+        phase, active, age, first, deciding, placements, next, knowledge, rng, packs, agenda, pawn);
   }
 
   public DuelState withKnowledge(PlayerId id, Set<ComponentId> known) {
@@ -131,17 +202,55 @@ public record DuelState(
     Map<PlayerId, Set<ComponentId>> next = new HashMap<>(knowledge);
     next.put(id, known);
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, next, rng, packs, agenda);
+        phase, active, age, first, deciding, placements, players, next, rng, packs, agenda, pawn);
   }
 
   public DuelState withAgenda(Agenda agenda) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
+  }
+
+  public DuelState withPawn(Pawn pawn) {
+    return new DuelState(
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   public DuelState withRng(RngCursor rng) {
     return new DuelState(
-        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+        phase,
+        active,
+        age,
+        first,
+        deciding,
+        placements,
+        players,
+        knowledge,
+        rng,
+        packs,
+        agenda,
+        pawn);
   }
 
   private static Map<PlayerId, Set<ComponentId>> copyOfSets(Map<PlayerId, Set<ComponentId>> in) {

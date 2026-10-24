@@ -14,6 +14,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -130,7 +131,8 @@ public final class Fixtures {
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
         rules.packIds(),
-        Agenda.EMPTY);
+        Agenda.EMPTY,
+        Pawn.CENTRE);
   }
 
   private Fixtures() {}

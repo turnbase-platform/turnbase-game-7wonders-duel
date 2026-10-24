@@ -37,7 +37,8 @@ class DuelStateTest {
         Map.of(P1, Set.of(), P2, Set.of()),
         RngCursor.start(1),
         List.of(PackId.of("base")),
-        Agenda.EMPTY);
+        Agenda.EMPTY,
+        Pawn.CENTRE);
   }
 
   private static DuelState state() {
@@ -109,7 +110,8 @@ class DuelStateTest {
                     Map.of(),
                     RngCursor.start(1),
                     List.of(),
-                    Agenda.EMPTY))
+                    Agenda.EMPTY,
+                    Pawn.CENTRE))
         .isInstanceOf(IllegalArgumentException.class);
   }
 
@@ -162,7 +164,8 @@ class DuelStateTest {
                     Map.of(stranger, Set.of()),
                     RngCursor.start(1),
                     List.of(),
-                    Agenda.EMPTY))
+                    Agenda.EMPTY,
+                    Pawn.CENTRE))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining(stranger.value().toString());
   }
@@ -189,5 +192,23 @@ class DuelStateTest {
     assertThatThrownBy(() -> state(List.of()).withAge(-1))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("age");
+  }
+
+  @Test
+  void pawnSideMustBeSeated() {
+    PlayerId stranger =
+        PlayerId.of(java.util.UUID.fromString("00000000-0000-0000-0000-000000000009"));
+
+    assertThatThrownBy(() -> state().withPawn(new Pawn(stranger, 2)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("pawn side");
+  }
+
+  @Test
+  void withPawnReplacesOnlyThePawn() {
+    DuelState moved = state().withPawn(new Pawn(P1, 2));
+
+    assertThat(moved.pawn()).isEqualTo(new Pawn(P1, 2));
+    assertThat(moved.withPawn(Pawn.CENTRE)).isEqualTo(state());
   }
 }

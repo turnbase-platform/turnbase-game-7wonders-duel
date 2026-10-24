@@ -16,6 +16,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -65,7 +66,8 @@ class SnapshotsTest {
                     P2,
                     P1,
                     new EffectRef(ComponentId.of("c2"), 0),
-                    List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))))));
+                    List.of(new ComponentOption(ComponentId.of("t1")), new PlayerOption(P1))))),
+        new Pawn(P2, 3));
   }
 
   @Test
@@ -73,6 +75,49 @@ class SnapshotsTest {
     DuelState original = sample();
 
     assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(original))).isEqualTo(original);
+  }
+
+  @Test
+  void pawnTravelsThroughTheSnapshotAtTheCentreAndOffIt() {
+    SevenWondersDuelState off = Snapshots.toSnapshot(sample());
+    DuelState centred = sample().withPawn(Pawn.CENTRE);
+    SevenWondersDuelState centre = Snapshots.toSnapshot(centred);
+
+    assertThat(off.pawnSide()).isEqualTo(P2.value());
+    assertThat(off.pawnSpace()).isEqualTo(3);
+    assertThat(centre.pawnSide()).isNull();
+    assertThat(centre.pawnSpace()).isZero();
+    assertThat(Snapshots.fromSnapshot(centre)).isEqualTo(centred);
+  }
+
+  @Test
+  void inconsistentPawnIsRejected() {
+    SevenWondersDuelState good = Snapshots.toSnapshot(sample());
+    SevenWondersDuelState sideAtCentre = withPawn(good, P1.value(), 0);
+    SevenWondersDuelState noSide = withPawn(good, null, 2);
+
+    assertThatThrownBy(() -> Snapshots.fromSnapshot(sideAtCentre))
+        .isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> Snapshots.fromSnapshot(noSide))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  private static SevenWondersDuelState withPawn(SevenWondersDuelState good, UUID side, int space) {
+    return new SevenWondersDuelState(
+        good.phase(),
+        good.active(),
+        good.age(),
+        good.first(),
+        good.deciding(),
+        good.placements(),
+        good.players(),
+        good.knowledge(),
+        good.rngSeed(),
+        good.rngDraws(),
+        good.packs(),
+        good.agenda(),
+        side,
+        space);
   }
 
   @Test
@@ -116,7 +161,8 @@ class SnapshotsTest {
             empty.knowledge(),
             empty.rng(),
             List.of(),
-            empty.agenda());
+            empty.agenda(),
+            empty.pawn());
 
     assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(noPacks))).isEqualTo(noPacks);
   }
@@ -152,7 +198,9 @@ class SnapshotsTest {
             good.rngSeed(),
             good.rngDraws(),
             good.packs(),
-            good.agenda());
+            good.agenda(),
+            good.pawnSide(),
+            good.pawnSpace());
     SevenWondersDuelState blankId =
         new SevenWondersDuelState(
             good.phase(),
@@ -166,7 +214,9 @@ class SnapshotsTest {
             good.rngSeed(),
             good.rngDraws(),
             good.packs(),
-            good.agenda());
+            good.agenda(),
+            good.pawnSide(),
+            good.pawnSpace());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(badPhase))
         .isInstanceOf(IllegalArgumentException.class)
@@ -191,7 +241,9 @@ class SnapshotsTest {
             good.rngSeed(),
             good.rngDraws(),
             good.packs(),
-            List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, null, List.of())));
+            List.of(new StepData("NOT_A_KIND", P1.value(), "c1", 0, null, List.of())),
+            good.pawnSide(),
+            good.pawnSpace());
 
     assertThatThrownBy(() -> Snapshots.fromSnapshot(bad))
         .isInstanceOf(IllegalArgumentException.class)

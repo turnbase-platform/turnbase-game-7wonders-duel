@@ -25,6 +25,8 @@ import java.util.UUID;
  * @param rngDraws values already drawn from the stream
  * @param packs ids of the content packs in play
  * @param agenda the pending steps, top first
+ * @param pawnSide the player whose side the military pawn is on, or null at the centre
+ * @param pawnSpace the pawn's distance from the centre
  */
 public record SevenWondersDuelState(
     String phase,
@@ -38,5 +40,7 @@ public record SevenWondersDuelState(
     long rngSeed,
     long rngDraws,
     List<String> packs,
-    List<StepData> agenda)
+    List<StepData> agenda,
+    UUID pawnSide,
+    int pawnSpace)
     implements GameState {}

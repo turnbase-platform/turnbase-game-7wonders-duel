@@ -12,6 +12,7 @@ import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.snapshot.Snapshots;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -126,7 +127,8 @@ class BasePackTest {
             Map.of(P1, Set.of(a), P2, Set.of()),
             new RngCursor(5, 3),
             RULES.packIds(),
-            Agenda.EMPTY);
+            Agenda.EMPTY,
+            Pawn.CENTRE);
 
     GdkSerialization serialization = new GdkSerialization();
     String json = serialization.writeState(Snapshots.toSnapshot(state), Long.MAX_VALUE);

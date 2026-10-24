@@ -15,6 +15,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.state.PlayerState;
 import io.turnbase.games.sevenwondersduel.zone.Location;
@@ -66,7 +67,9 @@ public final class Snapshots {
         state.rng().seed(),
         state.rng().draws(),
         state.packs().stream().map(PackId::value).toList(),
-        state.agenda().steps().stream().map(Snapshots::stepData).toList());
+        state.agenda().steps().stream().map(Snapshots::stepData).toList(),
+        state.pawn().side() == null ? null : state.pawn().side().value(),
+        state.pawn().space());
   }
 
   public static DuelState fromSnapshot(SevenWondersDuelState snapshot) {
@@ -100,7 +103,10 @@ public final class Snapshots {
         knowledge,
         new RngCursor(snapshot.rngSeed(), snapshot.rngDraws()),
         snapshot.packs().stream().map(PackId::of).toList(),
-        new Agenda(snapshot.agenda().stream().map(Snapshots::step).toList()));
+        new Agenda(snapshot.agenda().stream().map(Snapshots::step).toList()),
+        new Pawn(
+            snapshot.pawnSide() == null ? null : PlayerId.of(snapshot.pawnSide()),
+            snapshot.pawnSpace()));
   }
 
   private static StepData stepData(Step step) {

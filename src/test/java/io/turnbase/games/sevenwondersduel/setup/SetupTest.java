@@ -10,6 +10,7 @@ import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
@@ -44,6 +45,11 @@ class SetupTest {
     assertThat(state.player(P1).coins()).isEqualTo(7);
     assertThat(state.player(P2).coins()).isEqualTo(7);
     assertThat(state.agenda().isEmpty()).isTrue();
+  }
+
+  @Test
+  void pawnStartsAtTheCentre() {
+    assertThat(start(1).pawn()).isEqualTo(Pawn.CENTRE);
   }
 
   @Test
