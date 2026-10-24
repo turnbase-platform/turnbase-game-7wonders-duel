@@ -150,4 +150,16 @@ class ScienceTest {
         .doesNotContain(new ComponentOption(LAW.id()));
     assertThat(second.state().active()).isEqualTo(g.actor());
   }
+
+  @Test
+  void lawGivesTheSixthSymbolAndWinsTheGame() {
+    Game g =
+        game(
+            id -> green(id, "a"), List.of(green("h", "a", "b", "c", "d"), wheel("held")), LAW, PAY);
+
+    Outcome done = g.answer(g.build(), LAW);
+
+    assertThat(done.state().phase()).isEqualTo(Phase.OVER);
+    assertThat(done.state().victory()).isEqualTo(new Victory(g.actor(), Victory.Reason.SCIENCE));
+  }
 }
