@@ -29,7 +29,7 @@ class DiscardValueTest {
   }
 
   private static Tagged yellow(String id) {
-    return new Tagged(ComponentId.of(id), Set.of(Tag.YELLOW));
+    return new Tagged(ComponentId.of(id), Set.of(Tag.color("yellow")));
   }
 
   private static Tagged blue(String id) {

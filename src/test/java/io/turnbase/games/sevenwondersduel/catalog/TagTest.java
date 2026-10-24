@@ -22,4 +22,10 @@ class TagTest {
   void componentsHaveNoTagsByDefault() {
     assertThat(Card.of("c").tags()).isEmpty();
   }
+
+  @Test
+  void aColourIsATagNamedByItsColour() {
+    assertThat(Tag.color("yellow").value()).isEqualTo("color:yellow");
+    assertThat(Tag.color("white")).isEqualTo(Tag.of("color:white"));
+  }
 }

@@ -13,6 +13,7 @@ final class DiscardValue {
 
   static final int BASE = 2;
   private static final ZoneId CITY = ZoneId.of("city");
+  private static final Tag YELLOW_CARD = Tag.color("yellow");
 
   private DiscardValue() {}
 
@@ -20,7 +21,7 @@ final class DiscardValue {
     Location city = new Location(CITY, player.value().toString());
     long yellow =
         Placements.idsIn(state.placements(), city).stream()
-            .filter(id -> rules.catalog().get(id).tags().contains(Tag.YELLOW))
+            .filter(id -> rules.catalog().get(id).tags().contains(YELLOW_CARD))
             .count();
     return BASE + (int) yellow;
   }

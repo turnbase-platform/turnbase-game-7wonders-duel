@@ -8,9 +8,6 @@ public record Tag(String value) {
 
   public static final Tag GUILD = new Tag("guild");
   public static final Tag PROGRESS = new Tag("progress");
-  public static final Tag YELLOW = new Tag("color:yellow");
-  public static final Tag BLUE = new Tag("color:blue");
-  public static final Tag RED = new Tag("color:red");
 
   public Tag {
     if (value == null || value.isBlank()) {
@@ -20,6 +17,11 @@ public record Tag(String value) {
 
   public static Tag of(String value) {
     return new Tag(value);
+  }
+
+  /** The tag of the cards printed in {@code colour}; an expansion adds its own colours. */
+  public static Tag color(String colour) {
+    return new Tag("color:" + colour);
   }
 
   /** The tag of the cards that belong to Age {@code number}. */

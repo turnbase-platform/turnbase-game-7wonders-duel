@@ -70,7 +70,7 @@ class ConcludeTest {
 
   @Test
   void equalTotalsGoToTheMoreBluePoints() {
-    Card blue = Card.worth("blue", 3, Tag.BLUE);
+    Card blue = Card.worth("blue", 3, Tag.color("blue"));
     Card green = Card.worth("green", 3);
 
     Resolution r =

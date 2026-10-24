@@ -55,7 +55,7 @@ class ScoringTest {
 
   @Test
   void fixedPointsLandInTheLineOfTheirComponent() {
-    Part blue = Part.of("blue", ComponentType.CARD, Points.fixed(3)).tagged(Tag.BLUE);
+    Part blue = Part.of("blue", ComponentType.CARD, Points.fixed(3)).tagged(Tag.color("blue"));
     Part green = Part.of("green", ComponentType.CARD, Points.fixed(2));
     Part wonder = Part.of("wonder", ComponentType.WONDER, Points.fixed(4));
     Part token = Part.of("token", ComponentType.TOKEN, Points.fixed(5));

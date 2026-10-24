@@ -30,7 +30,7 @@ class StrategyTest {
   private static final ComponentId CARD =
       takeable(SetupFixtures.startedAgeOne(TurnFixtures.rulesWith(), SEED));
   private static final Part STRATEGY =
-      Part.card("strategy").withModifiers(new ShieldBonus(Tag.RED, 1));
+      Part.card("strategy").withModifiers(new ShieldBonus(Tag.color("red"), 1));
 
   private record Game(RuleSet rules, DuelState state, PlayerId actor) {
     PlayerId rival() {
@@ -60,7 +60,7 @@ class StrategyTest {
   }
 
   private static Part redShield(int count) {
-    return ageOne(CARD).tagged(Tag.age(1), Tag.RED).withEffects(new Shields(count));
+    return ageOne(CARD).tagged(Tag.age(1), Tag.color("red")).withEffects(new Shields(count));
   }
 
   @Test

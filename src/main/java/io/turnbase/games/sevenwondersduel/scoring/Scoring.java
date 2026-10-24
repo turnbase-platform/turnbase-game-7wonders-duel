@@ -70,6 +70,7 @@ public final class Scoring {
     return decided > 0 ? a.player() : b.player();
   }
 
+  private static final Tag BLUE_CARD = Tag.color("blue");
   private static final int COINS_PER_POINT = 3;
 
   /** The pawn leans towards a player's capital; the other player scores its zone. */
@@ -86,7 +87,7 @@ public final class Scoring {
     return switch (component.type()) {
       case WONDER -> WONDERS;
       case TOKEN -> PROGRESS;
-      case CARD -> component.tags().contains(Tag.BLUE) ? BLUE : BUILDINGS;
+      case CARD -> component.tags().contains(BLUE_CARD) ? BLUE : BUILDINGS;
     };
   }
 }
