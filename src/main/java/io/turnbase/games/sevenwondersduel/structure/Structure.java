@@ -27,6 +27,8 @@ public final class Structure {
 
   private Structure() {}
 
+  private static final ZoneId DECK = ZoneId.of("deck");
+
   /**
    * Lays {@code cards} out in {@code layout}, card {@code i} at slot {@code i}, face up or down as
    * the layout says (B-STR-1).
@@ -41,6 +43,18 @@ public final class Structure {
               + layout.size()
               + " cards, got "
               + cards.size());
+    }
+    if (!occupied(all).isEmpty()) {
+      throw new IllegalArgumentException("the structure is not empty");
+    }
+    java.util.Set<ComponentId> seen = new java.util.HashSet<>();
+    for (ComponentId card : cards) {
+      if (!seen.add(card)) {
+        throw new IllegalArgumentException("card is dealt twice: " + card.value());
+      }
+      if (!Placements.locationOf(all, card).zone().equals(DECK)) {
+        throw new IllegalArgumentException("card is not in the deck: " + card.value());
+      }
     }
     List<Slot> slots = layout.slots();
     List<Placement> result = all;
@@ -94,7 +108,9 @@ public final class Structure {
     for (Placement p : all) {
       Location at = p.at();
       if (at.zone().equals(UP) || at.zone().equals(DOWN)) {
-        slots.put(Slot.parse(at.key()), p);
+        if (slots.put(Slot.parse(at.key()), p) != null) {
+          throw new IllegalStateException("two cards share the structure slot " + at.key());
+        }
       }
     }
     return slots;

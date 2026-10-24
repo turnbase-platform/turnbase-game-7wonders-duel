@@ -38,6 +38,52 @@ class LayoutTest {
   }
 
   @Test
+  void rowPositionsMatchTheRulebookTable() {
+    assertThat(xs(age(1)))
+        .containsExactly(
+            List.of(4, 6),
+            List.of(3, 5, 7),
+            List.of(2, 4, 6, 8),
+            List.of(1, 3, 5, 7, 9),
+            List.of(0, 2, 4, 6, 8, 10));
+    assertThat(xs(age(2)))
+        .containsExactly(
+            List.of(0, 2, 4, 6, 8, 10),
+            List.of(1, 3, 5, 7, 9),
+            List.of(2, 4, 6, 8),
+            List.of(3, 5, 7),
+            List.of(4, 6));
+    assertThat(xs(age(3)))
+        .containsExactly(
+            List.of(2, 4),
+            List.of(1, 3, 5),
+            List.of(0, 2, 4, 6),
+            List.of(1, 5),
+            List.of(0, 2, 4, 6),
+            List.of(1, 3, 5),
+            List.of(2, 4));
+  }
+
+  @Test
+  void everySlotAboveTheBottomRowIsCoveredByTheRowBelow() {
+    for (int n = 1; n <= 3; n++) {
+      Layout layout = age(n);
+      int bottom = layout.rows().size() - 1;
+      for (Slot slot : layout.slots()) {
+        if (slot.row() < bottom) {
+          assertThat(layout.rows().get(slot.row() + 1).xs())
+              .as("age %d slot %s", n, slot.key())
+              .anyMatch(x -> Math.abs(x - slot.x()) == 1);
+        }
+      }
+    }
+  }
+
+  private static List<List<Integer>> xs(Layout layout) {
+    return layout.rows().stream().map(Row::xs).toList();
+  }
+
+  @Test
   void ageThreeGapRowSitsAtOneAndFive() {
     assertThat(age(3).rows().get(3).xs()).containsExactly(1, 5);
     assertThat(age(3).faceUp(new Slot(3, 1))).isFalse();
@@ -61,6 +107,12 @@ class LayoutTest {
     assertThatThrownBy(() -> Slot.parse("nope"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("nope");
+  }
+
+  @Test
+  void nonCanonicalSlotKeyIsRejected() {
+    assertThatThrownBy(() -> Slot.parse("01:2")).isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> Slot.parse("+1:2")).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test

@@ -22,7 +22,10 @@ public record Slot(int row, int x) {
     String[] parts = key.split(":", -1);
     try {
       if (parts.length == 2) {
-        return new Slot(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+        Slot slot = new Slot(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+        if (slot.key().equals(key)) {
+          return slot;
+        }
       }
     } catch (NumberFormatException e) {
       // falls through to the named error

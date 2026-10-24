@@ -166,4 +166,33 @@ class StructureTest {
     assertThat(r.events()).isEmpty();
     assertThat(Placements.locationOf(r.state().placements(), card(9)).zone()).isEqualTo(DOWN);
   }
+
+  @Test
+  void dealRejectsACardThatIsNotInTheDeck() {
+    List<Placement> all = Placements.move(deck(), card(5), Fixtures.zone("discard"), RULES.zones());
+
+    assertThatThrownBy(() -> Structure.deal(all, age(1), deckOrder(), RULES.zones()))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("c5");
+  }
+
+  @Test
+  void dealRejectsADuplicatedCard() {
+    List<ComponentId> cards = new ArrayList<>(deckOrder());
+    cards.set(1, card(0));
+    List<Placement> before = deck();
+
+    assertThatThrownBy(() -> Structure.deal(before, age(1), cards, RULES.zones()))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("c0");
+    assertThat(before).isEqualTo(deck());
+  }
+
+  @Test
+  void dealRejectsANonEmptyStructure() {
+    List<Placement> all = dealt(1);
+
+    assertThatThrownBy(() -> Structure.deal(all, age(2), deckOrder(), RULES.zones()))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
 }
