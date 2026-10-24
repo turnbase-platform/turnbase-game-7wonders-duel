@@ -123,4 +123,34 @@ class DuelStateTest {
     assertThatThrownBy(() -> state.placements().add(input.get(0)))
         .isInstanceOf(UnsupportedOperationException.class);
   }
+
+  @Test
+  void duplicatePlacementOfOneComponentIsRejected() {
+    Placement first = new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("deck")));
+    Placement second = new Placement(ComponentId.of("c1"), Location.of(ZoneId.of("discard")));
+
+    assertThatThrownBy(() -> state(List.of(first, second)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("c1");
+    assertThatThrownBy(() -> state().withPlacements(List.of(first, second)))
+        .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  void knowledgeForAStrangerIsRejected() {
+    PlayerId stranger = PlayerId.of(UUID.randomUUID());
+
+    assertThatThrownBy(
+            () ->
+                new DuelState(
+                    Phase.SETUP,
+                    P1,
+                    List.of(),
+                    Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
+                    Map.of(stranger, Set.of()),
+                    RngCursor.start(1),
+                    List.of()))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining(stranger.value().toString());
+  }
 }

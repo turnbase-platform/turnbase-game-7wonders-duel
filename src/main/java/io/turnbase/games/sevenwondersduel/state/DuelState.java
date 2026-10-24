@@ -6,6 +6,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.rng.RngCursor;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,18 @@ public record DuelState(
     }
     if (!players.containsKey(active)) {
       throw new IllegalArgumentException("active player is not seated: " + active);
+    }
+    for (PlayerId known : knowledge.keySet()) {
+      if (!players.containsKey(known)) {
+        throw new IllegalArgumentException("knowledge for a player not seated: " + known.value());
+      }
+    }
+    Set<ComponentId> seen = new HashSet<>();
+    for (Placement placement : placements) {
+      if (!seen.add(placement.component())) {
+        throw new IllegalArgumentException(
+            "component placed more than once: " + placement.component().value());
+      }
     }
   }
 
