@@ -44,8 +44,13 @@ Source of truth for the rules: `docs/rules/` (`INDEX.md`, then `base.md` §10). 
 - Java 21 in Espresso: no Java 22+ APIs, no I/O, no clocks, no unseeded randomness
   (`backend-gdk-api.md` §9). All randomness from `InitContext.seed()`; the RNG position is part of
   the state.
-- Game state is a value: records, `List`, `Map`, `String`, `UUID` (`Map` is confirmed serializable
-  to JSON). No polymorphic objects in state; behaviour is looked up by id in the catalog.
+- Game state is a value (`backend-gdk-api.md` §5.1): records, `List`, `Map`, `Set`, `String`,
+  `UUID`, enums, boxed numerics. **Fatal** if violated: an interface-, abstract- or `Object`-typed
+  field (so no sealed interfaces *inside* state — a variant is one record with a kind enum), and a
+  `Map` key that is not `String`, `enum`, `UUID` or a boxed integral type. `Set`/`Map` order is not
+  preserved, so ordered data is a `List`. Behaviour is looked up by id in the catalog.
+- Therefore **ids inside state are `String`s** (components) and `UUID`s (players); typed wrappers
+  exist only in code outside state.
 - Depends on `turnbase-sdk` only. SDK gaps are fixed in the SDK, not worked around here.
 - `SevenWondersDuelState` is what the round-trip test serializes.
 - Output reaches players only through GDK effects (`Broadcast`, `SendToPlayer`, `Log`, `GameOver`).
@@ -56,12 +61,12 @@ Source of truth for the rules: `docs/rules/` (`INDEX.md`, then `base.md` §10). 
 ### 4.1 State — an immutable value, ownership is the only truth
 
 ```java
-record GameState(Phase phase, PlayerId active, List<Placement> placements,
-                 Map<PlayerId, PlayerState> players, Board board, Military military,
-                 List<Step> agenda, Map<PlayerId, Set<ComponentId>> knowledge,
-                 RngCursor rng, List<PackId> packs)
+record GameState(Phase phase, UUID active, List<Placement> placements,
+                 Map<UUID, PlayerState> players, Board board, Military military,
+                 List<Step> agenda, Map<UUID, Set<String>> knowledge,
+                 RngCursor rng, List<String> packs)
 record PlayerState(int coins, boolean playAgain, ...)
-record Placement(ComponentId id, Location at)
+record Placement(String componentId, Location at)
 ```
 
 - **Stored:** placements, coins, pawn position, agenda, per-player `playAgain` flag, per-player
@@ -122,7 +127,9 @@ A card is declarative data, e.g. `Stable = {cost: Wood, chainOut: Horseshoe, eff
   `Decision(owner, options)` (waits for that player; the owner may be the opponent).
 - The engine pops steps, resolving effects until it reaches a decision, then returns. `Answer`
   resumes the loop. Follow-ups are pushed to the front: deterministic, depth-first, printed order.
-- Steps hold `EffectRef(sourceId, index)` plus the choices bound so far — no polymorphic objects.
+- A `Step` is **one record** with a `StepKind` enum (`EFFECT`, `DECISION`), the source id and effect
+  index, the owner, and the choices bound so far as `List<String>` — never a sealed interface
+  (§3). The catalog turns it back into behaviour.
 - Infeasible options are not offered; an effect with no feasible option does nothing (B-EFF-3).
 
 ### 4.6 Flow
