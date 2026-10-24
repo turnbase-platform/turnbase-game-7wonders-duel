@@ -31,14 +31,14 @@ public record Token(
     triggers = List.copyOf(triggers);
   }
 
-  /** A token with no behaviour yet, id slugged from {@code name}. */
-  public static Token of(String name, Tag tag) {
+  /** A token with no behaviour yet, id slugged from {@code name}, carrying {@code tags}. */
+  public static Token of(String name, Tag... tags) {
     if (name == null || name.isBlank()) {
       throw new IllegalArgumentException("token name must not be blank");
     }
     String slug = name.trim().toLowerCase(Locale.ROOT).replace(' ', '-');
     return new Token(
-        ComponentId.of(slug), name.trim(), Set.of(tag), List.of(), List.of(), List.of());
+        ComponentId.of(slug), name.trim(), Set.of(tags), List.of(), List.of(), List.of());
   }
 
   public Token effects(Effect... more) {

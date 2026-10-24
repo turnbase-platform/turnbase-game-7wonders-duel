@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Builds the starting state of a game from the rule set and a seed (base.md §5.1, B-SET-3/4/6 and
@@ -139,20 +140,33 @@ public final class Setup {
   }
 
   /**
-   * B-SET-2: the military tokens of each zone lie face up on that zone, one per side; the i-th
-   * token tagged for a zone goes to the i-th player's side.
+   * B-SET-2: the military tokens of each zone lie face up on that zone, each on the side of the
+   * seat it is tagged for ({@link MilitaryTrack#seatTag}); {@code sides} lists the seats in order.
    */
   private static void placeMilitaryTokens(Table table, RuleSet rules, List<PlayerId> sides) {
     for (int zone : MilitaryTrack.TOKEN_ZONES) {
-      List<ComponentId> tokens = ids(rules.catalog().tagged(MilitaryTrack.zoneTag(zone)));
-      if (tokens.size() > sides.size()) {
-        throw new IllegalArgumentException(
-            "zone " + zone + " holds one military token per side, found " + tokens.size());
+      Map<Integer, Component> bySeat = new TreeMap<>();
+      for (Component token : rules.catalog().tagged(MilitaryTrack.zoneTag(zone))) {
+        int seat = seatOf(token, sides.size());
+        if (bySeat.putIfAbsent(seat, token) != null) {
+          throw new IllegalArgumentException(
+              "zone " + zone + " holds one military token per seat, found two for seat " + seat);
+        }
       }
-      for (int i = 0; i < tokens.size(); i++) {
-        table.placeAll(List.of(tokens.get(i)), MilitaryTrack.tokenSpot(sides.get(i), zone));
+      bySeat.forEach(
+          (seat, token) ->
+              table.placeAll(List.of(token.id()), MilitaryTrack.tokenSpot(sides.get(seat), zone)));
+    }
+  }
+
+  private static int seatOf(Component token, int seats) {
+    for (int seat = 0; seat < seats; seat++) {
+      if (token.tags().contains(MilitaryTrack.seatTag(seat))) {
+        return seat;
       }
     }
+    throw new IllegalArgumentException(
+        "military token '" + token.id().value() + "' is not tagged for a seat of " + seats);
   }
 
   private static List<ComponentId> ids(List<Component> components) {

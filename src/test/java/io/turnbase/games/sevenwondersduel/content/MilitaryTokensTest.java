@@ -24,4 +24,18 @@ class MilitaryTokensTest {
         .hasSize(2)
         .allSatisfy(t -> assertThat(t.effects()).isEqualTo(List.of(new LoseCoins(5))));
   }
+
+  @Test
+  void eachZoneHoldsOneTokenPerSeat() {
+    for (int zone : List.of(2, 3)) {
+      for (int seat : List.of(0, 1)) {
+        assertThat(
+                MilitaryTokens.all().stream()
+                    .filter(t -> t.tags().contains(MilitaryTrack.zoneTag(zone)))
+                    .filter(t -> t.tags().contains(MilitaryTrack.seatTag(seat))))
+            .as("zone %d seat %d", zone, seat)
+            .hasSize(1);
+      }
+    }
+  }
 }

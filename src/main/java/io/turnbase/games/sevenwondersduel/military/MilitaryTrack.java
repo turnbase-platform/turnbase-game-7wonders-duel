@@ -57,6 +57,11 @@ public final class MilitaryTrack {
     return Tag.of("military-zone:" + zone);
   }
 
+  /** The tag of the military tokens that belong to the player seated {@code seat} (0 or 1). */
+  public static Tag seatTag(int seat) {
+    return Tag.of("military-seat:" + seat);
+  }
+
   /** Where the token of {@code zone} on {@code side}'s part of the track lies. */
   public static Location tokenSpot(PlayerId side, int zone) {
     return new Location(TOKENS, side.value() + ":" + zone);
