@@ -143,4 +143,13 @@ class ScoringTest {
     assertThat(Scoring.score(s, rules, P1).line("coins")).isEqualTo(2);
     assertThat(Scoring.score(s, rules, P2).line("coins")).isEqualTo(3);
   }
+
+  @Test
+  void aScorecardAlwaysListsAllLinesInTheSameOrder() {
+    RuleSet rules = rules();
+    DuelState s = state(rules);
+
+    assertThat(Scoring.score(s, rules, P1).lines().keySet())
+        .containsExactly("military", "blue", "buildings", "wonders", "progress", "coins");
+  }
 }

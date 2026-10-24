@@ -12,6 +12,7 @@ import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Victory;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /** The final score (B-END-2), derived from what each player has in play. */
@@ -24,12 +25,18 @@ public final class Scoring {
   public static final String WONDERS = "wonders";
   public static final String PROGRESS = "progress";
 
+  private static final List<String> LINES =
+      List.of(MILITARY, BLUE, BUILDINGS, WONDERS, PROGRESS, COINS);
+
   private Scoring() {}
 
   /** The score of {@code player} in {@code state}. */
   public static Scorecard score(DuelState state, RuleSet rules, PlayerId player) {
     ScoreContext context = new ScoreContext(state, rules, player);
     Map<String, Integer> lines = new LinkedHashMap<>();
+    for (String line : LINES) {
+      lines.put(line, 0);
+    }
     for (ComponentId id : Ownership.liveComponents(state, rules.zones(), player)) {
       Component component = rules.catalog().get(id);
       for (var modifier : component.modifiers()) {
