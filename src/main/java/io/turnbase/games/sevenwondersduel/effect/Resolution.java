@@ -81,6 +81,15 @@ public final class Resolution {
     emit(new PlayAgainChanged(player, granted));
   }
 
+  /** Applies the instant effects of {@code source} in printed order for {@code owner} (B-EFF-4). */
+  public void resolveEffects(ComponentId source, PlayerId owner) {
+    List<Effect> effects = rules.catalog().get(source).effects();
+    for (int i = 0; i < effects.size(); i++) {
+      Effect effect = effects.get(i);
+      within(new EffectRef(source, i), () -> effect.apply(this, owner));
+    }
+  }
+
   /** Runs {@code body}; events it emits are attributed to {@code source}. */
   public void within(EffectRef source, Runnable body) {
     frames.push(new Frame(Optional.of(source), currentParentId()));
