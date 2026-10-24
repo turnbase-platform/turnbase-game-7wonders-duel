@@ -7,7 +7,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
  * An instant effect: applied once and permanent (B-EFF-1). It changes the game only through the
  * {@link Resolution} primitives.
  */
-public interface Effect {
+public interface Effect extends Badged {
 
   /**
    * Applies the effect.

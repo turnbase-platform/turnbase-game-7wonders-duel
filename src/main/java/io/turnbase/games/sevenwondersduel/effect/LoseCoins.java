@@ -1,6 +1,7 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import java.util.List;
 
 /** The owner's opponent loses {@code min(amount, treasury)} coins to the bank (B-EFF-2). */
 public record LoseCoins(int amount) implements Effect {
@@ -15,5 +16,10 @@ public record LoseCoins(int amount) implements Effect {
   public void apply(Resolution resolution, PlayerId owner) {
     PlayerId victim = resolution.state().opponentOf(owner);
     resolution.changeCoins(victim, -Math.min(amount, resolution.state().player(victim).coins()));
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("loseCoins", amount));
   }
 }

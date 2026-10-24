@@ -5,6 +5,7 @@ import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
+import java.util.List;
 
 /**
  * The owner plays again whenever they build a Wonder (Theology). Granting a flag that is already
@@ -25,5 +26,10 @@ public final class WonderBonusTurn implements Trigger<ComponentMoved> {
         && resolution.rules().catalog().get(event.component()).type() == ComponentType.WONDER) {
       resolution.setPlayAgain(owner, true);
     }
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("playAgainOnWonder"));
   }
 }

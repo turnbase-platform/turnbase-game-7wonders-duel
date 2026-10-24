@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.Spots;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
+import java.util.List;
 
 /**
  * The owner picks any discarded card and builds it for free: it joins the owner's city and its own
@@ -29,5 +30,10 @@ public record BuildFromDiscard() implements Effect {
     ComponentId card = ((ComponentOption) answer).component();
     resolution.move(card, Spots.city(owner));
     resolution.queueEffects(card, owner);
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("buildFromDiscard"));
   }
 }

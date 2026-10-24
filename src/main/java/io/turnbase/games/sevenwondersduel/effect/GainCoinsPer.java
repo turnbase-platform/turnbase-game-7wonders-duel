@@ -1,6 +1,7 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import java.util.List;
 
 /**
  * The owner gains {@code each} coins for every unit the {@code census} counts, once, when the
@@ -20,5 +21,10 @@ public record GainCoinsPer(Census census, int each) implements Effect {
     if (units > 0) {
       resolution.changeCoins(owner, each * units);
     }
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(census.counted().badge("coinsPer", each));
   }
 }

@@ -13,7 +13,7 @@ public interface Points extends Modifier {
 
   /** Worth {@code points} whatever the city holds. */
   static Points fixed(int points) {
-    return context -> points;
+    return new FixedPoints(points);
   }
 
   /** Worth {@code each} for every unit {@code census} counts at scoring. */

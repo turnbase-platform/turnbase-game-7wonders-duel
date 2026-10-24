@@ -1,6 +1,7 @@
 package io.turnbase.games.sevenwondersduel.effect;
 
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import java.util.List;
 
 /**
  * The owner takes {@code min(amount, opponent treasury)} coins from the opponent and gains exactly
@@ -20,5 +21,10 @@ public record TakeCoins(int amount) implements Effect {
     int taken = Math.min(amount, resolution.state().player(victim).coins());
     resolution.changeCoins(victim, -taken);
     resolution.changeCoins(owner, taken);
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("takeCoins", amount));
   }
 }

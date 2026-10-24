@@ -29,4 +29,9 @@ public record DiscardOpponentCard(Tag tag) implements Effect {
   public void resume(Resolution resolution, PlayerId owner, Option answer) {
     resolution.move(((ComponentOption) answer).component(), Spots.DISCARD);
   }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("discardOpponent", 0, tag.value()));
+  }
 }

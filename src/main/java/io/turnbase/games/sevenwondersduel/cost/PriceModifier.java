@@ -11,7 +11,6 @@ public interface PriceModifier extends Modifier {
 
   /** Buying any of {@code resources} costs exactly {@code price}. */
   static PriceModifier fixedAt(int price, Resource... resources) {
-    Set<Resource> covered = Set.of(resources);
-    return (resource, current) -> covered.contains(resource) ? price : current;
+    return new FixedPrice(price, Set.of(resources));
   }
 }

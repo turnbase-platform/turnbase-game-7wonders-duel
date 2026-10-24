@@ -8,7 +8,7 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
  *
  * @param <E> the event type reacted to
  */
-public interface Trigger<E extends GameEvent> {
+public interface Trigger<E extends GameEvent> extends Badged {
 
   Class<E> eventType();
 

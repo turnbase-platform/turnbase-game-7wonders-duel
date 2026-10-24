@@ -40,4 +40,9 @@ public record DrawProgressToken(int drawn) implements Effect {
     resolution.move(token, Spots.city(owner));
     resolution.queueEffects(token, owner);
   }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("drawProgress", drawn));
+  }
 }

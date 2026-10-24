@@ -4,6 +4,7 @@ import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.military.Military;
 import io.turnbase.games.sevenwondersduel.military.ShieldBonus;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,5 +31,10 @@ public record Shields(int count) implements Effect {
         .filter(bonus -> tags.contains(bonus.tag()))
         .mapToInt(ShieldBonus::extra)
         .sum();
+  }
+
+  @Override
+  public List<Badge> badges() {
+    return List.of(Badge.of("shields", count));
   }
 }

@@ -1,9 +1,9 @@
 package io.turnbase.games.sevenwondersduel.content;
 
-import io.turnbase.games.sevenwondersduel.catalog.ComponentType;
 import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.cost.ChainBonus;
 import io.turnbase.games.sevenwondersduel.cost.Reduction;
+import io.turnbase.games.sevenwondersduel.cost.Selector;
 import io.turnbase.games.sevenwondersduel.cost.TradeRevenue;
 import io.turnbase.games.sevenwondersduel.effect.Census;
 import io.turnbase.games.sevenwondersduel.effect.GainCoins;
@@ -21,10 +21,10 @@ public final class ProgressTokens {
   public static List<Token> all() {
     return List.of(
         token("Agriculture").effects(new GainCoins(6)).modifiers(Points.fixed(4)),
-        token("Architecture").modifiers(new Reduction(2, c -> c.type() == ComponentType.WONDER)),
+        token("Architecture").modifiers(new Reduction(2, Selector.wonders())),
         token("Economy").triggers(new TradeRevenue()),
         token("Law").modifiers(new Symbol(ScienceSymbol.SCALES)).effects(new ScienceCheck()),
-        token("Masonry").modifiers(new Reduction(2, c -> c.tags().contains(Colors.BLUE))),
+        token("Masonry").modifiers(new Reduction(2, Selector.tagged(Colors.BLUE))),
         token("Mathematics").modifiers(Points.per(Census.of(Tag.PROGRESS), 3)),
         token("Philosophy").modifiers(Points.fixed(7)),
         token("Strategy").modifiers(new ShieldBonus(Colors.RED, 1)),
