@@ -7,6 +7,7 @@ package io.turnbase.games.sevenwondersduel.catalog;
 public record Tag(String value) {
 
   public static final Tag GUILD = new Tag("guild");
+  public static final Tag WONDER = new Tag("wonder");
   public static final Tag PROGRESS = new Tag("progress");
 
   public Tag {
