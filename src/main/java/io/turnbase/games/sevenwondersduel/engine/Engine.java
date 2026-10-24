@@ -13,6 +13,7 @@ import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
 import io.turnbase.games.sevenwondersduel.turn.Construct;
 import io.turnbase.games.sevenwondersduel.turn.Turn;
+import io.turnbase.games.sevenwondersduel.zone.Placements;
 
 /**
  * The single entry point for player actions: decides whether the actor may act, then resolves the
@@ -39,6 +40,7 @@ public final class Engine {
       case ChooseStarter choice -> chooseStarter(state, actor, choice);
       case Discard discard -> discard(state, actor, discard);
       case Build build -> build(state, actor, build);
+      case BuildWonder build -> buildWonder(state, actor, build);
     };
   }
 
@@ -111,6 +113,29 @@ public final class Engine {
     }
     Resolution resolution = new Resolution(state, rules);
     Construct.building(resolution, actor, build.card(), quote);
+    return new Outcome(resolution.state(), resolution.events());
+  }
+
+  /**
+   * Only the active player may build, with an available card, one of their own unbuilt Wonders, and
+   * while fewer than seven Wonders exist (B-ACT-3, B-ACT-5).
+   */
+  private Outcome buildWonder(DuelState state, PlayerId actor, BuildWonder build) {
+    requireTakeable(state, actor, build.card());
+    if (build.wonder() == null
+        || !Placements.idsIn(state.placements(), Construct.unbuilt(actor))
+            .contains(build.wonder())) {
+      throw new IllegalActionException("not one of your unbuilt Wonders");
+    }
+    if (!Construct.wonderLimitAllows(state)) {
+      throw new IllegalActionException("seven Wonders are already built");
+    }
+    Quote quote = costs.quote(state, actor, build.wonder());
+    if (!quote.payableWith(state.player(actor).coins())) {
+      throw new IllegalActionException("cannot afford " + build.wonder().value());
+    }
+    Resolution resolution = new Resolution(state, rules);
+    Construct.wonder(resolution, actor, build.card(), build.wonder(), quote);
     return new Outcome(resolution.state(), resolution.events());
   }
 
