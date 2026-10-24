@@ -76,8 +76,8 @@ Companion documents — each one is written as a delta against this one:
 **Building colors** (7): brown (raw materials), grey (manufactured goods), blue (civilian), green
 (scientific), yellow (commercial), red (military), purple (guild).
 
-**Scientific symbols** (7; names are ours, the rulebook only draws them): Wheel, Mortar (mortar &
-pestle), Plumb (A-frame with plumb bob), Quill (quill & inkwell), Sundial, Armillary (armillary
+**Scientific symbols** (7; names are ours, the rulebook only draws them): Wheel, Mortar and pestle (mortar &
+pestle), Plumb bob (A-frame with plumb bob), Quill (quill & inkwell), Sundial, Astrolabe (armillary
 sphere / astrolabe), Scales (only on the *Law* progress token). Each of the first six appears on
 exactly two green cards.
 
@@ -153,8 +153,8 @@ Chain: `gives ▸X` — the card grants chain symbol X; `◂X` — free if the c
 | Circus | red | C C S S | 2 shields | ◂Helmet |
 | Academy | green | S W G G | Sundial, 3 VP | |
 | Study | green | W W G P | Sundial, 3 VP | |
-| University | green | C G P | Armillary, 2 VP | ◂Lyre |
-| Observatory | green | S P P | Armillary, 2 VP | ◂Lamp |
+| University | green | C G P | Astrolabe, 2 VP | ◂Lyre |
+| Observatory | green | S P P | Astrolabe, 2 VP | ◂Lamp |
 | Palace | blue | C S W G G | 7 VP | |
 | Town Hall | blue | S S S W W | 7 VP | |
 | Obelisk | blue | S S G | 5 VP | |
@@ -225,7 +225,7 @@ Wonder shields are **not** boosted by *Strategy* (B-PRG table).
 | Mathematics | 3 VP per progress token you own, itself included | score |
 | Philosophy | 7 VP | score |
 | Strategy | your **future red cards** give +1 shield (not Wonders; not retroactive) | shield modifier |
-| Theology | your **future Wonders** gain "play again" (a Wonder that already has it does not get it twice) | wonder modifier |
+| Theology | your **future Wonders** gain "play again" (a Wonder that already has it does not get it twice) | trigger on own Wonder built |
 | Urbanism | +6$ immediately; +4$ each time you construct a Building **for free via a chain** — chain symbols granted by effects (Agora decree #15, Extra Wonders) count; *Engineering* does not | instant + chain hook |
 
 Economy clarification: the opponent's trade discounts (reserves, Customs House) change the price; you
@@ -513,8 +513,8 @@ taxonomy. Classify each effect by **when** it acts:
 | Kind | When | Examples |
 |---|---|---|
 | **Instant** | once, on construction/acquisition | coins, shields, discard opponent card, take progress token, play again |
-| **Static / modifier** | queried while owned | production, trade price, cost reduction, Strategy, Theology, chain sources |
-| **Triggered** | on an event, while owned | Urbanism (on chain build), Economy (on opponent trade), decrees (on any construction), Poliorcetics (on pawn advance), Borobudur |
+| **Static / modifier** | queried while owned | production, trade price, cost reduction, Strategy, chain sources |
+| **Triggered** | on an event, while owned | Urbanism (on chain build), Theology (on own Wonder built), Economy (on opponent trade), decrees (on any construction), Poliorcetics (on pawn advance), Borobudur |
 | **End-game scoring** | at final scoring | VP, per-color VP, guilds, Mathematics |
 | **Supremacy contributor** | continuously checked | shields, science symbols, chamber control |
 
@@ -622,7 +622,7 @@ Card data in `grmp/…/deck/DeckFactory.java` was checked against rulebook pp. 1
 | Issue | Reference | Rulebook |
 |---|---|---|
 | Duplicate name | Age III has two "Fortifications"; the second (C C S S, ◂Helmet) | is **Circus** |
-| Wrong chain | Arena ◂Vase (Amphora) | Arena ◂**Barrel**; Lighthouse ◂Amphora |
+| Wrong chain | Arena ◂Vase | Arena ◂**Barrel**; Lighthouse ◂Vase |
 | Naming | Age II "Courthouse" (W W G, 5 VP); Age III "Pretorium" (8$, 3 shields) | kept as in the reference (the rulebook text calls the Age III card "Courthouse") |
 | Typo | "Cirrus Maximus" | Circus Maximus |
 | Scoring | `Map.of(6,10,3,5,1,2)` iterated for military VP — `Map.of` has no iteration order | ordered thresholds |
