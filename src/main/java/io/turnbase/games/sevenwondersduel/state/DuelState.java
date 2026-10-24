@@ -18,6 +18,9 @@ import java.util.Set;
  *
  * @param phase the current stage
  * @param active the player whose turn it is
+ * @param age the Age being played, 0 before Age I
+ * @param first the first player of the Wonder draft (B-WND-1)
+ * @param deciding who must choose the Age's starting player (B-AGE-0), or null when nobody must
  * @param placements where every component currently is
  * @param players the two seats and their scalar state
  * @param knowledge for each player, the components whose identity they have seen
@@ -28,6 +31,9 @@ import java.util.Set;
 public record DuelState(
     Phase phase,
     PlayerId active,
+    int age,
+    PlayerId first,
+    PlayerId deciding,
     List<Placement> placements,
     Map<PlayerId, PlayerState> players,
     Map<PlayerId, Set<ComponentId>> knowledge,
@@ -45,6 +51,15 @@ public record DuelState(
     }
     if (!players.containsKey(active)) {
       throw new IllegalArgumentException("active player is not seated: " + active);
+    }
+    if (age < 0) {
+      throw new IllegalArgumentException("age must not be negative: " + age);
+    }
+    if (!players.containsKey(first)) {
+      throw new IllegalArgumentException("first player is not seated: " + first);
+    }
+    if (deciding != null && !players.containsKey(deciding)) {
+      throw new IllegalArgumentException("deciding player is not seated: " + deciding);
     }
     for (PlayerId known : knowledge.keySet()) {
       if (!players.containsKey(known)) {
@@ -74,37 +89,59 @@ public record DuelState(
   }
 
   public DuelState withPhase(Phase phase) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withActive(PlayerId active) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+  }
+
+  public DuelState withAge(int age) {
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+  }
+
+  public DuelState withFirst(PlayerId first) {
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
+  }
+
+  public DuelState withDeciding(PlayerId deciding) {
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withPlacements(List<Placement> placements) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withPlayer(PlayerId id, PlayerState state) {
     player(id);
     Map<PlayerId, PlayerState> next = new HashMap<>(players);
     next.put(id, state);
-    return new DuelState(phase, active, placements, next, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, next, knowledge, rng, packs, agenda);
   }
 
   public DuelState withKnowledge(PlayerId id, Set<ComponentId> known) {
     player(id);
     Map<PlayerId, Set<ComponentId>> next = new HashMap<>(knowledge);
     next.put(id, known);
-    return new DuelState(phase, active, placements, players, next, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, next, rng, packs, agenda);
   }
 
   public DuelState withAgenda(Agenda agenda) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
   }
 
   public DuelState withRng(RngCursor rng) {
-    return new DuelState(phase, active, placements, players, knowledge, rng, packs, agenda);
+    return new DuelState(
+        phase, active, age, first, deciding, placements, players, knowledge, rng, packs, agenda);
   }
 
   private static Map<PlayerId, Set<ComponentId>> copyOfSets(Map<PlayerId, Set<ComponentId>> in) {

@@ -48,6 +48,9 @@ class SnapshotsTest {
     return new DuelState(
         Phase.AGE,
         P2,
+        2,
+        P2,
+        P1,
         List.of(
             new Placement(ComponentId.of("c1"), new Location(ZoneId.of("city"), "p1")),
             new Placement(ComponentId.of("c2"), Location.of(ZoneId.of("deck")))),
@@ -73,6 +76,19 @@ class SnapshotsTest {
   }
 
   @Test
+  void ageFirstAndDecidingTravelThroughTheSnapshot() {
+    DuelState undecided = sample().withDeciding(null);
+
+    SevenWondersDuelState snapshot = Snapshots.toSnapshot(sample());
+
+    assertThat(snapshot.age()).isEqualTo(2);
+    assertThat(snapshot.first()).isEqualTo(P2.value());
+    assertThat(snapshot.deciding()).isEqualTo(P1.value());
+    assertThat(Snapshots.toSnapshot(undecided).deciding()).isNull();
+    assertThat(Snapshots.fromSnapshot(Snapshots.toSnapshot(undecided))).isEqualTo(undecided);
+  }
+
+  @Test
   void snapshotSurvivesJsonRoundTrip() {
     GdkSerialization serialization = new GdkSerialization();
     SevenWondersDuelState snapshot = Snapshots.toSnapshot(sample());
@@ -92,6 +108,9 @@ class SnapshotsTest {
         new DuelState(
             empty.phase(),
             empty.active(),
+            empty.age(),
+            empty.first(),
+            empty.deciding(),
             empty.placements(),
             empty.players(),
             empty.knowledge(),
@@ -124,6 +143,9 @@ class SnapshotsTest {
         new SevenWondersDuelState(
             "NOT_A_PHASE",
             good.active(),
+            good.age(),
+            good.first(),
+            good.deciding(),
             good.placements(),
             good.players(),
             good.knowledge(),
@@ -135,6 +157,9 @@ class SnapshotsTest {
         new SevenWondersDuelState(
             good.phase(),
             good.active(),
+            good.age(),
+            good.first(),
+            good.deciding(),
             List.of(new PlacementData(" ", "deck", "")),
             good.players(),
             good.knowledge(),
@@ -157,6 +182,9 @@ class SnapshotsTest {
         new SevenWondersDuelState(
             good.phase(),
             good.active(),
+            good.age(),
+            good.first(),
+            good.deciding(),
             good.placements(),
             good.players(),
             good.knowledge(),

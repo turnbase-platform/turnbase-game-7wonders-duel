@@ -15,6 +15,9 @@ import java.util.UUID;
  *
  * @param phase name of the current {@code Phase}
  * @param active the player whose turn it is
+ * @param age the Age being played, 0 before Age I
+ * @param first the first player of the Wonder draft
+ * @param deciding who must choose the Age's starting player, or null when nobody must
  * @param placements where every component is, in placement order
  * @param players per-player scalar state
  * @param knowledge per player, the sorted ids of components they have seen
@@ -26,6 +29,9 @@ import java.util.UUID;
 public record SevenWondersDuelState(
     String phase,
     UUID active,
+    int age,
+    UUID first,
+    UUID deciding,
     List<PlacementData> placements,
     Map<UUID, PlayerData> players,
     Map<UUID, List<String>> knowledge,

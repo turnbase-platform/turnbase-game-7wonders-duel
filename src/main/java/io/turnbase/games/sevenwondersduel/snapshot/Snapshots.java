@@ -55,6 +55,9 @@ public final class Snapshots {
     return new SevenWondersDuelState(
         state.phase().name(),
         state.active().value(),
+        state.age(),
+        state.first().value(),
+        state.deciding() == null ? null : state.deciding().value(),
         state.placements().stream()
             .map(p -> new PlacementData(p.component().value(), p.at().zone().value(), p.at().key()))
             .toList(),
@@ -84,6 +87,9 @@ public final class Snapshots {
     return new DuelState(
         phase(snapshot.phase()),
         PlayerId.of(snapshot.active()),
+        snapshot.age(),
+        PlayerId.of(snapshot.first()),
+        snapshot.deciding() == null ? null : PlayerId.of(snapshot.deciding()),
         snapshot.placements().stream()
             .map(
                 p ->

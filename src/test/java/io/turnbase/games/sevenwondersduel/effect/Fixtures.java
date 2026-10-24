@@ -122,6 +122,9 @@ public final class Fixtures {
     return new DuelState(
         Phase.AGE,
         active,
+        1,
+        active,
+        null,
         placements,
         Map.of(P1, new PlayerState(coins1, false), P2, new PlayerState(coins2, false)),
         Map.of(P1, Set.of(), P2, Set.of()),

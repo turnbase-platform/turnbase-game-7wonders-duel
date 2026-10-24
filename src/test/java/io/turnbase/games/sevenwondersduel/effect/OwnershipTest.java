@@ -86,6 +86,9 @@ class OwnershipTest {
     return new DuelState(
         Phase.AGE,
         P1,
+        1,
+        P1,
+        null,
         placements,
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
         Map.of(P1, Set.of(), P2, Set.of()),

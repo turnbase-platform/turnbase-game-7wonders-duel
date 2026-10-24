@@ -118,6 +118,9 @@ class BasePackTest {
         new DuelState(
             Phase.AGE,
             P1,
+            1,
+            P1,
+            null,
             all,
             Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, true)),
             Map.of(P1, Set.of(a), P2, Set.of()),

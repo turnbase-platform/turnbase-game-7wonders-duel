@@ -29,6 +29,9 @@ class DuelStateTest {
     return new DuelState(
         Phase.SETUP,
         P1,
+        1,
+        P1,
+        null,
         placements,
         Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
         Map.of(P1, Set.of(), P2, Set.of()),
@@ -98,6 +101,9 @@ class DuelStateTest {
                 new DuelState(
                     Phase.SETUP,
                     P1,
+                    1,
+                    P1,
+                    null,
                     List.of(),
                     Map.of(P1, new PlayerState(7, false)),
                     Map.of(),
@@ -148,6 +154,9 @@ class DuelStateTest {
                 new DuelState(
                     Phase.SETUP,
                     P1,
+                    1,
+                    P1,
+                    null,
                     List.of(),
                     Map.of(P1, new PlayerState(7, false), P2, new PlayerState(7, false)),
                     Map.of(stranger, Set.of()),
@@ -156,5 +165,29 @@ class DuelStateTest {
                     Agenda.EMPTY))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining(stranger.value().toString());
+  }
+
+  @Test
+  void firstPlayerMustBeSeated() {
+    assertThatThrownBy(() -> state(List.of()).withFirst(PlayerId.of(UUID.randomUUID())))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("first player");
+  }
+
+  @Test
+  void decidingPlayerMustBeSeatedOrAbsent() {
+    assertThat(state(List.of()).withDeciding(P2).deciding()).isEqualTo(P2);
+    assertThat(state(List.of()).withDeciding(P2).withDeciding(null).deciding()).isNull();
+    assertThatThrownBy(() -> state(List.of()).withDeciding(PlayerId.of(UUID.randomUUID())))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("deciding player");
+  }
+
+  @Test
+  void ageCannotBeNegative() {
+    assertThat(state(List.of()).withAge(3).age()).isEqualTo(3);
+    assertThatThrownBy(() -> state(List.of()).withAge(-1))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("age");
   }
 }
