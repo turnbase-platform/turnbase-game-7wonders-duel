@@ -29,7 +29,10 @@ import org.junit.jupiter.api.Test;
 class AgeCardsTest {
 
   private static final RuleSet RULES = RuleSet.assemble(List.of(new BasePack(), new BaseContent()));
-  private static final List<Component> CARDS = RULES.catalog().ofType(ComponentType.CARD);
+  private static final List<Component> CARDS =
+      RULES.catalog().ofType(ComponentType.CARD).stream()
+          .filter(card -> !card.tags().contains(Tag.GUILD))
+          .toList();
 
   @Test
   void sixtySixDistinctCardsAcrossTheThreeAges() {

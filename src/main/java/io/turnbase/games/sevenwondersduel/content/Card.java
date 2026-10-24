@@ -44,18 +44,20 @@ public record Card(
 
   /** A free card with no effects, id slugged from {@code name}. */
   public static Card of(String name, int age, Tag colour, BackId back) {
+    return free(name, Set.of(Tag.age(age), colour), back);
+  }
+
+  /** A free guild with no effects: purple, tagged {@link Tag#GUILD}, and in no Age (B-SETUP). */
+  public static Card guild(String name) {
+    return free(name, Set.of(Tag.GUILD, Colors.PURPLE), Backs.DARK_PURPLE);
+  }
+
+  private static Card free(String name, Set<Tag> tags, BackId back) {
     if (name == null || name.isBlank()) {
       throw new IllegalArgumentException("card name must not be blank");
     }
     String slug = name.trim().toLowerCase(Locale.ROOT).replace(' ', '-');
-    return new Card(
-        ComponentId.of(slug),
-        name.trim(),
-        Set.of(Tag.age(age), colour),
-        back,
-        Cost.FREE,
-        List.of(),
-        List.of());
+    return new Card(ComponentId.of(slug), name.trim(), tags, back, Cost.FREE, List.of(), List.of());
   }
 
   public Card costing(Cost cost) {
