@@ -32,6 +32,9 @@ public final class Turn {
    * up (B-TURN-4, B-TURN-6).
    */
   public static void end(Resolution resolution) {
+    if (!resolution.state().agenda().isEmpty()) {
+      throw new IllegalStateException("a turn cannot end while steps are pending");
+    }
     Structure.revealUncovered(resolution);
     if (Structure.isEmpty(resolution.state().placements())) {
       AgeEnd.finish(resolution);

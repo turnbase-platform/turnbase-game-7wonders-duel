@@ -8,11 +8,16 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import io.turnbase.games.sevenwondersduel.agenda.Agenda;
 import io.turnbase.games.sevenwondersduel.agenda.EffectStep;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.effect.Fixtures;
+import io.turnbase.games.sevenwondersduel.effect.Resolution;
 import io.turnbase.games.sevenwondersduel.engine.Discard;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.IllegalActionException;
 import io.turnbase.games.sevenwondersduel.engine.Outcome;
+import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
+import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
 import io.turnbase.games.sevenwondersduel.event.EffectRef;
+import io.turnbase.games.sevenwondersduel.event.EventRecord;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
@@ -80,12 +85,38 @@ class TurnTest {
   }
 
   @Test
-  void theEventRecordShowsTheMoveAndThePayment() {
+  void theEventRecordShowsTheMoveThenThePayment() {
+    DuelState state = started();
+    ComponentId card = takeable(state);
+
+    Outcome outcome = ENGINE.apply(state, state.active(), new Discard(card));
+
+    assertThat(outcome.events())
+        .extracting(EventRecord::event)
+        .containsSubsequence(
+            new ComponentMoved(
+                card, Placements.locationOf(state.placements(), card), Fixtures.zone("discard")),
+            new CoinsChanged(state.active(), 2));
+  }
+
+  @Test
+  void aMissingCardIsRejected() {
     DuelState state = started();
 
-    Outcome outcome = ENGINE.apply(state, state.active(), new Discard(takeable(state)));
+    assertRejected(state, state.active(), null, "not available");
+  }
 
-    assertThat(outcome.events()).hasSizeGreaterThanOrEqualTo(2);
+  @Test
+  void endingATurnWithSomethingPendingIsADefect() {
+    DuelState state = started();
+    DuelState busy =
+        state.withAgenda(
+            new Agenda(
+                List.of(new EffectStep(new EffectRef(ComponentId.of("a1-0"), 0), state.active()))));
+
+    assertThatThrownBy(() -> Turn.end(new Resolution(busy, RULES)))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("pending");
   }
 
   @Test
