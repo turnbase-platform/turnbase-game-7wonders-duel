@@ -76,6 +76,11 @@ public final class Resolution {
     return Collections.unmodifiableList(events);
   }
 
+  /** The component whose effect is running now; empty outside an effect. */
+  public Optional<ComponentId> source() {
+    return Optional.ofNullable(running).map(r -> r.effect().source());
+  }
+
   /** Moves a component (rejected out of a terminal zone) and records {@link ComponentMoved}. */
   public void move(ComponentId component, Location to) {
     Location from = Placements.locationOf(state.placements(), component);

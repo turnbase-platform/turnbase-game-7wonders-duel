@@ -198,6 +198,20 @@ class ResolutionTest {
   }
 
   @Test
+  void anEffectCanAskWhichComponentItBelongsTo() {
+    java.util.List<Optional<ComponentId>> seen = new java.util.ArrayList<>();
+    Effect probe = (resolution, owner) -> seen.add(resolution.source());
+    RuleSet rules = Fixtures.rules(Fixtures.Card.of("card").withEffects(probe));
+    Resolution r = new Resolution(state(ZoneId.of("deck")), rules);
+
+    assertThat(r.source()).isEmpty();
+    r.resolveEffects(CARD, P1);
+
+    assertThat(seen).containsExactly(Optional.of(CARD));
+    assertThat(r.source()).isEmpty();
+  }
+
+  @Test
   void eventsListIsUnmodifiable() {
     Resolution r = resolution();
     r.changeCoins(P1, 1);

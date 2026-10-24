@@ -20,6 +20,9 @@ public final class Science {
     return counts;
   }
 
+  /** Different symbols that win the game at once (B-SCI-3). */
+  public static final int SUPREMACY = 6;
+
   /** How many different symbols the player holds (B-SCI-3). */
   public static int distinct(DuelState state, RuleSet rules, PlayerId player) {
     return counts(state, rules, player).size();

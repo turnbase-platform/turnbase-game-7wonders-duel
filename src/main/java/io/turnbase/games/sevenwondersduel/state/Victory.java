@@ -10,9 +10,10 @@ import io.turnbase.games.sevenwondersduel.id.PlayerId;
  */
 public record Victory(PlayerId winner, Reason reason) {
 
-  /** The ways a game ends at once. Later plans add science and the score. */
+  /** The ways a game ends at once. Later plans add the score. */
   public enum Reason {
-    MILITARY
+    MILITARY,
+    SCIENCE
   }
 
   public Victory {
