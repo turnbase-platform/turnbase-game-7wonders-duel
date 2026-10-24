@@ -61,7 +61,12 @@ class PlaythroughTest {
 
   @Test
   void inAnAgeEveryTakeableCardCanBeDiscardedAndBuiltCardsAreAffordable() {
-    DuelState state = Playthrough.play(RULES, 3, Policy.RANDOM, 400).states().get(30);
+    DuelState state =
+        Playthrough.play(RULES, 3, Policy.RANDOM, 400).states().stream()
+            .skip(30)
+            .filter(s -> s.phase() == Phase.AGE && s.deciding() == null && s.agenda().isEmpty())
+            .findFirst()
+            .orElseThrow();
     Bot.Move move = Bot.legalActions(RULES, state);
 
     List<?> discards = move.actions().stream().filter(Discard.class::isInstance).toList();

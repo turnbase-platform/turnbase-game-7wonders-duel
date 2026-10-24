@@ -45,7 +45,7 @@ final class Playthrough {
         throw new AssertionError(
             "seed " + seed + " under " + policy + " has no legal action at step " + states.size());
       }
-      state = engine.apply(state, move.actor(), policy.pick(rules, move.actions(), random)).state();
+      state = engine.apply(state, move.actor(), policy.pick(rules, state, move, random)).state();
       states.add(state);
     }
     return new Result(states);
