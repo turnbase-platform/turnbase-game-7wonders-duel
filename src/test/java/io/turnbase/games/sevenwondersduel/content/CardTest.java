@@ -51,6 +51,18 @@ class CardTest {
   }
 
   @Test
+  void aCardShowingAScienceSymbolChecksScienceWhenBuilt() {
+    Card card = stable().showing(io.turnbase.games.sevenwondersduel.science.ScienceSymbol.WHEEL);
+
+    assertThat(card.modifiers())
+        .containsExactly(
+            new io.turnbase.games.sevenwondersduel.science.Symbol(
+                io.turnbase.games.sevenwondersduel.science.ScienceSymbol.WHEEL));
+    assertThat(card.effects())
+        .containsExactly(new io.turnbase.games.sevenwondersduel.effect.ScienceCheck());
+  }
+
+  @Test
   void aBlankNameIsRejected() {
     assertThatThrownBy(() -> Card.of(" ", 1, Colors.RED, Backs.BROWN))
         .isInstanceOf(IllegalArgumentException.class);

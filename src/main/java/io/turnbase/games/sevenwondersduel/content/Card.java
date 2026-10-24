@@ -10,6 +10,7 @@ import io.turnbase.games.sevenwondersduel.cost.Resource;
 import io.turnbase.games.sevenwondersduel.effect.Effect;
 import io.turnbase.games.sevenwondersduel.effect.GainCoins;
 import io.turnbase.games.sevenwondersduel.effect.Modifier;
+import io.turnbase.games.sevenwondersduel.effect.ScienceCheck;
 import io.turnbase.games.sevenwondersduel.effect.Shields;
 import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
@@ -94,8 +95,9 @@ public record Card(
     return modifiers(Points.fixed(points));
   }
 
+  /** The card shows a science symbol; building it checks for a pair or supremacy (B-SCI-1, 3). */
   public Card showing(ScienceSymbol symbol) {
-    return modifiers(new Symbol(symbol));
+    return modifiers(new Symbol(symbol)).effects(new ScienceCheck());
   }
 
   /** The card shows these chain symbols, freeing the cards that name them. */
