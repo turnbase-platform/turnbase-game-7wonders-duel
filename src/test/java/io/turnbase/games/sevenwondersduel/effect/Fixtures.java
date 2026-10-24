@@ -26,24 +26,26 @@ import java.util.Set;
 import java.util.UUID;
 
 /** Shared test fixtures: a tiny catalog of behaviour-carrying cards over the base zones. */
-final class Fixtures {
+public final class Fixtures {
 
-  static final PlayerId P1 = PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000001"));
-  static final PlayerId P2 = PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000002"));
+  public static final PlayerId P1 =
+      PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+  public static final PlayerId P2 =
+      PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000002"));
 
-  record Card(
+  public record Card(
       ComponentId id, List<Effect> effects, List<Modifier> modifiers, List<Trigger<?>> triggers)
       implements Component {
 
-    static Card of(String id) {
+    public static Card of(String id) {
       return new Card(ComponentId.of(id), List.of(), List.of(), List.of());
     }
 
-    Card withEffects(Effect... effects) {
+    public Card withEffects(Effect... effects) {
       return new Card(id, List.of(effects), modifiers, triggers);
     }
 
-    Card withTriggers(Trigger<?>... triggers) {
+    public Card withTriggers(Trigger<?>... triggers) {
       return new Card(id, effects, modifiers, List.of(triggers));
     }
 
@@ -62,7 +64,7 @@ final class Fixtures {
    * Asks the owner to pick one component from the board; the pick goes into the owner's city. Each
    * option is a {@link ComponentOption}.
    */
-  static final class Choose implements Effect {
+  public static final class Choose implements Effect {
     @Override
     public void apply(Resolution resolution, PlayerId owner) {
       resolution.decide(
@@ -78,7 +80,7 @@ final class Fixtures {
     }
   }
 
-  static RuleSet rules(Component... components) {
+  public static RuleSet rules(Component... components) {
     ContentPack pack =
         new ContentPack() {
           @Override
@@ -99,17 +101,18 @@ final class Fixtures {
     return RuleSet.assemble(List.of(new BasePack(), pack));
   }
 
-  static Location city(PlayerId player) {
+  public static Location city(PlayerId player) {
     return new Location(
         io.turnbase.games.sevenwondersduel.id.ZoneId.of("city"), player.value().toString());
   }
 
-  static Location zone(String id) {
+  public static Location zone(String id) {
     return Location.of(io.turnbase.games.sevenwondersduel.id.ZoneId.of(id));
   }
 
   /** A state with the given treasuries; {@code placed} alternates component, location. */
-  static DuelState state(RuleSet rules, PlayerId active, int coins1, int coins2, Object... placed) {
+  public static DuelState state(
+      RuleSet rules, PlayerId active, int coins1, int coins2, Object... placed) {
     List<Placement> placements = new ArrayList<>();
     for (int i = 0; i < placed.length; i += 2) {
       placements =
