@@ -16,6 +16,7 @@ import io.turnbase.games.sevenwondersduel.event.PlayAgainChanged;
 import io.turnbase.games.sevenwondersduel.event.TradePaid;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.rng.Rng;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.state.Phase;
@@ -100,11 +101,27 @@ public final class Resolution {
 
   private void reveal(ComponentId component) {
     for (PlayerId player : state.players().keySet()) {
-      Set<ComponentId> known = new HashSet<>(state.knowledge().getOrDefault(player, Set.of()));
-      if (known.add(component)) {
-        state = state.withKnowledge(player, known);
-      }
+      revealTo(player, component);
     }
+  }
+
+  /**
+   * {@code player} learns what {@code component} is, and keeps knowing it; the opponent does not.
+   */
+  public void revealTo(PlayerId player, ComponentId component) {
+    Set<ComponentId> known = new HashSet<>(state.knowledge().getOrDefault(player, Set.of()));
+    if (known.add(component)) {
+      state = state.withKnowledge(player, known);
+    }
+  }
+
+  /**
+   * A shuffled copy of {@code items}, drawn from the seeded stream, which moves on (base.md §10.8).
+   */
+  public <T> List<T> shuffle(List<T> items) {
+    Rng.Drawn<List<T>> drawn = Rng.shuffle(items, state.rng());
+    state = state.withRng(drawn.next());
+    return drawn.value();
   }
 
   /**
