@@ -26,12 +26,15 @@ import java.util.Optional;
  */
 public final class Resolution {
 
+  private static final int MAX_TRIGGER_DEPTH = 32;
+
   private record Frame(Optional<EffectRef> source, int parentId) {}
 
   private final RuleSet rules;
   private final List<EventRecord> events = new ArrayList<>();
   private final Deque<Frame> frames = new ArrayDeque<>();
   private DuelState state;
+  private int triggerDepth;
 
   public Resolution(DuelState state, RuleSet rules) {
     this.state = state;
@@ -92,7 +95,11 @@ public final class Resolution {
 
   /** Runs {@code body}; events it emits are attributed to {@code source}. */
   public void within(EffectRef source, Runnable body) {
-    frames.push(new Frame(Optional.of(source), currentParentId()));
+    inFrame(Optional.of(source), currentParentId(), body);
+  }
+
+  private void inFrame(Optional<EffectRef> source, int parentId, Runnable body) {
+    frames.push(new Frame(source, parentId));
     try {
       body.run();
     } finally {
@@ -106,6 +113,48 @@ public final class Resolution {
 
   private void emit(GameEvent event) {
     Optional<EffectRef> source = frames.isEmpty() ? Optional.empty() : frames.peek().source();
-    events.add(new EventRecord(events.size(), currentParentId(), source, event));
+    int id = events.size();
+    events.add(new EventRecord(id, currentParentId(), source, event));
+    dispatch(id, event);
+  }
+
+  /**
+   * Offers the event to live triggers, active player first (B-EFF-4). Candidates are fixed when the
+   * event is emitted; each is re-checked just before it reacts.
+   */
+  private void dispatch(int id, GameEvent event) {
+    PlayerId active = state.active();
+    for (PlayerId player : List.of(active, state.opponentOf(active))) {
+      for (ComponentId component : Ownership.liveComponents(state, rules.zones(), player)) {
+        List<Trigger<?>> triggers = rules.catalog().get(component).triggers();
+        for (int i = 0; i < triggers.size(); i++) {
+          Trigger<?> trigger = triggers.get(i);
+          if (trigger.eventType().isInstance(event)
+              && Ownership.liveComponents(state, rules.zones(), player).contains(component)) {
+            react(trigger, event, player, new EffectRef(component, i), id);
+          }
+        }
+      }
+    }
+  }
+
+  private <E extends GameEvent> void react(
+      Trigger<E> trigger, GameEvent event, PlayerId owner, EffectRef ref, int parentId) {
+    if (triggerDepth >= MAX_TRIGGER_DEPTH) {
+      throw new IllegalStateException(
+          "trigger chain too deep ("
+              + MAX_TRIGGER_DEPTH
+              + "), last source: "
+              + ref.source().value());
+    }
+    triggerDepth++;
+    try {
+      inFrame(
+          Optional.of(ref),
+          parentId,
+          () -> trigger.react(trigger.eventType().cast(event), owner, this));
+    } finally {
+      triggerDepth--;
+    }
   }
 }

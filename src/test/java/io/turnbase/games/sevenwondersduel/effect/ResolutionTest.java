@@ -3,7 +3,6 @@ package io.turnbase.games.sevenwondersduel.effect;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.event.CoinsChanged;
 import io.turnbase.games.sevenwondersduel.event.ComponentMoved;
@@ -30,7 +29,7 @@ class ResolutionTest {
 
   static final PlayerId P1 = PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000001"));
   static final PlayerId P2 = PlayerId.of(UUID.fromString("00000000-0000-0000-0000-000000000002"));
-  static final RuleSet RULES = RuleSet.assemble(List.of(new BasePack()));
+  static final RuleSet RULES = Fixtures.rules(Fixtures.Card.of("card"));
   static final ComponentId CARD = ComponentId.of("card");
 
   static DuelState state(ZoneId cardZone) {
