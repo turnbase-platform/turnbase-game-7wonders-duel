@@ -18,13 +18,19 @@ public final class RuleSet {
   private final ZoneRegistry zones;
   private final Catalog catalog;
   private final Map<LayoutId, Layout> layouts;
+  private final Map<Integer, LayoutId> ageLayouts;
   private final List<PackId> packIds;
 
   private RuleSet(
-      ZoneRegistry zones, Catalog catalog, Map<LayoutId, Layout> layouts, List<PackId> packIds) {
+      ZoneRegistry zones,
+      Catalog catalog,
+      Map<LayoutId, Layout> layouts,
+      Map<Integer, LayoutId> ageLayouts,
+      List<PackId> packIds) {
     this.zones = zones;
     this.catalog = catalog;
     this.layouts = layouts;
+    this.ageLayouts = ageLayouts;
     this.packIds = packIds;
   }
 
@@ -36,6 +42,8 @@ public final class RuleSet {
     Map<ComponentId, PackId> componentOwner = new LinkedHashMap<>();
     Map<LayoutId, Layout> layouts = new LinkedHashMap<>();
     Map<LayoutId, PackId> layoutOwner = new LinkedHashMap<>();
+    Map<Integer, LayoutId> ageLayouts = new LinkedHashMap<>();
+    Map<Integer, PackId> ageOwner = new LinkedHashMap<>();
     for (ContentPack pack : packs) {
       for (ZoneKind kind : pack.zoneKinds()) {
         PackId previous = zoneOwner.putIfAbsent(kind.id(), pack.id());
@@ -58,11 +66,28 @@ public final class RuleSet {
         }
         layouts.put(layout.id(), layout);
       }
+      pack.ageLayouts()
+          .forEach(
+              (age, layout) -> {
+                PackId previous = ageOwner.putIfAbsent(age, pack.id());
+                if (previous != null) {
+                  throw duplicate("age", String.valueOf(age), previous, pack.id());
+                }
+                ageLayouts.put(age, layout);
+              });
     }
+    ageLayouts.forEach(
+        (age, layout) -> {
+          if (!layouts.containsKey(layout)) {
+            throw new IllegalArgumentException(
+                "age " + age + " maps to unknown layout: " + layout.value());
+          }
+        });
     return new RuleSet(
         ZoneRegistry.of(kinds),
         new Catalog(components),
         Map.copyOf(layouts),
+        Map.copyOf(ageLayouts),
         packs.stream().map(ContentPack::id).toList());
   }
 
@@ -81,6 +106,15 @@ public final class RuleSet {
       throw new IllegalArgumentException("unknown layout: " + id.value());
     }
     return layout;
+  }
+
+  /** The layout Age {@code age} is dealt into. */
+  public Layout layoutForAge(int age) {
+    LayoutId id = ageLayouts.get(age);
+    if (id == null) {
+      throw new IllegalArgumentException("no layout for age " + age);
+    }
+    return layout(id);
   }
 
   public List<PackId> packIds() {

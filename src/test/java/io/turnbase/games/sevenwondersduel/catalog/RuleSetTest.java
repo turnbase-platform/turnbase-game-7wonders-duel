@@ -11,6 +11,7 @@ import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class RuleSetTest {
@@ -139,5 +140,56 @@ class RuleSetTest {
                     List.of(packWith("base", layout("a")), packWith("agora", layout("a")))))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("duplicate layout 'a'");
+  }
+
+  private record AgePack(PackId id, Map<Integer, LayoutId> ageLayouts) implements ContentPack {
+    @Override
+    public List<ZoneKind> zoneKinds() {
+      return List.of();
+    }
+
+    @Override
+    public List<Component> components() {
+      return List.of();
+    }
+  }
+
+  private static ContentPack agePack(String pack, Map<Integer, LayoutId> mapping) {
+    return new AgePack(PackId.of(pack), mapping);
+  }
+
+  @Test
+  void baseMapsEachAgeToItsLayout() {
+    RuleSet rules = RuleSet.assemble(List.of(new BasePack()));
+
+    assertThat(rules.layoutForAge(1)).isEqualTo(rules.layout(LayoutId.of("age1")));
+    assertThat(rules.layoutForAge(2)).isEqualTo(rules.layout(LayoutId.of("age2")));
+    assertThat(rules.layoutForAge(3)).isEqualTo(rules.layout(LayoutId.of("age3")));
+  }
+
+  @Test
+  void unmappedAgeIsRejectedByName() {
+    RuleSet rules = RuleSet.assemble(List.of(new BasePack()));
+
+    assertThatThrownBy(() -> rules.layoutForAge(4))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("age 4");
+  }
+
+  @Test
+  void mappingToAnUnknownLayoutIsRejectedAtAssembly() {
+    assertThatThrownBy(
+            () -> RuleSet.assemble(List.of(agePack("odd", Map.of(1, LayoutId.of("nowhere"))))))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("nowhere");
+  }
+
+  @Test
+  void duplicateAgeMappingIsRejected() {
+    ContentPack other = agePack("agora", Map.of(1, LayoutId.of("age2")));
+
+    assertThatThrownBy(() -> RuleSet.assemble(List.of(new BasePack(), other)))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("duplicate age '1'");
   }
 }

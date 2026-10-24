@@ -7,6 +7,7 @@ import io.turnbase.games.sevenwondersduel.structure.Layout;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
 import io.turnbase.games.sevenwondersduel.zone.ZoneKind;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The base game's content. Zones and Age layouts for now; card, Wonder and token data arrive later.
@@ -67,6 +68,11 @@ public final class BasePack implements ContentPack {
             up(0, 2, 4, 6),
             down(1, 3, 5),
             up(2, 4)));
+  }
+
+  @Override
+  public Map<Integer, LayoutId> ageLayouts() {
+    return Map.of(1, LayoutId.of("age1"), 2, LayoutId.of("age2"), 3, LayoutId.of("age3"));
   }
 
   private static Layout layout(String id, Layout.Row... rows) {
