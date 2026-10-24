@@ -152,6 +152,18 @@ class SnapshotsTest {
   }
 
   @Test
+  void aSharedVictoryTravelsThroughTheSnapshotWithNoWinner() {
+    DuelState over =
+        sample().withPhase(Phase.OVER).withVictory(new Victory(null, Victory.Reason.POINTS));
+
+    SevenWondersDuelState snapshot = Snapshots.toSnapshot(over);
+
+    assertThat(snapshot.victoryWinner()).isNull();
+    assertThat(snapshot.victoryReason()).isEqualTo("POINTS");
+    assertThat(Snapshots.fromSnapshot(snapshot)).isEqualTo(over);
+  }
+
+  @Test
   void ageFirstAndDecidingTravelThroughTheSnapshot() {
     DuelState undecided = sample().withDeciding(null);
 

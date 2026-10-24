@@ -73,7 +73,9 @@ public final class Snapshots {
         state.agenda().steps().stream().map(Snapshots::stepData).toList(),
         state.pawn().side() == null ? null : state.pawn().side().value(),
         state.pawn().space(),
-        state.victory() == null ? null : state.victory().winner().value(),
+        state.victory() == null || state.victory().winner() == null
+            ? null
+            : state.victory().winner().value(),
         state.victory() == null ? null : state.victory().reason().name());
   }
 
@@ -119,11 +121,12 @@ public final class Snapshots {
     if (snapshot.victoryWinner() == null && snapshot.victoryReason() == null) {
       return null;
     }
-    if (snapshot.victoryWinner() == null || snapshot.victoryReason() == null) {
-      throw new IllegalArgumentException("a victory needs both a winner and a reason");
+    if (snapshot.victoryReason() == null) {
+      throw new IllegalArgumentException("a victory needs a reason");
     }
-    return new Victory(
-        PlayerId.of(snapshot.victoryWinner()), Victory.Reason.valueOf(snapshot.victoryReason()));
+    PlayerId winner =
+        snapshot.victoryWinner() == null ? null : PlayerId.of(snapshot.victoryWinner());
+    return new Victory(winner, Victory.Reason.valueOf(snapshot.victoryReason()));
   }
 
   private static StepData stepData(Step step) {
