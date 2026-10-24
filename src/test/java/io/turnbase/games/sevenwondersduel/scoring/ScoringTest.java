@@ -16,6 +16,7 @@ import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import io.turnbase.games.sevenwondersduel.zone.Location;
 import java.util.List;
 import java.util.Set;
@@ -114,5 +115,32 @@ class ScoringTest {
     DuelState s = state(rules, card.id(), city(P1));
 
     assertThat(Scoring.score(s, rules, P1).line("buildings")).isEqualTo(3);
+  }
+
+  @Test
+  void militaryPointsGoToThePlayerTheirOpponentIsLosingTo() {
+    RuleSet rules = rules();
+    DuelState s = state(rules).withPawn(new Pawn(P2, 4));
+
+    assertThat(Scoring.score(s, rules, P1).line("military")).isEqualTo(5);
+    assertThat(Scoring.score(s, rules, P2).line("military")).isZero();
+  }
+
+  @Test
+  void aPawnAtTheCentreScoresForNobody() {
+    RuleSet rules = rules();
+    DuelState s = state(rules);
+
+    assertThat(Scoring.score(s, rules, P1).line("military")).isZero();
+    assertThat(Scoring.score(s, rules, P2).line("military")).isZero();
+  }
+
+  @Test
+  void treasuryScoresOnePointPerThreeCoinsRoundedDown() {
+    RuleSet rules = rules();
+    DuelState s = Fixtures.state(rules, P1, 8, 9);
+
+    assertThat(Scoring.score(s, rules, P1).line("coins")).isEqualTo(2);
+    assertThat(Scoring.score(s, rules, P2).line("coins")).isEqualTo(3);
   }
 }

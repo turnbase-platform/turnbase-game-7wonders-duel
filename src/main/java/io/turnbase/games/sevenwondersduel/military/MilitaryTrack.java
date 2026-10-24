@@ -34,6 +34,18 @@ public final class MilitaryTrack {
     return zone;
   }
 
+  /**
+   * Victory points of a pawn standing in {@code zone} for the player it is advanced for (B-MIL-5).
+   */
+  public static int victoryPoints(int zone) {
+    return switch (zone) {
+      case 1 -> 2;
+      case 2 -> 5;
+      case 3 -> 10;
+      default -> 0;
+    };
+  }
+
   /** Where the token of {@code zone} on {@code side}'s part of the track lies. */
   public static Location tokenSpot(PlayerId side, int zone) {
     return new Location(TOKENS, side.value() + ":" + zone);

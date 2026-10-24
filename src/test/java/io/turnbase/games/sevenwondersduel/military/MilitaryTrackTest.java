@@ -22,4 +22,13 @@ class MilitaryTrackTest {
     assertThat(MilitaryTrack.tokenSpot(P1, 2))
         .isEqualTo(new Location(ZoneId.of("military"), P1.value() + ":2"));
   }
+
+  @Test
+  void victoryPointsGrowWithTheZoneAndVanishAtTheCentre() {
+    assertThat(MilitaryTrack.victoryPoints(0)).isZero();
+    assertThat(MilitaryTrack.victoryPoints(1)).isEqualTo(2);
+    assertThat(MilitaryTrack.victoryPoints(2)).isEqualTo(5);
+    assertThat(MilitaryTrack.victoryPoints(3)).isEqualTo(10);
+    assertThat(MilitaryTrack.victoryPoints(MilitaryTrack.CAPITAL_ZONE)).isZero();
+  }
 }

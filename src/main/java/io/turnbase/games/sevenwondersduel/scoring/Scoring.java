@@ -6,13 +6,17 @@ import io.turnbase.games.sevenwondersduel.catalog.Tag;
 import io.turnbase.games.sevenwondersduel.effect.Ownership;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.military.MilitaryTrack;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
+import io.turnbase.games.sevenwondersduel.state.Pawn;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** The final score (B-END-2), derived from what each player has in play. */
 public final class Scoring {
 
+  public static final String MILITARY = "military";
+  public static final String COINS = "coins";
   public static final String BLUE = "blue";
   public static final String BUILDINGS = "buildings";
   public static final String WONDERS = "wonders";
@@ -32,7 +36,20 @@ public final class Scoring {
         }
       }
     }
+    lines.put(MILITARY, military(state, player));
+    lines.put(COINS, state.player(player).coins() / COINS_PER_POINT);
     return new Scorecard(player, lines);
+  }
+
+  private static final int COINS_PER_POINT = 3;
+
+  /** The pawn leans towards a player's capital; the other player scores its zone. */
+  private static int military(DuelState state, PlayerId player) {
+    Pawn pawn = state.pawn();
+    if (pawn.side() == null || pawn.side().equals(player)) {
+      return 0;
+    }
+    return MilitaryTrack.victoryPoints(MilitaryTrack.zoneOf(pawn.space()));
   }
 
   /** The line a component's points are counted in. */
