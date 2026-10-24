@@ -2,12 +2,16 @@ package io.turnbase.games.sevenwondersduel.engine;
 
 import io.turnbase.games.sevenwondersduel.agenda.DecisionStep;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
+import io.turnbase.games.sevenwondersduel.cost.CostSolver;
+import io.turnbase.games.sevenwondersduel.cost.Quote;
 import io.turnbase.games.sevenwondersduel.draft.Draft;
 import io.turnbase.games.sevenwondersduel.effect.Resolution;
+import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
+import io.turnbase.games.sevenwondersduel.turn.Construct;
 import io.turnbase.games.sevenwondersduel.turn.Turn;
 
 /**
@@ -18,9 +22,11 @@ import io.turnbase.games.sevenwondersduel.turn.Turn;
 public final class Engine {
 
   private final RuleSet rules;
+  private final CostSolver costs;
 
   public Engine(RuleSet rules) {
     this.rules = rules;
+    this.costs = new CostSolver(rules);
   }
 
   public Outcome apply(DuelState state, PlayerId actor, PlayerAction action) {
@@ -32,6 +38,7 @@ public final class Engine {
       case DraftWonder pick -> draft(state, actor, pick);
       case ChooseStarter choice -> chooseStarter(state, actor, choice);
       case Discard discard -> discard(state, actor, discard);
+      case Build build -> build(state, actor, build);
     };
   }
 
@@ -89,14 +96,29 @@ public final class Engine {
    * left to settle (B-TURN-2, B-STR-1).
    */
   private Outcome discard(DuelState state, PlayerId actor, Discard discard) {
-    requireTurnToTake(state, actor);
-    if (discard.card() == null
-        || !Structure.takeable(state.placements()).contains(discard.card())) {
-      throw new IllegalActionException("card is not available");
-    }
+    requireTakeable(state, actor, discard.card());
     Resolution resolution = new Resolution(state, rules);
     Turn.discard(resolution, actor, discard.card());
     return new Outcome(resolution.state(), resolution.events());
+  }
+
+  /** Only the active player may build, with a card that is available and that they can pay for. */
+  private Outcome build(DuelState state, PlayerId actor, Build build) {
+    requireTakeable(state, actor, build.card());
+    Quote quote = costs.quote(state, actor, build.card());
+    if (!quote.payableWith(state.player(actor).coins())) {
+      throw new IllegalActionException("cannot afford " + build.card().value());
+    }
+    Resolution resolution = new Resolution(state, rules);
+    Construct.building(resolution, actor, build.card(), quote);
+    return new Outcome(resolution.state(), resolution.events());
+  }
+
+  private static void requireTakeable(DuelState state, PlayerId actor, ComponentId card) {
+    requireTurnToTake(state, actor);
+    if (card == null || !Structure.takeable(state.placements()).contains(card)) {
+      throw new IllegalActionException("card is not available");
+    }
   }
 
   private static void requireTurnToTake(DuelState state, PlayerId actor) {
