@@ -16,7 +16,8 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .banner { padding: 6px 10px; border-radius: var(--radius); background: #fdd; color: #600; }
 .main { flex: 1; min-height: 0; display: flex; gap: 8px; }
 .layout-medium .main, .layout-portrait .main { flex-direction: column; }
-.structure { flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; justify-content: center; align-items: flex-start; }
+.structure { flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.board-tokens { display: flex; gap: 6px; justify-content: center; flex: none; }
 .panel { box-sizing: border-box; min-height: 0; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; }
 .layout-wide .panel { width: 280px; flex: none; }
 .layout-landscape .panel { width: 240px; flex: none; }
@@ -34,8 +35,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city__line { display: flex; gap: 10px; align-items: center; margin: 0 0 6px; }
 .city__line .glyph { display: inline-flex; align-items: center; gap: 1px; }
 .stacks, .tokens { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: flex-start; }
-.stack { display: flex; flex-direction: column; gap: 0; width: 38px; }
-.stack .peekable + .peekable { margin-top: -22px; }
+.stack { display: flex; flex-direction: column; width: 56px; }
+.stack .card { --w: 56px; }
+.stack .peekable + .peekable { margin-top: -52px; }
 .wonders { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .wonders .peekable { display: flex; justify-content: center; }
 .city .card--wonder.card--standard { --w: 112px; }
@@ -50,7 +52,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .choice { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .phase-panel button { padding: 6px 14px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); cursor: pointer; }
-.pyramid-frame { width: 100%; height: 100%; display: flex; justify-content: center; align-items: flex-start; }
+.pyramid-frame { width: 100%; flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; }
 .pyramid { --cw: 75px; position: relative; flex: none; }
 .pyramid .card { --w: var(--cw); }
 .slot { position: absolute; padding: 0; border: 0; background: none; line-height: 0; }

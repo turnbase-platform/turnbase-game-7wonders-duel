@@ -60,54 +60,30 @@ describe("trackOf tiles", () => {
     expect(pawn(pawnAt(ONE, 4))).toBe(-4);
   });
 
-  it("badges the zone entries and capitals with the shields to go, signed toward the opponent", () => {
-    const badges = (v: DuelView) =>
-      trackOf(v, catalog, seats)
-        .tiles.filter((t) => t.badge !== null)
-        .map((t) => [t.position, t.badge]);
-    expect(badges(pawnAt(TWO, 2))).toEqual([
-      [-9, "−11"],
-      [-6, "−8"],
-      [-3, "−5"],
-      [3, "+1"],
-      [6, "+4"],
-      [9, "+7"],
-    ]);
-    expect(badges(pawnAt(ONE, 4))).toEqual([
-      [-9, "−5"],
-      [-6, "−2"],
-      [-3, "+1"],
-      [3, "+7"],
-      [6, "+10"],
-      [9, "+13"],
-    ]);
-  });
-
-  it("leaves the badge off the tile the pawn stands on", () => {
-    const { tiles } = trackOf(pawnAt(ONE, 3), catalog, seats);
-    expect(tiles.find((t) => t.position === -3)).toMatchObject({ pawn: true, badge: null });
-  });
-
   it("gives every other tile its distance as a hover title", () => {
     const { tiles } = trackOf(pawnAt(TWO, 2), catalog, seats);
     expect(tiles.find((t) => t.position === 5)?.title).toBe("+3 shields");
     expect(tiles.find((t) => t.position === -1)?.title).toBe("−3 shields");
     expect(tiles.find((t) => t.pawn)?.title).toBeNull();
   });
+
+  it("says on a capital's hover what reaching it means", () => {
+    const { tiles } = trackOf(pawnAt(TWO, 2), catalog, seats);
+    expect(tiles[18]?.title).toBe("+7 shields · Capital: Military Supremacy for the other player");
+    expect(tiles[0]?.title).toBe("−11 shields · Capital: Military Supremacy for the other player");
+  });
 });
 
 describe("trackOf fields", () => {
-  it("lays out defeat, the loot and VP fields and the win, under the tiles they cover", () => {
+  it("lays out the loot and VP fields under the tiles they cover", () => {
     const { fields } = trackOf(view, catalog, seats);
     expect(fields.map((f) => [f.kind, f.from, f.to, f.text])).toEqual([
-      ["defeat", 0, 0, "defeat"],
       ["loot", 1, 3, "−5"],
       ["loot", 4, 6, "−2"],
       ["vp", 7, 8, "2 VP"],
       ["vp", 10, 11, "2 VP"],
       ["loot", 12, 14, "−2"],
       ["loot", 15, 17, "−5"],
-      ["win", 18, 18, "win"],
     ]);
   });
 
@@ -135,7 +111,7 @@ describe("trackOf fields", () => {
     expect(current(view)).toEqual([]);
     expect(current(pawnAt(TWO, 2))).toEqual([10]);
     expect(current(pawnAt(ONE, 4))).toEqual([4]);
-    expect(current(pawnAt(TWO, 9))).toEqual([18]);
+    expect(current(pawnAt(TWO, 9))).toEqual([]);
   });
 
   it("says what a zone is worth in victory points in the loot field's title", () => {

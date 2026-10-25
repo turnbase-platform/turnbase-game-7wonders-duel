@@ -61,7 +61,7 @@ export function pyramidOf(view: DuelView, floor: Extent = { rows: 0, cols: 0 }):
 }
 
 const MIN_SCALE = 0.3;
-const MAX_SCALE = 1;
+const MAX_SCALE = 1.5;
 
 /** The factor that makes a pyramid of this extent fit the box, in both directions. */
 export function fit(box: Size, { rows, cols }: Extent): number {

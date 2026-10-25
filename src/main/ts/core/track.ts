@@ -17,14 +17,12 @@ export interface Tile {
   label: string;
   capital: "me" | "opp" | null;
   pawn: boolean;
-  /** Shields the pawn needs to get here, on the zone entries and capitals only. */
-  badge: string | null;
-  /** The same distance for any other tile, shown on hover. */
+  /** Shields the pawn needs to get here, shown on hover; null under the pawn. */
   title: string | null;
 }
 
 export interface Field {
-  kind: "defeat" | "win" | "vp" | "loot";
+  kind: "vp" | "loot";
   /** The zone, 1 to 4: how deep into a side's part of the track this field lies. */
   zone: number;
   text: string;
@@ -58,19 +56,24 @@ function zoneOf(position: number): number {
   return ZONE_STARTS.filter((start) => space >= start).length + (space === CAPITAL ? 1 : 0);
 }
 
+function titleOf(position: number, distance: number): string {
+  const shields = `${signed(distance)} shields`;
+  return Math.abs(position) === CAPITAL
+    ? `${shields} · Capital: Military Supremacy for the other player`
+    : shields;
+}
+
 export function trackOf(view: DuelView, catalog: Catalog, seats: Seats): Track {
   const pawn = pawnPosition(view, seats);
   const tiles: Tile[] = [];
   for (let position = -CAPITAL; position <= CAPITAL; position++) {
     const distance = position - pawn;
-    const entry = position !== 0 && Math.abs(position) % 3 === 0;
     tiles.push({
       position,
       label: String(Math.abs(position)),
       capital: Math.abs(position) === CAPITAL ? (position < 0 ? "me" : "opp") : null,
       pawn: position === pawn,
-      badge: entry && distance !== 0 ? signed(distance) : null,
-      title: distance === 0 ? null : `${signed(distance)} shields`,
+      title: distance === 0 ? null : titleOf(position, distance),
     });
   }
   return { tiles, fields: fieldsOf(view, catalog, seats, zoneOf(pawn), pawn) };
@@ -85,16 +88,6 @@ function fieldsOf(
 ): Field[] {
   const here = (side: "me" | "opp", z: number): boolean =>
     pawn !== 0 && zone === z && pawn < 0 === (side === "me");
-  const end = (side: "me" | "opp"): Field => ({
-    kind: side === "me" ? "defeat" : "win",
-    zone: 4,
-    text: side === "me" ? "defeat" : "win",
-    from: at(side === "me" ? -CAPITAL : CAPITAL),
-    to: at(side === "me" ? -CAPITAL : CAPITAL),
-    current: here(side, 4),
-    taken: false,
-    title: null,
-  });
   const vp = (side: "me" | "opp"): Field => {
     const sign = side === "me" ? -1 : 1;
     return {
@@ -129,12 +122,10 @@ function fieldsOf(
     };
   };
   return [
-    end("me"),
     ...LOOT_ZONES.map((z) => loot("me", z)),
     vp("me"),
     vp("opp"),
     ...[...LOOT_ZONES].reverse().map((z) => loot("opp", z)),
-    end("opp"),
   ];
 }
 

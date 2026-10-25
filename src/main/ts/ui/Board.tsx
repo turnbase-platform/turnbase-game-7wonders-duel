@@ -5,6 +5,7 @@ import { attention, selectedOf, selectionReducer } from "../core/selection.js";
 import { seatsOf, type Seats } from "../core/seats.js";
 import type { Session } from "../core/session.js";
 import type { WireAction } from "../core/wire.js";
+import { BoardTokens } from "./BoardTokens.js";
 import { Actions, type Anchor } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
@@ -78,6 +79,7 @@ export function Board({ session, send, layout: fixed }: Props) {
       <div className="main">
         {showing("structure") && (
           <main className="structure">
+            <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
             <Structure
               session={session}
               view={view}

@@ -13,8 +13,8 @@ export const CARD = `
   position: relative; isolation: isolate; box-sizing: border-box; flex: none;
   width: var(--w); aspect-ratio: 3 / 4; display: flex; flex-direction: column;
   font: 600 max(7px, calc(var(--u) / 8)) / 1.1 var(--sans);
-  color: var(--ink); background: var(--surface);
-  border: 1px solid var(--c); border-radius: var(--radius); overflow: visible;
+  color: #fff; background: var(--c);
+  border: 1px solid #0006; box-shadow: 0 1px 2px #0004; border-radius: var(--radius); overflow: visible;
 }
 .card--small { --w: 38px; } .card--large { --w: 120px; }
 .card--wonder { --c: var(--wonder); aspect-ratio: 4 / 3; --w: 120px; --u: calc(var(--w) * .66); }
@@ -29,7 +29,7 @@ export const CARD = `
 .card__banner {
   display: flex; flex-wrap: wrap; gap: calc(var(--u) * .02); align-items: center;
   justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
-  background: var(--c); color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
 .glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .24); }
 .glyph b {
@@ -46,35 +46,35 @@ export const CARD = `
 .card__cost {
   position: absolute; top: calc(var(--u) * .32); left: 2px; z-index: 1; display: flex;
   flex-direction: column; align-items: center; gap: 1px; padding: 1px;
-  font-size: calc(var(--u) * .16); background: color-mix(in srgb, var(--surface) 85%, transparent);
+  font-size: calc(var(--u) * .16); background: #0007;
   border-radius: var(--radius);
 }
 .cost__coin { position: relative; display: inline-flex; }
-.cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif); color: #1b1a17; }
-.cost__free .icon { color: var(--ink); }
+.cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif); color: #1b1a17; text-shadow: 0 0 2px #fff; }
+.cost__free .icon { color: #fff; }
 .card--wonder .card__cost { position: static; font-size: calc(var(--u) * .26); flex-direction: row; flex-wrap: wrap; justify-content: center; background: none; }
 .card--wonder .card__chain { display: none; }
 .card__art {
   flex: 1; display: grid; place-items: center; min-height: 0;
-  background: radial-gradient(circle, color-mix(in srgb, var(--c) 28%, transparent), transparent 72%);
-  color: var(--c); font-size: calc(var(--u) * .42);
+  background: radial-gradient(circle at 50% 40%, #fff3, #0000 70%);
+  color: #fff; font-size: calc(var(--u) * .42);
 }
-.card--wonder .card__art { font-size: calc(var(--u) * .26); color: var(--ink); }
+.card--wonder .card__art { font-size: calc(var(--u) * .26); }
 .card__name {
   padding: 1px 3px; font-size: .88em; text-align: center; white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis; background: var(--ink); color: var(--surface); font-family: var(--serif);
+  text-overflow: ellipsis; background: #0006; color: #fff; font-family: var(--serif);
   border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
 }
 .card__chain {
   position: absolute; top: calc(var(--u) * .32); right: 2px; z-index: 1; display: grid;
   place-items: center; padding: 1px; font-size: calc(var(--u) * .17);
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  background: #0007; border: 1px solid #0004; border-radius: var(--radius);
 }
 .card--small .card__name, .card--small .card__cost, .card--small .card__chain { display: none; }
 .card--small .card__art { display: none; }
 .card--small { aspect-ratio: auto; min-height: calc(var(--u) * .3); }
 
-.card--wonder.is-unbuilt { opacity: .8; filter: saturate(.4) brightness(.97); }
+.card--wonder.is-unbuilt { opacity: .72; }
 .card--wonder.owner-me { outline: 2px solid var(--me); } .card--wonder.owner-opp { outline: 2px solid var(--opp); }
 .card__paid {
   position: absolute; right: -4px; bottom: -4px; z-index: -1; width: 24%; height: 34%;

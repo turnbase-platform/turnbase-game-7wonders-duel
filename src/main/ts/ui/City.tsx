@@ -86,7 +86,7 @@ export function City({ session, seats, side }: { session: Session; seats: Seats;
       <div className="stacks">
         {city.stacks.map((stack) => (
           <div key={stack.colour} className={`stack color-${stack.colour}`}>
-            {stack.cards.map((id) => peekable(id, "small"))}
+            {stack.cards.map((id) => peekable(id, "standard"))}
           </div>
         ))}
       </div>
