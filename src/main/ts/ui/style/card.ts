@@ -34,6 +34,7 @@ export const CARD = `
   justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
   position: relative; background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
+.glyph .icon-or { margin: 0 -.3em; }
 .glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .24); }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
