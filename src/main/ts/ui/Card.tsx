@@ -131,7 +131,6 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
         <Icon id={motifOf(entry)} />
       </div>
       <div className="card__name">{entry.name}</div>
-      {built && <span className="card__paid" />}
     </div>
   );
 }
