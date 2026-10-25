@@ -26,7 +26,7 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
       x: 94.6,
       y: 67.6,
       size: 42,
-      fill: "#d2b146",
+      fill: "#fff",
       edge: true,
     },
   ],
@@ -35,10 +35,10 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
     {
       outlines: ["M90.3 107.4", "M84.3 106.2"],
       text: "3",
-      x: 90.3,
-      y: 89.8,
+      x: 89.2,
+      y: 96,
       size: 46,
-      fill: "#d2b146",
+      fill: "#fff",
       edge: true,
     },
   ],
@@ -49,7 +49,7 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
       x: 71.7,
       y: 68.3,
       size: 60,
-      fill: "#d2b146",
+      fill: "#fff",
       edge: true,
     },
   ],
@@ -63,7 +63,7 @@ const escape = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 function typeset(f: Figure): string {
   const edge = f.edge
-    ? ` stroke="#000" stroke-width="2.4" stroke-linejoin="round" paint-order="stroke"`
+    ? ` stroke="#000a" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke"`
     : "";
   const y = f.y + (f.size * DIGIT_HEIGHT) / 2;
   return (
