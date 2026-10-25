@@ -29,19 +29,20 @@ const TORN_CARD: Imported = (() => {
   };
 })();
 
-const card = (x: number, y: number, fill: string): string =>
-  `<rect x="${String(x)}" y="${String(y)}" width="12" height="15" rx="1.6" fill="${fill}" stroke="${EDGE}" stroke-width=".5"/>`;
+const card = (x: number, y: number, fill: string, turn = 0): string =>
+  `<rect x="${String(x)}" y="${String(y)}" width="12" height="15" rx="1.6" fill="${fill}" stroke="${EDGE}" stroke-width=".5" transform="rotate(${String(turn)} ${String(x + 6)} ${String(y + 7.5)})"/>`;
 
-/** A pile of plain grey cards; on the front one the price bar is crossed out: build it for free. */
+/** Grey cards thrown into a heap; on the front one the price bar is crossed out: build it for free. */
 const REBUILD: Imported = {
   viewBox: "0 0 24 24",
   body:
-    card(1.5, 1.5, "#8b8e94") +
-    card(4.5, 4.5, "#a9acb2") +
-    card(8, 7.5, "#c9ccd1") +
-    `<path d="M8 11.5h8.2a1.6 1.6 0 0 1 0 3.2H8z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4"/>` +
-    `<path d="M9.4 10.2l5.8 5.8M15.2 10.2l-5.8 5.8" stroke="#000" stroke-width="3" stroke-linecap="round"/>` +
-    `<path d="M9.4 10.2l5.8 5.8M15.2 10.2l-5.8 5.8" stroke="${RED}" stroke-width="1.7" stroke-linecap="round"/>`,
+    card(0.5, 1.5, "#8b8e94", -16) +
+    card(5, 0.5, "#9a9da3", 11) +
+    card(1.5, 5.5, "#a9acb2", -5) +
+    card(8.5, 8, "#c9ccd1", 4) +
+    `<path d="M8.5 12h8.2a1.6 1.6 0 0 1 0 3.2H8.5z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4" transform="rotate(4 14.5 15.5)"/>` +
+    `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="#000" stroke-width="3" stroke-linecap="round"/>` +
+    `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="${RED}" stroke-width="1.7" stroke-linecap="round"/>`,
 };
 
 const token = (cx: number, cy: number, face: boolean): string => {
