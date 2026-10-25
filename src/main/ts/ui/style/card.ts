@@ -86,8 +86,6 @@ export const CARD = `
   background: var(--c); border: 1px solid #0004; border-radius: .22em; box-shadow: inset 0 0 0 1px #ffffff2e;
 }
 .cost__free .icon { color: #fff; width: .78em; height: .78em; }
-.card--wonder .card__cost { position: static; align-items: center; font-size: calc(var(--u) * .26); flex-wrap: wrap; justify-content: center; }
-.card--wonder .cost__bar { height: auto; padding: 0; background: none; border-radius: 0; flex-wrap: wrap; justify-content: center; }
 .card--wonder .card__chain { display: none; }
 .card__art {
   flex: 1; display: grid; place-items: center; min-height: 0;
