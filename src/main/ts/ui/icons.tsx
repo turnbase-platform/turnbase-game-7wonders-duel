@@ -31,7 +31,7 @@ const DRAWINGS: Record<string, string> = {
   progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
   or: line(path("M16 3L8 21")),
   // The manual's "the city that has more": an up triangle and a down triangle, split by a slash
-  better: `<g fill="currentColor" stroke="none"><path d="M1 17.5L5.25 8.5l4.25 9z"/><path d="M14.5 8.5H23L18.75 17.5z"/></g><path d="M16 2.5L8 21.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
+  better: `<g fill="currentColor" stroke="none"><path d="M2 14L6.25 5l4.25 9z"/><path d="M13.5 12H22l-4.25 9z"/></g><path d="M16 2.5L8 21.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
   chain: line(paths("M9 15l6-6", "M7 11l-2 2a4 4 0 0 0 6 6l2-2", "M17 13l2-2a4 4 0 0 0-6-6l-2 2")),
   // Actions
   trade: line(paths("M4 8h14l-3-3", "M20 16H6l3 3")),
