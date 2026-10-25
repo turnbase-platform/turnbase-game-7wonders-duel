@@ -1,48 +1,40 @@
 import { TurnBaseClient } from "@turnbase/gdk";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App.js";
-import {
-  apply,
-  applyResult,
-  initialModel,
-  type GameEvent,
-  type Model,
-  type Move,
-} from "./model.js";
+import { emptySession, reduce, type SessionInput } from "./core/session.js";
+import type { ServerMessage, WireAction } from "./core/wire.js";
+import { App } from "./ui/App.js";
+import { injectStyles } from "./ui/styles.js";
 
-const client = new TurnBaseClient<Move, GameEvent>();
+const client = new TurnBaseClient<WireAction, ServerMessage>();
 const root = createRoot(document.body.appendChild(document.createElement("div")));
-let model: Model = initialModel(null);
+let session = emptySession();
 
-function draw(): void {
+function send(action: WireAction): void {
+  client.sendAction(action);
+}
+
+function dispatch(input: SessionInput): void {
+  session = reduce(session, input);
   root.render(
     <StrictMode>
-      <App
-        model={model}
-        onEndTurn={() => {
-          client.sendAction({ type: "END_TURN" });
-        }}
-      />
+      <App session={session} send={send} />
     </StrictMode>,
   );
 }
 
+injectStyles();
 client
-  .onInit((ctx) => {
-    model = initialModel(ctx.self?.id ?? null);
-    draw();
+  .onInit((context) => {
+    dispatch({ type: "init", context });
   })
-  .onGameEvent((event) => {
-    model = apply(model, event);
-    draw();
+  .onGameEvent((message) => {
+    dispatch({ type: "message", message });
   })
   .onPlayerLeft((player) => {
-    model = { ...model, message: `${player.displayName} left the game.` };
-    draw();
+    dispatch({ type: "playerLeft", player });
   })
   .onGameOver((results) => {
-    model = applyResult(model, results);
-    draw();
+    dispatch({ type: "gameOver", results });
   })
   .start();

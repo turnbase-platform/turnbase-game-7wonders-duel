@@ -1,43 +1,101 @@
+import { readFileSync } from "node:fs";
+import type { InitContext, Player } from "@turnbase/gdk";
 import { act } from "react";
-import { createRoot } from "react-dom/client";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { App } from "../../main/ts/App.js";
-import { apply, initialModel } from "../../main/ts/model.js";
+import { createRoot, type Root } from "react-dom/client";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { emptySession, reduce, type Session } from "../../main/ts/core/session.js";
+import type { ServerMessage, WireAction } from "../../main/ts/core/wire.js";
+import { App } from "../../main/ts/ui/App.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
-const container = document.createElement("div");
-const root = createRoot(container);
+const ONE: Player = { id: "00000000-0000-0000-0000-000000000001", displayName: "One", teamId: "a" };
+const TWO: Player = { id: "00000000-0000-0000-0000-000000000002", displayName: "Two", teamId: "b" };
 
-function show(selfId: string | null, turn: string, onEndTurn = vi.fn()): HTMLButtonElement {
-  const model = apply(initialModel(selfId), { type: "view", turn, turnNumber: 2, over: false });
-  act(() => {
-    root.render(<App model={model} onEndTurn={onEndTurn} />);
-  });
-  const button = container.querySelector("button");
-  if (button === null) throw new Error("no button rendered");
-  return button;
+function message(name: string): ServerMessage {
+  return JSON.parse(readFileSync(`src/test/resources/wire/${name}.json`, "utf8")) as ServerMessage;
 }
 
-afterEach(() => {
-  act(() => {
-    root.render(null);
-  });
-});
+const INIT: InitContext = {
+  role: "player",
+  self: ONE,
+  roster: [ONE, TWO],
+  teams: [],
+  sessionId: "s",
+};
+
+/** A seat that has had its resync (the catalog comes only with it) and then these messages. */
+function session(self: Player | null, ...messages: ServerMessage[]): Session {
+  const context: InitContext = { ...INIT, role: self ? "player" : "spectator", self };
+  return [message("resync"), ...messages].reduce(
+    (s, m) => reduce(s, { type: "message", message: m }),
+    reduce(emptySession(), { type: "init", context }),
+  );
+}
 
 describe("App", () => {
-  it("lets the player whose turn it is end it", () => {
-    const onEndTurn = vi.fn();
-    const button = show("a", "a", onEndTurn);
-    expect(container.querySelector("[role=status]")?.textContent).toBe("Your turn.");
-    act(() => {
-      button.click();
-    });
-    expect(onEndTurn).toHaveBeenCalledOnce();
+  let host: HTMLElement;
+  let root: Root;
+  const send = vi.fn<(action: WireAction) => void>();
+
+  beforeEach(() => {
+    host = document.body.appendChild(document.createElement("div"));
+    root = createRoot(host);
   });
 
-  it("disables the button for the opponent and for a spectator", () => {
-    expect(show("a", "b").disabled).toBe(true);
-    expect(show(null, "a").disabled).toBe(true);
+  afterEach(() => {
+    act(() => {
+      root.unmount();
+    });
+    host.remove();
+  });
+
+  function show(s: Session): void {
+    act(() => {
+      root.render(<App session={s} send={send} />);
+    });
+  }
+
+  it("waits until the first picture arrives", () => {
+    show(reduce(emptySession(), { type: "init", context: INIT }));
+
+    expect(host.textContent).toContain("Waiting for the game");
+  });
+
+  it("names the seat to act and every player's coins", () => {
+    show(session(ONE));
+
+    expect(host.querySelector(".turn")?.textContent).toMatch(/to act$/);
+    expect(host.querySelector(".header")?.textContent).toContain("One: ");
+  });
+
+  it("sends the matching action when a draft wonder is taken", () => {
+    show(session(ONE, message("view-after-draft-pick")));
+
+    const take = [...host.querySelectorAll("button")].find((b) => b.textContent === "Take");
+    act(() => {
+      take?.click();
+    });
+
+    expect(send).toHaveBeenCalledWith(expect.objectContaining({ type: "draftWonder" }));
+  });
+
+  it("shows no buttons to a spectator, and says so", () => {
+    show(session(null, message("view-after-draft-pick")));
+
+    expect(host.querySelectorAll("button")).toHaveLength(0);
+    expect(host.textContent).toContain("(spectating)");
+  });
+
+  it("shows a hidden card as a count, never a name", () => {
+    show(session(null, message("view-in-age")));
+
+    expect(host.textContent).toContain("▮ ×1");
+  });
+
+  it("shows why an action was refused", () => {
+    show(session(ONE, message("view-after-draft-pick"), message("rejected")));
+
+    expect(host.querySelector(".banner")?.textContent).not.toBe("");
   });
 });
