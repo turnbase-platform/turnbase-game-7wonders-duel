@@ -11,9 +11,9 @@ function priced(resource: Imported, coin: Imported): Imported {
   return {
     viewBox: "0 0 120 120",
     body:
-      nested(resource, 2, 2, 100) +
-      nested(coin, 66, 66, 44) +
-      `<text x="88" y="89" text-anchor="middle" dominant-baseline="central" font-family="serif" font-weight="800" font-size="30" fill="#1b1a17">1</text>`,
+      nested(resource, 0, 0, 120) +
+      nested(coin, 72, 72, 48) +
+      `<text x="96" y="97" text-anchor="middle" dominant-baseline="central" font-family="serif" font-weight="800" font-size="30" fill="#1b1a17">1</text>`,
   };
 }
 
