@@ -60,6 +60,7 @@ export const CARD = `
 }
 .glyph .icon-vp + b { transform: translateY(-.06em); }
 .glyph .icon-vp + b { color: #fff; text-shadow: 0 0 2px #0009, 0 0 1px #0009; }
+.glyph .icon-coin-lost + b { color: #e53935; -webkit-text-stroke: .14em #000; paint-order: stroke fill; }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em/1 var(--figures); font-variant-numeric: lining-nums;
   color: #1b1a17;
