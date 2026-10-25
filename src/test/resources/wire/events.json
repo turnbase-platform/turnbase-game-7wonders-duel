@@ -1,0 +1,97 @@
+[ {
+  "id" : 0,
+  "parent" : -1,
+  "kind" : "moved",
+  "cause" : null,
+  "component" : "lumber-yard",
+  "from" : {
+    "zone" : "deck",
+    "key" : ""
+  },
+  "to" : {
+    "zone" : "city",
+    "key" : "00000000-0000-0000-0000-000000000001"
+  },
+  "player" : null,
+  "amount" : 0,
+  "pawnFrom" : null,
+  "pawnTo" : null
+}, {
+  "id" : 1,
+  "parent" : 0,
+  "kind" : "coins",
+  "cause" : "lumber-yard",
+  "component" : null,
+  "from" : null,
+  "to" : null,
+  "player" : "00000000-0000-0000-0000-000000000001",
+  "amount" : -2,
+  "pawnFrom" : null,
+  "pawnTo" : null
+}, {
+  "id" : 2,
+  "parent" : 0,
+  "kind" : "trade",
+  "cause" : null,
+  "component" : null,
+  "from" : null,
+  "to" : null,
+  "player" : "00000000-0000-0000-0000-000000000001",
+  "amount" : 3,
+  "pawnFrom" : null,
+  "pawnTo" : null
+}, {
+  "id" : 3,
+  "parent" : 0,
+  "kind" : "chain",
+  "cause" : null,
+  "component" : "baths",
+  "from" : null,
+  "to" : null,
+  "player" : "00000000-0000-0000-0000-000000000001",
+  "amount" : 0,
+  "pawnFrom" : null,
+  "pawnTo" : null
+}, {
+  "id" : 4,
+  "parent" : 0,
+  "kind" : "pawn",
+  "cause" : null,
+  "component" : null,
+  "from" : null,
+  "to" : null,
+  "player" : null,
+  "amount" : 0,
+  "pawnFrom" : {
+    "side" : null,
+    "space" : 0
+  },
+  "pawnTo" : {
+    "side" : "00000000-0000-0000-0000-000000000001",
+    "space" : 1
+  }
+}, {
+  "id" : 5,
+  "parent" : -1,
+  "kind" : "playAgainGranted",
+  "cause" : "piraeus",
+  "component" : null,
+  "from" : null,
+  "to" : null,
+  "player" : "00000000-0000-0000-0000-000000000001",
+  "amount" : 0,
+  "pawnFrom" : null,
+  "pawnTo" : null
+}, {
+  "id" : 6,
+  "parent" : -1,
+  "kind" : "playAgainCleared",
+  "cause" : null,
+  "component" : null,
+  "from" : null,
+  "to" : null,
+  "player" : "00000000-0000-0000-0000-000000000001",
+  "amount" : 0,
+  "pawnFrom" : null,
+  "pawnTo" : null
+} ]

@@ -1,0 +1,125 @@
+{
+  "kind" : "view",
+  "view" : {
+    "phase" : "WONDER_DRAFT",
+    "active" : "00000000-0000-0000-0000-000000000001",
+    "age" : 0,
+    "first" : "00000000-0000-0000-0000-000000000002",
+    "deciding" : null,
+    "players" : [ {
+      "id" : "00000000-0000-0000-0000-000000000001",
+      "coins" : 7,
+      "playAgain" : false
+    }, {
+      "id" : "00000000-0000-0000-0000-000000000002",
+      "coins" : 7,
+      "playAgain" : false
+    } ],
+    "pawnSide" : null,
+    "pawnSpace" : 0,
+    "victoryWinner" : null,
+    "victoryReason" : null,
+    "visible" : [ {
+      "component" : "theology",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "architecture",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "strategy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "economy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "law",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "loot-2-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:2"
+    }, {
+      "component" : "loot-2-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:2"
+    }, {
+      "component" : "loot-5-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:3"
+    }, {
+      "component" : "loot-5-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:3"
+    }, {
+      "component" : "piraeus",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-hanging-gardens",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-great-lighthouse",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-temple-of-artemis",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    } ],
+    "hidden" : [ {
+      "zone" : "box",
+      "key" : "",
+      "back" : null,
+      "count" : 18
+    }, {
+      "zone" : "deck",
+      "key" : "1",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "2",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "3",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "wonders",
+      "back" : null,
+      "count" : 8
+    } ],
+    "pending" : null,
+    "quotes" : [ ]
+  },
+  "reason" : null,
+  "events" : [ {
+    "id" : 0,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "the-temple-of-artemis",
+    "from" : {
+      "zone" : "draft",
+      "key" : ""
+    },
+    "to" : {
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  } ],
+  "catalog" : null
+}

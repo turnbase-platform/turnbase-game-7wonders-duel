@@ -1,0 +1,36 @@
+[ {
+  "type" : "draftWonder",
+  "component" : "the-colossus",
+  "wonder" : null,
+  "player" : null
+}, {
+  "type" : "chooseStarter",
+  "component" : null,
+  "wonder" : null,
+  "player" : "00000000-0000-0000-0000-000000000002"
+}, {
+  "type" : "discard",
+  "component" : "lumber-yard",
+  "wonder" : null,
+  "player" : null
+}, {
+  "type" : "build",
+  "component" : "lumber-yard",
+  "wonder" : null,
+  "player" : null
+}, {
+  "type" : "buildWonder",
+  "component" : "lumber-yard",
+  "wonder" : "the-colossus",
+  "player" : null
+}, {
+  "type" : "answerComponent",
+  "component" : "baths",
+  "wonder" : null,
+  "player" : null
+}, {
+  "type" : "answerPlayer",
+  "component" : null,
+  "wonder" : null,
+  "player" : "00000000-0000-0000-0000-000000000002"
+} ]

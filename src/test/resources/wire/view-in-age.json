@@ -1,0 +1,811 @@
+{
+  "kind" : "view",
+  "view" : {
+    "phase" : "AGE",
+    "active" : "00000000-0000-0000-0000-000000000002",
+    "age" : 1,
+    "first" : "00000000-0000-0000-0000-000000000002",
+    "deciding" : "00000000-0000-0000-0000-000000000002",
+    "players" : [ {
+      "id" : "00000000-0000-0000-0000-000000000001",
+      "coins" : 7,
+      "playAgain" : false
+    }, {
+      "id" : "00000000-0000-0000-0000-000000000002",
+      "coins" : 7,
+      "playAgain" : false
+    } ],
+    "pawnSide" : null,
+    "pawnSpace" : 0,
+    "victoryWinner" : null,
+    "victoryReason" : null,
+    "visible" : [ {
+      "component" : "theology",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "architecture",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "strategy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "economy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "law",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "loot-2-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:2"
+    }, {
+      "component" : "loot-2-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:2"
+    }, {
+      "component" : "loot-5-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:3"
+    }, {
+      "component" : "loot-5-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:3"
+    }, {
+      "component" : "the-temple-of-artemis",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "the-great-lighthouse",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "the-hanging-gardens",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "piraeus",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "the-appian-way",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "the-colossus",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "the-pyramids",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "the-mausoleum",
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "clay-reserve",
+      "zone" : "structure.up",
+      "key" : "0:4"
+    }, {
+      "component" : "theater",
+      "zone" : "structure.up",
+      "key" : "0:6"
+    }, {
+      "component" : "lumber-yard",
+      "zone" : "structure.up",
+      "key" : "2:2"
+    }, {
+      "component" : "stone-reserve",
+      "zone" : "structure.up",
+      "key" : "2:4"
+    }, {
+      "component" : "glassworks",
+      "zone" : "structure.up",
+      "key" : "2:6"
+    }, {
+      "component" : "tavern",
+      "zone" : "structure.up",
+      "key" : "2:8"
+    }, {
+      "component" : "palisade",
+      "zone" : "structure.up",
+      "key" : "4:0"
+    }, {
+      "component" : "scriptorium",
+      "zone" : "structure.up",
+      "key" : "4:2"
+    }, {
+      "component" : "clay-pool",
+      "zone" : "structure.up",
+      "key" : "4:4"
+    }, {
+      "component" : "clay-pit",
+      "zone" : "structure.up",
+      "key" : "4:6"
+    }, {
+      "component" : "quarry",
+      "zone" : "structure.up",
+      "key" : "4:8"
+    }, {
+      "component" : "logging-camp",
+      "zone" : "structure.up",
+      "key" : "4:10"
+    } ],
+    "hidden" : [ {
+      "zone" : "box",
+      "key" : "",
+      "back" : null,
+      "count" : 22
+    }, {
+      "zone" : "deck",
+      "key" : "2",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "3",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "structure.down",
+      "key" : "1:3",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "1:5",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "1:7",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "3:1",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "3:3",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "3:5",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "3:7",
+      "back" : "brown",
+      "count" : 1
+    }, {
+      "zone" : "structure.down",
+      "key" : "3:9",
+      "back" : "brown",
+      "count" : 1
+    } ],
+    "pending" : null,
+    "quotes" : [ {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "palisade",
+      "coins" : 2,
+      "tradeCost" : 0,
+      "total" : 2,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "scriptorium",
+      "coins" : 2,
+      "tradeCost" : 0,
+      "total" : 2,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "clay-pool",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "clay-pit",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "quarry",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "logging-camp",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "the-great-lighthouse",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "the-hanging-gardens",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "the-appian-way",
+      "coins" : 0,
+      "tradeCost" : 10,
+      "total" : 10,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "the-mausoleum",
+      "coins" : 0,
+      "tradeCost" : 10,
+      "total" : 10,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "palisade",
+      "coins" : 2,
+      "tradeCost" : 0,
+      "total" : 2,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "scriptorium",
+      "coins" : 2,
+      "tradeCost" : 0,
+      "total" : 2,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "clay-pool",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "clay-pit",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "quarry",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "logging-camp",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "the-temple-of-artemis",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "piraeus",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "the-colossus",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "the-pyramids",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false
+    } ]
+  },
+  "reason" : null,
+  "events" : [ {
+    "id" : 0,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "the-mausoleum",
+    "from" : {
+      "zone" : "draft",
+      "key" : ""
+    },
+    "to" : {
+      "zone" : "wonders.unbuilt",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 1,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "wonders"
+    },
+    "to" : {
+      "zone" : "box",
+      "key" : ""
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 2,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "wonders"
+    },
+    "to" : {
+      "zone" : "box",
+      "key" : ""
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 3,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "wonders"
+    },
+    "to" : {
+      "zone" : "box",
+      "key" : ""
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 4,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "wonders"
+    },
+    "to" : {
+      "zone" : "box",
+      "key" : ""
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 5,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "clay-reserve",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "0:4"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 6,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "theater",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "0:6"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 7,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "1:3"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 8,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "1:5"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 9,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "1:7"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 10,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "lumber-yard",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "2:2"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 11,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "stone-reserve",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "2:4"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 12,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "glassworks",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "2:6"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 13,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "tavern",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "2:8"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 14,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "3:1"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 15,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "3:3"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 16,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "3:5"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 17,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "3:7"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 18,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : null,
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.down",
+      "key" : "3:9"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 19,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "palisade",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:0"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 20,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "scriptorium",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:2"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 21,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "clay-pool",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:4"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 22,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "clay-pit",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:6"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 23,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "quarry",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:8"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 24,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "logging-camp",
+    "from" : {
+      "zone" : "deck",
+      "key" : "1"
+    },
+    "to" : {
+      "zone" : "structure.up",
+      "key" : "4:10"
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  } ],
+  "catalog" : null
+}

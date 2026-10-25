@@ -1,0 +1,2641 @@
+{
+  "kind" : "view",
+  "view" : {
+    "phase" : "WONDER_DRAFT",
+    "active" : "00000000-0000-0000-0000-000000000002",
+    "age" : 0,
+    "first" : "00000000-0000-0000-0000-000000000002",
+    "deciding" : null,
+    "players" : [ {
+      "id" : "00000000-0000-0000-0000-000000000001",
+      "coins" : 7,
+      "playAgain" : false
+    }, {
+      "id" : "00000000-0000-0000-0000-000000000002",
+      "coins" : 7,
+      "playAgain" : false
+    } ],
+    "pawnSide" : null,
+    "pawnSpace" : 0,
+    "victoryWinner" : null,
+    "victoryReason" : null,
+    "visible" : [ {
+      "component" : "theology",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "architecture",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "strategy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "economy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "law",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "loot-2-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:2"
+    }, {
+      "component" : "loot-2-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:2"
+    }, {
+      "component" : "loot-5-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:3"
+    }, {
+      "component" : "loot-5-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:3"
+    }, {
+      "component" : "piraeus",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-hanging-gardens",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-temple-of-artemis",
+      "zone" : "draft",
+      "key" : ""
+    }, {
+      "component" : "the-great-lighthouse",
+      "zone" : "draft",
+      "key" : ""
+    } ],
+    "hidden" : [ {
+      "zone" : "box",
+      "key" : "",
+      "back" : null,
+      "count" : 18
+    }, {
+      "zone" : "deck",
+      "key" : "1",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "2",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "3",
+      "back" : null,
+      "count" : 20
+    }, {
+      "zone" : "deck",
+      "key" : "wonders",
+      "back" : null,
+      "count" : 8
+    } ],
+    "pending" : null,
+    "quotes" : [ ]
+  },
+  "reason" : null,
+  "events" : [ ],
+  "catalog" : {
+    "entries" : [ {
+      "id" : "lumber-yard",
+      "name" : "Lumber Yard",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "wood" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "logging-camp",
+      "name" : "Logging Camp",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 1,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "wood" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "clay-pool",
+      "name" : "Clay Pool",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "clay" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "clay-pit",
+      "name" : "Clay Pit",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 1,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "clay" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "quarry",
+      "name" : "Quarry",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "stone" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "stone-pit",
+      "name" : "Stone Pit",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:brown" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 1,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "stone" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "glassworks",
+      "name" : "Glassworks",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:grey" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 1,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "glass" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "press",
+      "name" : "Press",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:grey" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 1,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "papyrus" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "guard-tower",
+      "name" : "Guard Tower",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:red" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "stable",
+      "name" : "Stable",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:red" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "horseshoe" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "garrison",
+      "name" : "Garrison",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:red" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "sword" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "palisade",
+      "name" : "Palisade",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:red" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "fortress" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "workshop",
+      "name" : "Workshop",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:green" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "plumb-bob" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "apothecary",
+      "name" : "Apothecary",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:green" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "wheel" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "scriptorium",
+      "name" : "Scriptorium",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:green" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "quill" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "book" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "pharmacist",
+      "name" : "Pharmacist",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:green" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "mortar-and-pestle" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "gear" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "theater",
+      "name" : "Theater",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:blue" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "theater" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "altar",
+      "name" : "Altar",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:blue" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "moon" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "baths",
+      "name" : "Baths",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:blue" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "water" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "stone-reserve",
+      "name" : "Stone Reserve",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:yellow" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 3,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "fixedPrice",
+        "amount" : 1,
+        "of" : [ "stone" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "clay-reserve",
+      "name" : "Clay Reserve",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:yellow" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 3,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "fixedPrice",
+        "amount" : 1,
+        "of" : [ "clay" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "wood-reserve",
+      "name" : "Wood Reserve",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:yellow" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 3,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "fixedPrice",
+        "amount" : 1,
+        "of" : [ "wood" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "tavern",
+      "name" : "Tavern",
+      "type" : "CARD",
+      "tags" : [ "age:1", "color:yellow" ],
+      "back" : "brown",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "vase" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "sawmill",
+      "name" : "Sawmill",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:brown" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 2,
+        "of" : [ "wood" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "brickyard",
+      "name" : "Brickyard",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:brown" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 2,
+        "of" : [ "clay" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "shelf-quarry",
+      "name" : "Shelf Quarry",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:brown" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 2,
+        "of" : [ "stone" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "glass-blower",
+      "name" : "Glass-Blower",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:grey" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "glass" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "drying-room",
+      "name" : "Drying Room",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:grey" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "produces",
+        "amount" : 1,
+        "of" : [ "papyrus" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "walls",
+      "name" : "Walls",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:red" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "forum",
+      "name" : "Forum",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:yellow" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 3,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "producesOneOf",
+        "amount" : 1,
+        "of" : [ "glass", "papyrus" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "caravansery",
+      "name" : "Caravansery",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:yellow" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 2,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "producesOneOf",
+        "amount" : 1,
+        "of" : [ "clay", "stone", "wood" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "customs-house",
+      "name" : "Customs House",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:yellow" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 4,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "fixedPrice",
+        "amount" : 1,
+        "of" : [ "glass", "papyrus" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "courthouse",
+      "name" : "Courthouse",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:blue" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "horse-breeders",
+      "name" : "Horse Breeders",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:red" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ "horseshoe" ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "barracks",
+      "name" : "Barracks",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:red" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 3,
+        "resources" : [ ],
+        "freedBy" : [ "sword" ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "archery-range",
+      "name" : "Archery Range",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:red" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "target" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "parade-ground",
+      "name" : "Parade Ground",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:red" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "helmet" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "library",
+      "name" : "Library",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:green" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ "book" ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "quill" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "dispensary",
+      "name" : "Dispensary",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:green" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ "gear" ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "mortar-and-pestle" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "school",
+      "name" : "School",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:green" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "wheel" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "lyre" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "laboratory",
+      "name" : "Laboratory",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:green" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "plumb-bob" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "lamp" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "statue",
+      "name" : "Statue",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:blue" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        } ],
+        "freedBy" : [ "theater" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "columns" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "temple",
+      "name" : "Temple",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:blue" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ "moon" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "sun" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "aqueduct",
+      "name" : "Aqueduct",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:blue" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 3
+        } ],
+        "freedBy" : [ "water" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "rostrum",
+      "name" : "Rostrum",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:blue" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "temple" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "brewery",
+      "name" : "Brewery",
+      "type" : "CARD",
+      "tags" : [ "age:2", "color:yellow" ],
+      "back" : "blue",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chain",
+        "amount" : 0,
+        "of" : [ "barrel" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "arsenal",
+      "name" : "Arsenal",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:red" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 3
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "pretorium",
+      "name" : "Pretorium",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:red" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 8,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "fortifications",
+      "name" : "Fortifications",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:red" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ "fortress" ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "siege-workshop",
+      "name" : "Siege Workshop",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:red" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 3
+        } ],
+        "freedBy" : [ "target" ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "circus",
+      "name" : "Circus",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:red" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ "helmet" ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "academy",
+      "name" : "Academy",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:green" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "sundial" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "study",
+      "name" : "Study",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:green" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "sundial" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "university",
+      "name" : "University",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:green" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        } ],
+        "freedBy" : [ "lyre" ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "astrolabe" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "observatory",
+      "name" : "Observatory",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:green" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ "lamp" ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "astrolabe" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "palace",
+      "name" : "Palace",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 7,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "town-hall",
+      "name" : "Town Hall",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 3
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 7,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "obelisk",
+      "name" : "Obelisk",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "gardens",
+      "name" : "Gardens",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ "columns" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "pantheon",
+      "name" : "Pantheon",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ "sun" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "senate",
+      "name" : "Senate",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:blue" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ "temple" ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "chamber-of-commerce",
+      "name" : "Chamber of Commerce",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:yellow" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 3,
+        "of" : [ "color:grey" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "port",
+      "name" : "Port",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:yellow" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 2,
+        "of" : [ "color:brown" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "armory",
+      "name" : "Armory",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:yellow" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:red" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "lighthouse",
+      "name" : "Lighthouse",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:yellow" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        } ],
+        "freedBy" : [ "vase" ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:yellow" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "arena",
+      "name" : "Arena",
+      "type" : "CARD",
+      "tags" : [ "age:3", "color:yellow" ],
+      "back" : "violet",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ "barrel" ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 2,
+        "of" : [ "wonder" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "merchants-guild",
+      "name" : "Merchants Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:yellow" ],
+        "per" : 1,
+        "larger" : true
+      }, {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "color:yellow" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "shipowners-guild",
+      "name" : "Shipowners Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:brown", "color:grey" ],
+        "per" : 1,
+        "larger" : true
+      }, {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "color:brown", "color:grey" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "builders-guild",
+      "name" : "Builders Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "pointsPer",
+        "amount" : 2,
+        "of" : [ "wonder" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "magistrates-guild",
+      "name" : "Magistrates Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:blue" ],
+        "per" : 1,
+        "larger" : true
+      }, {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "color:blue" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "scientists-guild",
+      "name" : "Scientists Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:green" ],
+        "per" : 1,
+        "larger" : true
+      }, {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "color:green" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "moneylenders-guild",
+      "name" : "Moneylenders Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "stone",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "coins" ],
+        "per" : 3,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "tacticians-guild",
+      "name" : "Tacticians Guild",
+      "type" : "CARD",
+      "tags" : [ "color:purple", "guild" ],
+      "back" : "dark-purple",
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coinsPer",
+        "amount" : 1,
+        "of" : [ "color:red" ],
+        "per" : 1,
+        "larger" : true
+      }, {
+        "kind" : "pointsPer",
+        "amount" : 1,
+        "of" : [ "color:red" ],
+        "per" : 1,
+        "larger" : true
+      } ]
+    }, {
+      "id" : "the-appian-way",
+      "name" : "The Appian Way",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "loseCoins",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "playAgain",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "circus-maximus",
+      "name" : "Circus Maximus",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 2
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "discardOpponent",
+        "amount" : 0,
+        "of" : [ "color:grey" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-colossus",
+      "name" : "The Colossus",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 3
+        }, {
+          "resource" : "glass",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shields",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-great-library",
+      "name" : "The Great Library",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 3
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "drawProgress",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-great-lighthouse",
+      "name" : "The Great Lighthouse",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "producesOneOf",
+        "amount" : 1,
+        "of" : [ "clay", "stone", "wood" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-hanging-gardens",
+      "name" : "The Hanging Gardens",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "playAgain",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-mausoleum",
+      "name" : "The Mausoleum",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 2
+        }, {
+          "resource" : "glass",
+          "count" : 2
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "buildFromDiscard",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "piraeus",
+      "name" : "Piraeus",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 2
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "playAgain",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "producesOneOf",
+        "amount" : 1,
+        "of" : [ "glass", "papyrus" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-pyramids",
+      "name" : "The Pyramids",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 3
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 9,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-sphinx",
+      "name" : "The Sphinx",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "glass",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "playAgain",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-statue-of-zeus",
+      "name" : "The Statue of Zeus",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "clay",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 2
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "discardOpponent",
+        "amount" : 0,
+        "of" : [ "color:brown" ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "shields",
+        "amount" : 1,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 3,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "the-temple-of-artemis",
+      "name" : "The Temple of Artemis",
+      "type" : "WONDER",
+      "tags" : [ "wonder" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ {
+          "resource" : "glass",
+          "count" : 1
+        }, {
+          "resource" : "papyrus",
+          "count" : 1
+        }, {
+          "resource" : "stone",
+          "count" : 1
+        }, {
+          "resource" : "wood",
+          "count" : 1
+        } ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 12,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "playAgain",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "agriculture",
+      "name" : "Agriculture",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "points",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "architecture",
+      "name" : "Architecture",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "reduction",
+        "amount" : 2,
+        "of" : [ "wonder" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "economy",
+      "name" : "Economy",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "tradeRevenue",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "law",
+      "name" : "Law",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "science",
+        "amount" : 0,
+        "of" : [ "scales" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "masonry",
+      "name" : "Masonry",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "reduction",
+        "amount" : 2,
+        "of" : [ "color:blue" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "mathematics",
+      "name" : "Mathematics",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "pointsPer",
+        "amount" : 3,
+        "of" : [ "progress" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "philosophy",
+      "name" : "Philosophy",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "points",
+        "amount" : 7,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "strategy",
+      "name" : "Strategy",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "shieldBonus",
+        "amount" : 1,
+        "of" : [ "color:red" ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "theology",
+      "name" : "Theology",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "playAgainOnWonder",
+        "amount" : 0,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "urbanism",
+      "name" : "Urbanism",
+      "type" : "TOKEN",
+      "tags" : [ "progress" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "coins",
+        "amount" : 6,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      }, {
+        "kind" : "chainBonus",
+        "amount" : 4,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "loot-2-a",
+      "name" : "Loot 2 a",
+      "type" : "TOKEN",
+      "tags" : [ "military-seat:0", "military-zone:2" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "loseCoins",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "loot-2-b",
+      "name" : "Loot 2 b",
+      "type" : "TOKEN",
+      "tags" : [ "military-seat:1", "military-zone:2" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "loseCoins",
+        "amount" : 2,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "loot-5-a",
+      "name" : "Loot 5 a",
+      "type" : "TOKEN",
+      "tags" : [ "military-seat:0", "military-zone:3" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "loseCoins",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    }, {
+      "id" : "loot-5-b",
+      "name" : "Loot 5 b",
+      "type" : "TOKEN",
+      "tags" : [ "military-seat:1", "military-zone:3" ],
+      "back" : null,
+      "cost" : {
+        "coins" : 0,
+        "resources" : [ ],
+        "freedBy" : [ ]
+      },
+      "badges" : [ {
+        "kind" : "loseCoins",
+        "amount" : 5,
+        "of" : [ ],
+        "per" : 1,
+        "larger" : false
+      } ]
+    } ]
+  }
+}

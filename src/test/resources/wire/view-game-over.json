@@ -1,0 +1,373 @@
+{
+  "kind" : "view",
+  "view" : {
+    "phase" : "OVER",
+    "active" : "00000000-0000-0000-0000-000000000001",
+    "age" : 3,
+    "first" : "00000000-0000-0000-0000-000000000002",
+    "deciding" : null,
+    "players" : [ {
+      "id" : "00000000-0000-0000-0000-000000000001",
+      "coins" : 7,
+      "playAgain" : false
+    }, {
+      "id" : "00000000-0000-0000-0000-000000000002",
+      "coins" : 24,
+      "playAgain" : false
+    } ],
+    "pawnSide" : "00000000-0000-0000-0000-000000000001",
+    "pawnSpace" : 2,
+    "victoryWinner" : "00000000-0000-0000-0000-000000000001",
+    "victoryReason" : "POINTS",
+    "visible" : [ {
+      "component" : "theology",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "architecture",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "strategy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "economy",
+      "zone" : "board",
+      "key" : ""
+    }, {
+      "component" : "loot-2-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:2"
+    }, {
+      "component" : "loot-5-a",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000001:3"
+    }, {
+      "component" : "loot-5-b",
+      "zone" : "military",
+      "key" : "00000000-0000-0000-0000-000000000002:3"
+    }, {
+      "component" : "clay-pit",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "palisade",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "scriptorium",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "altar",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "quarry",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "clay-pool",
+      "zone" : "underWonder",
+      "key" : "the-hanging-gardens"
+    }, {
+      "component" : "the-hanging-gardens",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "workshop",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "logging-camp",
+      "zone" : "underWonder",
+      "key" : "piraeus"
+    }, {
+      "component" : "piraeus",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "baths",
+      "zone" : "underWonder",
+      "key" : "the-temple-of-artemis"
+    }, {
+      "component" : "the-temple-of-artemis",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "glassworks",
+      "zone" : "underWonder",
+      "key" : "the-pyramids"
+    }, {
+      "component" : "the-pyramids",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "wood-reserve",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "guard-tower",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "stone-reserve",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "stable",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "lumber-yard",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "garrison",
+      "zone" : "underWonder",
+      "key" : "the-colossus"
+    }, {
+      "component" : "the-colossus",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "loot-2-a",
+      "zone" : "destroyed",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "clay-reserve",
+      "zone" : "underWonder",
+      "key" : "the-great-lighthouse"
+    }, {
+      "component" : "the-great-lighthouse",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "tavern",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "pharmacist",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "theater",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "dispensary",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "shelf-quarry",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "glass-blower",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "brewery",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "walls",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "drying-room",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "archery-range",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "library",
+      "zone" : "underWonder",
+      "key" : "the-appian-way"
+    }, {
+      "component" : "the-appian-way",
+      "zone" : "wonders.built",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "the-mausoleum",
+      "zone" : "destroyed",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "parade-ground",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "laboratory",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "caravansery",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "courthouse",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "rostrum",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "customs-house",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "aqueduct",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "sawmill",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "horse-breeders",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "forum",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "barracks",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "brickyard",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "chamber-of-commerce",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "town-hall",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "observatory",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "fortifications",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "port",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "arsenal",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "study",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "moneylenders-guild",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "university",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "law",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000002"
+    }, {
+      "component" : "senate",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "circus",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "pantheon",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "armory",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "builders-guild",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "pretorium",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "academy",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "obelisk",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "scientists-guild",
+      "zone" : "city",
+      "key" : "00000000-0000-0000-0000-000000000001"
+    }, {
+      "component" : "palace",
+      "zone" : "discard",
+      "key" : ""
+    }, {
+      "component" : "gardens",
+      "zone" : "discard",
+      "key" : ""
+    } ],
+    "hidden" : [ {
+      "zone" : "box",
+      "key" : "",
+      "back" : null,
+      "count" : 22
+    } ],
+    "pending" : null,
+    "quotes" : [ ]
+  },
+  "reason" : null,
+  "events" : [ {
+    "id" : 0,
+    "parent" : -1,
+    "kind" : "moved",
+    "cause" : null,
+    "component" : "gardens",
+    "from" : {
+      "zone" : "structure.up",
+      "key" : "0:2"
+    },
+    "to" : {
+      "zone" : "discard",
+      "key" : ""
+    },
+    "player" : null,
+    "amount" : 0,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  }, {
+    "id" : 1,
+    "parent" : -1,
+    "kind" : "coins",
+    "cause" : null,
+    "component" : null,
+    "from" : null,
+    "to" : null,
+    "player" : "00000000-0000-0000-0000-000000000001",
+    "amount" : 3,
+    "pawnFrom" : null,
+    "pawnTo" : null
+  } ],
+  "catalog" : null
+}

@@ -10,17 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelGame;
 import io.turnbase.games.sevenwondersduel.SevenWondersDuelState;
-import io.turnbase.games.sevenwondersduel.agenda.ComponentOption;
-import io.turnbase.games.sevenwondersduel.agenda.PlayerOption;
 import io.turnbase.games.sevenwondersduel.catalog.BasePack;
 import io.turnbase.games.sevenwondersduel.catalog.RuleSet;
 import io.turnbase.games.sevenwondersduel.content.BaseContent;
-import io.turnbase.games.sevenwondersduel.engine.Answer;
-import io.turnbase.games.sevenwondersduel.engine.Build;
-import io.turnbase.games.sevenwondersduel.engine.BuildWonder;
-import io.turnbase.games.sevenwondersduel.engine.ChooseStarter;
-import io.turnbase.games.sevenwondersduel.engine.Discard;
-import io.turnbase.games.sevenwondersduel.engine.DraftWonder;
 import io.turnbase.games.sevenwondersduel.engine.Engine;
 import io.turnbase.games.sevenwondersduel.engine.PlayerAction;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
@@ -31,7 +23,6 @@ import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.view.DuelView;
 import io.turnbase.games.sevenwondersduel.view.PlacedView;
 import io.turnbase.games.sevenwondersduel.wire.ServerMessage;
-import io.turnbase.games.sevenwondersduel.wire.WireAction;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Zones;
 import io.turnbase.gdk.effect.BroadcastEffect;
@@ -57,22 +48,6 @@ class GdkFullGameTest {
     return id.value().equals(ONE.id()) ? ONE : TWO;
   }
 
-  private static WireAction wire(PlayerAction action) {
-    return switch (action) {
-      case DraftWonder a -> new WireAction("draftWonder", a.wonder().value(), null, null);
-      case ChooseStarter a -> new WireAction("chooseStarter", null, null, a.starter().value());
-      case Discard a -> new WireAction("discard", a.card().value(), null, null);
-      case Build a -> new WireAction("build", a.card().value(), null, null);
-      case BuildWonder a ->
-          new WireAction("buildWonder", a.card().value(), a.wonder().value(), null);
-      case Answer a when a.choice() instanceof ComponentOption o ->
-          new WireAction("answerComponent", o.component().value(), null, null);
-      case Answer a when a.choice() instanceof PlayerOption o ->
-          new WireAction("answerPlayer", null, null, o.player().value());
-      default -> throw new AssertionError("no wire form for " + action);
-    };
-  }
-
   @Test
   void aWholeGameRunsThroughTheHooksWithOneGameOverAndNoLeakedCards() {
     SevenWondersDuelGame game = new SevenWondersDuelGame();
@@ -88,7 +63,7 @@ class GdkFullGameTest {
       PlayerAction chosen = move.actions().get(random.nextInt(move.actions().size()));
 
       ActionResult<SevenWondersDuelState> result =
-          game.onAction(state, action(seat(move.actor()), wire(chosen)));
+          game.onAction(state, action(seat(move.actor()), Moves.wire(chosen)));
 
       DuelState after = Snapshots.fromSnapshot(result.state());
       assertThat(after)
