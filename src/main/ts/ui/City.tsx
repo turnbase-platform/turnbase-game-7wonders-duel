@@ -5,6 +5,7 @@ import { seatName, type Session } from "../core/session.js";
 import type { ComponentId } from "../core/wire.js";
 import { Card, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
+import { Science } from "./Science.js";
 import { replayStep } from "./Status.js";
 
 export type Side = "me" | "opp";
@@ -104,6 +105,7 @@ export function City({
           {coins && <Purse session={session} player={seats[side]} side={side} big />}
         </header>
       )}
+      <Science symbols={city.science} />
       {city.wonders.length > 0 && (
         <div className="wonders">
           {city.wonders.map((w) => peekable(w.id, "standard", w.built))}

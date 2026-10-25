@@ -11,6 +11,11 @@ export interface Stack {
   cards: ComponentId[];
 }
 
+export interface ScienceCount {
+  symbol: string;
+  count: number;
+}
+
 export interface CityWonder {
   id: ComponentId;
   built: boolean;
@@ -23,6 +28,8 @@ export interface City {
   wonders: CityWonder[];
   /** Progress tokens. */
   tokens: ComponentId[];
+  /** Every science symbol in the game with how many the city holds; the symbols of Law count once, as its token. */
+  science: ScienceCount[];
   /** The plain tally of resources the city's cards produce: the display line, not the price rule. */
   produces: ResourceCount[];
 }
@@ -42,7 +49,17 @@ export function cityOf(view: DuelView, catalog: Catalog, player: PlayerId): City
     ].sort((a, b) => a.id.localeCompare(b.id)),
     tokens: built.filter(isToken),
     produces: producedBy(cards, catalog),
+    science: scienceOf(built, catalog),
   };
+}
+
+/** Counts the symbols the catalog knows, so a symbol no card carries yet (an expansion's) appears with the first that does. */
+function scienceOf(built: ComponentId[], catalog: Catalog): ScienceCount[] {
+  const symbolsOf = (id: ComponentId): string[] =>
+    (catalog.get(id)?.badges ?? []).filter((b) => b.kind === "science").flatMap((b) => b.of);
+  const known = new Set(catalog.all().flatMap((e) => symbolsOf(e.id)));
+  const held = built.flatMap(symbolsOf);
+  return [...known].map((symbol) => ({ symbol, count: held.filter((h) => h === symbol).length }));
 }
 
 function stacksOf(cards: ComponentId[], catalog: Catalog): Stack[] {

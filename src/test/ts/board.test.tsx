@@ -152,6 +152,14 @@ describe("Board", () => {
     });
   });
 
+  it("shows each city's science symbols, lit when held", () => {
+    show(age());
+
+    const symbols = host.querySelectorAll(".city .science__symbol");
+    expect(symbols.length).toBeGreaterThan(0);
+    expect(symbols.length % 7).toBe(0);
+  });
+
   it("gives a spectator the same pyramid with nothing to click", () => {
     show(session(null, inAge()));
 

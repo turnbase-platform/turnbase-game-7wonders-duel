@@ -56,6 +56,12 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .layout-landscape .city .card--wonder.card--standard { --w: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
+.science { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
+.science__symbol { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; opacity: .35; filter: grayscale(1); }
+.science__symbol .icon { width: 20px; height: 20px; }
+.science__symbol.is-held { opacity: 1; filter: none; border-color: var(--ink); }
+.science__symbol.is-pair { box-shadow: 0 0 0 2px var(--seat); }
+.science__symbol b { position: absolute; right: -4px; bottom: -4px; min-width: 14px; border-radius: 7px; background: var(--seat); color: #fff; font: 700 10px/14px var(--figures); text-align: center; }
 .tabs { display: flex; gap: 4px; margin-bottom: 6px; }
 .tab { flex: 1; padding: 6px 8px; background: none; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
 .tab[aria-selected="true"] { background: var(--ground); font-weight: 700; }

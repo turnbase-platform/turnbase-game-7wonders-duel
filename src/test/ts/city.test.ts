@@ -88,4 +88,33 @@ describe("cityOf", () => {
     ]);
     expect(cityOf(early, catalog, ONE).produces).toEqual([]);
   });
+
+  it("counts science symbols across cards and the Law token, listing every symbol the game has", () => {
+    const owning = (...ids: string[]): DuelView => ({
+      ...early,
+      visible: [
+        ...early.visible,
+        ...ids.map((component) => ({ component, zone: "city", key: ONE })),
+      ],
+    });
+    const held = (view: DuelView) =>
+      Object.fromEntries(cityOf(view, catalog, ONE).science.map((s) => [s.symbol, s.count]));
+
+    expect(Object.keys(held(early)).sort()).toEqual([
+      "astrolabe",
+      "mortar-and-pestle",
+      "plumb-bob",
+      "quill",
+      "scales",
+      "sundial",
+      "wheel",
+    ]);
+    expect(Object.values(held(early)).every((n) => n === 0)).toBe(true);
+    expect(held(owning("apothecary", "school", "law", "library"))).toMatchObject({
+      wheel: 2,
+      scales: 1,
+      quill: 1,
+      sundial: 0,
+    });
+  });
 });
