@@ -29,19 +29,22 @@ const TORN_CARD: Imported = (() => {
   };
 })();
 
-const card = (x: number, y: number, fill: string, turn = 0): string =>
-  `<rect x="${String(x)}" y="${String(y)}" width="12" height="15" rx="1.6" fill="${fill}" stroke="${EDGE}" stroke-width=".5" transform="rotate(${String(turn)} ${String(x + 6)} ${String(y + 7.5)})"/>`;
+const card = (cx: number, cy: number, fill: string, turn = 0, w = 11, h = 14): string =>
+  `<rect x="${String(cx - w / 2)}" y="${String(cy - h / 2)}" width="${String(w)}" height="${String(h)}" rx="1.6" fill="${fill}" stroke="${EDGE}" stroke-width=".5" transform="rotate(${String(turn)} ${String(cx)} ${String(cy)})"/>`;
 
-/** Grey cards thrown into a heap. */
+/** Grey cards thrown into a heap, filling the icon. */
 const DISCARD_PILE =
-  card(0.5, 1.5, "#8b8e94", -16) + card(5, 0.5, "#9a9da3", 11) + card(1.5, 5.5, "#a9acb2", -5);
+  card(9.5, 10.5, "#8b8e94", -16) + card(14.5, 9.5, "#9a9da3", 11) + card(11.5, 14, "#a9acb2", -5);
 
-/** A card whose price bar is crossed out: it costs nothing. */
+/** A card, the size of the `card` icon, whose price bar is crossed out: it costs nothing. */
 const FREE_CARD =
-  card(8.5, 8, "#c9ccd1") +
-  `<path d="M8.5 12h8.2a1.6 1.6 0 0 1 0 3.2H8.5z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4"/>` +
-  `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="#000" stroke-width="3" stroke-linecap="round"/>` +
-  `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="${RED}" stroke-width="1.7" stroke-linecap="round"/>`;
+  card(12, 12, "#c9ccd1", 0, 15.4, 19.4) +
+  `<path d="M4.3 9.5h12a1.9 1.9 0 0 1 0 3.8h-12z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4"/>` +
+  `<path d="M7.5 8.4l6 6M13.5 8.4l-6 6" stroke="#000" stroke-width="3.2" stroke-linecap="round"/>` +
+  `<path d="M7.5 8.4l6 6M13.5 8.4l-6 6" stroke="${RED}" stroke-width="1.8" stroke-linecap="round"/>`;
+
+const nested = (icon: string, x: number, y: number, size: number): string =>
+  `<svg x="${String(x)}" y="${String(y)}" width="${String(size)}" height="${String(size)}" viewBox="0 0 24 24">${icon}</svg>`;
 
 /** A progress token of radius `r`; face up it shows its emblem, face down only the ring. */
 const token = (cx: number, cy: number, face: boolean, r = 7): string => {
@@ -63,7 +66,10 @@ export const TORN: Readonly<Record<string, Imported>> = {
   "torn-card": TORN_CARD,
   "discard-pile": { viewBox: "0 0 24 24", body: DISCARD_PILE },
   "free-card": { viewBox: "0 0 24 24", body: FREE_CARD },
-  rebuild: { viewBox: "0 0 24 24", body: DISCARD_PILE + FREE_CARD },
+  rebuild: {
+    viewBox: "0 0 24 24",
+    body: nested(DISCARD_PILE, 0, 0, 17) + nested(FREE_CARD, 6, 5, 18),
+  },
   progress: { viewBox: "0 0 24 24", body: token(12, 12, true, 10) },
   "draw-token": DRAW_TOKEN,
 };
