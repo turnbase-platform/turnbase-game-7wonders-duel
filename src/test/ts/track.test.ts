@@ -50,21 +50,24 @@ describe("trackOf tiles", () => {
   });
 
   it("puts the pawn on the centre at the start", () => {
-    const { tiles } = trackOf(view, catalog, seats);
-    expect(tiles.filter((t) => t.pawn).map((t) => t.position)).toEqual([0]);
+    const { tiles, pawn } = trackOf(view, catalog, seats);
+    expect(tiles[pawn]?.position).toBe(0);
   });
 
   it("reads a pawn on the opponent's side as positive and on the viewer's as negative", () => {
-    const pawn = (v: DuelView) => trackOf(v, catalog, seats).tiles.find((t) => t.pawn)?.position;
+    const pawn = (v: DuelView) => {
+      const track = trackOf(v, catalog, seats);
+      return track.tiles[track.pawn]?.position;
+    };
     expect(pawn(pawnAt(TWO, 2))).toBe(2);
     expect(pawn(pawnAt(ONE, 4))).toBe(-4);
   });
 
   it("gives every other tile its distance as a hover title", () => {
-    const { tiles } = trackOf(pawnAt(TWO, 2), catalog, seats);
+    const { tiles, pawn } = trackOf(pawnAt(TWO, 2), catalog, seats);
     expect(tiles.find((t) => t.position === 5)?.title).toBe("+3 shields");
     expect(tiles.find((t) => t.position === -1)?.title).toBe("−3 shields");
-    expect(tiles.find((t) => t.pawn)?.title).toBeNull();
+    expect(tiles[pawn]?.title).toBeNull();
   });
 
   it("says on a capital's hover what reaching it means", () => {
@@ -100,7 +103,8 @@ describe("trackOf fields", () => {
     const spectator: Seats = { me: ONE, opp: TWO, spectator: true };
     expect(trackOf(view, catalog, spectator).tiles[0]?.capital).toBe("me");
     const swapped: Seats = { me: TWO, opp: ONE, spectator: false };
-    expect(trackOf(pawnAt(TWO, 2), catalog, swapped).tiles.find((t) => t.pawn)?.position).toBe(-2);
+    const track = trackOf(pawnAt(TWO, 2), catalog, swapped);
+    expect(track.tiles[track.pawn]?.position).toBe(-2);
   });
 
   it("highlights the zone the pawn is in, and none at the centre", () => {

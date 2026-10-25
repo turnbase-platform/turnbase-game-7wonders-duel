@@ -12,7 +12,7 @@ interface Props {
 
 /** The military track (design §3, `track-v6`). */
 export function TrackStrip({ view, catalog, seats }: Props) {
-  const { tiles, fields } = trackOf(view, catalog, seats);
+  const { tiles, pawn, fields } = trackOf(view, catalog, seats);
   return (
     <div className="strip" aria-label="Military track">
       <div className="track">
@@ -24,15 +24,10 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               style={{ ["--i" as string]: i }}
               title={t.title ?? undefined}
             >
-              {t.pawn ? (
-                <i className="pawn" aria-label="Military pawn" />
-              ) : t.capital ? (
-                <Icon id="fortress" />
-              ) : (
-                <small>{t.label}</small>
-              )}
+              {t.capital ? <Icon id="fortress" /> : <small>{t.label}</small>}
             </span>
           ))}
+          <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }} />
           {fields.map((f) => (
             <span
               key={f.from}

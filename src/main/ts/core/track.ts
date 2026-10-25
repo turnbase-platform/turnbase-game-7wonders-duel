@@ -16,7 +16,6 @@ export interface Tile {
   position: number;
   label: string;
   capital: "me" | "opp" | null;
-  pawn: boolean;
   /** Shields the pawn needs to get here, shown on hover; null under the pawn. */
   title: string | null;
 }
@@ -38,6 +37,8 @@ export interface Field {
 
 export interface Track {
   tiles: Tile[];
+  /** The index into `tiles` the pawn stands on. */
+  pawn: number;
   fields: Field[];
 }
 
@@ -72,11 +73,10 @@ export function trackOf(view: DuelView, catalog: Catalog, seats: Seats): Track {
       position,
       label: String(Math.abs(position)),
       capital: Math.abs(position) === CAPITAL ? (position < 0 ? "me" : "opp") : null,
-      pawn: position === pawn,
       title: distance === 0 ? null : titleOf(position, distance),
     });
   }
-  return { tiles, fields: fieldsOf(view, catalog, seats, zoneOf(pawn), pawn) };
+  return { tiles, pawn: at(pawn), fields: fieldsOf(view, catalog, seats, zoneOf(pawn), pawn) };
 }
 
 function fieldsOf(
