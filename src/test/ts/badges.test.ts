@@ -36,6 +36,16 @@ describe("present", () => {
     expect(present(badge("loseCoins", 3))).toMatchObject([{ icon: "coin-lost", text: "3" }]);
   });
 
+  it("shows a discard of an opponent's card as a torn card in that card colour", () => {
+    expect(present(badge("discardOpponent", 0, ["color:grey"]))).toMatchObject([
+      { icon: "torn-card", tint: "grey" },
+    ]);
+  });
+
+  it("shows three progress tokens for a draw, whatever number is drawn", () => {
+    expect(present(badge("drawProgress", 3))).toMatchObject([{ icon: "draw-token", text: null }]);
+  });
+
   it("shows what is counted for a per-card reward, tinted by card colour, with the reward on its corner", () => {
     expect(present(badge("coinsPer", 2, ["color:brown"]))).toMatchObject([
       { icon: "card", tint: "brown", corners: [{ icon: "coin", text: "2", side: "right" }] },

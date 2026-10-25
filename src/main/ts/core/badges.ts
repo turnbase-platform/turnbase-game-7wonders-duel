@@ -167,11 +167,14 @@ export function present(badge: Badge): Glyph[] {
     case "playAgainOnWonder":
       return [glyph("play-again", null, "play again"), glyph("wonder", null, "after a Wonder")];
     case "drawProgress":
-      return [glyph("draw-token", amount, `draw ${amount} progress tokens`)];
+      return [glyph("draw-token", null, `draw ${amount} progress tokens`)];
     case "buildFromDiscard":
-      return [glyph("rebuild", null, "build a discarded card")];
+      return [glyph("rebuild", null, "build a discarded card for free")];
     case "discardOpponent":
-      return [glyph("destroy", null, "discard an opponent's card"), ...of.map((t) => target(t))];
+      return of.map((t) => {
+        const colour = t.slice("color:".length);
+        return glyph("torn-card", null, `discard an opponent's ${colour} card`, colour);
+      });
     default:
       return [glyph("unknown", some ? amount : null, kind)];
   }

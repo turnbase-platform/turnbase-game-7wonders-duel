@@ -6,6 +6,7 @@ import { withFigures } from "./icons/figures.js";
 import { IMPORTED, type Imported } from "./icons/imported.js";
 import { COIN_LOST } from "./icons/coin-lost.js";
 import { PRICED } from "./icons/priced.js";
+import { TORN } from "./icons/torn.js";
 import { WONDER } from "./icons/wonder.js";
 import { SCIENCE } from "./icons/science.js";
 
@@ -14,6 +15,7 @@ const COLOUR: Readonly<Partial<Record<string, Imported>>> = {
   ...withFigures(IMPORTED),
   ...SCIENCE,
   ...PRICED,
+  ...TORN,
   wonder: WONDER,
   "coin-lost": COIN_LOST,
 };
@@ -38,9 +40,6 @@ const DRAWINGS: Record<string, string> = {
   trade: line(paths("M4 8h14l-3-3", "M20 16H6l3 3")),
   discount: line(paths("M12 4v13", "M6 12l6 7 6-7")),
   "play-again": line(paths("M20 12a8 8 0 1 1-3-6.2", "M20 3v5h-5")),
-  "draw-token": line(paths("M4 7h11v14H4z", "M8 3h12v14")),
-  rebuild: line(paths("M4 20h16", "M12 17V5", "M7 10l5-5 5 5")),
-  destroy: line(paths("M5 5l14 14", "M19 5L5 19")),
   unknown: line(paths("M9 9a3 3 0 1 1 4 2.8c-1 .5-1 1.2-1 2.2", "M12 18v.5")),
   // Chain symbols
   barrel: line(paths("M7 3h10c2 4 2 14 0 18H7c-2-4-2-14 0-18z", "M5.5 9h13", "M5.5 15h13")),
