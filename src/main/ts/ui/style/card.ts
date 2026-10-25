@@ -1,0 +1,89 @@
+// One anatomy for buildings, Wonders and tokens (design §2): effects banner, cost overlay, art,
+// name bar, chain badge. The card scales with --w, so one rule set serves all three sizes.
+export const CARD = `
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon { width: 1em; height: 1em; flex: none; }
+.icon-vp { color: #f2c94c; } .icon-coin { color: #e6b422; } .icon-loot { color: #b9892b; }
+.icon-shield { color: #c9ccd1; }
+.icon-wood { color: #a8743c; } .icon-stone { color: #9a9a9a; } .icon-clay { color: #c8693a; }
+.icon-glass { color: #62bdd0; } .icon-papyrus { color: #dcc791; }
+
+.card {
+  --w: 75px; --u: var(--w); --c: var(--muted);
+  position: relative; isolation: isolate; box-sizing: border-box; flex: none;
+  width: var(--w); aspect-ratio: 3 / 4; display: flex; flex-direction: column;
+  font: 600 max(7px, calc(var(--u) / 8)) / 1.1 var(--sans);
+  color: var(--ink); background: var(--surface);
+  border: 1px solid var(--c); border-radius: var(--radius); overflow: visible;
+}
+.card--small { --w: 38px; } .card--large { --w: 120px; }
+.card--wonder { --c: var(--wonder); aspect-ratio: 4 / 3; --w: 120px; --u: calc(var(--w) * .66); }
+.card--wonder.card--small { --w: 60px; } .card--wonder.card--large { --w: 180px; }
+.card--token { --c: var(--token); aspect-ratio: 1; --w: 64px; }
+.card--token.card--small { --w: 34px; } .card--token.card--large { --w: 96px; }
+.color-brown { --c: var(--c-brown); } .color-grey { --c: var(--c-grey); }
+.color-blue { --c: var(--c-blue); } .color-green { --c: var(--c-green); }
+.color-yellow { --c: var(--c-yellow); } .color-red { --c: var(--c-red); }
+.color-purple { --c: var(--c-purple); }
+
+.card__banner {
+  display: flex; flex-wrap: wrap; gap: calc(var(--u) * .02); align-items: center;
+  justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
+  background: var(--c); color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+.glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .24); }
+.glyph b {
+  position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
+  color: #1b1a17; text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+}
+.glyph.tint-brown .icon { color: var(--c-brown); } .glyph.tint-grey .icon { color: var(--c-grey); }
+.glyph.tint-blue .icon { color: var(--c-blue); } .glyph.tint-green .icon { color: var(--c-green); }
+.glyph.tint-yellow .icon { color: var(--c-yellow); } .glyph.tint-red .icon { color: var(--c-red); }
+.glyph.tint-purple .icon { color: var(--c-purple); }
+.glyph.tint-brown .icon, .glyph.tint-grey .icon, .glyph.tint-blue .icon, .glyph.tint-green .icon,
+.glyph.tint-yellow .icon, .glyph.tint-red .icon, .glyph.tint-purple .icon { filter: drop-shadow(0 0 1px #fff); }
+
+.card__cost {
+  position: absolute; top: calc(var(--u) * .32); left: 2px; z-index: 1; display: flex;
+  flex-direction: column; align-items: center; gap: 1px; padding: 1px;
+  font-size: calc(var(--u) * .16); background: color-mix(in srgb, var(--surface) 85%, transparent);
+  border-radius: var(--radius);
+}
+.cost__coin { position: relative; display: inline-flex; }
+.cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif); color: #1b1a17; }
+.cost__free .icon { color: var(--ink); }
+.card--wonder .card__cost { position: static; font-size: calc(var(--u) * .26); flex-direction: row; flex-wrap: wrap; justify-content: center; background: none; }
+.card--wonder .card__chain { display: none; }
+.card__art {
+  flex: 1; display: grid; place-items: center; min-height: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 28%, transparent), transparent 72%);
+  color: var(--c); font-size: calc(var(--u) * .42);
+}
+.card--wonder .card__art { font-size: calc(var(--u) * .26); color: var(--ink); }
+.card__name {
+  padding: 1px 3px; font-size: .88em; text-align: center; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; background: var(--ink); color: var(--surface); font-family: var(--serif);
+  border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
+}
+.card__chain {
+  position: absolute; top: calc(var(--u) * .32); right: 2px; z-index: 1; display: grid;
+  place-items: center; padding: 1px; font-size: calc(var(--u) * .17);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.card--small .card__name, .card--small .card__cost, .card--small .card__chain { display: none; }
+.card--small .card__art { display: none; }
+.card--small { aspect-ratio: auto; min-height: calc(var(--u) * .3); }
+
+.card--wonder.is-unbuilt { opacity: .8; filter: saturate(.4) brightness(.97); }
+.card--wonder.owner-me { outline: 2px solid var(--me); } .card--wonder.owner-opp { outline: 2px solid var(--opp); }
+.card__paid {
+  position: absolute; right: -4px; bottom: -4px; z-index: -1; width: 24%; height: 34%;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+}
+
+.card--back { --c: var(--muted); background:
+  repeating-linear-gradient(45deg, color-mix(in srgb, var(--c) 80%, #000) 0 3px, var(--c) 3px 6px);
+  box-shadow: inset 0 0 0 3px var(--surface); }
+.card--back.back-brown { --c: var(--c-brown); } .card--back.back-blue { --c: var(--c-blue); }
+.card--back.back-dark-purple { --c: #3d2a50; } .card--back.back-violet { --c: var(--c-purple); }
+`;

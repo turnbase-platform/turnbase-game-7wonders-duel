@@ -82,7 +82,7 @@ function Zone({ group, session, offers: available, send }: ZoneProps) {
       <h3>{placeLabel(session, group)}</h3>
       <ul>
         {group.components.map((id) => (
-          <li key={id} className={`card ${catalog.tag(id, "color") ?? ""}`}>
+          <li key={id} className={`chip ${catalog.tag(id, "color") ?? ""}`}>
             {catalog.name(id)}
             {available
               .filter((o) => o.target === id)
@@ -91,7 +91,7 @@ function Zone({ group, session, offers: available, send }: ZoneProps) {
               ))}
           </li>
         ))}
-        {group.hidden > 0 && <li className="card hidden">▮ ×{group.hidden}</li>}
+        {group.hidden > 0 && <li className="chip hidden">▮ ×{group.hidden}</li>}
       </ul>
     </section>
   );

@@ -57,3 +57,27 @@ emoji, and `present()` is exhaustive over the fixture catalog.
 ## Not in this plan
 
 Placement of cards on the board (13b), cities and the action popover (13c), motion (14).
+
+## Outcome (2026-10-25)
+
+Built as planned: `core/badges.ts`, `core/motif.ts`, `ui/icons.tsx` (55 icons), `ui/Card.tsx`
+(`Card`, `CardBack`), `ui/style/{tokens,card}.ts`, and the gallery at `dev/gallery.html`
+(`npm run dev`, then `/dev/gallery.html`). 98 frontend tests, bundle 205 KB (was 199).
+
+**Rulings**
+
+- No icon is copied from the old sprite (decision 4 said to start from it): it is a 125 KB
+  multi-colour clip-art set and does not fit the flat look. All 55 are drawn here, one colour,
+  `currentColor`, solid for coins, resources and the shield, line art for symbols and tokens.
+- Wonders are 4:3, not 3:2 (design §2 amended): at 3:2 the five-resource cost row left no art area.
+- The legacy first-screen `.card` chip class is now `.chip`, so the real card owns `.card`.
+- Tests render with `renderToStaticMarkup`, not React Testing Library: it is not a dependency and
+  the components are pure of state.
+
+**Findings**
+
+- `pointsPer` can count `coins` (Moneylenders' Guild, one point per three coins, `per = 3`); the
+  first cut had no glyph for it. `present()` now shows a coin with the lot size.
+- Gallery pass, light and dark, all three sizes: legible; small cards are banner-only by design
+  (name as tooltip). Wonder art area is modest at Standard; look again once the board uses it (13b).
+- Not yet done: the paid-card edge on built Wonders is a plain tab; 13c supplies the card that paid.

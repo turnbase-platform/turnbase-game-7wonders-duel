@@ -15,5 +15,5 @@
     "noEmit": true,
     "ignoreDeprecations": "6.0"
   },
-  "include": ["dev/**/*.ts", "vite.config.ts", "src/main/ts/**/*.ts", "src/main/ts/**/*.tsx", "src/test/ts/**/*.ts", "src/test/ts/**/*.tsx"]
+  "include": ["dev/**/*.ts", "dev/**/*.tsx", "vite.config.ts", "src/main/ts/**/*.ts", "src/main/ts/**/*.tsx", "src/test/ts/**/*.ts", "src/test/ts/**/*.tsx"]
 }

@@ -1,0 +1,138 @@
+// The icon set, drawn for this game (flat, one colour, 24×24): the old frontend's sprite is a
+// 125 KB multi-colour clip-art set that does not fit the look in docs/design/frontend-visual-design.md,
+// so nothing is copied from it. Icons take their colour from `currentColor`; the stylesheet colours
+// them per id. The sprite is rendered once, `<Icon>` refers to a symbol in it.
+
+/** Filled shapes: coins, resources, the shield. */
+const solid = (inner: string): string => `<g fill="currentColor" stroke="none">${inner}</g>`;
+/** Line art: symbols and tokens. */
+const line = (inner: string): string =>
+  `<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`;
+const path = (d: string): string => `<path d="${d}"/>`;
+const paths = (...d: string[]): string => d.map(path).join("");
+
+const DRAWINGS: Record<string, string> = {
+  // Scoring and money
+  vp: solid(path("M12 2l2.9 6.6 7.1.7-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.3l7.1-.7z")),
+  shield: solid(path("M12 2l9 3v7c0 5-4 8.5-9 10-5-1.5-9-5-9-10V5z")),
+  coin: solid(
+    '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6.5" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.6"/>',
+  ),
+  loot: solid(path("M8 3h8l-2 4c4 2 6 6 6 10a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5c0-4 2-8 6-10z")),
+  // Resources
+  wood: solid(
+    '<rect x="2" y="7" width="20" height="10" rx="2"/><circle cx="6" cy="12" r="3" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="1.5"/>',
+  ),
+  stone: solid(path("M3 18l3-10 7-3 8 5-1 8z")),
+  clay: solid(
+    '<rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3 12h18M12 6v6M8 12v6M16 12v6" stroke="#000" stroke-opacity=".3" stroke-width="1.4"/>',
+  ),
+  glass: solid(path("M9 2h6v6l4 11a2 2 0 0 1-2 3H7a2 2 0 0 1-2-3l4-11z")),
+  papyrus: solid(path("M7 3h12v14a4 4 0 0 0 3 4H8a4 4 0 0 1-4-4V6a3 3 0 0 1 3-3z")),
+  // What a badge may count
+  card: solid('<rect x="4" y="2" width="16" height="20" rx="2"/>'),
+  progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
+  wonder: solid(path("M12 3l10 17H2z")),
+  larger: line(path("M8 4l9 8-9 8")),
+  chain: line(paths("M9 15l6-6", "M7 11l-2 2a4 4 0 0 0 6 6l2-2", "M17 13l2-2a4 4 0 0 0-6-6l-2 2")),
+  // Actions
+  trade: line(paths("M4 8h14l-3-3", "M20 16H6l3 3")),
+  discount: line(paths("M12 4v13", "M6 12l6 7 6-7")),
+  "play-again": line(paths("M20 12a8 8 0 1 1-3-6.2", "M20 3v5h-5")),
+  "draw-token": line(paths("M4 7h11v14H4z", "M8 3h12v14")),
+  rebuild: line(paths("M4 20h16", "M12 17V5", "M7 10l5-5 5 5")),
+  destroy: line(paths("M5 5l14 14", "M19 5L5 19")),
+  unknown: line(paths("M9 9a3 3 0 1 1 4 2.8c-1 .5-1 1.2-1 2.2", "M12 18v.5")),
+  // Science symbols
+  astrolabe: line(
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v18M3 12h18"/>',
+  ),
+  "mortar-and-pestle": line(paths("M3 11h18a9 9 0 0 1-18 0z", "M15 3l-4 8")),
+  "plumb-bob": line(paths("M12 2v7", "M12 9l5 6-5 7-5-7z")),
+  quill: line(paths("M20 3C10 3 6 9 6 15l-3 6 6-3c6 0 11-4 11-15z", "M6 15l8-8")),
+  scales: line(paths("M12 3v17", "M6 20h12", "M4 7h16", "M4 7l-2.5 7h5z", "M20 7l-2.5 7h5z")),
+  sundial: line(paths("M3 18a9 9 0 0 1 18 0z", "M12 18V6l5 12")),
+  wheel: line(
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>',
+  ),
+  // Chain symbols
+  barrel: line(paths("M7 3h10c2 4 2 14 0 18H7c-2-4-2-14 0-18z", "M5.5 9h13", "M5.5 15h13")),
+  book: line(
+    paths("M4 4h7a1 1 0 0 1 1 1v15a3 3 0 0 0-3-2H4z", "M20 4h-7a1 1 0 0 0-1 1v15a3 3 0 0 1 3-2h5z"),
+  ),
+  columns: line(paths("M3 21h18", "M4 6h16", "M3 6l9-3 9 3", "M7 8v10", "M12 8v10", "M17 8v10")),
+  fortress: line(paths("M4 21V9h3v3h3V9h4v3h3V9h3v12z", "M10 21v-5h4v5")),
+  gear: line(
+    '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="6.5"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22M5 5l2.4 2.4M16.6 16.6L19 19M19 5l-2.4 2.4M7.4 16.6L5 19"/>',
+  ),
+  helmet: line(paths("M4 15a8 8 0 0 1 16 0v4H4z", "M12 7v6", "M4 15h16")),
+  horseshoe: line(paths("M6 21V11a6 6 0 0 1 12 0v10", "M6 17h3", "M18 17h-3")),
+  lamp: line(paths("M3 14h14l4-4", "M5 14c1 4 4 6 7 6s5-2 5-6", "M17 10c0-2 1-4 3-5")),
+  lyre: line(
+    paths("M7 3c-2 6-2 10 2 14h6c4-4 4-8 2-14", "M9 3h6", "M10 6v11", "M14 6v11", "M9 21h6"),
+  ),
+  moon: line(path("M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z")),
+  sun: line(
+    '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  ),
+  sword: line(paths("M12 2l2 3v11h-4V5z", "M7 16h10", "M12 16v6")),
+  target: line(
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  ),
+  temple: line(paths("M3 9l9-6 9 6z", "M5 9v9", "M10 9v9", "M14 9v9", "M19 9v9", "M3 21h18")),
+  theater: line(paths("M5 4h14v8a7 7 0 0 1-14 0z", "M9 9h.01", "M15 9h.01", "M9 14a4 4 0 0 0 6 0")),
+  vase: line(paths("M9 3h6", "M10 3v4c-5 2-6 6-5 9 1 3 3 5 5 5h4c2 0 4-2 5-5 1-3 0-7-5-9V3")),
+  water: line(path("M12 3C8 9 6 12 6 15a6 6 0 0 0 12 0c0-3-2-6-6-12z")),
+  // Progress tokens
+  agriculture: line(
+    paths(
+      "M12 22V8",
+      "M12 8c-3 0-4-2-4-4 3 0 4 2 4 4z",
+      "M12 8c3 0 4-2 4-4-3 0-4 2-4 4z",
+      "M12 14c-3 0-4-2-4-4",
+      "M12 14c3 0 4-2 4-4",
+      "M12 19c-3 0-4-2-4-4",
+      "M12 19c3 0 4-2 4-4",
+    ),
+  ),
+  architecture: line(paths("M4 21V11a8 8 0 0 1 16 0v10", "M9 21v-7a3 3 0 0 1 6 0v7")),
+  economy: line(
+    paths("M4 8c0-2 16-2 16 0s-16 2-16 0z", "M4 8v4c0 2 16 2 16 0V8", "M4 12v4c0 2 16 2 16 0v-4"),
+  ),
+  law: line(paths("M6 3h12v18H6z", "M9 8h6", "M9 12h6", "M9 16h4")),
+  masonry: line(paths("M3 6h18v12H3z", "M3 12h18", "M12 6v6", "M7 12v6", "M17 12v6")),
+  mathematics: line(paths("M12 3v3", "M12 6L5 21", "M12 6l7 15", "M8 16h8")),
+  philosophy: line(
+    paths("M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z", "M9 21h6", "M10 17v4", "M14 17v4"),
+  ),
+  strategy: line(paths("M5 22V3", "M5 4h13l-3 4 3 4H5")),
+  theology: line(paths("M12 22V10", "M7 14h10", "M12 10c-4 0-4-7 0-7s4 7 0 7z")),
+  urbanism: line(paths("M3 21V10h6v11", "M9 21V4h6v17", "M15 21v-8h6v8", "M3 21h18")),
+};
+
+/** Every id the sprite defines. */
+export const SPRITE_IDS: readonly string[] = Object.keys(DRAWINGS);
+
+function symbols(): string {
+  return SPRITE_IDS.map((id) => {
+    const name = id.replaceAll("-", " ");
+    return `<symbol id="i-${id}" viewBox="0 0 24 24"><title>${name}</title>${DRAWINGS[id]}</symbol>`;
+  }).join("");
+}
+
+const SPRITE = `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">${symbols()}</svg>`;
+
+/** Render once, near the root; every `<Icon>` refers to it. */
+export function IconSprite() {
+  // The markup is a constant defined above, never data from the game.
+  return <div className="sprite" dangerouslySetInnerHTML={{ __html: SPRITE }} />;
+}
+
+export function Icon({ id }: { id: string }) {
+  const known = SPRITE_IDS.includes(id) ? id : "unknown";
+  return (
+    <svg className={`icon icon-${known}`} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <use href={`#i-${known}`} />
+    </svg>
+  );
+}

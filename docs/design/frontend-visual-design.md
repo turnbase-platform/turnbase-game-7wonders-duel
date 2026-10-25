@@ -40,7 +40,7 @@ bottom. A chain badge sits at the top right when the card has one.
 
 - **Buildings**: Standard 75×100 (pyramid, tablet), Small ~38 wide (stacks, phone), Large 120×160
   (popover, sheet).
-- **Wonders**: the same anatomy at 3:2, larger, in the sandstone colour. Built: full colour, an
+- **Wonders**: the same anatomy at 4:3, larger, in the sandstone colour. Built: full colour, an
   outline in the owner's colour, and a small edge of the card that paid for it at the bottom right.
   Unbuilt: faded. Large version in the popover and sheet.
 - **Art area**: a generated motif, not an empty block: the card's dominant badge as a large glyph on a
