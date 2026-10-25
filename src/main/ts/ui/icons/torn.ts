@@ -20,12 +20,19 @@ const TORN_CARD: Imported = (() => {
     [21, 13.5, 2],
   ];
   const edge = (way: number): Point[] => crack.map(([x, y, gap]) => [x, y + way * gap]);
+  const shape = `<rect x="4.3" y="2.3" width="15.4" height="19.4" rx="2"`;
+  const tear = (way: number): string =>
+    `<polyline points="${edge(way)
+      .map(([x, y]) => `${String(x)},${String(y)}`)
+      .join(" ")}"/>`;
   return {
     viewBox: "0 0 24 24",
     body:
       `<clipPath id="torn-card-cut">${polygon([...edge(-1), [21, 0], [3, 0]])}` +
       `${polygon([...edge(1), [21, 24], [3, 24]])}</clipPath>` +
-      `<rect x="4.3" y="2.3" width="15.4" height="19.4" rx="2" fill="currentColor" stroke="${EDGE}" stroke-width=".5" clip-path="url(#torn-card-cut)"/>`,
+      `<clipPath id="torn-card-shape">${shape}/></clipPath>` +
+      `${shape} fill="currentColor" stroke="${EDGE}" stroke-width=".5" clip-path="url(#torn-card-cut)"/>` +
+      `<g fill="none" stroke="#000" stroke-width=".9" stroke-linejoin="round" clip-path="url(#torn-card-shape)">${tear(-1)}${tear(1)}</g>`,
   };
 })();
 
