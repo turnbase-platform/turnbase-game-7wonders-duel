@@ -195,12 +195,73 @@
     "pending" : null,
     "quotes" : [ {
       "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "clay-reserve",
+      "coins" : 3,
+      "tradeCost" : 0,
+      "total" : 3,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "theater",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "lumber-yard",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "stone-reserve",
+      "coins" : 3,
+      "tradeCost" : 0,
+      "total" : 3,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "glassworks",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "tavern",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "palisade",
       "coins" : 2,
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -210,6 +271,7 @@
       "total" : 2,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -219,6 +281,7 @@
       "total" : 0,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -228,6 +291,7 @@
       "total" : 1,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -237,6 +301,7 @@
       "total" : 0,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -246,6 +311,7 @@
       "total" : 1,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -255,6 +321,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "papyrus",
         "needed" : 2,
@@ -285,6 +352,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "glass",
         "needed" : 1,
@@ -315,6 +383,7 @@
       "total" : 10,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 2,
@@ -345,6 +414,7 @@
       "total" : 10,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 2,
@@ -369,12 +439,73 @@
       } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "clay-reserve",
+      "coins" : 3,
+      "tradeCost" : 0,
+      "total" : 3,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "theater",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "lumber-yard",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "stone-reserve",
+      "coins" : 3,
+      "tradeCost" : 0,
+      "total" : 3,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "glassworks",
+      "coins" : 1,
+      "tradeCost" : 0,
+      "total" : 1,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "tavern",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "palisade",
       "coins" : 2,
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -384,6 +515,7 @@
       "total" : 2,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -393,6 +525,7 @@
       "total" : 0,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -402,6 +535,7 @@
       "total" : 1,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -411,6 +545,7 @@
       "total" : 0,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -420,6 +555,7 @@
       "total" : 1,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
@@ -429,6 +565,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "glass",
         "needed" : 1,
@@ -466,6 +603,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 1,
@@ -496,6 +634,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 3,
@@ -519,6 +658,7 @@
       "total" : 8,
       "chained" : false,
       "affordable" : false,
+      "takeable" : false,
       "lines" : [ {
         "resource" : "papyrus",
         "needed" : 1,

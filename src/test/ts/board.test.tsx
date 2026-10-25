@@ -85,13 +85,27 @@ describe("Board", () => {
     expect(host.querySelectorAll(".slot.is-covered").length).toBeGreaterThan(0);
   });
 
-  it("quotes the price on every takeable card, for hover, and on no other", () => {
+  /** Hovers `target` and returns the quote that floats up for it, if any. */
+  const hover = (target: Element | null): Element | null => {
+    act(() => {
+      target?.dispatchEvent(new Event("pointerenter"));
+    });
+    return document.body.querySelector(".slot__quote");
+  };
+
+  it("quotes the price of a covered card on hover", () => {
     show(age());
 
-    const quotes = [...host.querySelectorAll("button.slot .slot__quote")].map((q) => q.textContent);
-    expect(quotes).toHaveLength(host.querySelectorAll("button.slot").length);
-    expect(quotes.every((q) => /Total|Free by chain/.test(q))).toBe(true);
-    expect(host.querySelectorAll("div.slot .slot__quote")).toHaveLength(0);
+    const covered = host.querySelector("div.slot.is-covered");
+    expect(host.querySelectorAll(".slot__quote")).toHaveLength(0);
+    expect(hover(covered)?.textContent).toMatch(/Total|Free by chain/);
+  });
+
+  it("quotes an unbuilt Wonder on hover in its city", () => {
+    show(age());
+
+    const wonder = host.querySelector(".wonders .peekable");
+    expect(hover(wonder)?.textContent).toMatch(/Total|Free by chain/);
   });
 
   it("lays a quote out per resource, with coins, bought resources and the total", () => {
@@ -112,7 +126,9 @@ describe("Board", () => {
     );
     show(session(TWO, { ...m, view: { ...m.view, quotes } }));
 
-    const table = host.querySelector('button[aria-label="Palisade"] .quote');
+    const table = hover(host.querySelector('button[aria-label="Palisade"]'))?.querySelector(
+      ".quote",
+    );
     const cells = [...(table?.querySelectorAll(".quote__line [role='cell']") ?? [])];
     expect(cells.map((c) => c.textContent)).toEqual(["2", "1", "0", "1", "3"]);
     expect(table?.querySelector(".quote__line svg.icon")).not.toBeNull();

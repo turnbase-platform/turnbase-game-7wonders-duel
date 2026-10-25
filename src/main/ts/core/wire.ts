@@ -52,6 +52,8 @@ export interface QuoteView {
   total: number;
   chained: boolean;
   affordable: boolean;
+  /** Exposed, so it may be taken now; false for covered cards and Wonders. */
+  takeable: boolean;
   lines: QuoteLineView[];
 }
 

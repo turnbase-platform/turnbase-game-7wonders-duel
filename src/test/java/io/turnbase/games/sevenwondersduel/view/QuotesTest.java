@@ -66,13 +66,13 @@ class QuotesTest {
   }
 
   @Test
-  void bothPlayersAreQuotedEveryTakeableCardAndTheirOwnUnbuiltWonders() {
+  void bothPlayersAreQuotedEveryFaceUpCardAndTheirOwnUnbuiltWonders() {
     RuleSet rules = TurnFixtures.rulesWith();
     DuelState state = started(rules);
 
     List<QuoteView> all = quotes(state, rules);
 
-    int cards = Structure.takeable(state.placements()).size();
+    int cards = Placements.idsIn(state.placements(), Structure.UP).size();
     for (PlayerId player : List.of(P1, P2)) {
       int wonders = Placements.idsIn(state.placements(), Construct.unbuilt(player)).size();
       assertThat(all.stream().filter(q -> q.player().equals(player.value())))
@@ -82,19 +82,23 @@ class QuotesTest {
   }
 
   @Test
-  void coveredAndFaceDownCardsAreNotQuoted() {
+  void onlyTheExposedCardsAreMarkedTakeableAndFaceDownCardsAreNotQuoted() {
     RuleSet rules = TurnFixtures.rulesWith();
     DuelState state = started(rules);
-    List<String> takeable =
+    List<String> exposed =
         Structure.takeable(state.placements()).stream().map(ComponentId::value).toList();
-    List<String> wonders =
-        List.of(P1, P2).stream()
-            .flatMap(p -> Placements.idsIn(state.placements(), Construct.unbuilt(p)).stream())
+    List<String> faceDown =
+        Placements.idsIn(state.placements(), Structure.DOWN).stream()
             .map(ComponentId::value)
             .toList();
 
-    assertThat(quotes(state, rules))
-        .allMatch(q -> takeable.contains(q.component()) || wonders.contains(q.component()));
+    List<QuoteView> all = quotes(state, rules);
+
+    assertThat(all).noneMatch(q -> faceDown.contains(q.component()));
+    assertThat(all).anyMatch(q -> !q.takeable() && !exposed.contains(q.component()));
+    assertThat(all).allMatch(q -> q.takeable() == exposed.contains(q.component()) || !q.takeable());
+    assertThat(all.stream().filter(QuoteView::takeable))
+        .allMatch(q -> exposed.contains(q.component()));
   }
 
   @Test

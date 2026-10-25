@@ -1,3 +1,5 @@
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { QuoteView } from "../core/wire.js";
 import { Icon } from "./icons.js";
 
@@ -55,5 +57,64 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
         <span role="cell">{quote.total}</span>
       </span>
     </span>
+  );
+}
+
+const GAP = 6;
+
+/**
+ * A quote that shows while its parent is hovered or focused, floating above it, or below when there
+ * is no room above, and kept inside the viewport wherever the parent sits. It is portalled to the
+ * body: a filtered or clipped ancestor would otherwise trap it.
+ */
+export function HoverQuote({ quote }: { quote: QuoteView }) {
+  const marker = useRef<HTMLSpanElement>(null);
+  const box = useRef<HTMLSpanElement>(null);
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const parent = marker.current?.parentElement ?? null;
+    if (!parent) return;
+    setAnchor(parent);
+    const show = (): void => {
+      setOpen(true);
+    };
+    const hide = (): void => {
+      setOpen(false);
+    };
+    parent.addEventListener("pointerenter", show);
+    parent.addEventListener("pointerleave", hide);
+    parent.addEventListener("focusin", show);
+    parent.addEventListener("focusout", hide);
+    return () => {
+      parent.removeEventListener("pointerenter", show);
+      parent.removeEventListener("pointerleave", hide);
+      parent.removeEventListener("focusin", show);
+      parent.removeEventListener("focusout", hide);
+    };
+  }, []);
+  useLayoutEffect(() => {
+    const el = box.current;
+    if (!open || !el || !anchor) return;
+    const at = anchor.getBoundingClientRect();
+    const size = el.getBoundingClientRect();
+    const above = at.top - size.height - GAP;
+    const top = above >= GAP ? above : at.bottom + GAP;
+    const left = at.left + at.width / 2 - size.width / 2;
+    el.style.top = `${String(Math.max(GAP, Math.min(top, window.innerHeight - size.height - GAP)))}px`;
+    el.style.left = `${String(Math.max(GAP, Math.min(left, window.innerWidth - size.width - GAP)))}px`;
+    el.style.opacity = "1";
+  }, [open, anchor]);
+  return (
+    <>
+      <span ref={marker} hidden />
+      {open &&
+        createPortal(
+          <span ref={box} className="slot__quote">
+            <QuoteTable quote={quote} />
+          </span>,
+          document.body,
+        )}
+    </>
   );
 }

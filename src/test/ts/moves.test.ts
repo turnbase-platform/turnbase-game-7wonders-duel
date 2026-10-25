@@ -66,7 +66,7 @@ describe("offers", () => {
   it("offers nothing on a card the pyramid still covers", () => {
     const session = playing(TWO);
     const up = session.view?.visible.filter((p) => p.zone === "structure.up") ?? [];
-    const quoted = new Set(session.view?.quotes.map((q) => q.component));
+    const quoted = new Set(session.view?.quotes.filter((q) => q.takeable).map((q) => q.component));
     const covered = up.filter((p) => !quoted.has(p.component));
 
     expect(covered.length).toBeGreaterThan(0);

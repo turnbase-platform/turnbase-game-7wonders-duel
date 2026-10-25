@@ -16,7 +16,7 @@ import {
 import type { Selection } from "../core/selection.js";
 import type { ComponentId, DuelView, PlayerId, QuoteView } from "../core/wire.js";
 import { Card, CardBack } from "./Card.js";
-import { QuoteTable } from "./QuoteTable.js";
+import { HoverQuote } from "./QuoteTable.js";
 import { useSize } from "./useSize.js";
 
 interface Props {
@@ -40,7 +40,7 @@ export function Pyramid({ view, catalog, offers, self, selected, onSelect }: Pro
 
   const scale = fit(measured ?? { width: 600, height: Infinity }, pyramid);
   const shift = centringOf(pyramid.slots, pyramid.cols);
-  const accessible = new Set(view.quotes.map((q) => q.component));
+  const accessible = new Set(view.quotes.filter((q) => q.takeable).map((q) => q.component));
   const mine = new Set(offers.map((o) => o.target));
   return (
     <div className="pyramid-frame" ref={frame}>
@@ -105,8 +105,9 @@ function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps
     );
   if (slot.component === null || state === "covered" || state === "waiting") {
     return (
-      <div className={`slot is-${state}`} style={style}>
+      <div className={`slot is-${state}`} style={style} tabIndex={quote ? 0 : undefined}>
         {face}
+        {quote && <HoverQuote quote={quote} />}
       </div>
     );
   }
@@ -123,11 +124,7 @@ function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps
       }}
     >
       {face}
-      {state === "takeable" && quote && (
-        <span className="slot__quote">
-          <QuoteTable quote={quote} />
-        </span>
-      )}
+      {quote && <HoverQuote quote={quote} />}
     </button>
   );
 }

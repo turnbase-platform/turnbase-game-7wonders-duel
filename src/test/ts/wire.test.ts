@@ -73,6 +73,7 @@ const quote: QuoteView = {
   total: 0,
   chained: false,
   affordable: false,
+  takeable: false,
   lines: [],
 };
 const event: EventView = {

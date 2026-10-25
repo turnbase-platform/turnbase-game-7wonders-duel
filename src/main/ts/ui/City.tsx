@@ -5,6 +5,7 @@ import { seatName, type Session } from "../core/session.js";
 import type { ComponentId } from "../core/wire.js";
 import { Card, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
+import { HoverQuote } from "./QuoteTable.js";
 import { Science } from "./Science.js";
 import { replayStep } from "./Status.js";
 
@@ -60,6 +61,7 @@ export function City({
   const peekable = (id: ComponentId, size: CardSize, built = false) => {
     const entry = catalog.get(id);
     if (entry === undefined) return null;
+    const quote = view.quotes.find((q) => q.player === seats[side] && q.component === id);
     const show = (): void => {
       setPeek(id);
     };
@@ -82,6 +84,7 @@ export function City({
         }}
       >
         <Card entry={entry} size={size} built={built} owner={built ? side : undefined} />
+        {quote && !built && <HoverQuote quote={quote} />}
       </button>
     );
   };

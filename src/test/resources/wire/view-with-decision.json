@@ -345,12 +345,75 @@
     },
     "quotes" : [ {
       "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "gardens",
+      "coins" : 0,
+      "tradeCost" : 4,
+      "total" : 4,
+      "chained" : false,
+      "affordable" : false,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 2,
+        "produced" : 2,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 4
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "palace",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 3
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 4
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "senate",
       "coins" : 0,
       "tradeCost" : 0,
       "total" : 0,
       "chained" : true,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
@@ -360,6 +423,7 @@
       "total" : 7,
       "chained" : false,
       "affordable" : false,
+      "takeable" : true,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 2,
@@ -377,12 +441,82 @@
       } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "builders-guild",
+      "coins" : 0,
+      "tradeCost" : 8,
+      "total" : 8,
+      "chained" : false,
+      "affordable" : false,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 3
+      }, {
+        "resource" : "stone",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 3
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 4
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "component" : "academy",
+      "coins" : 0,
+      "tradeCost" : 6,
+      "total" : 6,
+      "chained" : false,
+      "affordable" : false,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "glass",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 3
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 4
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "pantheon",
       "coins" : 0,
       "tradeCost" : 2,
       "total" : 2,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 1,
@@ -407,12 +541,75 @@
       } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "gardens",
+      "coins" : 0,
+      "tradeCost" : 4,
+      "total" : 4,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 2,
+        "produced" : 2,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "palace",
+      "coins" : 0,
+      "tradeCost" : 2,
+      "total" : 2,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 2,
+        "produced" : 2,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 1
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "senate",
       "coins" : 0,
       "tradeCost" : 4,
       "total" : 4,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 2,
@@ -443,6 +640,7 @@
       "total" : 6,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 2,
@@ -460,12 +658,82 @@
       } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "builders-guild",
+      "coins" : 0,
+      "tradeCost" : 4,
+      "total" : 4,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 1
+      }, {
+        "resource" : "stone",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "component" : "academy",
+      "coins" : 0,
+      "tradeCost" : 0,
+      "total" : 0,
+      "chained" : false,
+      "affordable" : true,
+      "takeable" : false,
+      "lines" : [ {
+        "resource" : "glass",
+        "needed" : 2,
+        "produced" : 2,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 1
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      } ]
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "pantheon",
       "coins" : 0,
       "tradeCost" : 3,
       "total" : 3,
       "chained" : false,
       "affordable" : true,
+      "takeable" : true,
       "lines" : [ {
         "resource" : "clay",
         "needed" : 1,

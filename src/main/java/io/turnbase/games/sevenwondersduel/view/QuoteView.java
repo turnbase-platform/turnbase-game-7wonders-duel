@@ -14,6 +14,7 @@ import java.util.UUID;
  * @param chained whether a chain symbol waives the whole cost
  * @param affordable whether the player's treasury covers {@code total}; it says nothing of whose
  *     turn it is or whether a decision is pending
+ * @param takeable whether the card is exposed, so it may be taken now; Wonders are never takeable
  * @param lines how each resource of the cost is met; empty when {@code chained}
  */
 public record QuoteView(
@@ -24,6 +25,7 @@ public record QuoteView(
     int total,
     boolean chained,
     boolean affordable,
+    boolean takeable,
     List<LineView> lines) {
 
   /** One resource of the cost: see {@code QuoteLine}. */

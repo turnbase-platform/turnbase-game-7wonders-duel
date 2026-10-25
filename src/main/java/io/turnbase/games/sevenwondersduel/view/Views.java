@@ -79,7 +79,7 @@ public final class Views {
         visible,
         collapsed,
         pending(state, rules, viewer),
-        quotes(state, rules));
+        quotes(state, rules, viewer));
   }
 
   /** Only a face-down structure card shows its back (B-BACK-1); elsewhere nothing is shown. */
@@ -98,13 +98,23 @@ public final class Views {
         .toList();
   }
 
-  /** Both players are quoted every takeable card and their own unbuilt Wonders (B-COST-1..5). */
-  private static List<QuoteView> quotes(DuelState state, RuleSet rules) {
+  /**
+   * Both players are quoted every structure card the viewer can see, covered or not, and their own
+   * unbuilt Wonders (B-COST-1..5). Only the takeable cards are marked so.
+   */
+  private static List<QuoteView> quotes(DuelState state, RuleSet rules, Viewer viewer) {
     if (state.phase() != Phase.AGE) {
       return List.of();
     }
     CostSolver solver = new CostSolver(rules);
-    List<ComponentId> cards = Structure.takeable(state.placements());
+    java.util.Set<ComponentId> takeable =
+        new java.util.HashSet<>(Structure.takeable(state.placements()));
+    List<ComponentId> cards =
+        state.placements().stream()
+            .filter(p -> p.at().zone().equals(Structure.UP) || p.at().zone().equals(Structure.DOWN))
+            .map(Placement::component)
+            .filter(c -> canSee(state, rules, viewer, c))
+            .toList();
     List<QuoteView> quotes = new ArrayList<>();
     for (PlayerId player : state.players().keySet().stream().sorted(PLAYER_ORDER).toList()) {
       List<ComponentId> targets = new ArrayList<>(cards);
@@ -120,6 +130,7 @@ public final class Views {
                 quote.total(),
                 quote.chained(),
                 quote.payableWith(state.player(player).coins()),
+                takeable.contains(target),
                 quote.lines().stream()
                     .map(
                         l ->

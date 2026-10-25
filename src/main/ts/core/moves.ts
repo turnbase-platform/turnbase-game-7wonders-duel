@@ -59,7 +59,9 @@ function plays(view: DuelView, self: PlayerId): Offer[] {
     .map((placed) => placed.component)
     .filter((wonder) => quoted.get(wonder)?.affordable === true);
   return view.visible
-    .filter((placed) => placed.zone === "structure.up" && quoted.has(placed.component))
+    .filter(
+      (placed) => placed.zone === "structure.up" && quoted.get(placed.component)?.takeable === true,
+    )
     .flatMap((placed): Offer[] => [
       ...(quoted.get(placed.component)?.affordable === true
         ? [
