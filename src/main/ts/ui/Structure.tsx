@@ -4,6 +4,7 @@ import type { Selection } from "../core/selection.js";
 import type { ComponentId, DuelView, WireAction } from "../core/wire.js";
 import type { Catalog } from "../core/catalog.js";
 import { Card } from "./Card.js";
+import { Prompt } from "./Prompt.js";
 import { Pyramid } from "./Pyramid.js";
 
 interface Props {
@@ -24,7 +25,7 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
   if (view.phase === "WONDER_DRAFT") {
     return <Draft view={view} catalog={catalog} offers={offers} send={send} />;
   }
-  return (
+  const pyramid = (
     <Pyramid
       view={view}
       catalog={catalog}
@@ -33,6 +34,19 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
       selected={selected}
       onSelect={onSelect}
     />
+  );
+  if (view.pending === null) return pyramid;
+  return (
+    <>
+      <Prompt
+        session={session}
+        pending={view.pending}
+        catalog={catalog}
+        offers={offers}
+        send={send}
+      />
+      {pyramid}
+    </>
   );
 }
 

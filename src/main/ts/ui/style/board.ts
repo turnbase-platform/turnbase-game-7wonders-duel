@@ -83,6 +83,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .choice { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .phase-panel button { padding: 6px 14px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); cursor: pointer; }
+.prompt { flex: none; border-bottom: 2px solid var(--me); }
+.prompt .card { --w: 96px; }
+.choice--hidden { display: grid; place-items: center; width: 96px; aspect-ratio: 2 / 3; border: 2px dashed var(--line); border-radius: var(--radius); color: var(--muted); font-size: 24px; }
 .pyramid-frame { width: 100%; flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; }
 .pyramid { --cw: 75px; position: relative; flex: none; }
 .pyramid .card { --w: var(--cw); }

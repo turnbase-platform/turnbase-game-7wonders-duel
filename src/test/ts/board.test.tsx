@@ -104,6 +104,54 @@ describe("Board", () => {
     expect(send).not.toHaveBeenCalled();
   });
 
+  describe("a pending decision", () => {
+    const withPending = (decider: Player, self: Player | null, options: string[], hidden = 0) => {
+      const m = inAge();
+      if (m.view === null) throw new Error("no view");
+      return session(self, {
+        ...m,
+        view: { ...m.view, pending: { decider: decider.id, options, hidden } },
+      });
+    };
+
+    beforeEach(() => {
+      send.mockClear();
+    });
+
+    it("offers the decider each option to choose, and sends the answer", () => {
+      show(withPending(TWO, TWO, ["palisade"]));
+
+      const prompt = host.querySelector(".prompt");
+      expect(prompt?.querySelectorAll(".card")).toHaveLength(1);
+      click(
+        [...(prompt?.querySelectorAll("button") ?? [])].find((b) => b.textContent === "Choose"),
+      );
+      expect(send).toHaveBeenCalledWith({ type: "answerComponent", component: "palisade" });
+    });
+
+    it("tells the others who is choosing, without buttons, and shows hidden options as unknown", () => {
+      show(withPending(TWO, ONE, [], 3));
+
+      const prompt = host.querySelector(".prompt");
+      expect(prompt?.textContent).toContain("Waiting for Two to choose");
+      expect(prompt?.querySelectorAll("button")).toHaveLength(0);
+      expect(prompt?.querySelectorAll(".choice--hidden")).toHaveLength(3);
+    });
+
+    it("offers seats by name when the options are players", () => {
+      show(withPending(TWO, TWO, [ONE.id, TWO.id]));
+
+      const names = [...host.querySelectorAll(".prompt button")].map((b) => b.textContent);
+      expect(names).toEqual(["One", "Two"]);
+    });
+
+    it("keeps the pyramid in view beneath the prompt", () => {
+      show(withPending(TWO, TWO, ["palisade"]));
+
+      expect(host.querySelector(".pyramid")).not.toBeNull();
+    });
+  });
+
   it("gives a spectator the same pyramid with nothing to click", () => {
     show(session(null, inAge()));
 
