@@ -64,6 +64,18 @@ export function pyramidOf(view: DuelView, floor: Extent = { rows: 0, cols: 0 }):
   return { slots, rows: Math.max(rows, floor.rows), cols: Math.max(cols, floor.cols) };
 }
 
+/**
+ * How many half-cards to move every slot so the cards that remain sit in the middle of the extent,
+ * not where the cards already taken left them.
+ */
+export function centringOf(slots: PyramidSlot[], cols: number): number {
+  if (slots.length === 0) return 0;
+  const xs = slots.map((s) => s.x);
+  const min = Math.min(...xs);
+  const span = Math.max(...xs) + 2 - min;
+  return (cols - span) / 2 - min;
+}
+
 /** The width in px at scale 1 of a pyramid `cols` half-cards across. */
 export function widthOf(cols: number): number {
   return (cols - 2) * COL_STEP + CARD_W;

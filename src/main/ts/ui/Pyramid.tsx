@@ -4,6 +4,7 @@ import type { Offer } from "../core/moves.js";
 import {
   CARD_H,
   CARD_W,
+  centringOf,
   fit,
   COL_STEP,
   widthOf,
@@ -35,6 +36,7 @@ export function Pyramid({ view, catalog, offers, selected, onSelect }: Props) {
   extent.current = { age: view.age, rows: pyramid.rows, cols: pyramid.cols };
 
   const scale = fit(measured ?? { width: 600, height: Infinity }, pyramid);
+  const shift = centringOf(pyramid.slots, pyramid.cols);
   const accessible = new Set(view.quotes.map((q) => q.component));
   const mine = new Set(offers.map((o) => o.target));
   return (
@@ -52,6 +54,7 @@ export function Pyramid({ view, catalog, offers, selected, onSelect }: Props) {
             key={`${String(slot.row)}:${String(slot.x)}`}
             slot={slot}
             scale={scale}
+            shift={shift}
             catalog={catalog}
             state={slotState(slot, accessible, mine, selected)}
             onSelect={onSelect}
@@ -79,13 +82,15 @@ function slotState(
 interface SlotProps {
   slot: PyramidSlot;
   scale: number;
+  /** Half-cards to move right, so the remaining cards stay centred. */
+  shift: number;
   catalog: Catalog;
   state: SlotState;
   onSelect: (component: ComponentId) => void;
 }
 
-function Slot({ slot, scale, catalog, state, onSelect }: SlotProps) {
-  const style = { left: slot.x * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
+function Slot({ slot, scale, shift, catalog, state, onSelect }: SlotProps) {
+  const style = { left: (slot.x + shift) * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
   const entry = slot.component === null ? undefined : catalog.get(slot.component);
   const face =
     entry === undefined ? (

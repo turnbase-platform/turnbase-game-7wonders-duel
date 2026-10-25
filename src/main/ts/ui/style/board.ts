@@ -1,3 +1,5 @@
+import { EASE, MOTION_MS } from "../motion.js";
+
 // The board and its arrangements (design §3). Layout classes come from `layoutFor`, measured on the
 // board itself, so a narrow frame on a wide screen gets the narrow arrangement.
 export const BOARD = `
@@ -77,7 +79,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .pyramid-frame { width: 100%; flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; }
 .pyramid { --cw: 75px; position: relative; flex: none; }
 .pyramid .card { --w: var(--cw); }
-.slot { position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
+.slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.72) saturate(.65); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }
@@ -97,4 +99,5 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 .actions .price { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; }
 .actions .actions__close { position: absolute; top: 2px; right: 2px; min-height: 0; padding: 0 6px; border: 0; background: none; font-size: 18px; }
 button.slot:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .slot { transition: none; } }
 `;

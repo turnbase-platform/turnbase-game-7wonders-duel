@@ -1,6 +1,13 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { CARD_H, fit, pyramidOf, ROW_STEP, widthOf } from "../../main/ts/core/pyramid.js";
+import {
+  CARD_H,
+  centringOf,
+  fit,
+  pyramidOf,
+  ROW_STEP,
+  widthOf,
+} from "../../main/ts/core/pyramid.js";
 import type { DuelView, ServerMessage } from "../../main/ts/core/wire.js";
 
 function viewOf(name: string): DuelView {
@@ -84,5 +91,23 @@ describe("fit", () => {
 
   it("is 1 for an empty pyramid", () => {
     expect(fit({ width: 100, height: 100 }, { rows: 0, cols: 0 })).toBe(1);
+  });
+});
+
+describe("centringOf", () => {
+  const slot = (x: number) => ({ row: 0, x, state: "up" as const, component: null, back: null });
+
+  it("shifts nothing while the cards fill the extent", () => {
+    expect(centringOf([slot(0), slot(8)], 10)).toBe(0);
+  });
+
+  it("moves the remaining cards to the middle of the extent when an edge is taken", () => {
+    // Cards at 3..9 inside a 10-wide extent: they belong at 2..8.
+    expect(centringOf([slot(3), slot(7)], 10)).toBe(-1);
+    expect(centringOf([slot(0), slot(4)], 10)).toBe(2);
+  });
+
+  it("has nothing to shift for an empty structure", () => {
+    expect(centringOf([], 10)).toBe(0);
   });
 });
