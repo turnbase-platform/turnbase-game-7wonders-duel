@@ -66,7 +66,7 @@ export const CARD = `
 .glyph.tint-purple .icon, .glyph__pile.tint-purple .icon { color: var(--c-purple); }
 
 .card__cost {
-  position: absolute; top: calc(var(--u) * .34); left: 0; z-index: 1; display: flex;
+  position: absolute; top: calc(var(--u) * .38); left: 0; z-index: 1; display: flex;
   flex-direction: column; align-items: flex-start; gap: calc(var(--u) * .08);
   font-size: calc(var(--u) * .13);
 }
@@ -78,6 +78,11 @@ export const CARD = `
 .cost__coin { position: relative; display: inline-flex; }
 .cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif); color: #1b1a17; text-shadow: 0 0 2px #fff; }
 .cost__free .icon { color: #fff; }
+.cost__bar.is-chain {
+  height: auto; padding: calc(var(--u) * .015) calc(var(--u) * .03); background: var(--c);
+  border: 1px solid #0004; border-left: 0; box-shadow: inset 0 0 0 1px #ffffff2e;
+  border-radius: 0 calc(var(--u) * .06) calc(var(--u) * .06) 0;
+}
 .card--wonder .card__cost { position: static; align-items: center; font-size: calc(var(--u) * .26); flex-wrap: wrap; justify-content: center; }
 .card--wonder .cost__bar { height: auto; padding: 0; background: none; border-radius: 0; flex-wrap: wrap; justify-content: center; }
 .card--wonder .card__chain { display: none; }

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { presentAll, span, type Glyph } from "../core/badges.js";
+import { inCostOrder } from "../core/cost.js";
 import { motifOf } from "../core/motif.js";
 import type { CatalogEntry } from "../core/wire.js";
 import { Icon } from "./icons.js";
@@ -52,7 +53,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
               <b>{coins}</b>
             </span>
           )}
-          {resources.flatMap((r) =>
+          {inCostOrder(resources).flatMap((r) =>
             Array.from({ length: r.count }, (_, i) => (
               <Icon key={`${r.resource}${String(i)}`} id={r.resource} />
             )),
@@ -60,7 +61,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
         </div>
       )}
       {freedBy.length > 0 && (
-        <div className="cost__bar">
+        <div className="cost__bar is-chain">
           {freedBy.map((symbol) => (
             <span key={symbol} className="cost__free" title={`free with ${symbol}`}>
               <Icon id={symbol} />
