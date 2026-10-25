@@ -21,9 +21,9 @@ describe("present", () => {
     ]);
   });
 
-  it("shows one glyph per resource a card may choose from", () => {
+  it("separates the resources a card may choose from with a slash", () => {
     const glyphs = present(badge("producesOneOf", 1, ["clay", "stone", "wood"]));
-    expect(glyphs.map((g) => g.icon)).toEqual(["clay", "stone", "wood"]);
+    expect(glyphs.map((g) => g.icon)).toEqual(["clay", "or", "stone", "or", "wood"]);
   });
 
   it("shows shields, points and coins with their amounts", () => {

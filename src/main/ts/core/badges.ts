@@ -45,7 +45,10 @@ export function present(badge: Badge): Glyph[] {
         Array.from({ length: badge.amount }, () => glyph(r, null, `${amount} ${r}`)),
       );
     case "producesOneOf":
-      return of.map((r) => glyph(r, null, `one of ${of.join(", ")}`));
+      return of.flatMap((r, i) => [
+        ...(i > 0 ? [glyph("or", null, "or")] : []),
+        glyph(r, null, `one of ${of.join(", ")}`),
+      ]);
     case "shields":
       return Array.from({ length: badge.amount }, () => glyph("shield", null, `${amount} shields`));
     case "shieldBonus":
