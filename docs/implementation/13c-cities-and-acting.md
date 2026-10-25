@@ -51,3 +51,33 @@ visible by tab, and a Wonder construction shows in the city with the owner's out
 ## Not in this plan
 
 Motion (14), the military track, science and token prompts, end screen (15).
+
+## Outcome
+
+Done. Backend 579 tests, frontend 154 tests; lint, format, typecheck and build clean (bundle 230.2 KB).
+
+**Rulings**
+
+- `core/city.ts` is the one pure city model (`cityOf`); `City.tsx` only draws it. Stacks are small banner pills,
+  Wonders standard size, tokens standard size; a card is peeked at Large on hover, focus or click.
+- One action surface, `ui/Actions.tsx`: a popover beside the card when wide or medium, a bottom sheet in
+  portrait and landscape. Wonder choice is a second step with Back, so the first step is always three buttons.
+- A Wonder offer is generated per (exposed card × affordable unbuilt Wonder) in `moves.ts`; the picker shows
+  all four Wonders and disables those without an affordable quote.
+- Prices read plainly: "Free", "Free by chain", "N coins (T in trade)"; the Wonder picker shows the total only.
+- Keyboard: real buttons throughout; Escape closes and returns focus to the card; focus moves to the first
+  enabled button on each step.
+- TDD caveat: the `cityOf` tests were written together with the implementation and never watched red.
+
+**Findings** (harness, 1280×800, 800×900, 390×844, 844×390)
+
+- Build, Wonder and Discard reach the real DevServer: building The Temple of Artemis took Seat 2 from 9 to 13
+  coins and drew the Wonder with the owner outline.
+- The popover overlaps the neighbouring pyramid card; acceptable. The first Wonder picker was one column and
+  594px tall; compact prices and 100px cards made it 2×2 and 328px.
+- Sheets stay inside the viewport at both phone sizes; in landscape the sheet covers about half the height.
+
+**Deferred minors**
+
+- Landscape sheet height could be reduced by laying the Large card out smaller.
+- Peek follows hover as well as focus; touch relies on tap-to-toggle only.

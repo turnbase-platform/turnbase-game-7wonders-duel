@@ -1,10 +1,11 @@
-import { useReducer, useRef, useState } from "react";
-import { layoutFor, type Layout } from "../core/layout.js";
+import { useLayoutEffect, useReducer, useRef, useState, type RefObject } from "react";
+import { layoutFor, type Layout, type Size } from "../core/layout.js";
 import { offers as offersOf } from "../core/moves.js";
 import { attention, selectedOf, selectionReducer } from "../core/selection.js";
 import { seatsOf, type Seats } from "../core/seats.js";
 import type { Session } from "../core/session.js";
 import type { WireAction } from "../core/wire.js";
+import { Actions, type Anchor } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
 import { IconSprite } from "./icons.js";
@@ -12,6 +13,8 @@ import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
 import { useSize } from "./useSize.js";
+
+const POPOVER_WIDTH = 290;
 
 type Pane = "structure" | "city" | "log";
 
@@ -31,11 +34,12 @@ export function Board({ session, send, layout: fixed }: Props) {
   const [side, setSide] = useState<Side>("me");
   const [selection, select] = useReducer(selectionReducer, null);
   const { view, catalog } = session;
+  const available = view === null ? [] : offersOf(session);
+  const selected = selectedOf(selection, available);
+  const anchor = useAnchor(root, selected, layout, size);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
 
-  const available = offersOf(session);
-  const selected = selectedOf(selection, available);
   const phone = layout === "portrait";
   const compact = layout === "landscape" || phone;
   const showing = (wanted: Pane): boolean => !phone || pane === wanted;
@@ -116,6 +120,21 @@ export function Board({ session, send, layout: fixed }: Props) {
           </aside>
         )}
       </div>
+      {selected !== null && session.self !== null && (
+        <Actions
+          key={selected}
+          view={view}
+          catalog={catalog}
+          self={session.self}
+          component={selected}
+          offers={available}
+          anchor={layout === "wide" || layout === "medium" ? anchor : null}
+          send={send}
+          onClose={() => {
+            select({ type: "clear" });
+          }}
+        />
+      )}
       {phone && (
         <nav className="bottom-tabs" role="tablist">
           {(
@@ -142,6 +161,34 @@ export function Board({ session, send, layout: fixed }: Props) {
       )}
     </div>
   );
+}
+
+/** Where the selected card is on the board, for the popover to sit beside; null while none is. */
+function useAnchor(
+  root: RefObject<HTMLDivElement | null>,
+  selected: string | null,
+  layout: Layout,
+  size: Size | null,
+): Anchor | null {
+  const [anchor, setAnchor] = useState<Anchor | null>(null);
+  useLayoutEffect(() => {
+    const board = root.current;
+    const slot = selected === null ? null : board?.querySelector(".slot.is-selected");
+    if (!board || !slot) {
+      setAnchor(null);
+      return;
+    }
+    const box = board.getBoundingClientRect();
+    const rect = slot.getBoundingClientRect();
+    const right = rect.right - box.left + 8;
+    const left =
+      right + POPOVER_WIDTH > box.width ? rect.left - box.left - POPOVER_WIDTH - 8 : right;
+    setAnchor({
+      left: Math.max(4, left),
+      top: Math.max(4, rect.top - box.top),
+    });
+  }, [root, selected, layout, size]);
+  return anchor;
 }
 
 function PanelTabs({

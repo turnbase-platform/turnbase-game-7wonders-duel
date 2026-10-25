@@ -48,9 +48,16 @@ function draft(view: DuelView): Offer[] {
     }));
 }
 
-/** A quote exists exactly for the cards that may be taken now; the rest of the pyramid is covered. */
+/**
+ * A quote exists exactly for the cards that may be taken now; the rest of the pyramid is covered.
+ * A Wonder is quoted for its owner, so any exposed card can be spent on any affordable Wonder.
+ */
 function plays(view: DuelView, self: PlayerId): Offer[] {
   const quoted = new Map(view.quotes.filter((q) => q.player === self).map((q) => [q.component, q]));
+  const payable = view.visible
+    .filter((placed) => placed.zone === "wonders.unbuilt" && placed.key === self)
+    .map((placed) => placed.component)
+    .filter((wonder) => quoted.get(wonder)?.affordable === true);
   return view.visible
     .filter((placed) => placed.zone === "structure.up" && quoted.has(placed.component))
     .flatMap((placed): Offer[] => [
@@ -63,6 +70,11 @@ function plays(view: DuelView, self: PlayerId): Offer[] {
             },
           ]
         : []),
+      ...payable.map((wonder): Offer => ({
+        target: placed.component,
+        label: "Wonder",
+        action: { type: "buildWonder", component: placed.component, wonder },
+      })),
       {
         target: placed.component,
         label: "Discard",

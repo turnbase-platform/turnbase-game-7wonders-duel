@@ -1,5 +1,10 @@
+import { useState } from "react";
+import { cityOf } from "../core/city.js";
 import type { Seats } from "../core/seats.js";
 import { seatName, type Session } from "../core/session.js";
+import type { ComponentId } from "../core/wire.js";
+import { Card, type CardSize } from "./Card.js";
+import { Icon } from "./icons.js";
 
 export type Side = "me" | "opp";
 
@@ -30,18 +35,75 @@ export function Tab({ label, active, tint, onPick }: TabProps) {
   );
 }
 
-/** The city of one seat; plan 13c draws it, until then coins and Wonders by name. */
+/** The city of one seat: coins and production, the colour stacks, the Wonders and progress tokens. */
 export function City({ session, seats, side }: { session: Session; seats: Seats; side: Side }) {
-  const view = session.view;
-  const catalog = session.catalog;
+  const [peek, setPeek] = useState<ComponentId | null>(null);
+  const { view, catalog } = session;
   if (view === null || catalog === null) return null;
-  const id = seats[side];
-  const wonders = view.visible.filter((p) => p.zone.startsWith("wonders.") && p.key === id);
+  const city = cityOf(view, catalog, seats[side]);
+  const peekable = (id: ComponentId, size: CardSize, built = false) => {
+    const entry = catalog.get(id);
+    if (entry === undefined) return null;
+    const show = (): void => {
+      setPeek(id);
+    };
+    return (
+      <button
+        key={id}
+        type="button"
+        className="peekable"
+        aria-label={entry.name}
+        onMouseEnter={show}
+        onFocus={show}
+        onClick={() => {
+          setPeek(peek === id ? null : id);
+        }}
+        onMouseLeave={() => {
+          setPeek(null);
+        }}
+        onBlur={() => {
+          setPeek(null);
+        }}
+      >
+        <Card entry={entry} size={size} built={built} owner={built ? side : undefined} />
+      </button>
+    );
+  };
+  const peeked = peek === null ? undefined : catalog.get(peek);
   return (
     <section className={`city owner-${side}`}>
       <h3>{sideLabel(session, seats, side)}</h3>
-      <p>{view.players.find((p) => p.id === id)?.coins ?? 0} coins</p>
-      {wonders.length > 0 && <p>{wonders.map((p) => catalog.name(p.component)).join(", ")}</p>}
+      <p className="city__line">
+        <span className="purse" title={`${String(city.coins)} coins`}>
+          <Icon id="coin" /> <b>{city.coins}</b>
+        </span>
+        {city.produces.map((r) => (
+          <span key={r.resource} className="glyph" title={`${String(r.count)} ${r.resource}`}>
+            <Icon id={r.resource} />
+            {r.count > 1 && <b>{r.count}</b>}
+          </span>
+        ))}
+      </p>
+      <div className="stacks">
+        {city.stacks.map((stack) => (
+          <div key={stack.colour} className={`stack color-${stack.colour}`}>
+            {stack.cards.map((id) => peekable(id, "small"))}
+          </div>
+        ))}
+      </div>
+      {city.wonders.length > 0 && (
+        <div className="wonders">
+          {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
+        </div>
+      )}
+      {city.tokens.length > 0 && (
+        <div className="tokens">{city.tokens.map((id) => peekable(id, "standard"))}</div>
+      )}
+      {peeked && (
+        <div className="peek" aria-hidden="true">
+          <Card entry={peeked} size="large" />
+        </div>
+      )}
     </section>
   );
 }

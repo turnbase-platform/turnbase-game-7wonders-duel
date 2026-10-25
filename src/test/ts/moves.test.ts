@@ -85,6 +85,33 @@ describe("offers", () => {
     expect(offers(session).some((o) => o.action.type === "discard")).toBe(true);
   });
 
+  it("offers to build a Wonder with an exposed card for each unbuilt Wonder the seat can pay for", () => {
+    const base = message("view-in-age").view;
+    if (!base) throw new Error("fixture has no view");
+    const session = playing(TWO, {
+      quotes: base.quotes.map((q) =>
+        q.component === "piraeus" || q.component === "the-colossus"
+          ? { ...q, affordable: true }
+          : q,
+      ),
+    });
+    const wonders = offers(session).filter((o) => o.action.type === "buildWonder");
+    const forPalisade = wonders.filter((o) => o.target === "palisade");
+
+    expect(forPalisade.map((o) => o.action)).toEqual([
+      { type: "buildWonder", component: "palisade", wonder: "piraeus" },
+      { type: "buildWonder", component: "palisade", wonder: "the-colossus" },
+    ]);
+    expect(wonders).toHaveLength(
+      2 * offers(session).filter((o) => o.action.type === "discard").length,
+    );
+  });
+
+  it("offers no Wonder while none is affordable, and none on a covered card", () => {
+    const session = playing(TWO);
+    expect(offers(session).some((o) => o.action.type === "buildWonder")).toBe(false);
+  });
+
   it("offers the starting player choice to the seat that decides, and nothing else", () => {
     const found = offers(seen("view-in-age", TWO));
     const answers = found.filter((o) => o.action.type === "chooseStarter");

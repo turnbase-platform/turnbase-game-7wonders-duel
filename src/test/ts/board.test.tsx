@@ -171,4 +171,150 @@ describe("Board", () => {
     expect(host.querySelectorAll(".choice .card--wonder")).toHaveLength(4);
     expect(host.querySelector(".pyramid")).toBeNull();
   });
+
+  describe("acting on a card", () => {
+    const palisade = (): Element | null => host.querySelector('button.slot[aria-label="Palisade"]');
+    const dialog = (): HTMLElement | null => host.querySelector('[role="dialog"]');
+    const choices = (): string[] =>
+      [...(dialog()?.querySelectorAll("button:not(.actions__close)") ?? [])].map(
+        (b) => b.textContent,
+      );
+    const button = (label: string): Element | undefined =>
+      [...(dialog()?.querySelectorAll("button") ?? [])].find((b) =>
+        b.textContent.startsWith(label),
+      );
+
+    /** Seat 2 can pay for these Wonders as well as the cards its quotes already cover. */
+    function withAffordable(...wonders: string[]): Session {
+      const m = inAge();
+      if (m.view === null) throw new Error("no view");
+      const quotes = m.view.quotes.map((q) =>
+        wonders.includes(q.component) ? { ...q, affordable: true } : q,
+      );
+      return session(TWO, { ...m, view: { ...m.view, quotes } });
+    }
+
+    beforeEach(() => {
+      send.mockClear();
+    });
+
+    it("opens the actions with prices when a card is selected", () => {
+      show(age());
+      click(palisade());
+
+      expect(dialog()).not.toBeNull();
+      expect(choices()).toHaveLength(3);
+      expect(button("Build")?.textContent).toContain("2 coins");
+    });
+
+    it("builds the card and lets the selection go", () => {
+      show(age());
+      click(palisade());
+      click(button("Build"));
+
+      expect(send).toHaveBeenCalledWith({ type: "build", component: "palisade" });
+      expect(dialog()).toBeNull();
+    });
+
+    it("discards the card", () => {
+      show(age());
+      click(palisade());
+      click(button("Discard"));
+
+      expect(send).toHaveBeenCalledWith({ type: "discard", component: "palisade" });
+    });
+
+    it("disables Build with the reason when the card cannot be paid for", () => {
+      const m = inAge();
+      if (m.view === null) throw new Error("no view");
+      const quotes = m.view.quotes.map((q) => ({ ...q, affordable: false }));
+      show(session(TWO, { ...m, view: { ...m.view, quotes } }));
+      click(palisade());
+
+      const build = button("Build") as HTMLButtonElement;
+      expect(build.disabled).toBe(true);
+      expect(build.textContent).toContain("you have");
+      click(build);
+      expect(send).not.toHaveBeenCalled();
+    });
+
+    it("chooses the Wonder in a second step, and only affordable ones can be picked", () => {
+      show(withAffordable("piraeus"));
+      click(palisade());
+      click(button("Wonder"));
+
+      const wonders = [...(dialog()?.querySelectorAll(".actions__wonders button") ?? [])];
+      expect(wonders).toHaveLength(4);
+      expect(wonders.filter((b) => !(b as HTMLButtonElement).disabled)).toHaveLength(1);
+      click(wonders.find((b) => !(b as HTMLButtonElement).disabled));
+      expect(send).toHaveBeenCalledWith({
+        type: "buildWonder",
+        component: "palisade",
+        wonder: "piraeus",
+      });
+    });
+
+    it("goes back from the Wonder step to the actions", () => {
+      show(withAffordable("piraeus"));
+      click(palisade());
+      click(button("Wonder"));
+      click(button("Back"));
+
+      expect(button("Build")).toBeDefined();
+    });
+
+    it("disables Wonder when none can be paid for", () => {
+      show(age());
+      click(palisade());
+
+      expect((button("Wonder") as HTMLButtonElement).disabled).toBe(true);
+    });
+
+    it("closes on Escape and returns focus to the card", () => {
+      show(age());
+      (palisade() as HTMLElement).focus();
+      click(palisade());
+      act(() => {
+        dialog()?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      });
+
+      expect(dialog()).toBeNull();
+      expect(document.activeElement).toBe(palisade());
+    });
+
+    it("sits as a sheet instead of a popover on a phone", () => {
+      show(age(), "portrait");
+      click(palisade());
+
+      expect(dialog()?.classList.contains("is-sheet")).toBe(true);
+    });
+  });
+
+  describe("the city", () => {
+    const late = (self: Player): Session => session(self, message("view-with-decision"));
+
+    it("draws one stack per colour the city has, with the Wonders and the coins", () => {
+      show(late(ONE));
+
+      expect(host.querySelectorAll(".stack")).toHaveLength(7);
+      expect(host.querySelectorAll(".wonders .card--wonder.is-built")).toHaveLength(3);
+      expect(host.querySelector(".city .purse")?.textContent).toContain("3");
+    });
+
+    it("shows the other city on its tab", () => {
+      show(late(ONE));
+      click([...host.querySelectorAll('[role="tab"]')][0]);
+
+      expect(host.querySelector(".city.owner-opp")).not.toBeNull();
+    });
+
+    it("shows the large card for a stacked card the viewer points at", () => {
+      show(late(ONE));
+      act(() => {
+        host.querySelector<HTMLElement>(".stack .peekable")?.focus();
+      });
+
+      expect(host.querySelector(".peek .card--large")).not.toBeNull();
+    });
+  });
 });
