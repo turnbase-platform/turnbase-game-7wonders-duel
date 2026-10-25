@@ -17,6 +17,7 @@ export const SCIENCE: Readonly<Record<string, Imported>> = {
   // Armillary sphere on its stand.
   astrolabe: group(
     `<path d="M32 70q18 20 36 0" stroke="${DARK}" stroke-width="5"/>` +
+      `<path d="M50 74v15" stroke="${DARK}" stroke-width="7"/>` +
       `<ellipse cx="50" cy="91" rx="17" ry="5" fill="${DARK}"/>` +
       `<circle cx="50" cy="42" r="30" stroke="${GOLD}" stroke-width="5"/>` +
       `<ellipse cx="50" cy="42" rx="12" ry="30" transform="rotate(25 50 42)" stroke="${BRONZE}" stroke-width="4"/>` +
@@ -32,13 +33,13 @@ export const SCIENCE: Readonly<Record<string, Imported>> = {
       `<path d="M20 29L8 58M20 29l12 29M80 29L68 58M80 29l12 29" stroke="${DARK}" stroke-width="2"/>` +
       `<path d="M6 58h28q-14 16-28 0zM66 58h28q-14 16-28 0z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>`,
   ),
-  // Slab with its sloping dial and the triangular gnomon standing on it.
+  // Flat dial with its upright gnomon, on a slab walled on both front sides.
   sundial: group(
-    `<path d="M8 72l42 12v8L8 80z" fill="${DARK}" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M50 84l42-18v8L50 92z" fill="#5c3a15" stroke="${DARK}" stroke-width="2"/>` +
+    `<path d="M8 72l42 12v6L8 78z" fill="${DARK}"/>` +
+      `<path d="M50 84l42-18v6L50 90z" fill="#5c3a15"/>` +
       `<path d="M8 72l44-20 40 14-42 18z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M68 63l20 6M68 63l12 12" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M30 26v47l38-10z" fill="${GOLD}" stroke="${DARK}" stroke-width="2.5"/>`,
+      `<path d="M38 16h8l4 44-12 6z" fill="${GOLD}" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M50 60l30 8" stroke="${DARK}" stroke-width="2"/>`,
   ),
   "mortar-and-pestle": group(
     `<path d="M12 50h76c0 24-16 40-38 40S12 74 12 50z" fill="${WOOD}" stroke="${DARK}" stroke-width="3"/>` +
