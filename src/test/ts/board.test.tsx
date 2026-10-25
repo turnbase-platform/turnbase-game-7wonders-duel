@@ -160,6 +160,42 @@ describe("Board", () => {
     expect(symbols.length % 7).toBe(0);
   });
 
+  describe("a finished game", () => {
+    const over = (self: Player | null, winner: Player | null, reason: "MILITARY" | "POINTS") => {
+      const m = inAge();
+      if (m.view === null) throw new Error("no view");
+      return session(self, {
+        ...m,
+        view: {
+          ...m.view,
+          phase: "OVER",
+          victoryWinner: winner?.id ?? null,
+          victoryReason: reason,
+        },
+      });
+    };
+    const outcome = (): string => host.querySelector(".outcome")?.textContent ?? "";
+
+    it("says the viewer won, and how", () => {
+      show(over(TWO, TWO, "MILITARY"));
+      expect(outcome()).toBe("You winby Military Supremacy");
+    });
+
+    it("names the winner to the loser and to a spectator", () => {
+      show(over(ONE, TWO, "POINTS"));
+      expect(outcome()).toContain("Two wins");
+      show(over(null, TWO, "POINTS"));
+      expect(outcome()).toContain("Two wins");
+    });
+
+    it("calls it a draw without a winner, and shows nothing while the game runs", () => {
+      show(over(ONE, null, "POINTS"));
+      expect(outcome()).toContain("A draw");
+      show(age());
+      expect(host.querySelector(".outcome")).toBeNull();
+    });
+  });
+
   it("gives a spectator the same pyramid with nothing to click", () => {
     show(session(null, inAge()));
 

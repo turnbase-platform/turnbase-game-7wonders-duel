@@ -29,6 +29,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
+.outcome { flex: none; text-align: center; padding: 8px 12px; background: var(--surface); border: 2px solid var(--ink); border-radius: 6px; }
+.outcome h2 { margin: 0; font: 700 22px var(--serif); }
+.outcome p { margin: 2px 0 0; color: var(--muted); }
 .stagebar { flex: none; display: flex; justify-content: space-between; align-items: center; }
 .logbtn, .pilebtn { padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
 .pilebtn { display: inline-flex; align-items: center; gap: 6px; } .logbtn { margin-left: auto; }
@@ -96,7 +99,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .pyramid { --cw: 75px; position: relative; flex: none; }
 .pyramid .card { --w: var(--cw); }
 .slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
-.slot.is-covered { filter: brightness(.72) saturate(.65); }
+.slot.is-covered { filter: brightness(.85) saturate(.8); }
 .slot__quote { position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 4px); display: inline-flex; align-items: center; gap: 3px; margin-bottom: 4px; padding: 2px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 10px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}, transform ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 2; }
 .slot__quote .icon { width: 14px; height: 14px; }
 button.slot:hover .slot__quote, button.slot:focus-visible .slot__quote { opacity: 1; transform: translate(-50%, 0); }

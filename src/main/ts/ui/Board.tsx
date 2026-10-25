@@ -13,6 +13,7 @@ import { Burns } from "./Burns.js";
 import { DiscardPile } from "./DiscardPile.js";
 import { Header } from "./Header.js";
 import { Icon, IconSprite } from "./icons.js";
+import { Outcome } from "./Outcome.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
@@ -94,6 +95,7 @@ export function Board({ session, send, layout: fixed }: Props) {
           </aside>
         )}
         <div className="stage">
+          <Outcome session={session} view={view} seats={seats} />
           <TrackStrip view={view} catalog={catalog} seats={seats} />
           {showing("structure") && (
             <main className="structure">
