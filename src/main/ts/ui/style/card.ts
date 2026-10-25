@@ -19,6 +19,9 @@ export const CARD = `
 .card--small { --w: 38px; } .card--large { --w: 120px; }
 .card--wonder { --c: var(--wonder); aspect-ratio: 4 / 3; --w: 120px; --u: calc(var(--w) * .66); }
 .card--wonder.card--small { --w: 60px; } .card--wonder.card--large { --w: 180px; }
+.token { width: 56px; aspect-ratio: 1; flex: none; }
+.token--small { width: 34px; } .token--large { width: 96px; }
+.token .icon { width: 100%; height: 100%; filter: drop-shadow(0 1px 2px #0006); }
 .card--token { --c: var(--token); aspect-ratio: 1; --w: 64px; }
 .card--token.card--small { --w: 34px; } .card--token.card--large { --w: 96px; }
 .color-brown { --c: var(--c-brown); } .color-grey { --c: var(--c-grey); }

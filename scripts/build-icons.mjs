@@ -28,7 +28,7 @@ const icons = [
   ...source.matchAll(/<symbol id="([^"]+)" viewBox="([^"]+)"[^>]*>(.*?)<\/symbol>/gs),
 ].map(([, id, viewBox, body]) => {
   const name = id.toLowerCase();
-  return [RENAME[name] ?? name, viewBox, clean(body)];
+  return [RENAME[name] ?? name, viewBox, `<g fill="none">${clean(body)}</g>`];
 });
 icons.sort(([a], [b]) => a.localeCompare(b));
 

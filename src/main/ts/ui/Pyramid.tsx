@@ -5,7 +5,8 @@ import {
   CARD_H,
   CARD_W,
   fit,
-  HALF_CARD,
+  COL_STEP,
+  widthOf,
   pyramidOf,
   ROW_STEP,
   type Extent,
@@ -41,7 +42,7 @@ export function Pyramid({ view, catalog, offers, selected, onSelect }: Props) {
       <div
         className="pyramid"
         style={{
-          width: pyramid.cols * HALF_CARD * scale,
+          width: widthOf(pyramid.cols) * scale,
           height: ((pyramid.rows - 1) * ROW_STEP + CARD_H) * scale,
           ["--cw" as string]: `${String(CARD_W * scale)}px`,
         }}
@@ -84,7 +85,7 @@ interface SlotProps {
 }
 
 function Slot({ slot, scale, catalog, state, onSelect }: SlotProps) {
-  const style = { left: slot.x * HALF_CARD * scale, top: slot.row * ROW_STEP * scale };
+  const style = { left: slot.x * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
   const entry = slot.component === null ? undefined : catalog.get(slot.component);
   const face =
     entry === undefined ? (

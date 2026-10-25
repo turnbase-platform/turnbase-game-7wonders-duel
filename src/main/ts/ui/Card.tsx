@@ -51,8 +51,20 @@ interface CardProps {
   owner?: "me" | "opp";
 }
 
+/** A progress token is round and its icon is the whole token: nothing is drawn around it. */
+function ProgressToken({ entry, size }: { entry: CatalogEntry; size: CardSize }) {
+  return (
+    <div className={`token token--${size}`} title={entry.name} data-component={entry.id}>
+      <Icon id={entry.id} />
+    </div>
+  );
+}
+
 /** A building, Wonder or token, drawn from its catalog entry alone. */
 export function Card({ entry, size, built = false, owner }: CardProps) {
+  if (entry.type === "TOKEN" && entry.tags.includes("progress")) {
+    return <ProgressToken entry={entry} size={size} />;
+  }
   const colour = entry.tags.find((t) => t.startsWith("color:"))?.slice("color:".length);
   const classes = ["card", `card--${size}`];
   if (entry.type === "WONDER") {

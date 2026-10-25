@@ -20,7 +20,10 @@ describe("present", () => {
   });
 
   it("shows shields, points and coins with their amounts", () => {
-    expect(present(badge("shields", 2))).toMatchObject([{ icon: "shield", text: "2" }]);
+    expect(present(badge("shields", 2))).toMatchObject([
+      { icon: "shield", text: null },
+      { icon: "shield", text: null },
+    ]);
     expect(present(badge("points", 3))).toMatchObject([{ icon: "vp", text: "3" }]);
     expect(present(badge("coins", 4))).toMatchObject([{ icon: "coin", text: "4" }]);
     expect(present(badge("loseCoins", 3))).toMatchObject([{ icon: "coin", text: "−3" }]);

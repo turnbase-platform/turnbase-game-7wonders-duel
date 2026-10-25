@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { CARD_H, fit, HALF_CARD, pyramidOf, ROW_STEP } from "../../main/ts/core/pyramid.js";
+import { CARD_H, fit, pyramidOf, ROW_STEP, widthOf } from "../../main/ts/core/pyramid.js";
 import type { DuelView, ServerMessage } from "../../main/ts/core/wire.js";
 
 function viewOf(name: string): DuelView {
@@ -66,7 +66,7 @@ describe("fit", () => {
   const roomy = 100000;
 
   it("shrinks a pyramid that is wider than its container", () => {
-    expect(fit({ width: 5 * HALF_CARD, height: roomy }, extent)).toBeCloseTo(0.5);
+    expect(fit({ width: widthOf(extent.cols) / 2, height: roomy }, extent)).toBeCloseTo(0.5);
   });
 
   it("shrinks a pyramid that is taller than its container", () => {

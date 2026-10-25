@@ -37,7 +37,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .stacks, .tokens { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: flex-start; }
 .stack { display: flex; flex-direction: column; width: 56px; }
 .stack .card { --w: 56px; }
-.stack .peekable + .peekable { margin-top: -52px; }
+.stack .peekable + .peekable { margin-top: -60px; }
 .wonders { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .wonders .peekable { display: flex; justify-content: center; }
 .city .card--wonder.card--standard { --w: 112px; }

@@ -5,6 +5,10 @@ import type { ComponentId, DuelView } from "./wire.js";
 export const HALF_CARD = 37.5;
 export const CARD_W = 75;
 export const CARD_H = 100;
+/** The air between two neighbours in a row, in px at scale 1. */
+export const GAP = 4;
+/** What one half-card of `x` is worth in px: half a card and half a gap. */
+export const COL_STEP = HALF_CARD + GAP / 2;
 /** Rows overlap by about 30% of a card's height (design §7). */
 export const ROW_STEP = 70;
 
@@ -60,13 +64,18 @@ export function pyramidOf(view: DuelView, floor: Extent = { rows: 0, cols: 0 }):
   return { slots, rows: Math.max(rows, floor.rows), cols: Math.max(cols, floor.cols) };
 }
 
+/** The width in px at scale 1 of a pyramid `cols` half-cards across. */
+export function widthOf(cols: number): number {
+  return (cols - 2) * COL_STEP + CARD_W;
+}
+
 const MIN_SCALE = 0.3;
 const MAX_SCALE = 1.5;
 
 /** The factor that makes a pyramid of this extent fit the box, in both directions. */
 export function fit(box: Size, { rows, cols }: Extent): number {
   if (rows === 0 || cols === 0) return 1;
-  const byWidth = box.width / (cols * HALF_CARD);
+  const byWidth = box.width / widthOf(cols);
   const byHeight = box.height / ((rows - 1) * ROW_STEP + CARD_H);
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, Math.min(byWidth, byHeight)));
 }

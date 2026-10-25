@@ -71,10 +71,12 @@ describe("Card", () => {
     expect(built).not.toContain("is-unbuilt");
   });
 
-  it("draws a progress token as a token with its own picture", () => {
+  it("draws a progress token as its round icon alone, named by its title", () => {
     const out = html(<Card entry={catalogEntry("agriculture")} size="standard" />);
-    expect(out).toContain("card--token");
+    expect(out).toContain('class="token token--standard"');
     expect(out).toContain("icon-agriculture");
+    expect(out).toContain('title="Agriculture"');
+    expect(out).not.toContain("card__name");
   });
 
   it("hides the name bar on a small card but keeps it as the title", () => {
