@@ -1,0 +1,57 @@
+<meta charset="utf-8">
+<style>
+.t{--surf:#f6f0e2;--ink:#3b3226;--me:#1f9aa8;--opp:#9a5b2a;--stone:#bdb29a;--red:#C73030;font-family:Georgia,serif;color:var(--ink)}
+.frame{background:var(--surf);border-radius:6px;padding:14px 14px 10px;box-shadow:0 2px 6px #0003;border-top:4px solid #5b4a24;max-width:680px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:3px;text-align:center}
+.s{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:11px;color:#fff;text-shadow:0 1px 1px #0006;border:1px solid #0003;
+   background-image:linear-gradient(to right,#a8191a 0%,#c8503f 20%,#f4e8da 50%,var(--m) 80%,var(--e) 100%);
+   background-size:1900% 100%;background-position:calc(var(--i)/18*100%) 0}
+.s.near{color:var(--ink);text-shadow:none}
+.s.cap{font-size:18px;background:var(--c);background-image:none}
+.s.cap.me{--c:var(--me)}.s.cap.opp{--c:var(--opp)}
+.s .pw{width:70%;aspect-ratio:1;border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 2px #3b3226,0 2px 4px #0008}
+.z{height:26px;line-height:24px;border-radius:3px;font-size:9px;color:#8f846b;border:1px solid var(--stone);text-align:center;margin-top:3px}
+.z.cur{color:var(--ink);font-weight:bold;background:#e4dcc6;border:2px solid var(--ink);line-height:22px}
+.z.loot{color:#fff;border:1px solid #0004;font-size:10px}.z.l2{background:#b0793a}.z.l5{background:#8c4a2a}
+.z.blank{border-color:transparent}
+.z.end{font-size:10px;font-weight:bold;border-color:transparent}
+.z.end.me{color:var(--me)}.z.end.opp{color:var(--opp)}
+.opt{display:flex;gap:10px;align-items:baseline}.opt b{font-size:14px}
+h3{margin:20px 0 6px}
+</style>
+
+<h2>Military track v5 — what colour is the enemy end?</h2>
+<p class="subtitle">Red stays at your end only. Capitals are back to the owner colours (cyan / bronze). The centre is lighter. Three candidates for the enemy end; the pawn is at +2 in all three.</p>
+
+<div class="t">
+<h3>A — Gold: imminent victory, laurel and treasure</h3>
+<div class="frame" style="--m:#e8c97a;--e:#d49a1c"><div class="trk">
+  <span class="s cap me">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2">7</span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s near" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11"><i class="pw"></i></span><span class="s near" style="--i:12">3</span><span class="s near" style="--i:13">4</span><span class="s near" style="--i:14">5</span><span class="s near" style="--i:15">6</span><span class="s near" style="--i:16">7</span><span class="s near" style="--i:17">8</span><span class="s cap opp">⛨</span>
+  <span class="z end me">defeat</span><span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z cur" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span><span class="z end opp">win</span>
+</div></div>
+
+<h3>B — Green: advance and growth, the "good" end</h3>
+<div class="frame" style="--m:#b9d3a0;--e:#4f9a4a"><div class="trk">
+  <span class="s cap me">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2">7</span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s near" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11"><i class="pw"></i></span><span class="s near" style="--i:12">3</span><span class="s near" style="--i:13">4</span><span class="s near" style="--i:14">5</span><span class="s" style="--i:15">6</span><span class="s" style="--i:16">7</span><span class="s" style="--i:17">8</span><span class="s cap opp">⛨</span>
+  <span class="z end me">defeat</span><span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z cur" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span><span class="z end opp">win</span>
+</div></div>
+
+<h3>C — Slate blue: calm and cold, the red is the only alarm</h3>
+<div class="frame" style="--m:#b7c4d6;--e:#5d7596"><div class="trk">
+  <span class="s cap me">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2">7</span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s near" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11"><i class="pw"></i></span><span class="s near" style="--i:12">3</span><span class="s near" style="--i:13">4</span><span class="s near" style="--i:14">5</span><span class="s" style="--i:15">6</span><span class="s" style="--i:16">7</span><span class="s" style="--i:17">8</span><span class="s cap opp">⛨</span>
+  <span class="z end me">defeat</span><span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z cur" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span><span class="z end opp">win</span>
+</div></div>
+<p style="font-size:11px;max-width:600px">The pawn-zone highlight is now a dark outline instead of gold, so it works on any palette. The enemy-end colour is only the gradient; the enemy's own colour (bronze) stays on their capital.</p>
+</div>

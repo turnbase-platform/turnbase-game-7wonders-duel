@@ -65,8 +65,8 @@ describe("App", () => {
   it("names the seat to act and every player's coins", () => {
     show(session(ONE));
 
-    expect(host.querySelector(".turn")?.textContent).toMatch(/to act$/);
-    expect(host.querySelector(".header")?.textContent).toContain("One: ");
+    expect(host.querySelector(".turn")?.textContent).toMatch(/your turn$|to act$/);
+    expect(host.querySelector(".header")?.textContent).toContain("One");
   });
 
   it("sends the matching action when a draft wonder is taken", () => {

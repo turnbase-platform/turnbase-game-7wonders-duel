@@ -1,0 +1,102 @@
+<meta charset="utf-8">
+<style>
+.t{--ground:#ece4d2;--surf:#f6f0e2;--ink:#3b3226;--bronze:#a8742a;--teal:#2f7f86;--stone:#bdb29a;font-family:Georgia,serif;color:var(--ink)}
+.box{background:var(--surf);border-radius:6px;padding:10px;margin-bottom:14px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:2px;font-size:10px;text-align:center}
+.trk .tk{height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;border:1px solid #0004;margin:0 4px}
+.tk.l2{background:#b0793a}.tk.l5{background:#8c4a2a}.tk.used{background:none;border:1px dashed var(--stone);color:var(--stone)}
+.trk .s{height:24px;line-height:24px;background:#e0d6bd;border-radius:3px;border:1px solid #0002}
+.trk .s.c{background:#d3c39b;font-weight:bold}.trk .s.cap{background:#7a5a2a;color:#fff}
+.trk .s.cap.a{background:var(--teal)}.trk .s.cap.b{background:var(--bronze)}
+.trk .s.pawn{background:var(--ink);color:#fff;font-size:13px;box-shadow:0 0 0 2px var(--bronze)}
+.trk .z{height:18px;line-height:18px;background:#cfc3a6;border-radius:0 0 4px 4px;font-size:9px;opacity:.9}
+.ends{display:flex;justify-content:space-between;font-size:11px;font-weight:bold;margin-bottom:4px}
+.ends .a{color:var(--teal)}.ends .b{color:var(--bronze)}
+.city{display:flex;gap:6px;align-items:flex-start}
+.stack{position:relative;width:38px;flex:none}
+.sc{position:absolute;left:0;width:38px;height:56px;border-radius:3px;border:1px solid #0006;top:calc(var(--i)*15px);box-shadow:0 1px 2px #0004;overflow:hidden;color:#fff;font-size:9px}
+.sc::before{content:attr(data-e);display:block;height:14px;line-height:14px;background:#0003;text-align:center;letter-spacing:1px}
+.b{background:#8B6914}.g{background:#888}.u{background:#4A90D9}.n{background:#5AAD5A}.y{background:#DAA520}.r{background:#C73030}.p{background:#7B4B94}
+.wonders{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.wond{width:56px;height:36px;border-radius:3px;background:#d8c9a0;border:1px solid #0004;font-size:8px;text-align:center;line-height:36px}
+.wond.built{background:#c99a3b}
+.ptabs{display:flex;border-bottom:2px solid var(--stone);margin-bottom:8px}
+.ptabs span{flex:1;text-align:center;padding:6px 0;font-size:11px}.ptabs .on{font-weight:bold;border-bottom:3px solid var(--bronze);margin-bottom:-2px}
+.meta{font-size:11px;margin-bottom:8px}
+.tok{display:inline-block;width:18px;height:18px;border-radius:50%;background:#6ba368;border:1px solid #0004;vertical-align:middle}
+.phone{width:300px;border:6px solid #333;border-radius:22px;background:var(--ground);overflow:hidden}
+.phone .box{border-radius:0;margin:0}
+</style>
+
+<h2>Military track and city stacks</h2>
+<p class="subtitle">Track: one slot per position (−9…+9), zone bands with their end-of-game VP below, loot tokens above the zones they sit on. City: no colour labels; same-colour cards stack so each card's effects banner stays visible.</p>
+
+<div class="t">
+<h3>Military track</h3>
+<div class="box">
+  <div class="ends"><span class="a">◀ Opponent's capital</span><span class="b">Your capital ▶</span></div>
+  <div class="trk">
+    <!-- tokens row: loot on each side -->
+    <span style="grid-column:2/5"></span>
+    <span class="tk l5" style="grid-column:2/5">−5 🪙</span>
+    <span class="tk l2" style="grid-column:5/8">−2 🪙</span>
+    <span style="grid-column:8/13"></span>
+    <span class="tk used" style="grid-column:13/16">used</span>
+    <span class="tk l5" style="grid-column:16/19">−5 🪙</span>
+    <!-- slots -->
+    <span class="s cap a">⛨</span><span class="s">8</span><span class="s">7</span><span class="s">6</span><span class="s">5</span><span class="s">4</span><span class="s">3</span><span class="s">2</span><span class="s">1</span>
+    <span class="s c">0</span>
+    <span class="s">1</span><span class="s pawn">▲</span><span class="s">3</span><span class="s">4</span><span class="s">5</span><span class="s">6</span><span class="s">7</span><span class="s">8</span><span class="s cap b">⛨</span>
+    <!-- zone bands -->
+    <span class="z" style="grid-column:1/2">win</span>
+    <span class="z" style="grid-column:2/5">10 VP</span><span class="z" style="grid-column:5/8">5 VP</span><span class="z" style="grid-column:8/10">2 VP</span>
+    <span class="z" style="grid-column:10/11">0</span>
+    <span class="z" style="grid-column:11/13">2 VP</span><span class="z" style="grid-column:13/16">5 VP</span><span class="z" style="grid-column:16/19">10 VP</span><span class="z" style="grid-column:19/20">win</span>
+  </div>
+  <p style="font-size:10px;margin:8px 0 0">The pawn is on the "+2" slot, pushed toward the left capital. A loot token is lost by the player on whose side it lies when the pawn enters its zone (used tokens stay as a dashed ghost). The band under the slots is the end-of-game VP for the player the pawn favours.</p>
+</div>
+
+<div class="split">
+<div>
+<h3>City panel (wide, right panel)</h3>
+<div class="box" style="width:300px">
+  <div class="ptabs"><span>Opponent</span><span class="on">You</span></div>
+  <div class="meta">🪙 7 &nbsp;·&nbsp; makes 🪵1 🪨1 🧱1 &nbsp;·&nbsp; <i class="tok"></i></div>
+  <div class="city">
+    <div class="stack" style="height:116px">
+      <i class="sc b" data-e="🪵" style="--i:0"></i><i class="sc b" data-e="🪵🪵" style="--i:1"></i><i class="sc b" data-e="🧱" style="--i:2"></i>
+    </div>
+    <div class="stack" style="height:71px">
+      <i class="sc g" data-e="📜" style="--i:0"></i><i class="sc g" data-e="🔷" style="--i:1"></i>
+    </div>
+    <div class="stack" style="height:101px">
+      <i class="sc u" data-e="3 VP" style="--i:0"></i><i class="sc u" data-e="2 VP" style="--i:1"></i><i class="sc u" data-e="4 VP" style="--i:2"></i>
+    </div>
+    <div class="stack" style="height:71px">
+      <i class="sc n" data-e="⚗ 1VP" style="--i:0"></i><i class="sc n" data-e="📐" style="--i:1"></i>
+    </div>
+    <div class="stack" style="height:56px"><i class="sc y" data-e="🪙 +3" style="--i:0"></i></div>
+    <div class="stack" style="height:71px"><i class="sc r" data-e="⚔ 1" style="--i:0"></i><i class="sc r" data-e="⚔ 2" style="--i:1"></i></div>
+    <div class="stack" style="height:0"></div>
+  </div>
+  <div class="wonders"><i class="wond built">Pyramids</i><i class="wond">Sphinx</i><i class="wond">Gardens</i><i class="wond">Temple</i></div>
+</div>
+</div>
+<div>
+<h3>Phone — Cities tab</h3>
+<div class="phone">
+  <div class="box"><div class="ptabs"><span>Opponent</span><span class="on">You</span></div>
+  <div class="meta">🪙 7 · 🪵1 🪨1 🧱1 · <i class="tok"></i></div>
+  <div class="city" style="gap:5px">
+    <div class="stack" style="height:116px;width:34px"><i class="sc b" data-e="🪵" style="--i:0;width:34px"></i><i class="sc b" data-e="🪵🪵" style="--i:1;width:34px"></i><i class="sc b" data-e="🧱" style="--i:2;width:34px"></i></div>
+    <div class="stack" style="height:71px;width:34px"><i class="sc g" data-e="📜" style="--i:0;width:34px"></i><i class="sc g" data-e="🔷" style="--i:1;width:34px"></i></div>
+    <div class="stack" style="height:101px;width:34px"><i class="sc u" data-e="3 VP" style="--i:0;width:34px"></i><i class="sc u" data-e="2 VP" style="--i:1;width:34px"></i><i class="sc u" data-e="4 VP" style="--i:2;width:34px"></i></div>
+    <div class="stack" style="height:71px;width:34px"><i class="sc n" data-e="⚗" style="--i:0;width:34px"></i><i class="sc n" data-e="📐" style="--i:1;width:34px"></i></div>
+    <div class="stack" style="height:56px;width:34px"><i class="sc y" data-e="🪙3" style="--i:0;width:34px"></i></div>
+    <div class="stack" style="height:71px;width:34px"><i class="sc r" data-e="⚔1" style="--i:0;width:34px"></i><i class="sc r" data-e="⚔2" style="--i:1;width:34px"></i></div>
+  </div>
+  <div class="wonders"><i class="wond built">Pyramids</i><i class="wond">Sphinx</i><i class="wond">Gardens</i><i class="wond">Temple</i></div></div>
+</div>
+</div>
+</div>
+</div>

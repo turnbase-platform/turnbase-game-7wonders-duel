@@ -75,7 +75,7 @@ describe("fit", () => {
   });
 
   it("does not blow a pyramid up past a card's natural size by much", () => {
-    expect(fit({ width: roomy, height: roomy }, extent)).toBeLessThanOrEqual(1.25);
+    expect(fit({ width: roomy, height: roomy }, extent)).toBeLessThanOrEqual(1);
   });
 
   it("never reaches zero", () => {

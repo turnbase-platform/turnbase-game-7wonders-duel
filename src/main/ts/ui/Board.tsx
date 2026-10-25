@@ -73,7 +73,7 @@ export function Board({ session, send, layout: fixed }: Props) {
     <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
       <IconSprite />
       <Header session={session} seats={seats} />
-      <TrackStrip view={view} />
+      <TrackStrip view={view} catalog={catalog} seats={seats} />
       {session.rejection !== null && <div className="banner">{session.rejection}</div>}
       <div className="main">
         {showing("structure") && (

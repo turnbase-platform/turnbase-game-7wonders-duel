@@ -1,0 +1,64 @@
+<meta charset="utf-8">
+<style>
+.t{--ground:#ece4d2;--surf:#f6f0e2;--ink:#3b3226;--me:#1f9aa8;--opp:#9a5b2a;--stone:#bdb29a;--gold:#c99a3b;--red:#C73030;font-family:Georgia,serif;color:var(--ink)}
+.frame{background:var(--surf);border-radius:6px;padding:14px 14px 10px;box-shadow:0 2px 6px #0003;border-top:4px solid #5b4a24;max-width:680px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:3px;text-align:center}
+.s{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:11px;color:#fff;text-shadow:0 1px 1px #0006;border:1px solid #0003;
+   background-image:linear-gradient(to right,#a8191a 0%,#c8503f 22%,#e3b9a6 50%,#c8503f 78%,#a8191a 100%);
+   background-size:1900% 100%;background-position:calc(var(--i)/18*100%) 0}
+.s.near{color:var(--ink);text-shadow:none}
+.s.cap{font-size:18px;border-bottom:4px solid var(--c)}
+.s.cap.me{--c:var(--me)}.s.cap.opp{--c:var(--opp)}
+.s .pw{width:70%;aspect-ratio:1;border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 2px #3b3226,0 2px 4px #0008}
+.z{height:26px;line-height:24px;border-radius:3px;font-size:9px;color:#8f846b;border:1px solid var(--stone);text-align:center;margin-top:3px}
+.z.cur{color:var(--ink);font-weight:bold;background:#e9d9a8;border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.z.loot{color:#fff;border:1px solid #0004;font-size:10px}.z.l2{background:#b0793a}.z.l5{background:#8c4a2a}
+.z.gone{border:1px dashed #8f846b}
+.z.gone.cur{border:1px dashed var(--gold)}
+.z.blank{border-color:transparent}
+.z.end{font-size:10px;font-weight:bold;border-color:transparent}
+.z.end.me{color:var(--me)}.z.end.opp{color:var(--opp)}
+h3{margin-top:18px}
+</style>
+
+<h2>Military track v4 — the centrepiece</h2>
+<p class="subtitle">Square tiles, one red gradient spread across the whole track (strong at the capitals, muted at the centre), red pawn, bordered VP fields.</p>
+
+<div class="t">
+<h3>Pawn at +2</h3>
+<div class="frame"><div class="trk">
+  <span class="s cap me" style="--i:0">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2">7</span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11"><i class="pw"></i></span><span class="s near" style="--i:12">3</span><span class="s" style="--i:13">4</span><span class="s" style="--i:14">5</span><span class="s" style="--i:15">6</span><span class="s" style="--i:16">7</span><span class="s" style="--i:17">8</span><span class="s cap opp" style="--i:18">⛨</span>
+  <span class="z end me">defeat</span>
+  <span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z cur" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span>
+  <span class="z end opp">win</span>
+</div></div>
+
+<h3>Pawn at +4, the opponent's loot-2 already applied</h3>
+<div class="frame"><div class="trk">
+  <span class="s cap me" style="--i:0">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2">7</span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11">2</span><span class="s near" style="--i:12">3</span><span class="s" style="--i:13"><i class="pw"></i></span><span class="s" style="--i:14">5</span><span class="s" style="--i:15">6</span><span class="s" style="--i:16">7</span><span class="s" style="--i:17">8</span><span class="s cap opp" style="--i:18">⛨</span>
+  <span class="z end me">defeat</span>
+  <span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z" style="grid-column:11/13">2 VP</span>
+  <span class="z gone cur" style="grid-column:13/16">5 VP</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span>
+  <span class="z end opp">win</span>
+</div></div>
+
+<h3>Close to your capital (pawn at −7)</h3>
+<div class="frame"><div class="trk">
+  <span class="s cap me" style="--i:0">⛨</span><span class="s" style="--i:1">8</span><span class="s" style="--i:2"><i class="pw"></i></span><span class="s" style="--i:3">6</span><span class="s" style="--i:4">5</span><span class="s" style="--i:5">4</span><span class="s near" style="--i:6">3</span><span class="s near" style="--i:7">2</span><span class="s near" style="--i:8">1</span>
+  <span class="s near" style="--i:9">0</span>
+  <span class="s near" style="--i:10">1</span><span class="s near" style="--i:11">2</span><span class="s near" style="--i:12">3</span><span class="s" style="--i:13">4</span><span class="s" style="--i:14">5</span><span class="s" style="--i:15">6</span><span class="s" style="--i:16">7</span><span class="s" style="--i:17">8</span><span class="s cap opp" style="--i:18">⛨</span>
+  <span class="z end me">defeat</span>
+  <span class="z loot l5 cur" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span>
+  <span class="z end opp">win</span>
+</div></div>
+<p style="font-size:11px;max-width:600px">Gradient: one background spread over all 19 tiles (CSS: tile <i>i</i> shows slice <i>i</i> of a 19× wide gradient), so only the tiles carry it. The owner's colour stays as a bar under each capital. The pawn is the military red with a white ring so it reads on the red.</p>
+</div>

@@ -1,0 +1,37 @@
+// The military track and the tokens beside it, from the agreed `track-v6` mockup: tiles shaded
+// from defeat red through limestone to victory gold, capitals in the seat colours, a pawn, and the
+// shields-to-go badges.
+export const TRACK = `
+.strip { display: flex; align-items: center; gap: 12px; padding: 10px 10px 8px; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid #5b4a24; border-radius: 6px; box-shadow: 0 2px 6px #0003; }
+.track { flex: 1; min-width: 0; }
+.trk { display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); gap: 3px; text-align: center; max-width: 680px; margin: 0 auto; }
+.tile { --i: 0; position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 9px; color: #fff; text-shadow: 0 1px 1px #0006; border: 1px solid #0003;
+  background-image: linear-gradient(to right, #a8191a 0%, #c8503f 20%, #f4e8da 50%, #e8c97a 80%, #d49a1c 100%);
+  background-size: 1900% 100%; background-position: calc(var(--i) / 18 * 100%) 0; }
+.tile.near { color: var(--ink); text-shadow: none; }
+.tile small { opacity: .75; }
+.tile.cap { font-size: 18px; background: var(--c); background-image: none; }
+.tile.cap.me { --c: var(--me); } .tile.cap.opp { --c: var(--opp); }
+.pawn { width: 70%; aspect-ratio: 1; border-radius: 50%; background: var(--c-red); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--ink), 0 2px 4px #0008; box-sizing: border-box; }
+.badge { position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%); z-index: 2; padding: 2px 4px; border-radius: 8px; background: var(--ink); color: var(--surface); text-shadow: none; font: 700 9px/1 var(--serif); font-style: normal; white-space: nowrap; }
+.field { margin-top: 12px; height: 26px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 3px; border: 1px solid var(--line); border-radius: 3px; font-size: 10px; color: var(--muted); }
+.field.is-current { color: var(--ink); font-weight: 700; background: color-mix(in srgb, var(--line) 60%, var(--surface)); border: 2px solid var(--ink); }
+.field.loot { color: #fff; border-color: #0004; }
+.field.loot.zone-2 { background: #b0793a; } .field.loot.zone-3 { background: #8c4a2a; }
+.field.loot.is-taken { background: none; color: var(--muted); border: 1px dashed var(--muted); }
+.field.defeat, .field.win { border-color: transparent; font-weight: 700; }
+.field.defeat { color: var(--me); } .field.win { color: var(--opp); }
+.strip__tokens { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none; }
+.strip__tokens .row { display: flex; gap: 4px; }
+.strip__tokens small { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.tok { width: 22px; height: 22px; border-radius: 50%; background: var(--token); border: 1px solid #0004; }
+.is-compact .strip { padding: 4px 6px; gap: 6px; }
+.is-compact .tile small, .is-compact .tile.cap svg { display: none; }
+.is-compact .badge { font-size: 7px; padding: 1px 3px; bottom: -5px; }
+.is-compact .field { margin-top: 8px; height: 16px; font-size: 8px; }
+.layout-portrait .strip { flex-direction: column; align-items: stretch; }
+.layout-portrait .track { flex: none; }
+.layout-portrait .strip__tokens { flex-direction: row; justify-content: center; }
+.is-compact .field.defeat, .is-compact .field.win { font-size: 6px; letter-spacing: -.02em; }
+.is-compact .tok { width: 14px; height: 14px; }
+`;

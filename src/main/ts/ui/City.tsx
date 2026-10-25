@@ -72,7 +72,6 @@ export function City({ session, seats, side }: { session: Session; seats: Seats;
   const peeked = peek === null ? undefined : catalog.get(peek);
   return (
     <section className={`city owner-${side}`}>
-      <h3>{sideLabel(session, seats, side)}</h3>
       <p className="city__line">
         <span className="purse" title={`${String(city.coins)} coins`}>
           <Icon id="coin" /> <b>{city.coins}</b>

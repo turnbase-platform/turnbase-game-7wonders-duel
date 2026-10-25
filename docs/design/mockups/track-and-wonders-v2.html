@@ -1,0 +1,96 @@
+<meta charset="utf-8">
+<style>
+.t{--ground:#ece4d2;--surf:#f6f0e2;--ink:#3b3226;--me:#1f9aa8;--opp:#9a5b2a;--stone:#bdb29a;--gold:#c99a3b;font-family:Georgia,serif;color:var(--ink)}
+.box{background:var(--surf);border-radius:6px;padding:10px;margin-bottom:14px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:2px;font-size:10px;text-align:center}
+.s{height:24px;line-height:24px;background:#e0d6bd;border-radius:3px;border:1px solid #0002}
+.s.c{background:#d3c39b;font-weight:bold}
+.s.cap{color:#fff;font-size:13px}.s.cap.me{background:var(--me)}.s.cap.opp{background:var(--opp)}
+.s.pawn{background:var(--ink);color:#fff;font-size:13px;box-shadow:0 0 0 2px var(--gold)}
+.z{height:26px;line-height:26px;border-radius:3px;font-size:10px;background:#cfc3a6;border:1px solid #0002}
+.z.loot{color:#fff;border:1px solid #0004}.z.l2{background:#b0793a}.z.l5{background:#8c4a2a}
+.z.gone{background:none;border:1px dashed var(--stone);color:#7d725c}
+.z.end{background:none;font-size:10px;font-weight:bold;border:0}
+.z.end.me{color:var(--me)}.z.end.opp{color:var(--opp)}
+.city{display:flex;gap:6px;align-items:flex-start}
+.stack{position:relative;width:38px;flex:none}
+.sc{position:absolute;left:0;width:38px;height:56px;border-radius:3px;border:1px solid #0006;top:calc(var(--i)*15px);box-shadow:0 1px 2px #0004;overflow:hidden;color:#fff;font-size:9px}
+.sc::before{content:attr(data-e);display:block;height:14px;line-height:14px;background:#0003;text-align:center}
+.b{background:#8B6914}.g{background:#888}.u{background:#4A90D9}.n{background:#5AAD5A}.y{background:#DAA520}.r{background:#C73030}
+.ptabs{display:flex;border-bottom:2px solid var(--stone);margin-bottom:8px}
+.ptabs span{flex:1;text-align:center;padding:6px 0;font-size:11px}.ptabs .on{font-weight:bold;border-bottom:3px solid var(--me);margin-bottom:-2px}
+.ptabs .opp.on{border-color:var(--opp)}
+/* wonders */
+.wg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.w{position:relative;aspect-ratio:3/2;border-radius:5px;padding:3px;background:linear-gradient(135deg,#e7d7a8,#b99647);box-shadow:0 2px 4px #0005;color:var(--ink)}
+.w .in{position:absolute;inset:3px;border:1px solid #6b4f12;border-radius:3px;background:linear-gradient(#efe3bf,#d9c68f);display:flex;flex-direction:column;overflow:hidden}
+.w .rib{background:linear-gradient(#5b4a24,#3f3318);color:#f3e2a8;text-align:center;font-size:10px;letter-spacing:.12em;font-variant:small-caps;padding:2px 0;border-bottom:1px solid #c99a3b}
+.w .fx{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;font-size:15px}
+.w .fx b{font-size:11px;background:#0002;border-radius:3px;padding:1px 4px}
+.w .cost{background:#0003;color:#fff;font-size:9px;padding:1px 4px;display:flex;gap:4px}
+.w .vp{position:absolute;right:-5px;top:-7px;width:24px;height:24px;border-radius:50%;background:#2d6a8f;color:#fff;font-size:10px;line-height:24px;text-align:center;border:2px solid #f3e2a8}
+.w.todo{filter:saturate(.55) brightness(.92)}
+.w.built{background:linear-gradient(135deg,#ffe9a0,#c99a3b);box-shadow:0 0 0 2px var(--me),0 3px 6px #0006}
+.w.built .under{position:absolute;left:8px;right:8px;bottom:-5px;height:8px;border-radius:0 0 3px 3px;background:#8B6914;z-index:-1}
+.w.big{aspect-ratio:3/2;width:300px}
+.w.big .rib{font-size:15px;padding:5px 0}.w.big .fx{font-size:30px;gap:12px}.w.big .fx b{font-size:16px}.w.big .cost{font-size:13px;padding:4px 8px}
+.phone{width:300px;border:6px solid #333;border-radius:22px;background:var(--ground);overflow:hidden}
+.phone .box{border-radius:0;margin:0}
+</style>
+
+<h2>Track v3 and grand wonders</h2>
+<p class="subtitle">You are always cyan on the left; the opponent is always bronze on the right. One row of zone fields: the loot token sits on top of the VP value and reveals it once taken.</p>
+
+<div class="t">
+<h3>Military — pawn 2 toward the opponent</h3>
+<div class="box"><div class="trk">
+  <span class="s cap me">⛨</span><span class="s">8</span><span class="s">7</span><span class="s">6</span><span class="s">5</span><span class="s">4</span><span class="s">3</span><span class="s">2</span><span class="s">1</span>
+  <span class="s c">0</span>
+  <span class="s">1</span><span class="s pawn">▲</span><span class="s">3</span><span class="s">4</span><span class="s">5</span><span class="s">6</span><span class="s">7</span><span class="s">8</span><span class="s cap opp">⛨</span>
+  <span class="z end me">defeat</span>
+  <span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z">0</span><span class="z" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span>
+  <span class="z end opp">win</span>
+</div></div>
+
+<h3>Same track after the pawn passed +3 and the opponent's loot-2 was applied</h3>
+<div class="box"><div class="trk">
+  <span class="s cap me">⛨</span><span class="s">8</span><span class="s">7</span><span class="s">6</span><span class="s">5</span><span class="s">4</span><span class="s">3</span><span class="s">2</span><span class="s">1</span>
+  <span class="s c">0</span>
+  <span class="s">1</span><span class="s">2</span><span class="s">3</span><span class="s pawn">▲</span><span class="s">5</span><span class="s">6</span><span class="s">7</span><span class="s">8</span><span class="s cap opp">⛨</span>
+  <span class="z end me">defeat</span>
+  <span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z">0</span><span class="z" style="grid-column:11/13">2 VP</span>
+  <span class="z gone" style="grid-column:13/16">5 VP</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span>
+  <span class="z end opp">win</span>
+</div></div>
+
+<div class="split">
+<div>
+<h3>Wonders in the city panel</h3>
+<div class="box" style="width:330px">
+  <div class="ptabs"><span class="opp">Opponent</span><span class="on">You</span></div>
+  <div class="city">
+    <div class="stack" style="height:101px"><i class="sc b" data-e="🪵" style="--i:0"></i><i class="sc b" data-e="🪵🪵" style="--i:1"></i><i class="sc b" data-e="🧱" style="--i:2"></i></div>
+    <div class="stack" style="height:71px"><i class="sc g" data-e="📜" style="--i:0"></i><i class="sc g" data-e="🔷" style="--i:1"></i></div>
+    <div class="stack" style="height:56px"><i class="sc u" data-e="3 VP" style="--i:0"></i></div>
+    <div class="stack" style="height:71px"><i class="sc n" data-e="⚗" style="--i:0"></i><i class="sc n" data-e="📐" style="--i:1"></i></div>
+    <div class="stack" style="height:56px"><i class="sc y" data-e="🪙3" style="--i:0"></i></div>
+    <div class="stack" style="height:56px"><i class="sc r" data-e="⚔1" style="--i:0"></i></div>
+  </div>
+  <div class="wg">
+    <div class="w built"><i class="under"></i><b class="vp">3</b><div class="in"><div class="rib">The Pyramids</div><div class="fx">▲ <b>+9 VP</b></div><div class="cost">built</div></div></div>
+    <div class="w todo"><b class="vp">3</b><div class="in"><div class="rib">The Sphinx</div><div class="fx">⟲ <b>again</b> ⚔2</div><div class="cost">🧱×3 🔷 📜</div></div></div>
+    <div class="w todo"><div class="in"><div class="rib">Hanging Gardens</div><div class="fx">🪙6 <b>+3 VP</b> ⟲</div><div class="cost">🪵×2 🔷 📜</div></div></div>
+    <div class="w todo"><div class="in"><div class="rib">Temple of Artemis</div><div class="fx">🪙12 ⟲</div><div class="cost">🪨 🪵 🔷×2</div></div></div>
+  </div>
+</div>
+</div>
+<div>
+<h3>Wonder, large (popover / sheet)</h3>
+<div class="w big"><b class="vp" style="width:36px;height:36px;line-height:36px;font-size:15px;right:-8px;top:-10px">3</b><div class="in"><div class="rib">The Great Library</div><div class="fx">📚 <b>draw 3 tokens</b> 🪙 <b>+4 VP</b></div><div class="cost">🪵×3 🔷 📜</div></div></div>
+<p style="font-size:11px;max-width:300px;margin-top:10px">Built wonders get a gold face, the cyan outline of the owner and the card that paid for them peeking out beneath. Unbuilt ones are muted. The crest is the wonder's VP. The art band is generated from the effects, in the same way as for buildings.</p>
+</div>
+</div>
+</div>
