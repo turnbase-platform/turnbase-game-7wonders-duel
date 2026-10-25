@@ -37,14 +37,17 @@ export const CARD = `
 }
 .glyph .icon-or { margin: 0 -.4em; }
 .glyph {
+  --n: 1;
   position: relative; display: inline-flex;
   font-size: min(calc(var(--u) * .25), calc(var(--w) * .92 / (var(--span))));
 }
-.glyph.is-pile { width: 1.45em; height: 1.45em; }
-.glyph__pile { position: absolute; display: inline-flex; left: calc(var(--i) * .4em); top: calc(var(--i) * .4em); width: 1.05em; height: 1.05em; }
-.glyph.has-corner { margin: 0 calc(var(--u) * .05); }
+.glyph.is-pile { width: calc(1em + (var(--n) - 1) * .25em); height: calc(1em + (var(--n) - 1) * .25em); }
+.glyph__pile { position: absolute; display: inline-flex; left: calc(var(--i) * 1em); top: calc(var(--i) * 1em); width: 1em; height: 1em; }
+.glyph.has-corner { margin: 0 calc(var(--u) * .02) 0 calc(var(--u) * .05); }
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
+/* On a pile the corners belong to the card on top, which is the one at the front right. */
+.glyph.is-pile .glyph__corner.is-left { left: calc((var(--n) - 1) * .5em - .15em); }
 .glyph__corner b { font-size: .9em; }
 .card__banner .glyph .icon { filter: drop-shadow(0 0 .5px #ffffff80); }
 .card--standard .card__banner, .card--large .card__banner {

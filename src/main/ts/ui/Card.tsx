@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { presentAll, span, type Glyph } from "../core/badges.js";
+import { PILE_STEP, presentAll, span, type Glyph } from "../core/badges.js";
 import { inCostOrder } from "../core/cost.js";
 import { motifOf } from "../core/motif.js";
 import type { CatalogEntry } from "../core/wire.js";
@@ -13,13 +13,14 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
     <span
       className={`glyph${glyph.pile.length > 1 ? " is-pile" : ""}${tint}${glyph.corners.length > 0 ? " has-corner" : ""}`}
       title={glyph.title}
+      style={{ "--n": glyph.pile.length } as CSSProperties}
     >
       {glyph.pile.length > 1 ? (
         glyph.pile.map((colour, i) => (
           <span
             key={colour}
             className={`glyph__pile tint-${colour}`}
-            style={{ "--i": i } as CSSProperties}
+            style={{ "--i": i * PILE_STEP } as CSSProperties}
           >
             <Icon id={glyph.icon} />
           </span>

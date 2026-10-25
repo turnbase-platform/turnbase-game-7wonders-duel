@@ -74,12 +74,16 @@ function reward(
   return [...pile, ...rest.map((t) => make(target(t, per)))];
 }
 
+/** How far each card of a pile peeks out from the one behind it, in icon widths. */
+export const PILE_STEP = 0.25;
+
 /** How many icon widths a glyph takes in the banner, which the banner fits its icons to. */
 export function span(g: Glyph): number {
   if (g.icon === "or") {
     return 0.3;
   }
-  return (g.pile.length > 1 ? 1.45 : 1) + (g.corners.length > 0 ? 0.2 : 0);
+  const cards = Math.max(g.pile.length, 1);
+  return 1 + (cards - 1) * PILE_STEP + (g.corners.length > 0 ? 0.2 : 0);
 }
 
 const sameThings = (a: Badge, b: Badge): boolean => a.of.join() === b.of.join();
