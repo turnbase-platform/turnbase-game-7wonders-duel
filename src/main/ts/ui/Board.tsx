@@ -1,5 +1,4 @@
 import { useLayoutEffect, useReducer, useRef, useState, type RefObject } from "react";
-import type { Rect } from "../core/flip.js";
 import { layoutFor, type Layout, type Size } from "../core/layout.js";
 import { offers as offersOf } from "../core/moves.js";
 import { attention, selectedOf, selectionReducer } from "../core/selection.js";
@@ -7,7 +6,7 @@ import { seatsOf, type Seats } from "../core/seats.js";
 import type { Session } from "../core/session.js";
 import type { WireAction } from "../core/wire.js";
 import { BoardTokens } from "./BoardTokens.js";
-import { Actions } from "./Actions.js";
+import { Actions, type Placement } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
 import { IconSprite } from "./icons.js";
@@ -38,7 +37,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const { view, catalog } = session;
   const available = view === null ? [] : offersOf(session);
   const selected = selectedOf(selection, available);
-  const origin = useOrigin(root, selected, layout, size);
+  const placement = usePlacement(root, selected, layout, size);
   useChoreography(root, session.history.at(-1) ?? null);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
@@ -116,6 +115,21 @@ export function Board({ session, send, layout: fixed }: Props) {
                 }}
                 send={send}
               />
+              {selected !== null && session.self !== null && (
+                <Actions
+                  key={selected}
+                  view={view}
+                  catalog={catalog}
+                  self={session.self}
+                  component={selected}
+                  offers={available}
+                  placement={placement}
+                  send={send}
+                  onClose={() => {
+                    select({ type: "clear" });
+                  }}
+                />
+              )}
             </main>
           )}
         </div>
@@ -170,21 +184,6 @@ export function Board({ session, send, layout: fixed }: Props) {
           </aside>
         )}
       </div>
-      {selected !== null && session.self !== null && (
-        <Actions
-          key={selected}
-          view={view}
-          catalog={catalog}
-          self={session.self}
-          component={selected}
-          offers={available}
-          origin={origin}
-          send={send}
-          onClose={() => {
-            select({ type: "clear" });
-          }}
-        />
-      )}
       {phone && (
         <nav className="bottom-tabs" role="tablist">
           {(
@@ -213,31 +212,35 @@ export function Board({ session, send, layout: fixed }: Props) {
   );
 }
 
-/** Where the selected card sits on the board, which is where its lifted copy starts from. */
-function useOrigin(
+/** Where the selected card sits in the structure area, which its lifted copy and actions follow. */
+function usePlacement(
   root: RefObject<HTMLDivElement | null>,
   selected: string | null,
   layout: Layout,
   size: Size | null,
-): Rect | null {
-  const [origin, setOrigin] = useState<Rect | null>(null);
+): Placement | null {
+  const [placement, setPlacement] = useState<Placement | null>(null);
   useLayoutEffect(() => {
-    const board = root.current;
-    const slot = selected === null ? null : board?.querySelector(".slot.is-selected .card");
-    if (!board || !slot) {
-      setOrigin(null);
+    const area = root.current?.querySelector(".structure");
+    const slot = selected === null ? null : area?.querySelector(".slot.is-selected .card");
+    if (!area || !slot) {
+      setPlacement(null);
       return;
     }
-    const box = board.getBoundingClientRect();
+    const box = area.getBoundingClientRect();
     const rect = slot.getBoundingClientRect();
-    setOrigin({
-      left: rect.left - box.left,
-      top: rect.top - box.top,
-      width: rect.width,
-      height: rect.height,
+    setPlacement({
+      card: {
+        left: rect.left - box.left + area.scrollLeft,
+        top: rect.top - box.top + area.scrollTop,
+        width: rect.width,
+        height: rect.height,
+      },
+      width: area.clientWidth,
+      height: area.clientHeight,
     });
   }, [root, selected, layout, size]);
-  return origin;
+  return placement;
 }
 
 function PanelTabs({

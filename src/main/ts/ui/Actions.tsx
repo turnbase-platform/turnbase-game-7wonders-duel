@@ -1,11 +1,21 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Catalog } from "../core/catalog.js";
 import type { Rect } from "../core/flip.js";
 import type { Offer } from "../core/moves.js";
 import type { ComponentId, DuelView, PlayerId, QuoteView, WireAction } from "../core/wire.js";
 import { Card } from "./Card.js";
 import { Icon } from "./icons.js";
-import { EASE, MOTION_MS, prefersReducedMotion } from "./motion.js";
+
+/** Where the selected card sits in the structure area, and how big that area is, in px. */
+export interface Placement {
+  card: Rect;
+  width: number;
+  height: number;
+}
+
+/** Room the actions need beside the card: the Wonder step, the wider of the two. */
+const BESIDE = 250;
+const GAP = 12;
 
 interface Props {
   view: DuelView;
@@ -13,8 +23,8 @@ interface Props {
   self: PlayerId;
   component: ComponentId;
   offers: Offer[];
-  /** The card's place on the board, in the board's own pixels, which the lifted copy rises from. */
-  origin: Rect | null;
+  /** Null until the card has been measured. */
+  placement: Placement | null;
   send: (action: WireAction) => void;
   onClose: () => void;
 }
@@ -37,14 +47,21 @@ function Price({ quote, compact = false }: { quote: QuoteView | undefined; compa
 
 /**
  * The three things the viewer may do with the selected card, with their prices: Build, construct a
- * Wonder (a second step, to pick which) and Discard. The board blurs behind, the card rises from its
- * place to the middle, and the actions float beneath it.
+ * Wonder (a second step, to pick which) and Discard. The structure blurs behind, the card rises where
+ * it stands, and the actions float beside it: on the right, or on the left when the right is short.
  */
-export function Actions({ view, catalog, self, component, offers, origin, send, onClose }: Props) {
+export function Actions({
+  view,
+  catalog,
+  self,
+  component,
+  offers,
+  placement,
+  send,
+  onClose,
+}: Props) {
   const [step, setStep] = useState<"actions" | "wonder">("actions");
   const dialog = useRef<HTMLDivElement>(null);
-  const lifted = useRef<HTMLDivElement>(null);
-  const risen = useRef(false);
   const entry = catalog.get(component);
   const mine = offers.filter((o) => o.target === component);
   const quoteOf = (id: ComponentId): QuoteView | undefined =>
@@ -62,35 +79,6 @@ export function Actions({ view, catalog, self, component, offers, origin, send, 
   useEffect(() => {
     dialog.current?.querySelector<HTMLElement>("button:not(:disabled)")?.focus();
   }, [step]);
-  // The card rises once, from where it sat to where it now stands, scaled up on the way.
-  const known = origin !== null;
-  useLayoutEffect(() => {
-    const card = lifted.current;
-    const board = dialog.current?.offsetParent;
-    if (
-      !known ||
-      risen.current ||
-      !card ||
-      !board ||
-      (card as Partial<HTMLElement>).animate === undefined
-    )
-      return;
-    risen.current = true;
-    if (prefersReducedMotion()) return;
-    const to = card.getBoundingClientRect();
-    const box = board.getBoundingClientRect();
-    card.animate(
-      [
-        {
-          transform: `translate(${String(origin.left - (to.left - box.left))}px, ${String(origin.top - (to.top - box.top))}px) scale(${String(origin.width / to.width)})`,
-          transformOrigin: "0 0",
-        },
-        { transform: "none", transformOrigin: "0 0" },
-      ],
-      { duration: MOTION_MS.travel, easing: EASE },
-    );
-  }, [known, origin]);
-
   const act = (action: WireAction): void => {
     send(action);
     onClose();
@@ -101,6 +89,23 @@ export function Actions({ view, catalog, self, component, offers, origin, send, 
   const unbuilt = view.visible
     .filter((p) => p.zone === "wonders.unbuilt" && p.key === self)
     .map((p) => p.component);
+
+  const beside = ((): CSSProperties => {
+    if (placement === null) return { display: "none" };
+    const { card, width, height } = placement;
+    const top = Math.min(Math.max(card.top + card.height / 2, 90), Math.max(90, height - 90));
+    return card.left + card.width + GAP + BESIDE <= width
+      ? { left: card.left + card.width + GAP, top }
+      : { right: width - card.left + GAP, top, alignItems: "flex-end" };
+  })();
+  const lift: CSSProperties | undefined =
+    placement === null
+      ? { display: "none" }
+      : {
+          left: placement.card.left,
+          top: placement.card.top,
+          ["--lw" as string]: `${String(placement.card.width)}px`,
+        };
 
   return (
     <div
@@ -113,11 +118,11 @@ export function Actions({ view, catalog, self, component, offers, origin, send, 
       }}
     >
       <div className="spotlight__scrim" onClick={onClose} />
-      <div ref={lifted} className="spotlight__card">
-        {entry && <Card entry={entry} size="large" />}
+      <div className="spotlight__card" style={lift}>
+        {entry && <Card entry={entry} size="standard" />}
       </div>
-      {step === "actions" ? (
-        <>
+      <div className="spotlight__beside" style={beside}>
+        {step === "actions" ? (
           <div className="actions__buttons">
             <button
               type="button"
@@ -155,41 +160,41 @@ export function Actions({ view, catalog, self, component, offers, origin, send, 
               Discard
             </button>
           </div>
-        </>
-      ) : (
-        <>
-          <h4>Build which Wonder?</h4>
-          <div className="actions__wonders">
-            {unbuilt.map((id) => {
-              const offer = wonderOffers.find(
-                (o) => o.action.type === "buildWonder" && o.action.wonder === id,
-              );
-              const wonder = catalog.get(id);
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  disabled={offer === undefined}
-                  onClick={() => {
-                    if (offer) act(offer.action);
-                  }}
-                >
-                  {wonder && <Card entry={wonder} size="standard" />}
-                  <Price quote={quoteOf(id)} compact />
-                </button>
-              );
-            })}
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              setStep("actions");
-            }}
-          >
-            Back
-          </button>
-        </>
-      )}
+        ) : (
+          <>
+            <h4>Build which Wonder?</h4>
+            <div className="actions__wonders">
+              {unbuilt.map((id) => {
+                const offer = wonderOffers.find(
+                  (o) => o.action.type === "buildWonder" && o.action.wonder === id,
+                );
+                const wonder = catalog.get(id);
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    disabled={offer === undefined}
+                    onClick={() => {
+                      if (offer) act(offer.action);
+                    }}
+                  >
+                    {wonder && <Card entry={wonder} size="standard" />}
+                    <Price quote={quoteOf(id)} compact />
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setStep("actions");
+              }}
+            >
+              Back
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

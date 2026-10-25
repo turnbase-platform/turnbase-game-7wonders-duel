@@ -82,21 +82,23 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .slot.is-covered { filter: brightness(.72) saturate(.65); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }
-/* The selected card: the board blurs, the card stands in the middle, its actions float beneath. */
-.spotlight { position: absolute; inset: 0; z-index: 12; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; box-sizing: border-box; pointer-events: none; }
+/* The selected card: the structure blurs, the card rises where it stands, its actions float beside it. */
+.spotlight { --lw: 75px; position: absolute; inset: 0; z-index: 12; pointer-events: none; }
 .spotlight > * { pointer-events: auto; }
-.spotlight__scrim { position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--ground) 40%, transparent); backdrop-filter: blur(7px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+.spotlight__scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--ground) 35%, transparent); backdrop-filter: blur(6px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
 @keyframes scrim { from { opacity: 0; } }
-.spotlight__card { line-height: 0; filter: drop-shadow(0 12px 22px #0007); }
-.spotlight .card { --w: 190px; }
-.spotlight .card--wonder.card--large { --w: 260px; }
-.spotlight .card--wonder.card--standard { --w: 100px; }
-.spotlight .actions__buttons, .spotlight .actions__wonders, .spotlight h4, .spotlight > button { animation: rise ${String(MOTION_MS.appear)}ms ${EASE} ${String(MOTION_MS.travel / 2)}ms backwards; }
-@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+.spotlight__card { position: absolute; line-height: 0; transform: translateY(-6px) scale(1.1); transform-origin: 50% 60%; filter: drop-shadow(0 10px 14px #0006); animation: lift ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+@keyframes lift { from { transform: none; filter: drop-shadow(0 0 0 #0000); } }
+.spotlight .card { --w: var(--lw); }
+.spotlight .actions__wonders .card { --w: 100px; }
+.spotlight__beside { position: absolute; display: flex; flex-direction: column; gap: 8px; transform: translateY(-50%); animation: rise ${String(MOTION_MS.appear)}ms ${EASE} ${String(MOTION_MS.appear / 2)}ms backwards; }
+@keyframes rise { from { opacity: 0; } }
 .slot.is-selected { visibility: hidden; }
-@media (prefers-reduced-motion: reduce) { .spotlight__scrim, .spotlight .actions__buttons, .spotlight .actions__wonders, .spotlight h4, .spotlight > button { animation: none; } }
+.structure { position: relative; }
+@media (prefers-reduced-motion: reduce) { .spotlight__scrim, .spotlight__card, .spotlight__beside { animation: none; } }
 .spotlight h4 { margin: 0; text-align: center; font: 700 15px var(--serif); }
-.actions__buttons, .actions__wonders { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.actions__buttons { display: flex; flex-direction: column; gap: 8px; }
+.actions__wonders { display: grid; grid-template-columns: repeat(2, auto); gap: 8px; }
 .actions__wonders button { flex: none; padding: 4px; border-radius: 6px; }
 .spotlight button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 16px; min-height: 40px; background: var(--surface); border: 1px solid var(--ink); border-radius: 20px; box-shadow: 0 4px 12px #0004; font-weight: 600; cursor: pointer; }
 .spotlight button:disabled { opacity: .5; cursor: default; }
