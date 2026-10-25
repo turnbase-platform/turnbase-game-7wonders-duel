@@ -28,7 +28,7 @@ const paths = (...d: string[]): string => d.map(path).join("");
 
 const DRAWINGS: Record<string, string> = {
   // What a badge may count
-  card: solid('<rect x="4" y="2" width="16" height="20" rx="2"/>'),
+  card: `<rect x="4.5" y="2.5" width="15" height="19" rx="2" fill="currentColor" stroke="#000" stroke-width="1.2"/>`,
   progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
   or: line(path("M16 3L8 21")),
   // The manual's "the city that has more": an up triangle and a down triangle, split by a slash
