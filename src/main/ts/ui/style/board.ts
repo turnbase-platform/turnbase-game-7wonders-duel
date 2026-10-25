@@ -52,6 +52,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col .city .card--wonder.card--standard { --w: 148px; }
 .city-col .city { border-left: 0; padding-left: 0; }
 .layout-landscape .panel { width: 240px; flex: none; }
+.layout-landscape .city .card--wonder.card--standard { --w: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
 .tabs { display: flex; gap: 4px; margin-bottom: 6px; }

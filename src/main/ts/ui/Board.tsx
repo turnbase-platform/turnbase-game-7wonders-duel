@@ -105,7 +105,7 @@ export function Board({ session, send, layout: fixed }: Props) {
           >
             <Icon id="discard-pile" /> {discardedOf(view).length}
           </button>
-          {wide && (
+          {!phone && (
             <button
               type="button"
               className="logbtn"
@@ -162,7 +162,7 @@ export function Board({ session, send, layout: fixed }: Props) {
             />
           </aside>
         )}
-        {drawer !== null && (wide || drawer === "discard") && (
+        {drawer !== null && (!phone || drawer === "discard") && (
           <aside
             className="drawer"
             role="dialog"
@@ -190,17 +190,12 @@ export function Board({ session, send, layout: fixed }: Props) {
             <PanelTabs
               session={session}
               seats={seats}
-              active={pane === "log" ? "log" : side}
+              active={side}
               onPick={(next) => {
-                if (next === "log") goTo("log");
-                else goTo("city", next);
+                goTo("city", next);
               }}
             />
-            {pane === "log" ? (
-              <Log session={session} />
-            ) : (
-              <City session={session} seats={seats} side={side} />
-            )}
+            <City session={session} seats={seats} side={side} />
           </aside>
         )}
         {phone && pane === "city" && <aside className="panel">{cities}</aside>}
@@ -310,8 +305,8 @@ function PanelTabs({
 }: {
   session: Session;
   seats: Seats;
-  active: Side | "log";
-  onPick: (next: Side | "log") => void;
+  active: Side;
+  onPick: (next: Side) => void;
 }) {
   return (
     <div role="tablist" className="tabs">
@@ -326,13 +321,6 @@ function PanelTabs({
           }}
         />
       ))}
-      <Tab
-        label="Log"
-        active={active === "log"}
-        onPick={() => {
-          onPick("log");
-        }}
-      />
     </div>
   );
 }

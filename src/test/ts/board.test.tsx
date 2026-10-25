@@ -165,14 +165,17 @@ describe("Board", () => {
     ]);
   });
 
-  it.each(["medium", "landscape"] as const)("puts the log among the tabs when %s", (layout) => {
-    show(age(), layout);
+  it.each(["medium", "landscape"] as const)(
+    "keeps the log out of the city panel, behind its button, when %s",
+    (layout) => {
+      show(age(), layout);
 
-    expect(tabs()).toEqual(["Opponent", "You", "Log"]);
-    expect(host.querySelector(".log")).toBeNull();
-    click([...host.querySelectorAll('[role="tab"]')][2]);
-    expect(host.querySelector(".log")).not.toBeNull();
-  });
+      expect(tabs()).toEqual(["Opponent", "You"]);
+      expect(host.querySelector(".log")).toBeNull();
+      click(host.querySelector(".logbtn"));
+      expect(host.querySelector(".drawer .log")).not.toBeNull();
+    },
+  );
 
   describe("on a phone in portrait", () => {
     it("shows one pane at a time behind Structure · Cities · Log, header and strip always", () => {
