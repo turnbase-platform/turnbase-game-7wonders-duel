@@ -107,6 +107,36 @@ class CostSolverReductionTest {
   }
 
   @Test
+  void theLinesSplitEachResourceIntoProducedDiscountedAndBought() {
+    Piece target = Piece.target("t", ComponentType.WONDER, Cost.of(0, WOOD, CLAY, CLAY, GLASS));
+    Piece wood = Piece.holding("w", Production.fixed(WOOD, 1, false));
+    Piece surcharge = Piece.holding("o", Production.fixed(CLAY, 1, true));
+
+    Quote q = quote(target, List.of(masonry(1, ComponentType.WONDER), wood), List.of(surcharge));
+
+    assertThat(q.lines())
+        .containsExactly(
+            new QuoteLine(CLAY, 2, 0, 1, 1, 3),
+            new QuoteLine(GLASS, 1, 0, 0, 1, 2),
+            new QuoteLine(WOOD, 1, 1, 0, 0, 2));
+    assertThat(q.lines().stream().mapToInt(l -> l.bought() * l.unitPrice()).sum())
+        .isEqualTo(q.tradeCost());
+  }
+
+  @Test
+  void aChainedQuoteHasNoLines() {
+    Piece target = Piece.target("t", ComponentType.CARD, Cost.of(3, WOOD).withFreedBy(HORSESHOE));
+
+    Quote q =
+        quote(
+            target,
+            List.of(Piece.holding("c", new ChainSource(java.util.Set.of(HORSESHOE)))),
+            List.of());
+
+    assertThat(q.lines()).isEmpty();
+  }
+
+  @Test
   void aSymbolAlreadyCoveredByProductionIsLeftAlone() {
     Piece target = Piece.target("t", ComponentType.WONDER, Cost.of(0, WOOD, GLASS));
     Piece wood = Piece.holding("w", Production.fixed(WOOD, 1, false));

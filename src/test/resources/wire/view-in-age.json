@@ -200,7 +200,8 @@
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "scriptorium",
@@ -208,7 +209,8 @@
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "clay-pool",
@@ -216,7 +218,8 @@
       "tradeCost" : 0,
       "total" : 0,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "clay-pit",
@@ -224,7 +227,8 @@
       "tradeCost" : 0,
       "total" : 1,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "quarry",
@@ -232,7 +236,8 @@
       "tradeCost" : 0,
       "total" : 0,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "logging-camp",
@@ -240,7 +245,8 @@
       "tradeCost" : 0,
       "total" : 1,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "the-great-lighthouse",
@@ -248,7 +254,29 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "papyrus",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "the-hanging-gardens",
@@ -256,7 +284,29 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "glass",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "the-appian-way",
@@ -264,7 +314,29 @@
       "tradeCost" : 10,
       "total" : 10,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "the-mausoleum",
@@ -272,7 +344,29 @@
       "tradeCost" : 10,
       "total" : 10,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "palisade",
@@ -280,7 +374,8 @@
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "scriptorium",
@@ -288,7 +383,8 @@
       "tradeCost" : 0,
       "total" : 2,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "clay-pool",
@@ -296,7 +392,8 @@
       "tradeCost" : 0,
       "total" : 0,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "clay-pit",
@@ -304,7 +401,8 @@
       "tradeCost" : 0,
       "total" : 1,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "quarry",
@@ -312,7 +410,8 @@
       "tradeCost" : 0,
       "total" : 0,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "logging-camp",
@@ -320,7 +419,8 @@
       "tradeCost" : 0,
       "total" : 1,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "the-temple-of-artemis",
@@ -328,7 +428,36 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "glass",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "piraeus",
@@ -336,7 +465,29 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "the-colossus",
@@ -344,7 +495,22 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 3,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 3,
+        "unitPrice" : 2
+      }, {
+        "resource" : "glass",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "the-pyramids",
@@ -352,7 +518,22 @@
       "tradeCost" : 8,
       "total" : 8,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 3,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 3,
+        "unitPrice" : 2
+      } ]
     } ]
   },
   "reason" : null,

@@ -205,7 +205,7 @@ class CostSolverTest {
 
   @Test
   void payableWithComparesTotalToTreasury() {
-    Quote q = new Quote(2, java.util.Map.of(WOOD, 1), 2, false);
+    Quote q = new Quote(2, java.util.Map.of(WOOD, 1), 2, false, java.util.List.of());
 
     assertThat(q.total()).isEqualTo(4);
     assertThat(q.payableWith(4)).isTrue();

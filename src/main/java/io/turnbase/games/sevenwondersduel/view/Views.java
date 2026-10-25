@@ -119,7 +119,18 @@ public final class Views {
                 quote.tradeCost(),
                 quote.total(),
                 quote.chained(),
-                quote.payableWith(state.player(player).coins())));
+                quote.payableWith(state.player(player).coins()),
+                quote.lines().stream()
+                    .map(
+                        l ->
+                            new QuoteView.LineView(
+                                l.resource().id(),
+                                l.needed(),
+                                l.produced(),
+                                l.discounted(),
+                                l.bought(),
+                                l.unitPrice()))
+                    .toList()));
       }
     }
     return quotes;

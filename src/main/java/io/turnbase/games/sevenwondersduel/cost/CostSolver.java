@@ -30,7 +30,7 @@ public final class CostSolver {
     Component component = rules.catalog().get(target);
     Cost cost = component.cost();
     if (chained(state, player, cost)) {
-      return new Quote(0, Map.of(), 0, true);
+      return new Quote(0, Map.of(), 0, true, List.of());
     }
     List<Set<Resource>> units = productionUnits(state, player);
     Map<Resource, Integer> needs = new HashMap<>(cost.resources());
@@ -43,12 +43,36 @@ public final class CostSolver {
       }
     }
     Map<Resource, Integer> prices = new HashMap<>();
-    for (Resource resource : needs.keySet()) {
+    for (Resource resource : cost.resources().keySet()) {
       prices.put(resource, unitPrice(state, player, resource));
     }
     int removals = removals(state, player, component);
-    Map<Resource, Integer> bought = cheapest(needs, choices, 0, removals, prices);
-    return new Quote(cost.coins(), bought, tradeCost(bought, prices), false);
+    Map<Resource, Integer> short_ = cheapest(needs, choices, 0, removals, prices);
+    Map<Resource, Integer> bought = remove(short_, removals, prices);
+    return new Quote(
+        cost.coins(),
+        bought,
+        tradeCost(bought, prices),
+        false,
+        lines(cost.resources(), short_, bought, prices));
+  }
+
+  private static List<QuoteLine> lines(
+      Map<Resource, Integer> required,
+      Map<Resource, Integer> short_,
+      Map<Resource, Integer> bought,
+      Map<Resource, Integer> prices) {
+    return required.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey(Comparator.comparing(Resource::id)))
+        .map(
+            e -> {
+              Resource r = e.getKey();
+              int missing = short_.getOrDefault(r, 0);
+              int paid = bought.getOrDefault(r, 0);
+              return new QuoteLine(
+                  r, e.getValue(), e.getValue() - missing, missing - paid, paid, prices.get(r));
+            })
+        .toList();
   }
 
   private boolean chained(DuelState state, PlayerId player, Cost cost) {
@@ -98,8 +122,8 @@ public final class CostSolver {
   }
 
   /**
-   * The symbols left to buy after the best assignment of choice units to resources and the removal
-   * of the dearest {@code removals} symbols.
+   * The symbols left after the best assignment of choice units to resources, the one that leaves
+   * the least to buy once the dearest {@code removals} symbols are waived.
    */
   private static Map<Resource, Integer> cheapest(
       Map<Resource, Integer> needs,
@@ -108,14 +132,16 @@ public final class CostSolver {
       int removals,
       Map<Resource, Integer> prices) {
     if (next == choices.size()) {
-      return remove(needs, removals, prices);
+      return needs;
     }
     Map<Resource, Integer> best = null;
     for (Resource option : inIdOrder(choices.get(next))) {
       Map<Resource, Integer> after = new HashMap<>(needs);
       cover(after, option);
       Map<Resource, Integer> candidate = cheapest(after, choices, next + 1, removals, prices);
-      if (best == null || tradeCost(candidate, prices) < tradeCost(best, prices)) {
+      if (best == null
+          || tradeCost(remove(candidate, removals, prices), prices)
+              < tradeCost(remove(best, removals, prices), prices)) {
         best = candidate;
       }
     }

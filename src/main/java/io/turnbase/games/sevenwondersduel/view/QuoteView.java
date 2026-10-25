@@ -1,5 +1,6 @@
 package io.turnbase.games.sevenwondersduel.view;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,6 +14,7 @@ import java.util.UUID;
  * @param chained whether a chain symbol waives the whole cost
  * @param affordable whether the player's treasury covers {@code total}; it says nothing of whose
  *     turn it is or whether a decision is pending
+ * @param lines how each resource of the cost is met; empty when {@code chained}
  */
 public record QuoteView(
     UUID player,
@@ -21,4 +23,10 @@ public record QuoteView(
     int tradeCost,
     int total,
     boolean chained,
-    boolean affordable) {}
+    boolean affordable,
+    List<LineView> lines) {
+
+  /** One resource of the cost: see {@code QuoteLine}. */
+  public record LineView(
+      String resource, int needed, int produced, int discounted, int bought, int unitPrice) {}
+}

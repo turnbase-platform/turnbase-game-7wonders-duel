@@ -350,7 +350,8 @@
       "tradeCost" : 0,
       "total" : 0,
       "chained" : true,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "circus",
@@ -358,7 +359,22 @@
       "tradeCost" : 7,
       "total" : 7,
       "chained" : false,
-      "affordable" : false
+      "affordable" : false,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 3
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000001",
       "component" : "pantheon",
@@ -366,7 +382,29 @@
       "tradeCost" : 2,
       "total" : 2,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 4
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "senate",
@@ -374,7 +412,29 @@
       "tradeCost" : 4,
       "total" : 4,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 1
+      }, {
+        "resource" : "stone",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "circus",
@@ -382,7 +442,22 @@
       "tradeCost" : 6,
       "total" : 6,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 2,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 2,
+        "unitPrice" : 2
+      }, {
+        "resource" : "stone",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      } ]
     }, {
       "player" : "00000000-0000-0000-0000-000000000002",
       "component" : "pantheon",
@@ -390,7 +465,29 @@
       "tradeCost" : 3,
       "total" : 3,
       "chained" : false,
-      "affordable" : true
+      "affordable" : true,
+      "lines" : [ {
+        "resource" : "clay",
+        "needed" : 1,
+        "produced" : 0,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 2
+      }, {
+        "resource" : "papyrus",
+        "needed" : 2,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 1,
+        "unitPrice" : 1
+      }, {
+        "resource" : "wood",
+        "needed" : 1,
+        "produced" : 1,
+        "discounted" : 0,
+        "bought" : 0,
+        "unitPrice" : 3
+      } ]
     } ]
   },
   "reason" : null,
