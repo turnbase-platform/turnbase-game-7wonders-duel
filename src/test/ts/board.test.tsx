@@ -188,9 +188,7 @@ describe("Board", () => {
     const palisade = (): Element | null => host.querySelector('button.slot[aria-label="Palisade"]');
     const dialog = (): HTMLElement | null => host.querySelector('[role="dialog"]');
     const choices = (): string[] =>
-      [...(dialog()?.querySelectorAll("button:not(.actions__close)") ?? [])].map(
-        (b) => b.textContent,
-      );
+      [...(dialog()?.querySelectorAll("button") ?? [])].map((b) => b.textContent);
     const button = (label: string): Element | undefined =>
       [...(dialog()?.querySelectorAll("button") ?? [])].find((b) =>
         b.textContent.startsWith(label),
@@ -294,11 +292,11 @@ describe("Board", () => {
       expect(document.activeElement).toBe(palisade());
     });
 
-    it("sits as a sheet instead of a popover on a phone", () => {
+    it("lifts the card the same way on a phone", () => {
       show(age(), "portrait");
       click(palisade());
 
-      expect(dialog()?.classList.contains("is-sheet")).toBe(true);
+      expect(dialog()?.classList.contains("spotlight")).toBe(true);
     });
   });
 

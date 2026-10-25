@@ -82,21 +82,26 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .slot.is-covered { filter: brightness(.72) saturate(.65); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }
-.slot.is-selected { box-shadow: 0 0 0 3px var(--ink), 0 0 12px 3px var(--me); z-index: 2; transform: translateY(-3px); }
-.actions { z-index: 10; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); box-shadow: 0 6px 24px rgba(0, 0, 0, .35); }
-.actions.is-popover { position: absolute; min-width: 200px; max-width: 290px; }
-.actions .card--wonder.card--standard { --w: 100px; }
-.actions.is-sheet { position: absolute; left: 0; right: 0; bottom: 0; flex-direction: row; justify-content: center; flex-wrap: wrap; border-radius: var(--radius) var(--radius) 0 0; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
-.actions h4 { margin: 0; width: 100%; text-align: center; }
-.actions__buttons, .actions__wonders { display: flex; flex-direction: column; gap: 6px; align-self: stretch; }
-.actions__wonders { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-.actions__wonders button { flex: none; padding: 4px; }
-.is-sheet .actions__buttons { flex: 1; min-width: 160px; }
-.actions button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-height: 36px; background: var(--ground); border: 1px solid var(--ink); border-radius: var(--radius); cursor: pointer; }
-.actions button:disabled { opacity: .5; cursor: default; }
-.actions button small { font-size: 11px; color: var(--muted); }
-.actions .price { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; }
-.actions .actions__close { position: absolute; top: 2px; right: 2px; min-height: 0; padding: 0 6px; border: 0; background: none; font-size: 18px; }
+/* The selected card: the board blurs, the card stands in the middle, its actions float beneath. */
+.spotlight { position: absolute; inset: 0; z-index: 12; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; box-sizing: border-box; pointer-events: none; }
+.spotlight > * { pointer-events: auto; }
+.spotlight__scrim { position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--ground) 40%, transparent); backdrop-filter: blur(7px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+@keyframes scrim { from { opacity: 0; } }
+.spotlight__card { line-height: 0; filter: drop-shadow(0 12px 22px #0007); }
+.spotlight .card { --w: 190px; }
+.spotlight .card--wonder.card--large { --w: 260px; }
+.spotlight .card--wonder.card--standard { --w: 100px; }
+.spotlight .actions__buttons, .spotlight .actions__wonders, .spotlight h4, .spotlight > button { animation: rise ${String(MOTION_MS.appear)}ms ${EASE} ${String(MOTION_MS.travel / 2)}ms backwards; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+.slot.is-selected { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .spotlight__scrim, .spotlight .actions__buttons, .spotlight .actions__wonders, .spotlight h4, .spotlight > button { animation: none; } }
+.spotlight h4 { margin: 0; text-align: center; font: 700 15px var(--serif); }
+.actions__buttons, .actions__wonders { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.actions__wonders button { flex: none; padding: 4px; border-radius: 6px; }
+.spotlight button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 16px; min-height: 40px; background: var(--surface); border: 1px solid var(--ink); border-radius: 20px; box-shadow: 0 4px 12px #0004; font-weight: 600; cursor: pointer; }
+.spotlight button:disabled { opacity: .5; cursor: default; }
+.spotlight button small { font-size: 11px; color: var(--muted); }
+.spotlight .price { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; }
 button.slot:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .slot { transition: none; } }
 `;

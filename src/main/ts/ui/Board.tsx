@@ -1,4 +1,5 @@
 import { useLayoutEffect, useReducer, useRef, useState, type RefObject } from "react";
+import type { Rect } from "../core/flip.js";
 import { layoutFor, type Layout, type Size } from "../core/layout.js";
 import { offers as offersOf } from "../core/moves.js";
 import { attention, selectedOf, selectionReducer } from "../core/selection.js";
@@ -6,7 +7,7 @@ import { seatsOf, type Seats } from "../core/seats.js";
 import type { Session } from "../core/session.js";
 import type { WireAction } from "../core/wire.js";
 import { BoardTokens } from "./BoardTokens.js";
-import { Actions, type Anchor } from "./Actions.js";
+import { Actions } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
 import { IconSprite } from "./icons.js";
@@ -15,8 +16,6 @@ import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
 import { useChoreography } from "./useChoreography.js";
 import { useSize } from "./useSize.js";
-
-const POPOVER_WIDTH = 290;
 
 type Pane = "structure" | "city" | "log";
 
@@ -39,7 +38,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const { view, catalog } = session;
   const available = view === null ? [] : offersOf(session);
   const selected = selectedOf(selection, available);
-  const anchor = useAnchor(root, selected, layout, size);
+  const origin = useOrigin(root, selected, layout, size);
   useChoreography(root, session.history.at(-1) ?? null);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
@@ -179,7 +178,7 @@ export function Board({ session, send, layout: fixed }: Props) {
           self={session.self}
           component={selected}
           offers={available}
-          anchor={layout === "wide" || layout === "medium" ? anchor : null}
+          origin={origin}
           send={send}
           onClose={() => {
             select({ type: "clear" });
@@ -214,32 +213,31 @@ export function Board({ session, send, layout: fixed }: Props) {
   );
 }
 
-/** Where the selected card is on the board, for the popover to sit beside; null while none is. */
-function useAnchor(
+/** Where the selected card sits on the board, which is where its lifted copy starts from. */
+function useOrigin(
   root: RefObject<HTMLDivElement | null>,
   selected: string | null,
   layout: Layout,
   size: Size | null,
-): Anchor | null {
-  const [anchor, setAnchor] = useState<Anchor | null>(null);
+): Rect | null {
+  const [origin, setOrigin] = useState<Rect | null>(null);
   useLayoutEffect(() => {
     const board = root.current;
-    const slot = selected === null ? null : board?.querySelector(".slot.is-selected");
+    const slot = selected === null ? null : board?.querySelector(".slot.is-selected .card");
     if (!board || !slot) {
-      setAnchor(null);
+      setOrigin(null);
       return;
     }
     const box = board.getBoundingClientRect();
     const rect = slot.getBoundingClientRect();
-    const right = rect.right - box.left + 8;
-    const left =
-      right + POPOVER_WIDTH > box.width ? rect.left - box.left - POPOVER_WIDTH - 8 : right;
-    setAnchor({
-      left: Math.max(4, left),
-      top: Math.max(4, rect.top - box.top),
+    setOrigin({
+      left: rect.left - box.left,
+      top: rect.top - box.top,
+      width: rect.width,
+      height: rect.height,
     });
   }, [root, selected, layout, size]);
-  return anchor;
+  return origin;
 }
 
 function PanelTabs({
