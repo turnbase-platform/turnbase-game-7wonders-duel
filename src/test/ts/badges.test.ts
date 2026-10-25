@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { present } from "../../main/ts/core/badges.js";
+import { present, presentAll } from "../../main/ts/core/badges.js";
 import { motifOf } from "../../main/ts/core/motif.js";
 import type { Badge } from "../../main/ts/core/wire.js";
 import { catalogEntries, catalogEntry } from "./fixture.js";
@@ -36,14 +36,13 @@ describe("present", () => {
     expect(present(badge("loseCoins", 3))).toMatchObject([{ icon: "coin-lost", text: "3" }]);
   });
 
-  it("shows what is counted for a per-card reward, tinted by card colour", () => {
+  it("shows what is counted for a per-card reward, tinted by card colour, with the reward on its corner", () => {
     expect(present(badge("coinsPer", 2, ["color:brown"]))).toMatchObject([
-      { icon: "card", tint: "brown", corner: "2" },
+      { icon: "card", tint: "brown", corners: [{ icon: "coin", text: "2", side: "right" }] },
     ]);
     expect(present(badge("pointsPer", 1, ["color:yellow"], true))).toMatchObject([
-      { icon: "vp", text: "1" },
-      { icon: "card", tint: "yellow" },
-      { icon: "larger" },
+      { icon: "card", tint: "yellow", corners: [{ icon: "vp", text: "1", side: "right" }] },
+      { icon: "better" },
     ]);
   });
 
@@ -52,13 +51,31 @@ describe("present", () => {
     expect(glyphs.filter((g) => g.icon === "card").map((g) => g.tint)).toEqual(["brown", "grey"]);
   });
 
+  it("makes the coins and points a guild pays for the same cards one icon", () => {
+    const guild = [
+      badge("coinsPer", 1, ["color:green"], true),
+      badge("pointsPer", 1, ["color:green"], true),
+    ];
+    expect(presentAll(guild)).toMatchObject([
+      {
+        icon: "card",
+        tint: "green",
+        corners: [
+          { icon: "vp", side: "right" },
+          { icon: "coin", text: "1", side: "left" },
+        ],
+      },
+      { icon: "better" },
+    ]);
+  });
+
   it("shows coins as the thing counted, in lots of the badge's `per`", () => {
     const moneylenders = { ...badge("pointsPer", 1, ["coins"], true), per: 3 };
-    expect(present(moneylenders)[1]).toMatchObject({ icon: "coin", text: "3" });
+    expect(present(moneylenders)[0]).toMatchObject({ icon: "coin", text: "3" });
   });
 
   it("shows what a progress token or a Wonder is counted as", () => {
-    expect(present(badge("pointsPer", 3, ["progress"]))[1]).toMatchObject({ icon: "progress" });
+    expect(present(badge("pointsPer", 3, ["progress"]))[0]).toMatchObject({ icon: "progress" });
     expect(present(badge("reduction", 2, ["wonder"]))[1]).toMatchObject({ icon: "wonder" });
   });
 

@@ -1,4 +1,4 @@
-import { present, type Glyph } from "../core/badges.js";
+import { presentAll, type Glyph } from "../core/badges.js";
 import { motifOf } from "../core/motif.js";
 import type { CatalogEntry } from "../core/wire.js";
 import { Icon } from "./icons.js";
@@ -8,15 +8,18 @@ export type CardSize = "small" | "standard" | "large";
 function GlyphView({ glyph }: { glyph: Glyph }) {
   const tint = glyph.tint === null ? "" : ` tint-${glyph.tint}`;
   return (
-    <span className={`glyph${tint}`} title={glyph.title}>
+    <span
+      className={`glyph${tint}${glyph.corners.length > 0 ? " has-corner" : ""}`}
+      title={glyph.title}
+    >
       <Icon id={glyph.icon} />
       {glyph.text !== null && <b>{glyph.text}</b>}
-      {glyph.corner !== null && (
-        <span className="glyph__coin">
-          <Icon id="coin" />
-          <b>{glyph.corner}</b>
+      {glyph.corners.map((c) => (
+        <span key={c.side} className={`glyph__corner is-${c.side}`}>
+          <Icon id={c.icon} />
+          <b>{c.text}</b>
         </span>
-      )}
+      ))}
     </span>
   );
 }
@@ -84,7 +87,7 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
     classes.push(`color-${colour}`);
   }
   const chain = entry.badges.find((b) => b.kind === "chain");
-  const glyphs = entry.badges.filter((b) => b.kind !== "chain").flatMap(present);
+  const glyphs = presentAll(entry.badges);
   return (
     <div className={classes.join(" ")} title={entry.name} data-component={entry.id}>
       <div className="card__banner">

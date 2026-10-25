@@ -20,6 +20,8 @@ const PRIORITY = [
   "points",
 ];
 
+const PAID: Readonly<Partial<Record<string, string>>> = { coinsPer: "coin", pointsPer: "vp" };
+
 /**
  * The icon drawn large in a component's art area: a progress token is its own picture, anything else is the
  * glyph of its most telling badge.
@@ -30,8 +32,8 @@ export function motifOf(entry: CatalogEntry): string {
   }
   for (const kind of PRIORITY) {
     const badge = entry.badges.find((b) => b.kind === kind);
-    // What a per-card reward counts is a corner of its glyph; the card is named by the coins.
-    const first = badge && (kind === "coinsPer" ? { icon: "coin" } : present(badge)[0]);
+    // A per-card reward shows what it counts; the card is named by what it pays.
+    const first = badge && (PAID[kind] ? { icon: PAID[kind] } : present(badge)[0]);
     if (first) {
       return first.icon;
     }

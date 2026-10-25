@@ -8,8 +8,15 @@ export interface Glyph {
   title: string;
   /** The card colour a `card` glyph stands for, otherwise null. */
   tint: string | null;
-  /** Coins shown on a coin in the glyph's bottom right corner, or null. */
-  corner: string | null;
+  /** What a per-card reward pays, shown on small icons in the glyph's bottom corners. */
+  corners: Corner[];
+}
+
+/** An icon with its number, in one bottom corner of a glyph. */
+export interface Corner {
+  icon: "coin" | "vp";
+  text: string;
+  side: "left" | "right";
 }
 
 function glyph(
@@ -17,9 +24,9 @@ function glyph(
   text: string | null,
   title: string,
   tint: string | null = null,
-  corner: string | null = null,
+  corners: Corner[] = [],
 ): Glyph {
-  return { icon, text, title, tint, corner };
+  return { icon, text, title, tint, corners };
 }
 
 /** What a `per`/`of` entry counts or applies to: a card colour, progress tokens or Wonders. */
@@ -32,6 +39,48 @@ function target(thing: string, per = 1): Glyph {
     return glyph("card", null, `${colour} cards`, colour);
   }
   return glyph(thing, null, thing === "progress" ? "progress tokens" : `${thing}s`);
+}
+
+/** What a reward per counted thing looks like: the thing, with the reward on a corner of its icon. */
+function reward(
+  thing: string,
+  per: number,
+  icon: Corner["icon"],
+  amount: string,
+  what: string,
+): Glyph {
+  const counted = target(thing, per);
+  return {
+    ...counted,
+    title: `${amount} ${what} for each ${counted.title}`,
+    corners: [{ icon, text: amount, side: "right" }],
+  };
+}
+
+const sameThings = (a: Badge, b: Badge): boolean => a.of.join() === b.of.join();
+
+/**
+ * The glyphs of a card's badges, in order. A guild pays coins and points for the same cards: those
+ * are one icon, the points on its right corner and the coins on its left.
+ */
+export function presentAll(badges: Badge[]): Glyph[] {
+  return badges
+    .filter((b) => b.kind !== "chain")
+    .flatMap((b) => {
+      const points = badges.find((o) => o.kind === "pointsPer" && sameThings(o, b));
+      if (b.kind === "coinsPer" && points) {
+        return [];
+      }
+      const coins = badges.find((o) => o.kind === "coinsPer" && sameThings(o, b));
+      const glyphs = present(b);
+      if (b.kind !== "pointsPer" || !coins) {
+        return glyphs;
+      }
+      const left: Corner = { icon: "coin", text: String(coins.amount), side: "left" };
+      return glyphs.map((g) =>
+        g.corners.length > 0 ? { ...g, corners: [...g.corners, left] } : g,
+      );
+    });
 }
 
 /**
@@ -60,18 +109,13 @@ export function present(badge: Badge): Glyph[] {
       return [glyph("vp", amount, `${amount} victory points`)];
     case "pointsPer":
       return [
-        glyph("vp", amount, `${amount} victory points for each`),
-        ...of.map((t) => target(t, badge.per)),
-        ...(badge.larger ? [glyph("larger", null, "in the city that has more")] : []),
+        ...of.map((t) => reward(t, badge.per, "vp", amount, "victory points")),
+        ...(badge.larger ? [glyph("better", null, "in the city that has more")] : []),
       ];
     case "coins":
       return [glyph("coin", amount, `${amount} coins`)];
     case "coinsPer":
-      return of.map((t) => ({
-        ...target(t),
-        corner: amount,
-        title: `${amount} coins for each ${t}`,
-      }));
+      return of.map((t) => reward(t, 1, "coin", amount, "coins"));
     case "loseCoins":
       return [glyph("coin-lost", amount, `the opponent loses ${amount} coins`)];
     case "science":

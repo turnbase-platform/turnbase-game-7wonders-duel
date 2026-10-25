@@ -30,7 +30,8 @@ const DRAWINGS: Record<string, string> = {
   card: solid('<rect x="4" y="2" width="16" height="20" rx="2"/>'),
   progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
   or: line(path("M16 3L8 21")),
-  larger: line(path("M8 4l9 8-9 8")),
+  // The manual's "the city that has more": an up triangle and a down triangle, split by a slash
+  better: `<g fill="currentColor" stroke="none"><path d="M.5 17L5.5 7l5 10z"/><path d="M14 7h9.5l-4.75 10z"/></g><path d="M13.5 3l-3 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
   chain: line(paths("M9 15l6-6", "M7 11l-2 2a4 4 0 0 0 6 6l2-2", "M17 13l2-2a4 4 0 0 0-6-6l-2 2")),
   // Actions
   trade: line(paths("M4 8h14l-3-3", "M20 16H6l3 3")),

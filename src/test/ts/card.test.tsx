@@ -20,11 +20,10 @@ describe("Card", () => {
   });
 
   it("draws one glyph in the banner per glyph its badges present", () => {
-    // The Merchants' Guild: coins per yellow card (coin, card) and points per yellow card in the
-    // larger city (vp, card, larger).
+    // The Merchants' Guild: one yellow card glyph (points right, coins left) and the "better" symbol.
     const out = html(<Card entry={catalogEntry("merchants-guild")} size="standard" />);
     const banner = out.slice(out.indexOf("card__banner"), out.indexOf("card__art"));
-    expect(count(banner, 'class="glyph')).toBe(5);
+    expect(count(banner, 'class="glyph')).toBe(4); // 2 glyphs + 2 corners;
   });
 
   it("shows no cost overlay for a free card", () => {

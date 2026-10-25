@@ -20,7 +20,7 @@ describe("icon sprite", () => {
       (id) => !SPRITE_IDS.includes(id) && !id.includes(":") && id !== "progress" && id !== "wonder",
     );
     expect(missing).toEqual([]);
-    for (const id of ["card", "progress", "wonder", "larger", "chain", "coin", "vp", "unknown"]) {
+    for (const id of ["card", "progress", "wonder", "better", "chain", "coin", "vp", "unknown"]) {
       expect(SPRITE_IDS).toContain(id);
     }
   });

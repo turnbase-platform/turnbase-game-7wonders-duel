@@ -35,8 +35,11 @@ export const CARD = `
   position: relative; background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
 .glyph .icon-or { margin: 0 -.3em; }
-.glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .2); }
-.glyph__coin { position: absolute; right: -.2em; bottom: -.2em; display: inline-flex; font-size: .7em; }
+.glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .22); }
+.glyph.has-corner { margin: 0 calc(var(--u) * .05); }
+.glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
+.glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
+.glyph__corner b { font-size: .9em; }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
   color: #1b1a17; text-shadow: 0 0 2px #fff, 0 0 2px #fff;
