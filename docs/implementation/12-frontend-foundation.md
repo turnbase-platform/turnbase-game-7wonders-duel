@@ -108,3 +108,25 @@ beyond keyboard-operable buttons, and localisation are not planned.
 - The exact classpath launch for `DevServer` is decided in task 3 by trying it.
 - Whether the resync should also carry recent events (a late-joining client sees no history) is
   deferred from plan 10; the log starts empty after a resync.
+
+## Outcome (2026-10-25)
+
+Built as planned; `npm run dev` (or `scripts/dev.sh [seed]`) starts `DevServer` and Vite, and
+`http://localhost:5173/dev/` shows seat 1, seat 2 and a spectator over the same in-process game.
+Bundle: 199 KB, stylesheet injected from JS, no icons yet.
+
+**Findings from the Playwright pass (tier a) and the SDK harness (tier b):**
+
+- A pick in one seat reached the other seat and the spectator, each with exactly one log entry
+  (the `broadcast` flag keeps a seat from filing its own action twice). An out-of-turn action was
+  refused to the actor alone; the spectator shows hidden cards as counts only.
+- Bug found and fixed: `structure.up` holds every face-up card, covered ones included. Only the
+  cards with a quote may be taken, so offers are derived from the quotes (`moves.ts`).
+- The bundle runs in the SDK harness on two origins (`-Dturnbase.harness.dir=target/bundle`, the
+  unpacked bundle, not the zip) with no console errors; forced resync restores the screen.
+  A second tab opened in the background by automation does not load its iframe until it is the
+  selected tab; that is the browser's throttling, not the game.
+- Log noise for plan 14: an uncovered pyramid card reads "moved from the pyramid to the pyramid".
+  The phrase table should say "was uncovered" for `structure.down` → `structure.up`.
+- Not yet driven: the build-wonder offer (needs the card-then-wonder choice UI, plan 13) and a
+  game over screen (plan 15).

@@ -48,14 +48,13 @@ function draft(view: DuelView): Offer[] {
     }));
 }
 
+/** A quote exists exactly for the cards that may be taken now; the rest of the pyramid is covered. */
 function plays(view: DuelView, self: PlayerId): Offer[] {
-  const affordable = new Set(
-    view.quotes.filter((q) => q.player === self && q.affordable).map((q) => q.component),
-  );
+  const quoted = new Map(view.quotes.filter((q) => q.player === self).map((q) => [q.component, q]));
   return view.visible
-    .filter((placed) => placed.zone === "structure.up")
+    .filter((placed) => placed.zone === "structure.up" && quoted.has(placed.component))
     .flatMap((placed): Offer[] => [
-      ...(affordable.has(placed.component)
+      ...(quoted.get(placed.component)?.affordable === true
         ? [
             {
               target: placed.component,
