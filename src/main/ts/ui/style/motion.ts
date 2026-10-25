@@ -16,9 +16,9 @@ export const MOTION = `
 .burn { --bw: 75px; position: fixed; z-index: 14; pointer-events: none; line-height: 0; overflow: hidden; border-radius: 6px; animation: burn-life ${String(MOTION_MS.burn)}ms linear 1; }
 @keyframes burn-life { from { opacity: 1; } to { opacity: 1; } }
 .burn .card { --w: var(--bw); }
-.burn__card { mask-image: linear-gradient(to bottom, #000 50%, transparent 66.7%); mask-size: 100% 300%; mask-repeat: no-repeat; animation: burn-away ${String(MOTION_MS.burn)}ms ease-in forwards; }
+.burn__card { mask-image: linear-gradient(to bottom, #000 50%, transparent 66.7%); mask-size: 100% 300%; mask-repeat: no-repeat; animation: burn-away ${String(MOTION_MS.burn)}ms cubic-bezier(.3,.1,.6,1) forwards; }
 @keyframes burn-away { 0% { mask-position: 0 0; filter: none; } 30% { filter: sepia(1) saturate(4) hue-rotate(-25deg); } 100% { mask-position: 0 100%; filter: sepia(1) brightness(.3); } }
-.burn__fire { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 38%, #ffe27a 46%, #ff7a1a 51%, #b5260a 57%, transparent 64%); animation: burn-edge ${String(MOTION_MS.burn)}ms ease-in forwards; }
+.burn__fire { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 38%, #ffe27a 46%, #ff7a1a 51%, #b5260a 57%, transparent 64%); animation: burn-edge ${String(MOTION_MS.burn)}ms cubic-bezier(.3,.1,.6,1) forwards; }
 @keyframes burn-edge { from { transform: translateY(125%); } to { transform: translateY(-75%); } }
 @media (prefers-reduced-motion: reduce) { .float, .burn { display: none; } .turn.is-pulse { animation: none; } }
 `;
