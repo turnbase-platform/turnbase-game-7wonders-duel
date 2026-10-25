@@ -47,8 +47,7 @@ export const CARD = `
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 .glyph__corner b { font-size: .9em; }
 .glyph .icon-vp + b { transform: translateY(-.06em); }
-.color-blue, .color-green, .color-purple, .color-red { --vp-ink: #fff; --vp-edge: #0009; }
-.glyph .icon-vp + b { color: var(--vp-ink, #1b1a17); text-shadow: var(--vp-edge, none) 0 0 2px, var(--vp-edge, none) 0 0 1px; }
+.glyph .icon-vp + b { color: #fff; text-shadow: 0 0 2px #0009, 0 0 1px #0009; }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
   color: #1b1a17;
