@@ -11,6 +11,12 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
     <span className={`glyph${tint}`} title={glyph.title}>
       <Icon id={glyph.icon} />
       {glyph.text !== null && <b>{glyph.text}</b>}
+      {glyph.corner !== null && (
+        <span className="glyph__coin">
+          <Icon id="coin" />
+          <b>{glyph.corner}</b>
+        </span>
+      )}
     </span>
   );
 }

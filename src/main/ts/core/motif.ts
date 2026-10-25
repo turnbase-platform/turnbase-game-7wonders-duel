@@ -30,7 +30,8 @@ export function motifOf(entry: CatalogEntry): string {
   }
   for (const kind of PRIORITY) {
     const badge = entry.badges.find((b) => b.kind === kind);
-    const first = badge && present(badge)[0];
+    // What a per-card reward counts is a corner of its glyph; the card is named by the coins.
+    const first = badge && (kind === "coinsPer" ? { icon: "coin" } : present(badge)[0]);
     if (first) {
       return first.icon;
     }

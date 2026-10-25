@@ -5,6 +5,7 @@
 import { IMPORTED, type Imported } from "./icons/imported.js";
 import { COIN_LOST } from "./icons/coin-lost.js";
 import { PRICED } from "./icons/priced.js";
+import { WONDER } from "./icons/wonder.js";
 import { SCIENCE } from "./icons/science.js";
 
 /** The full-colour artwork: imported from the old sprite or drawn after the rulebook. */
@@ -12,6 +13,7 @@ const COLOUR: Readonly<Partial<Record<string, Imported>>> = {
   ...IMPORTED,
   ...SCIENCE,
   ...PRICED,
+  wonder: WONDER,
   "coin-lost": COIN_LOST,
 };
 
@@ -27,7 +29,6 @@ const DRAWINGS: Record<string, string> = {
   // What a badge may count
   card: solid('<rect x="4" y="2" width="16" height="20" rx="2"/>'),
   progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
-  wonder: solid(path("M12 3l10 17H2z")),
   or: line(path("M16 3L8 21")),
   larger: line(path("M8 4l9 8-9 8")),
   chain: line(paths("M9 15l6-6", "M7 11l-2 2a4 4 0 0 0 6 6l2-2", "M17 13l2-2a4 4 0 0 0-6-6l-2 2")),

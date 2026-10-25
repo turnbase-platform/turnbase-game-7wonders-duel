@@ -8,6 +8,8 @@ export interface Glyph {
   title: string;
   /** The card colour a `card` glyph stands for, otherwise null. */
   tint: string | null;
+  /** Coins shown on a coin in the glyph's bottom right corner, or null. */
+  corner: string | null;
 }
 
 function glyph(
@@ -15,8 +17,9 @@ function glyph(
   text: string | null,
   title: string,
   tint: string | null = null,
+  corner: string | null = null,
 ): Glyph {
-  return { icon, text, title, tint };
+  return { icon, text, title, tint, corner };
 }
 
 /** What a `per`/`of` entry counts or applies to: a card colour, progress tokens or Wonders. */
@@ -64,7 +67,11 @@ export function present(badge: Badge): Glyph[] {
     case "coins":
       return [glyph("coin", amount, `${amount} coins`)];
     case "coinsPer":
-      return [glyph("coin", amount, `${amount} coins for each`), ...of.map((t) => target(t))];
+      return of.map((t) => ({
+        ...target(t),
+        corner: amount,
+        title: `${amount} coins for each ${t}`,
+      }));
     case "loseCoins":
       return [glyph("coin-lost", amount, `the opponent loses ${amount} coins`)];
     case "science":

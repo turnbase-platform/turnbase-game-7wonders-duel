@@ -38,8 +38,7 @@ describe("present", () => {
 
   it("shows what is counted for a per-card reward, tinted by card colour", () => {
     expect(present(badge("coinsPer", 2, ["color:brown"]))).toMatchObject([
-      { icon: "coin", text: "2" },
-      { icon: "card", tint: "brown" },
+      { icon: "card", tint: "brown", corner: "2" },
     ]);
     expect(present(badge("pointsPer", 1, ["color:yellow"], true))).toMatchObject([
       { icon: "vp", text: "1" },
