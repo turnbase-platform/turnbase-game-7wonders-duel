@@ -35,10 +35,10 @@ export const CARD = `
   justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
   position: relative; background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
-.glyph .icon-or { margin: 0 -.3em; }
+.glyph .icon-or { margin: 0 -.4em; }
 .glyph {
   position: relative; display: inline-flex;
-  font-size: min(calc(var(--u) * .22), calc(var(--w) * .9 / (var(--span))));
+  font-size: min(calc(var(--u) * .25), calc(var(--w) * .92 / (var(--span))));
 }
 .glyph.is-pile { width: 1.45em; height: 1.45em; }
 .glyph__pile { position: absolute; display: inline-flex; left: calc(var(--i) * .4em); top: calc(var(--i) * .4em); width: 1.05em; height: 1.05em; }
@@ -46,6 +46,9 @@ export const CARD = `
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 .glyph__corner b { font-size: .9em; }
+.glyph .icon-vp + b { transform: translateY(-.06em); }
+.color-blue, .color-green, .color-purple, .color-red { --vp-ink: #fff; --vp-edge: #0009; }
+.glyph .icon-vp + b { color: var(--vp-ink, #1b1a17); text-shadow: var(--vp-edge, none) 0 0 2px, var(--vp-edge, none) 0 0 1px; }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
   color: #1b1a17;

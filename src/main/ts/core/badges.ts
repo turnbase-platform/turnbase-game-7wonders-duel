@@ -77,7 +77,7 @@ function reward(
 /** How many icon widths a glyph takes in the banner, which the banner fits its icons to. */
 export function span(g: Glyph): number {
   if (g.icon === "or") {
-    return 0.4;
+    return 0.3;
   }
   return (g.pile.length > 1 ? 1.45 : 1) + (g.corners.length > 0 ? 0.2 : 0);
 }
