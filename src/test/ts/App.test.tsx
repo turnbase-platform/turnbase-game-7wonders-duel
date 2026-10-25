@@ -83,14 +83,17 @@ describe("App", () => {
   it("shows no buttons to a spectator, and says so", () => {
     show(session(null, message("view-after-draft-pick")));
 
-    expect(host.querySelectorAll("button")).toHaveLength(0);
+    expect([...host.querySelectorAll("button")].map((b) => b.textContent)).not.toContain("Take");
     expect(host.textContent).toContain("(spectating)");
   });
 
-  it("shows a hidden card as a count, never a name", () => {
-    show(session(null, message("view-in-age")));
+  it("shows a hidden card as a back, never a name", () => {
+    const m = message("view-in-age");
+    if (m.view === null) throw new Error("no view");
+    show(session(null, { ...m, view: { ...m.view, deciding: null } }));
 
-    expect(host.textContent).toContain("▮ ×1");
+    expect(host.querySelectorAll(".pyramid .card--back")).toHaveLength(8);
+    expect(host.querySelectorAll(".pyramid .card:not(.card--back)")).toHaveLength(12);
   });
 
   it("shows why an action was refused", () => {

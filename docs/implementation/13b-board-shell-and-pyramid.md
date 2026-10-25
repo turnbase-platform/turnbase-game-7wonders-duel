@@ -53,3 +53,38 @@ are interactive, and `App.tsx` no longer lists zones.
 ## Not in this plan
 
 City stacks and the action popover (13c), the real track (15), motion (14).
+
+## Outcome (2026-10-25)
+
+Built as planned: `core/{layout,seats,pyramid,selection}.ts` and `ui/{Board,Header,TrackStrip,Structure,Pyramid,City,Log,useSize}.tsx`
+with `ui/style/board.ts`. `App.tsx` is now only the "waiting" guard and `<Board>`. 133 frontend tests, bundle 222 KB (was 205).
+
+**Rulings**
+
+- `layoutFor` order: landscape first (wider than tall, shorter than 450px, at least 600 wide), then wide
+  ≥ 900, medium ≥ 600, else portrait. 450 rather than 500: a laptop window of 750×487 is not a phone.
+- Seats come from `view.players` order (first = seat 1), so a spectator's "me" is seat 1 without the
+  roster. `seatsOf` is null until the first view.
+- The pyramid frame never shrinks within an Age (`pyramidOf(view, floor)`, the floor held in a ref keyed
+  by Age), so cards leaving do not move the rest. A taken card is simply absent.
+- Scale fits width **and** height (`fit(box, extent)`), clamped to 0.3–1.25. Design said width only; a
+  short frame (844×390) needs height too.
+- Three states of a face-up pyramid card: **covered** (no quote for anyone: dimmed), **waiting** (a quote
+  exists, not the viewer's turn: normal, inert), **takeable** (the viewer has an offer: glow, button).
+  Design only named the first and last; without "waiting" every card dims on the opponent's turn.
+- The Wonder draft and starter choice send their action directly (their offers are already single
+  actions); only pyramid cards select first (design §5, popover in 13c).
+- `attention()` returns "structure" for every offer today. Pending answers (destroy a card, pick a token)
+  belong to a city or the strip and are re-pointed in plan 15 when those prompts exist.
+- The city panel is a stub (coins, Wonder names) until 13c; the track strip is a text stub until 15.
+- `groupZones` and its test are deleted: nothing renders zones as lists any more.
+
+**Findings**
+
+- The dev harness mounts the game in an unnamed `div`, so `height: 100%` on the board resolved to auto.
+  It is now `#root`, and the board fills the frame.
+- Checked at 1280×800, 800×900, 390×844 and 844×390 in the harness: layouts resolve wide, medium, portrait
+  and landscape; no horizontal overflow; the pyramid fits and is centred in all four; the phone tab bar
+  and header stay on screen. Age II's inverted pyramid draws correctly from keys alone.
+- A covered row's name bar is hidden by the row in front (design §7's 30% overlap); the banner stays
+  visible. Acceptable, revisit if it reads badly with real play.

@@ -7,7 +7,9 @@ import { App } from "./ui/App.js";
 import { injectStyles } from "./ui/styles.js";
 
 const client = new TurnBaseClient<WireAction, ServerMessage>();
-const root = createRoot(document.body.appendChild(document.createElement("div")));
+const mount = document.body.appendChild(document.createElement("div"));
+mount.id = "root";
+const root = createRoot(mount);
 let session = emptySession();
 
 function send(action: WireAction): void {
