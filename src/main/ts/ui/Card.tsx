@@ -44,22 +44,30 @@ function Cost({ entry }: { entry: CatalogEntry }) {
   }
   return (
     <div className="card__cost">
-      {coins > 0 && (
-        <span className="cost__coin" title={`${String(coins)} coins`}>
-          <Icon id="coin" />
-          <b>{coins}</b>
-        </span>
+      {(coins > 0 || resources.length > 0) && (
+        <div className="cost__bar">
+          {coins > 0 && (
+            <span className="cost__coin" title={`${String(coins)} coins`}>
+              <Icon id="coin" />
+              <b>{coins}</b>
+            </span>
+          )}
+          {resources.flatMap((r) =>
+            Array.from({ length: r.count }, (_, i) => (
+              <Icon key={`${r.resource}${String(i)}`} id={r.resource} />
+            )),
+          )}
+        </div>
       )}
-      {resources.flatMap((r) =>
-        Array.from({ length: r.count }, (_, i) => (
-          <Icon key={`${r.resource}${String(i)}`} id={r.resource} />
-        )),
+      {freedBy.length > 0 && (
+        <div className="cost__bar">
+          {freedBy.map((symbol) => (
+            <span key={symbol} className="cost__free" title={`free with ${symbol}`}>
+              <Icon id={symbol} />
+            </span>
+          ))}
+        </div>
       )}
-      {freedBy.map((symbol) => (
-        <span key={symbol} className="cost__free" title={`free with ${symbol}`}>
-          <Icon id={symbol} />
-        </span>
-      ))}
     </div>
   );
 }

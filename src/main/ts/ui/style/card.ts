@@ -66,16 +66,20 @@ export const CARD = `
 .glyph.tint-purple .icon, .glyph__pile.tint-purple .icon { color: var(--c-purple); }
 
 .card__cost {
-  position: absolute; top: calc(var(--u) * .36); left: 0; z-index: 1; display: flex;
-  flex-direction: row; align-items: center; gap: calc(var(--u) * .01);
-  padding: calc(var(--u) * .01) calc(var(--u) * .05) calc(var(--u) * .01) calc(var(--u) * .02);
-  font-size: calc(var(--u) * .13); background: #6f6a6099;
+  position: absolute; top: calc(var(--u) * .34); left: 0; z-index: 1; display: flex;
+  flex-direction: column; align-items: flex-start; gap: calc(var(--u) * .08);
+  font-size: calc(var(--u) * .13);
+}
+.cost__bar {
+  display: flex; flex-direction: row; align-items: center; gap: calc(var(--u) * .01);
+  height: .6em; padding: 0 calc(var(--u) * .05) 0 calc(var(--u) * .02); background: #6f6a6099;
   border-radius: 0 calc(var(--u) * .1) calc(var(--u) * .1) 0;
 }
 .cost__coin { position: relative; display: inline-flex; }
 .cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif); color: #1b1a17; text-shadow: 0 0 2px #fff; }
 .cost__free .icon { color: #fff; }
-.card--wonder .card__cost { position: static; font-size: calc(var(--u) * .26); flex-wrap: wrap; justify-content: center; padding: 0; background: none; border-radius: 0; }
+.card--wonder .card__cost { position: static; align-items: center; font-size: calc(var(--u) * .26); flex-wrap: wrap; justify-content: center; }
+.card--wonder .cost__bar { height: auto; padding: 0; background: none; border-radius: 0; flex-wrap: wrap; justify-content: center; }
 .card--wonder .card__chain { display: none; }
 .card__art {
   flex: 1; display: grid; place-items: center; min-height: 0;
