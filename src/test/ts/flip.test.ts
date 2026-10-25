@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Cue } from "../../main/ts/core/cues.js";
-import { tweensOf, type Rect } from "../../main/ts/core/flip.js";
+import { burnsOf, tweensOf, type Rect } from "../../main/ts/core/flip.js";
 
 const rect = (left: number, top: number, width = 100, height = 150): Rect => ({
   left,
@@ -75,5 +75,23 @@ describe("tweensOf", () => {
     expect(tweensOf(cues, where, where)).toEqual([
       { kind: "chain", component: "baths", dx: 0, dy: 0, sx: 1, sy: 1 },
     ]);
+  });
+});
+
+describe("burnsOf", () => {
+  const burn = (component: string): Cue => ({ kind: "burn", id: 1, parent: -1, component });
+
+  it("keeps a burning card where it stood, since it has nowhere to go", () => {
+    expect(burnsOf([burn("baths")], new Map([["baths", rect(300, 200, 60, 90)]]))).toEqual([
+      { component: "baths", rect: rect(300, 200, 60, 90) },
+    ]);
+  });
+
+  it("has nothing to burn for a card that was not on screen", () => {
+    expect(burnsOf([burn("baths")], new Map())).toEqual([]);
+  });
+
+  it("ignores the cues that are not burns", () => {
+    expect(burnsOf([travel("baths")], new Map([["baths", rect(0, 0)]]))).toEqual([]);
   });
 });

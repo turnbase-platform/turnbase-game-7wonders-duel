@@ -12,5 +12,13 @@ export const MOTION = `
 @keyframes float { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -22px); } }
 .turn.is-pulse { display: inline-block; animation: pulse ${String(MOTION_MS.pulse)}ms ${EASE} 1; }
 @keyframes pulse { 0% { transform: scale(1); } 40% { transform: scale(1.25); } 100% { transform: scale(1); } }
-@media (prefers-reduced-motion: reduce) { .float { display: none; } .turn.is-pulse { animation: none; } }
+/* A discarded card burns from the bottom up: a mask sweeps the card away while a band of fire rides its edge. */
+.burn { --bw: 75px; position: fixed; z-index: 14; pointer-events: none; line-height: 0; overflow: hidden; border-radius: 6px; animation: burn-life ${String(MOTION_MS.burn)}ms linear 1; }
+@keyframes burn-life { from { opacity: 1; } to { opacity: 1; } }
+.burn .card { --w: var(--bw); }
+.burn__card { mask-image: linear-gradient(to bottom, #000 50%, transparent 66.7%); mask-size: 100% 300%; mask-repeat: no-repeat; animation: burn-away ${String(MOTION_MS.burn)}ms ease-in forwards; }
+@keyframes burn-away { 0% { mask-position: 0 0; filter: none; } 30% { filter: sepia(1) saturate(4) hue-rotate(-25deg); } 100% { mask-position: 0 100%; filter: sepia(1) brightness(.3); } }
+.burn__fire { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 38%, #ffe27a 46%, #ff7a1a 51%, #b5260a 57%, transparent 64%); animation: burn-edge ${String(MOTION_MS.burn)}ms ease-in forwards; }
+@keyframes burn-edge { from { transform: translateY(125%); } to { transform: translateY(-75%); } }
+@media (prefers-reduced-motion: reduce) { .float, .burn { display: none; } .turn.is-pulse { animation: none; } }
 `;

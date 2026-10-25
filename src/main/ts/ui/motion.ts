@@ -6,6 +6,7 @@ export const MOTION_MS = {
   chain: 600,
   coins: 500,
   pulse: 600,
+  burn: 900,
 } as const;
 
 export const EASE = "cubic-bezier(.2, .7, .2, 1)";

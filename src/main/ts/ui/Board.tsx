@@ -5,11 +5,14 @@ import { attention, selectedOf, selectionReducer } from "../core/selection.js";
 import { seatsOf, type Seats } from "../core/seats.js";
 import type { Session } from "../core/session.js";
 import type { WireAction } from "../core/wire.js";
+import { discardedOf } from "../core/discard.js";
 import { BoardTokens } from "./BoardTokens.js";
 import { Actions, type Placement } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
+import { Burns } from "./Burns.js";
+import { DiscardPile } from "./DiscardPile.js";
 import { Header } from "./Header.js";
-import { IconSprite } from "./icons.js";
+import { Icon, IconSprite } from "./icons.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
@@ -33,14 +36,14 @@ export function Board({ session, send, layout: fixed }: Props) {
   const layout = fixed ?? (size === null ? "wide" : layoutFor(size));
   const [pane, setPane] = useState<Pane>("structure");
   const [side, setSide] = useState<Side>("me");
-  const [logOpen, setLogOpen] = useState(false);
+  const [drawer, setDrawer] = useState<"log" | "discard" | null>(null);
   const [selection, select] = useReducer(selectionReducer, null);
   const { view, catalog } = session;
   const available = view === null ? [] : offersOf(session);
   const selected = selectedOf(selection, available);
   const placement = usePlacement(root, selected, layout, size);
   const shown = useLingering(selected, placement);
-  useChoreography(root, session.history.at(-1) ?? null);
+  const { burns, clearBurns } = useChoreography(root, session.history.at(-1) ?? null);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
 
@@ -75,6 +78,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   return (
     <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
       <IconSprite />
+      <Burns burns={burns} catalog={catalog} onDone={clearBurns} />
       {!wide && <Header session={session} seats={seats} />}
       {session.rejection !== null && <div className="banner">{session.rejection}</div>}
       <div className="main">
@@ -90,13 +94,24 @@ export function Board({ session, send, layout: fixed }: Props) {
           </aside>
         )}
         <div className="stage">
+          <button
+            type="button"
+            className="pilebtn"
+            aria-expanded={drawer === "discard"}
+            aria-label="Discard pile"
+            onClick={() => {
+              setDrawer(drawer === "discard" ? null : "discard");
+            }}
+          >
+            <Icon id="discard-pile" /> {discardedOf(view).length}
+          </button>
           {wide && (
             <button
               type="button"
               className="logbtn"
-              aria-expanded={logOpen}
+              aria-expanded={drawer === "log"}
               onClick={() => {
-                setLogOpen(!logOpen);
+                setDrawer(drawer === "log" ? null : "log");
               }}
             >
               Log
@@ -147,19 +162,27 @@ export function Board({ session, send, layout: fixed }: Props) {
             />
           </aside>
         )}
-        {wide && logOpen && (
-          <aside className="drawer" role="dialog" aria-label="Log">
+        {drawer !== null && (wide || drawer === "discard") && (
+          <aside
+            className="drawer"
+            role="dialog"
+            aria-label={drawer === "log" ? "Log" : "Discard pile"}
+          >
             <button
               type="button"
               className="drawer__close"
-              aria-label="Close the log"
+              aria-label={drawer === "log" ? "Close the log" : "Close the discard pile"}
               onClick={() => {
-                setLogOpen(false);
+                setDrawer(null);
               }}
             >
               ×
             </button>
-            <Log session={session} />
+            {drawer === "log" ? (
+              <Log session={session} />
+            ) : (
+              <DiscardPile view={view} catalog={catalog} />
+            )}
           </aside>
         )}
         {(layout === "medium" || layout === "landscape") && (

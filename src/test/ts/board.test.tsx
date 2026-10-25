@@ -119,6 +119,34 @@ describe("Board", () => {
     expect(host.querySelector(".drawer")).toBeNull();
   });
 
+  it("opens the discard pile from its button on every layout, one drawer at a time", () => {
+    const m = inAge();
+    if (m.view === null) throw new Error("no view");
+    const thrown = m.view.visible.find((p) => p.zone === "structure.up");
+    if (thrown === undefined) throw new Error("no card to throw");
+    const view = {
+      ...m.view,
+      visible: m.view.visible.map((p) => (p === thrown ? { ...p, zone: "discard", key: "" } : p)),
+    };
+    show(session(TWO, { ...m, view }), "portrait");
+
+    expect(host.querySelector(".pilebtn")?.textContent).toContain("1");
+    click(host.querySelector(".pilebtn"));
+    expect(host.querySelectorAll('.drawer[aria-label="Discard pile"] .pile .card')).toHaveLength(1);
+    click(host.querySelector(".drawer__close"));
+    expect(host.querySelector(".drawer")).toBeNull();
+  });
+
+  it("says so when nothing has been discarded", () => {
+    show(age(), "wide");
+
+    click(host.querySelector(".pilebtn"));
+    expect(host.querySelector(".pile__empty")?.textContent).toBe("Nothing discarded yet.");
+    click(host.querySelector(".logbtn"));
+    expect(host.querySelector(".pile")).toBeNull();
+    expect(host.querySelector(".drawer .log")).not.toBeNull();
+  });
+
   it("names the cities after the seats for a spectator", () => {
     show(session(null, inAge()), "wide");
 

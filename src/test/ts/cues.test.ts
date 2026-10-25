@@ -37,6 +37,18 @@ describe("cuesOf", () => {
     ]);
   });
 
+  it("burns a card that goes to the discard pile instead of travelling", () => {
+    const discarded = event({
+      kind: "moved",
+      id: 5,
+      component: "baths",
+      from: at("structure.up", "2:0"),
+      to: at("discard", ""),
+    });
+
+    expect(cuesOf([discarded])).toEqual([{ kind: "burn", id: 5, parent: -1, component: "baths" }]);
+  });
+
   it("turns a card that was uncovered instead of moving it", () => {
     const uncovered = event({
       kind: "moved",

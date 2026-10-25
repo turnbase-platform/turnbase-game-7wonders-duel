@@ -15,12 +15,15 @@ export type Cue =
       to: PlaceView | null;
     })
   | (Base & { kind: "flip"; component: ComponentId })
+  | (Base & { kind: "burn"; component: ComponentId })
   | (Base & { kind: "coins"; player: PlayerId | null; amount: number })
   | (Base & { kind: "chain"; component: ComponentId })
   | (Base & { kind: "turn"; player: PlayerId | null; granted: boolean });
 
 const isUncover = (e: EventView): boolean =>
   e.from?.zone === "structure.down" && e.to?.zone === "structure.up";
+
+const isDiscard = (e: EventView): boolean => e.to?.zone === "discard";
 
 /**
  * Cues in event order. An event this client cannot see a component for has none, nor has the
@@ -32,9 +35,9 @@ export function cuesOf(events: EventView[]): Cue[] {
     switch (e.kind) {
       case "moved":
         if (e.component === null) return [];
-        return isUncover(e)
-          ? [{ ...base, kind: "flip", component: e.component }]
-          : [{ ...base, kind: "travel", component: e.component, from: e.from, to: e.to }];
+        if (isUncover(e)) return [{ ...base, kind: "flip", component: e.component }];
+        if (isDiscard(e)) return [{ ...base, kind: "burn", component: e.component }];
+        return [{ ...base, kind: "travel", component: e.component, from: e.from, to: e.to }];
       case "coins":
         return [{ ...base, kind: "coins", player: e.player, amount: e.amount }];
       case "chain":

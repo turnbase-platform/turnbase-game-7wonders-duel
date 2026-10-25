@@ -26,16 +26,27 @@ function moved(component: string): EventView {
 const stepOf = (number: number, ...events: EventView[]): Step => ({ number, events });
 
 /** Two cards; `where` is where the test says each one is, since a test DOM has no layout. */
-function Probe({ step, inDialog = false }: { step: Step | null; inDialog?: boolean }) {
+function Probe({
+  step,
+  inDialog = false,
+  gone = false,
+}: {
+  step: Step | null;
+  inDialog?: boolean;
+  gone?: boolean;
+}) {
   const ref = { current: null as HTMLDivElement | null };
-  useChoreography(ref, step);
+  const { burns } = useChoreography(ref, step);
   return (
     <div
       ref={(el) => {
         ref.current = el;
       }}
     >
-      <div data-component="palisade" />
+      {!gone && <div data-component="palisade" />}
+      {burns.map((b) => (
+        <i key={b.component} data-burn={b.component} />
+      ))}
       {inDialog && (
         <div role="dialog">
           <div data-component="palisade" />
@@ -76,11 +87,34 @@ describe("useChoreography", () => {
     vi.restoreAllMocks();
   });
 
-  const show = (step: Step | null, inDialog = false): void => {
+  const show = (step: Step | null, inDialog = false, gone = false): void => {
     act(() => {
-      root.render(<Probe step={step} inDialog={inDialog} />);
+      root.render(<Probe step={step} inDialog={inDialog} gone={gone} />);
     });
   };
+
+  const discarded = (component: string): EventView => ({
+    ...moved(component),
+    to: { zone: "discard", key: "" },
+  });
+
+  it("leaves a discarded card burning where it stood, once it has left the board", () => {
+    show(null);
+    show(stepOf(1, discarded("palisade")), false, true);
+
+    expect(host.querySelector('[data-burn="palisade"]')).not.toBeNull();
+    expect(animate).not.toHaveBeenCalled();
+  });
+
+  it("stops the burn at a click, like every other animation", () => {
+    show(null);
+    show(stepOf(1, discarded("palisade")), false, true);
+    act(() => {
+      host.firstElementChild?.dispatchEvent(new Event("pointerdown", { bubbles: true }));
+    });
+
+    expect(host.querySelector("[data-burn]")).toBeNull();
+  });
 
   it("animates a moved card from where it was to where it is", () => {
     show(null);

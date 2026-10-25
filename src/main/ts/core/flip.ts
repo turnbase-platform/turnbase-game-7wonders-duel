@@ -62,3 +62,18 @@ export function tweensOf(
     }
   });
 }
+
+/** A card that has left the board and is shown once more, where it stood, while it burns. */
+export interface Burn {
+  component: ComponentId;
+  rect: Rect;
+}
+
+/** The burning cards: each had a place on screen before, and has none now. */
+export function burnsOf(cues: Cue[], before: ReadonlyMap<ComponentId, Rect>): Burn[] {
+  return cues.flatMap((cue): Burn[] => {
+    if (cue.kind !== "burn") return [];
+    const rect = before.get(cue.component);
+    return rect === undefined ? [] : [{ component: cue.component, rect }];
+  });
+}

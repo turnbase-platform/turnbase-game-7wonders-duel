@@ -29,9 +29,15 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
-.logbtn { position: absolute; right: 4px; bottom: 4px; z-index: 13; padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
-.logbtn[aria-expanded="true"] { border-color: var(--ink); }
-.drawer { position: absolute; z-index: 15; top: 8px; right: 8px; bottom: 8px; box-sizing: border-box; width: 340px; overflow: auto; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); box-shadow: 0 6px 24px #0006; }
+.logbtn, .pilebtn { position: absolute; bottom: 4px; z-index: 13; padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
+.logbtn { right: 4px; } .pilebtn { left: 4px; display: inline-flex; align-items: center; gap: 6px; }
+.pilebtn .icon { width: 20px; height: 20px; }
+.logbtn[aria-expanded="true"], .pilebtn[aria-expanded="true"] { border-color: var(--ink); }
+.pile h3 { margin: 0 0 8px; font-size: 12px; opacity: .7; font-weight: 600; }
+.pile__cards { display: flex; flex-wrap: wrap; gap: 6px; }
+.pile .card { --w: 72px; }
+.pile__empty { margin: 0; color: var(--muted); }
+.drawer { position: absolute; z-index: 15; top: 8px; right: 8px; bottom: 8px; box-sizing: border-box; width: 340px; max-width: calc(100% - 16px); overflow: auto; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); box-shadow: 0 6px 24px #0006; }
 .drawer .log { margin-top: 0; }
 .drawer__close { position: absolute; top: 2px; right: 6px; border: 0; background: none; font-size: 20px; cursor: pointer; }
 .city__head { position: relative; display: flex; align-items: center; gap: 4px 12px; margin-bottom: 28px; padding-bottom: 4px; border-bottom: 3px solid var(--seat); }
