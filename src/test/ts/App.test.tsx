@@ -65,7 +65,7 @@ describe("App", () => {
   it("names the seat to act and every player's coins", () => {
     show(session(ONE));
 
-    expect(host.querySelector(".turn")?.textContent).toMatch(/your turn$|to act$/);
+    expect(host.querySelectorAll(".city .city__turn")).toHaveLength(1);
     expect(host.querySelector(".city.owner-me .purse")?.textContent).toMatch(/\d/);
     expect(host.querySelector(".city.owner-opp .purse")?.textContent).toMatch(/\d/);
   });
@@ -85,7 +85,10 @@ describe("App", () => {
     show(session(null, message("view-after-draft-pick")));
 
     expect([...host.querySelectorAll("button")].map((b) => b.textContent)).not.toContain("Take");
-    expect(host.textContent).toContain("(spectating)");
+    expect([...host.querySelectorAll(".city__head h3")].map((h) => h.textContent)).toEqual([
+      "One",
+      "Two",
+    ]);
   });
 
   it("shows a hidden card as a back, never a name", () => {

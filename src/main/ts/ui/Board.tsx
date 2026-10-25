@@ -9,7 +9,6 @@ import { BoardTokens } from "./BoardTokens.js";
 import { Actions, type Anchor } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
-import { Status } from "./Status.js";
 import { IconSprite } from "./icons.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
@@ -92,30 +91,21 @@ export function Board({ session, send, layout: fixed }: Props) {
         )}
         <div className="stage">
           {wide && (
-            <div className="statusline">
-              <Status session={session} seats={seats} />
-              {seats.spectator && <span className="who">(spectating)</span>}
-              <button
-                type="button"
-                className="logbtn"
-                aria-expanded={logOpen}
-                onClick={() => {
-                  setLogOpen(!logOpen);
-                }}
-              >
-                Log
-              </button>
-            </div>
+            <button
+              type="button"
+              className="logbtn"
+              aria-expanded={logOpen}
+              onClick={() => {
+                setLogOpen(!logOpen);
+              }}
+            >
+              Log
+            </button>
           )}
           <TrackStrip view={view} catalog={catalog} seats={seats} />
           {showing("structure") && (
             <main className="structure">
-              <BoardTokens
-                view={view}
-                catalog={catalog}
-                size={compact ? "small" : "standard"}
-                titled={wide}
-              />
+              <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
               <Structure
                 session={session}
                 view={view}

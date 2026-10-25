@@ -5,6 +5,7 @@ import { seatName, type Session } from "../core/session.js";
 import type { ComponentId } from "../core/wire.js";
 import { Card, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
+import { replayStep } from "./Status.js";
 
 export type Side = "me" | "opp";
 
@@ -83,6 +84,7 @@ export function City({
       </button>
     );
   };
+  const replay = replayStep(session);
   const peeked = peek === null ? undefined : catalog.get(peek);
   return (
     <section className={`city owner-${side}`}>
@@ -90,11 +92,18 @@ export function City({
         <header className="city__head">
           <h3>{title}</h3>
           {view.active === seats[side] && view.phase !== "OVER" && (
-            <span className="city__turn" title="To act" role="img" aria-label="To act" />
+            <span
+              // A new key restarts the pulse for every action that grants a replay.
+              key={replay === null ? "turn" : `pulse-${String(replay)}`}
+              className={`turn city__turn${replay === null ? "" : " is-pulse"}`}
+              title="To act"
+              role="img"
+              aria-label="To act"
+            />
           )}
+          {coins && <Purse session={session} player={seats[side]} side={side} big />}
         </header>
       )}
-      {coins && <Purse session={session} player={seats[side]} side={side} big />}
       {city.wonders.length > 0 && (
         <div className="wonders">
           {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
