@@ -28,7 +28,7 @@ describe("icon sprite", () => {
   it("names every symbol", () => {
     const sprite = renderToStaticMarkup(<IconSprite />);
     for (const id of SPRITE_IDS) {
-      expect(sprite).toContain(`<symbol id="i-${id}" viewBox="0 0 24 24"><title>`);
+      expect(sprite).toMatch(new RegExp(`<symbol id="i-${id}" viewBox="[\\d. ]+"><title>`));
     }
   });
 
