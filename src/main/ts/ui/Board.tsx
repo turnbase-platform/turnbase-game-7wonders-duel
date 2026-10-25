@@ -94,29 +94,6 @@ export function Board({ session, send, layout: fixed }: Props) {
           </aside>
         )}
         <div className="stage">
-          <button
-            type="button"
-            className="pilebtn"
-            aria-expanded={drawer === "discard"}
-            aria-label="Discard pile"
-            onClick={() => {
-              setDrawer(drawer === "discard" ? null : "discard");
-            }}
-          >
-            <Icon id="discard-pile" /> {discardedOf(view).length}
-          </button>
-          {!phone && (
-            <button
-              type="button"
-              className="logbtn"
-              aria-expanded={drawer === "log"}
-              onClick={() => {
-                setDrawer(drawer === "log" ? null : "log");
-              }}
-            >
-              Log
-            </button>
-          )}
           <TrackStrip view={view} catalog={catalog} seats={seats} />
           {showing("structure") && (
             <main className="structure">
@@ -149,6 +126,33 @@ export function Board({ session, send, layout: fixed }: Props) {
                 />
               )}
             </main>
+          )}
+          {showing("structure") && (
+            <div className="stagebar">
+              <button
+                type="button"
+                className="pilebtn"
+                aria-expanded={drawer === "discard"}
+                aria-label="Discard pile"
+                onClick={() => {
+                  setDrawer(drawer === "discard" ? null : "discard");
+                }}
+              >
+                <Icon id="discard-pile" /> {discardedOf(view).length}
+              </button>
+              {!phone && (
+                <button
+                  type="button"
+                  className="logbtn"
+                  aria-expanded={drawer === "log"}
+                  onClick={() => {
+                    setDrawer(drawer === "log" ? null : "log");
+                  }}
+                >
+                  Log
+                </button>
+              )}
+            </div>
           )}
         </div>
         {wide && (

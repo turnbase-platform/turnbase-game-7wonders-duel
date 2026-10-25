@@ -29,8 +29,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
-.logbtn, .pilebtn { position: absolute; bottom: 4px; z-index: 13; padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
-.logbtn { right: 4px; } .pilebtn { left: 4px; display: inline-flex; align-items: center; gap: 6px; }
+.stagebar { flex: none; display: flex; justify-content: space-between; align-items: center; }
+.logbtn, .pilebtn { padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
+.pilebtn { display: inline-flex; align-items: center; gap: 6px; } .logbtn { margin-left: auto; }
 .pilebtn .icon { width: 20px; height: 20px; }
 .logbtn[aria-expanded="true"], .pilebtn[aria-expanded="true"] { border-color: var(--ink); }
 .pile h3 { margin: 0 0 8px; font-size: 12px; opacity: .7; font-weight: 600; }
