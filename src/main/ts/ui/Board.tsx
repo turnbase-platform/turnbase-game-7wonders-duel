@@ -9,6 +9,7 @@ import { BoardTokens } from "./BoardTokens.js";
 import { Actions, type Anchor } from "./Actions.js";
 import { City, sideLabel, Tab, type Side } from "./City.js";
 import { Header } from "./Header.js";
+import { Status } from "./Status.js";
 import { IconSprite } from "./icons.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
@@ -34,6 +35,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const layout = fixed ?? (size === null ? "wide" : layoutFor(size));
   const [pane, setPane] = useState<Pane>("structure");
   const [side, setSide] = useState<Side>("me");
+  const [logOpen, setLogOpen] = useState(false);
   const [selection, select] = useReducer(selectionReducer, null);
   const { view, catalog } = session;
   const available = view === null ? [] : offersOf(session);
@@ -44,6 +46,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   if (view === null || catalog === null || seats === null) return null;
 
   const phone = layout === "portrait";
+  const wide = layout === "wide";
   const compact = layout === "landscape" || phone;
   const showing = (wanted: Pane): boolean => !phone || pane === wanted;
   const goTo = (next: Pane, which?: Side): void => {
@@ -73,14 +76,46 @@ export function Board({ session, send, layout: fixed }: Props) {
   return (
     <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
       <IconSprite />
-      <Header session={session} seats={seats} />
+      {!wide && <Header session={session} seats={seats} />}
       {session.rejection !== null && <div className="banner">{session.rejection}</div>}
       <div className="main">
+        {wide && (
+          <aside className="city-col">
+            <City
+              session={session}
+              seats={seats}
+              side="me"
+              title={sideLabel(session, seats, "me")}
+              coins
+            />
+          </aside>
+        )}
         <div className="stage">
+          {wide && (
+            <div className="statusline">
+              <Status session={session} seats={seats} />
+              {seats.spectator && <span className="who">(spectating)</span>}
+              <button
+                type="button"
+                className="logbtn"
+                aria-expanded={logOpen}
+                onClick={() => {
+                  setLogOpen(!logOpen);
+                }}
+              >
+                Log
+              </button>
+            </div>
+          )}
           <TrackStrip view={view} catalog={catalog} seats={seats} />
           {showing("structure") && (
             <main className="structure">
-              <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
+              <BoardTokens
+                view={view}
+                catalog={catalog}
+                size={compact ? "small" : "standard"}
+                titled={wide}
+              />
               <Structure
                 session={session}
                 view={view}
@@ -95,9 +130,29 @@ export function Board({ session, send, layout: fixed }: Props) {
             </main>
           )}
         </div>
-        {layout === "wide" && (
-          <aside className="panel">
-            {cities}
+        {wide && (
+          <aside className="city-col">
+            <City
+              session={session}
+              seats={seats}
+              side="opp"
+              title={sideLabel(session, seats, "opp")}
+              coins
+            />
+          </aside>
+        )}
+        {wide && logOpen && (
+          <aside className="drawer" role="dialog" aria-label="Log">
+            <button
+              type="button"
+              className="drawer__close"
+              aria-label="Close the log"
+              onClick={() => {
+                setLogOpen(false);
+              }}
+            >
+              ×
+            </button>
             <Log session={session} />
           </aside>
         )}

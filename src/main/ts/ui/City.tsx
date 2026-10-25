@@ -5,6 +5,7 @@ import { seatName, type Session } from "../core/session.js";
 import type { ComponentId } from "../core/wire.js";
 import { Card, type CardSize } from "./Card.js";
 import { Icon } from "./icons.js";
+import { Purse } from "./Purse.js";
 
 export type Side = "me" | "opp";
 
@@ -35,8 +36,22 @@ export function Tab({ label, active, tint, onPick }: TabProps) {
   );
 }
 
-/** The city of one seat: coins and production, the colour stacks, the Wonders and progress tokens. */
-export function City({ session, seats, side }: { session: Session; seats: Seats; side: Side }) {
+/** The city of one seat: coins and production, the Wonders, the colour stacks and progress tokens. */
+export function City({
+  session,
+  seats,
+  side,
+  title,
+  coins = false,
+}: {
+  session: Session;
+  seats: Seats;
+  side: Side;
+  /** Names the city above its coins, when it stands on its own rather than under a tab. */
+  title?: string;
+  /** Shows the city's coins in its head, when no header does. */
+  coins?: boolean;
+}) {
   const [peek, setPeek] = useState<ComponentId | null>(null);
   const { view, catalog } = session;
   if (view === null || catalog === null) return null;
@@ -72,17 +87,23 @@ export function City({ session, seats, side }: { session: Session; seats: Seats;
   const peeked = peek === null ? undefined : catalog.get(peek);
   return (
     <section className={`city owner-${side}`}>
-      <p className="city__line">
-        <span className="purse" title={`${String(city.coins)} coins`}>
-          <Icon id="coin" /> <b>{city.coins}</b>
+      <header className="city__head">
+        {title !== undefined && <h3>{title}</h3>}
+        {coins && <Purse session={session} player={seats[side]} side={side} big />}
+        <span className="city__line">
+          {city.produces.map((r) => (
+            <span key={r.resource} className="glyph" title={`${String(r.count)} ${r.resource}`}>
+              <Icon id={r.resource} />
+              {r.count > 1 && <b>{r.count}</b>}
+            </span>
+          ))}
         </span>
-        {city.produces.map((r) => (
-          <span key={r.resource} className="glyph" title={`${String(r.count)} ${r.resource}`}>
-            <Icon id={r.resource} />
-            {r.count > 1 && <b>{r.count}</b>}
-          </span>
-        ))}
-      </p>
+      </header>
+      {city.wonders.length > 0 && (
+        <div className="wonders">
+          {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
+        </div>
+      )}
       <div className="stacks">
         {city.stacks.map((stack) => (
           <div key={stack.colour} className={`stack color-${stack.colour}`}>
@@ -90,11 +111,6 @@ export function City({ session, seats, side }: { session: Session; seats: Seats;
           </div>
         ))}
       </div>
-      {city.wonders.length > 0 && (
-        <div className="wonders">
-          {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
-        </div>
-      )}
       {city.tokens.length > 0 && (
         <div className="tokens">{city.tokens.map((id) => peekable(id, "standard"))}</div>
       )}

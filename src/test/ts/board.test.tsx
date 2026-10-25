@@ -95,18 +95,30 @@ describe("Board", () => {
     expect(host.querySelectorAll(".pyramid .card")).toHaveLength(20);
   });
 
-  it("shows both cities beside the structure and the log under them when wide", () => {
+  it("flanks the structure with both cities and keeps the log behind a button when wide", () => {
     show(age(), "wide");
 
-    expect(tabs()).toEqual(["Opponent", "You"]);
+    expect(tabs()).toEqual([]);
+    expect([...host.querySelectorAll(".city h3")].map((h) => h.textContent)).toEqual([
+      "You",
+      "Opponent",
+    ]);
     expect(host.querySelector(".structure")).not.toBeNull();
-    expect(host.querySelector(".log")).not.toBeNull();
+    expect(host.querySelector(".header")).toBeNull();
+    expect(host.querySelector(".log")).toBeNull();
+    click(host.querySelector(".logbtn"));
+    expect(host.querySelector(".drawer .log")).not.toBeNull();
+    click(host.querySelector(".drawer__close"));
+    expect(host.querySelector(".drawer")).toBeNull();
   });
 
   it("names the cities after the seats for a spectator", () => {
     show(session(null, inAge()), "wide");
 
-    expect(tabs()).toEqual(["Two", "One"]);
+    expect([...host.querySelectorAll(".city h3")].map((h) => h.textContent)).toEqual([
+      "One",
+      "Two",
+    ]);
   });
 
   it.each(["medium", "landscape"] as const)("puts the log among the tabs when %s", (layout) => {
@@ -311,16 +323,24 @@ describe("Board", () => {
       [...host.querySelectorAll(".purse")].find((e) => e.textContent.startsWith(p.displayName));
 
     it("floats the coins a seat gained or lost off its own purse", () => {
-      show(after(event({ kind: "coins", player: TWO.id, amount: -2 })));
+      show(after(event({ kind: "coins", player: TWO.id, amount: -2 })), "medium");
 
       expect(purse(TWO)?.querySelector(".float.is-loss")?.textContent).toBe("−2");
       expect(purse(ONE)?.querySelector(".float")).toBeNull();
     });
 
     it("shows a gain with a plus", () => {
-      show(after(event({ kind: "coins", player: ONE.id, amount: 3 })));
+      show(after(event({ kind: "coins", player: ONE.id, amount: 3 })), "medium");
 
       expect(purse(ONE)?.querySelector(".float.is-gain")?.textContent).toBe("+3");
+    });
+
+    it("floats them off the coins in the city when wide", () => {
+      show(after(event({ kind: "coins", player: TWO.id, amount: -2 })));
+
+      expect([...host.querySelectorAll(".city .purse .float")].map((f) => f.textContent)).toEqual([
+        "−2",
+      ]);
     });
 
     it("pulses the turn marker when the seat plays again", () => {
@@ -342,13 +362,15 @@ describe("Board", () => {
     it("draws one stack per colour the city has, with the Wonders and the coins", () => {
       show(late(ONE));
 
-      expect(host.querySelectorAll(".stack")).toHaveLength(7);
-      expect(host.querySelectorAll(".wonders .card--wonder.is-built")).toHaveLength(3);
-      expect(host.querySelector(".city .purse")?.textContent).toContain("3");
+      const mine = host.querySelector(".city.owner-me");
+      expect(mine?.querySelectorAll(".stack")).toHaveLength(7);
+      expect(mine?.querySelectorAll(".wonders .card--wonder.is-built")).toHaveLength(3);
+      expect(mine?.querySelector(".purse")?.textContent).toContain("3");
     });
 
     it("shows the other city on its tab", () => {
-      show(late(ONE));
+      show(late(ONE), "medium");
+      expect(host.querySelector(".city.owner-opp")).toBeNull();
       click([...host.querySelectorAll('[role="tab"]')][0]);
 
       expect(host.querySelector(".city.owner-opp")).not.toBeNull();

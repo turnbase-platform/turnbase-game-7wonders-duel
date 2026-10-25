@@ -66,7 +66,8 @@ describe("App", () => {
     show(session(ONE));
 
     expect(host.querySelector(".turn")?.textContent).toMatch(/your turn$|to act$/);
-    expect(host.querySelector(".header")?.textContent).toContain("One");
+    expect(host.querySelector(".city.owner-me .purse")?.textContent).toMatch(/\d/);
+    expect(host.querySelector(".city.owner-opp .purse")?.textContent).toMatch(/\d/);
   });
 
   it("sends the matching action when a draft wonder is taken", () => {

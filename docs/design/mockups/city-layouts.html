@@ -1,0 +1,78 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>City, tokens and log — layouts</title>
+<style>
+:root{--ground:#ece4d2;--surface:#f6f0e2;--ink:#3b3226;--muted:#8a7f6b;--line:#cfc3a8;--me:#1f9aa8;--opp:#9a5b2a;
+--brown:#8b6914;--grey:#888;--blue:#4a90d9;--green:#5aad5a;--yellow:#daa520;--red:#c73030;--purple:#7b4fa0;--wonder:#b79a52;--token:#2f6b3a}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#d9d0bb;color:var(--ink);font:13px Georgia,serif}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:16px;margin:28px 0 4px}p.note{margin:0 0 10px;max-width:880px;line-height:1.45}
+.frame{background:var(--ground);border:6px solid #333;border-radius:14px;padding:8px;display:grid;gap:8px;overflow:hidden}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--surface);border-radius:4px;border-bottom:2px solid var(--line);font-size:12px}
+.hdr .r{display:flex;gap:14px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--ground);border-radius:4px;padding:3px 10px;font:inherit}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px}
+.title{font-size:11px;color:var(--muted);margin:0 0 6px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:3px;max-width:560px;margin:0 auto}
+.trk i{aspect-ratio:1;border-radius:3px;border:1px solid #0003;background:linear-gradient(90deg,#c8503f,#f4e8da 50%,#e8c97a)}
+.trk i.c1{background:var(--me)}.trk i.c2{background:var(--opp)}.trk i.p{background:#c73030;border:3px solid #fff;outline:2px solid #333;border-radius:50%}
+.fields{display:grid;grid-template-columns:repeat(19,1fr);gap:3px;max-width:560px;margin:3px auto 0}
+.fields b{height:22px;border-radius:3px;background:#b0793a;grid-column:span 3}.fields b.v{background:#d9ceb2;grid-column:span 2}
+.tray{display:flex;gap:8px;justify-content:center;align-items:center}
+.tray .tk{width:46px;height:46px;border-radius:50%;background:var(--token);border:3px solid #1e4a28;box-shadow:0 1px 3px #0005}
+.tray.take .tk{outline:3px solid var(--me);outline-offset:2px}
+.pyr{display:flex;justify-content:center;align-items:flex-start;padding:6px}
+.pyr .fit{position:relative;width:356px;height:300px}
+.c{position:absolute;width:56px;height:75px;border-radius:4px;border:1px solid #0005;box-shadow:0 1px 2px #0004;left:calc(var(--x)*30px);top:calc(var(--r)*52px);background:var(--b)}
+.c.d{background:repeating-linear-gradient(45deg,#6b5a3a,#6b5a3a 4px,#7d6a45 4px,#7d6a45 8px)}
+.city{display:grid;gap:8px;align-content:start}
+.city h3{margin:0;font-size:13px;display:flex;gap:10px;align-items:center;border-bottom:3px solid var(--seat);padding-bottom:4px}
+.city h3 small{color:var(--muted);font-weight:normal}
+.stacks{display:grid;grid-template-columns:repeat(var(--cols),var(--cw));gap:8px;justify-content:start}
+.stack{position:relative;width:var(--cw)}
+.k{display:block;width:var(--cw);height:calc(var(--cw)*1.33);border-radius:4px;border:1px solid #0005;background:var(--b);box-shadow:0 1px 2px #0004}
+.k+.k{margin-top:calc(var(--cw)*-1.0)}
+.wonders{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.w{aspect-ratio:4/3;border-radius:5px;background:var(--wonder);border:1px solid #0005;font-size:11px;color:#fff;display:flex;align-items:flex-end;justify-content:center;padding:3px;position:relative}
+.w.un{opacity:.9;border:1px dashed #fff9}.w.built{outline:2px solid var(--seat)}
+.owned{display:flex;gap:6px;align-items:center}.owned .tk{width:34px;height:34px;border-radius:50%;background:var(--token);border:2px solid #1e4a28}
+.row{display:grid;gap:8px;grid-template-columns:var(--cols-layout)}
+.tag{font-size:10px;color:var(--muted)}
+.me{--seat:var(--me)}.opp{--seat:var(--opp)}
+</style>
+
+<h1>City, tokens and log</h1>
+<p class="note">Same palette and card anatomy as the game. Cards are blocks here; the real ones replace them. Three changes in both options: each city is a full tableau instead of a tab, the log leaves the city area, and the five board tokens get their own tray under the military card.</p>
+
+<h2>A — Rail: both cities stacked on the right</h2>
+<p class="note">Opponent on top at a smaller scale, you below at full scale. Nothing to switch. The log is a button in the header that opens a drawer. Cheapest change from today.</p>
+<div class="frame" id="a" style="width:1280px;height:760px"></div>
+
+<h2>B — Flank: your city left, opponent right, pyramid between</h2>
+<p class="note">The track already puts your capital on the left and theirs on the right; the cities sit at the same ends. The pyramid stays centred under the military card and the token tray. Both cities at one size, so the opponent's Wonders are as readable as yours.</p>
+<div class="frame" id="b" style="width:1280px;height:760px"></div>
+
+<h2>B at tablet width (≈ 820px)</h2>
+<p class="note">The flanks fold into a strip under the pyramid: your city and the opponent's side by side, Wonders first. Below ~600px (phone) the cities stay on the Cities tab, now showing both, one under the other.</p>
+<div class="frame" id="c" style="width:820px;height:900px"></div>
+
+<script>
+const COL=['brown','grey','blue','green','yellow','red','purple'];
+const col=n=>`var(--${n})`;
+const hdr=`<div class="hdr"><span><b>Age I</b> · your turn</span><span class="r"><span>Two 🪙 7</span><span>One 🪙 3</span><button class="btn">Log</button></span></div>`;
+const track=()=>`<div class="card"><p class="title">Military</p><div class="trk">${Array.from({length:19},(_,i)=>`<i class="${i==0?'c1':i==18?'c2':i==9?'p':''}"></i>`).join('')}</div><div class="fields"><b></b><b></b><b class="v"></b><b class="v"></b><b></b><b></b></div></div>`;
+const tray=(take)=>`<div class="card"><p class="title">Progress tokens to take</p><div class="tray${take?' take':''}">${'<i class="tk"></i>'.repeat(5)}</div></div>`;
+const pyr=()=>{const R=[[4,6],[3,5,7],[2,4,6,8],[1,3,5,7,9]];let s='';R.forEach((r,ri)=>r.forEach((x,i)=>s+=`<i class="c ${ri%2==0?'d':''}" style="--r:${ri};--x:${x};--b:${col(COL[(i+ri)%6])}"></i>`));return `<div class="card pyr"><div class="fit">${s}</div></div>`};
+const city=(side,name,cw,cols,wc=2)=>{
+ const stacks=[['brown',2],['grey',1],['blue',3],['green',2],['yellow',1],['red',2]].map(([c,n])=>`<div class="stack">${Array.from({length:n},()=>`<i class="k" style="--b:${col(c)}"></i>`).join('')}</div>`).join('');
+ const w=['Piraeus','Colossus','Hanging Gardens','Mausoleum'].map((n,i)=>`<div class="w ${i<1?'built':'un'}">${n}</div>`).join('');
+ return `<section class="city ${side}" style="--cw:${cw}px;--cols:${cols}"><h3>${name} <small>🪙 ${side=='me'?7:3} · 2 wood · 1 stone</small></h3><div class="wonders" style="grid-template-columns:repeat(${wc},1fr)">${w}</div><div class="stacks">${stacks}</div><div class="owned"><span class="tag">Tokens</span><i class="tk"></i><i class="tk"></i></div></section>`};
+document.getElementById('a').innerHTML=hdr+`<div class="row" style="--cols-layout:1fr 470px;height:100%;min-height:0">
+ <div style="display:grid;gap:8px;align-content:start">${track()}${tray(true)}${pyr()}</div>
+ <div style="display:grid;gap:8px;align-content:start" class="card">${city('opp','Opponent',40,6,4)}${city('me','You',54,6,4)}</div></div>`;
+document.getElementById('b').innerHTML=hdr+`<div class="row" style="--cols-layout:330px 1fr 330px;min-height:0">
+ <div class="card">${city('me','You',64,4)}</div>
+ <div style="display:grid;gap:8px;align-content:start">${track()}${tray(true)}${pyr()}</div>
+ <div class="card">${city('opp','Opponent',64,4)}</div></div>`;
+document.getElementById('c').innerHTML=hdr+`<div style="display:grid;gap:8px">${track()}${tray(false)}${pyr()}<div class="row" style="--cols-layout:1fr 1fr"><div class="card">${city('me','You',46,4)}</div><div class="card">${city('opp','Opponent',46,4)}</div></div></div>`;
+</script>
