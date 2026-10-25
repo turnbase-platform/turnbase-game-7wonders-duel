@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Layout } from "../../main/ts/core/layout.js";
 import { emptySession, reduce, type Session } from "../../main/ts/core/session.js";
 import type { EventView, ServerMessage, WireAction } from "../../main/ts/core/wire.js";
+import { MOTION_MS } from "../../main/ts/ui/motion.js";
 import { Board } from "../../main/ts/ui/Board.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -30,6 +31,12 @@ function session(self: Player | null, ...messages: ServerMessage[]): Session {
     reduce(emptySession(), { type: "init", context }),
   );
 }
+
+/** Lets the card finish settling back down. */
+const exited = (): Promise<void> =>
+  act(async () => {
+    await new Promise((done) => setTimeout(done, MOTION_MS.appear + 50));
+  });
 
 describe("Board", () => {
   let host: HTMLElement;
@@ -217,12 +224,14 @@ describe("Board", () => {
       expect(button("Build")?.textContent).toContain("2 coins");
     });
 
-    it("builds the card and lets the selection go", () => {
+    it("builds the card and lets the selection go", async () => {
       show(age());
       click(palisade());
       click(button("Build"));
 
       expect(send).toHaveBeenCalledWith({ type: "build", component: "palisade" });
+      expect(dialog()?.classList.contains("is-leaving")).toBe(true);
+      await exited();
       expect(dialog()).toBeNull();
     });
 
@@ -280,7 +289,7 @@ describe("Board", () => {
       expect((button("Wonder") as HTMLButtonElement).disabled).toBe(true);
     });
 
-    it("closes on Escape and returns focus to the card", () => {
+    it("closes on Escape and returns focus to the card", async () => {
       show(age());
       (palisade() as HTMLElement).focus();
       click(palisade());
@@ -288,6 +297,7 @@ describe("Board", () => {
         dialog()?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
       });
 
+      await exited();
       expect(dialog()).toBeNull();
       expect(document.activeElement).toBe(palisade());
     });

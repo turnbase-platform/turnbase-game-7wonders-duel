@@ -9,6 +9,8 @@ import { Icon } from "./icons.js";
 /** Where the selected card sits in the structure area, and how big that area is, in px. */
 export interface Placement {
   card: Rect;
+  /** Where the pyramid starts, so the blur leaves what sits above it (the token tray) sharp. */
+  top: number;
   width: number;
   height: number;
 }
@@ -25,6 +27,8 @@ interface Props {
   offers: Offer[];
   /** Null until the card has been measured. */
   placement: Placement | null;
+  /** The card is going back down; the actions are no longer live. */
+  leaving?: boolean;
   send: (action: WireAction) => void;
   onClose: () => void;
 }
@@ -57,6 +61,7 @@ export function Actions({
   component,
   offers,
   placement,
+  leaving = false,
   send,
   onClose,
 }: Props) {
@@ -110,14 +115,19 @@ export function Actions({
   return (
     <div
       ref={dialog}
-      className="spotlight"
+      className={`spotlight${leaving ? " is-leaving" : ""}`}
+      inert={leaving}
       role="dialog"
       aria-label={`Play ${catalog.name(component)}`}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
     >
-      <div className="spotlight__scrim" onClick={onClose} />
+      <div
+        className="spotlight__scrim"
+        style={placement === null ? undefined : { top: placement.top }}
+        onClick={onClose}
+      />
       <div className="spotlight__card" style={lift}>
         {entry && <Card entry={entry} size="standard" />}
       </div>

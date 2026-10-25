@@ -1,4 +1,4 @@
-import { useLayoutEffect, useReducer, useRef, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useReducer, useRef, useState, type RefObject } from "react";
 import { layoutFor, type Layout, type Size } from "../core/layout.js";
 import { offers as offersOf } from "../core/moves.js";
 import { attention, selectedOf, selectionReducer } from "../core/selection.js";
@@ -13,6 +13,7 @@ import { IconSprite } from "./icons.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
+import { MOTION_MS, prefersReducedMotion } from "./motion.js";
 import { useChoreography } from "./useChoreography.js";
 import { useSize } from "./useSize.js";
 
@@ -38,6 +39,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const available = view === null ? [] : offersOf(session);
   const selected = selectedOf(selection, available);
   const placement = usePlacement(root, selected, layout, size);
+  const shown = useLingering(selected, placement);
   useChoreography(root, session.history.at(-1) ?? null);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
@@ -115,15 +117,16 @@ export function Board({ session, send, layout: fixed }: Props) {
                 }}
                 send={send}
               />
-              {selected !== null && session.self !== null && (
+              {shown !== null && session.self !== null && (
                 <Actions
-                  key={selected}
+                  key={shown.component}
+                  leaving={selected === null}
                   view={view}
                   catalog={catalog}
                   self={session.self}
-                  component={selected}
+                  component={shown.component}
                   offers={available}
-                  placement={placement}
+                  placement={shown.placement}
                   send={send}
                   onClose={() => {
                     select({ type: "clear" });
@@ -229,7 +232,9 @@ function usePlacement(
     }
     const box = area.getBoundingClientRect();
     const rect = slot.getBoundingClientRect();
+    const frame = area.querySelector(".pyramid-frame")?.getBoundingClientRect();
     setPlacement({
+      top: frame === undefined ? 0 : frame.top - box.top + area.scrollTop,
       card: {
         left: rect.left - box.left + area.scrollLeft,
         top: rect.top - box.top + area.scrollTop,
@@ -241,6 +246,37 @@ function usePlacement(
     });
   }, [root, selected, layout, size]);
   return placement;
+}
+
+/**
+ * The selection and its placement, held for the length of the exit animation after it is cleared,
+ * so the card can settle back instead of vanishing.
+ */
+function useLingering(
+  selected: string | null,
+  placement: Placement | null,
+): { component: string; placement: Placement | null } | null {
+  const [held, setHeld] = useState<{ component: string; placement: Placement | null } | null>(null);
+  const last = useRef<{ component: string; placement: Placement | null } | null>(null);
+  useEffect(() => {
+    if (selected !== null) {
+      last.current = { component: selected, placement };
+      setHeld(null);
+    } else if (last.current !== null) {
+      if (!prefersReducedMotion()) setHeld(last.current);
+      last.current = null;
+    }
+  }, [selected, placement]);
+  useEffect(() => {
+    if (held === null) return;
+    const timer = setTimeout(() => {
+      setHeld(null);
+    }, MOTION_MS.appear);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [held]);
+  return selected === null ? held : { component: selected, placement };
 }
 
 function PanelTabs({

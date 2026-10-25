@@ -29,7 +29,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
-.logbtn { position: absolute; right: 4px; bottom: 4px; z-index: 3; padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
+.logbtn { position: absolute; right: 4px; bottom: 4px; z-index: 13; padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
 .logbtn[aria-expanded="true"] { border-color: var(--ink); }
 .drawer { position: absolute; z-index: 15; top: 8px; right: 8px; bottom: 8px; box-sizing: border-box; width: 340px; overflow: auto; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); box-shadow: 0 6px 24px #0006; }
 .drawer .log { margin-top: 0; }
@@ -93,6 +93,12 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 .spotlight .actions__wonders .card { --w: 100px; }
 .spotlight__beside { position: absolute; display: flex; flex-direction: column; gap: 8px; transform: translateY(-50%); animation: rise ${String(MOTION_MS.appear)}ms ${EASE} ${String(MOTION_MS.appear / 2)}ms backwards; }
 @keyframes rise { from { opacity: 0; } }
+.spotlight.is-leaving > * { pointer-events: none; }
+.spotlight.is-leaving .spotlight__scrim { animation: scrim-out ${String(MOTION_MS.appear)}ms ${EASE} forwards; }
+.spotlight.is-leaving .spotlight__card { animation: lift-out ${String(MOTION_MS.appear)}ms ${EASE} forwards; }
+.spotlight.is-leaving .spotlight__beside { animation: scrim-out ${String(MOTION_MS.appear / 2)}ms ${EASE} forwards; }
+@keyframes scrim-out { to { opacity: 0; } }
+@keyframes lift-out { to { transform: none; filter: drop-shadow(0 0 0 #0000); } }
 .slot.is-selected { visibility: hidden; }
 .structure { position: relative; }
 @media (prefers-reduced-motion: reduce) { .spotlight__scrim, .spotlight__card, .spotlight__beside { animation: none; } }
