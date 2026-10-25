@@ -1,11 +1,10 @@
 // The seven science symbols, redrawn in the colours of the rulebook (p. 12) and in the style of the
-// imported sprite: bronze, wood and feather on a transparent ground, 100×100.
+// imported sprite: bronze and gold on a transparent ground, 100×100.
 import type { Imported } from "./imported.js";
 
 const BRONZE = "#b8863a";
 const GOLD = "#e0ad52";
 const DARK = "#7a4f1f";
-const WOOD = "#b4552b";
 
 const group = (body: string): Imported => ({
   viewBox: "0 0 100 100",
@@ -42,23 +41,23 @@ export const SCIENCE: Readonly<Record<string, Imported>> = {
       `<path d="M50 60l30 8" stroke="${DARK}" stroke-width="2"/>`,
   ),
   "mortar-and-pestle": group(
-    `<path d="M12 50h76c0 24-16 40-38 40S12 74 12 50z" fill="${WOOD}" stroke="${DARK}" stroke-width="3"/>` +
+    `<path d="M12 50h76c0 24-16 40-38 40S12 74 12 50z" fill="${BRONZE}" stroke="${DARK}" stroke-width="3"/>` +
       `<ellipse cx="50" cy="50" rx="38" ry="8" fill="${GOLD}" stroke="${DARK}" stroke-width="3"/>` +
       `<path d="M46 52L78 14" stroke="${DARK}" stroke-width="15"/>` +
       `<path d="M46 52L78 14" stroke="${GOLD}" stroke-width="9"/>`,
   ),
   // The set square carpenters hang a plumb bob from.
   "plumb-bob": group(
-    `<path d="M50 12L90 88H72L50 46L28 88H10z" fill="${WOOD}" stroke="${DARK}" stroke-width="3"/>` +
+    `<path d="M50 12L90 88H72L50 46L28 88H10z" fill="${BRONZE}" stroke="${DARK}" stroke-width="3"/>` +
       `<path d="M50 44v20" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M50 62l-7 9 7 10 7-10z" fill="#37627f" stroke="${DARK}" stroke-width="2"/>`,
+      `<path d="M50 62l-7 9 7 10 7-10z" fill="${GOLD}" stroke="${DARK}" stroke-width="2"/>`,
   ),
   quill: group(
-    `<path d="M20 84C12 50 40 20 84 12C82 50 54 78 20 84z" fill="#d3c8bb" stroke="#85766a" stroke-width="3"/>` +
-      `<path d="M20 84L76 22" stroke="#85766a" stroke-width="3"/>` +
-      `<path d="M23 87l-5-6L9 96z" fill="#2f1c0e" stroke="#2f1c0e" stroke-width="2"/>` +
-      `<path d="M58 64h26v22H58z" fill="${DARK}" stroke="#2f1c0e" stroke-width="2"/>` +
-      `<path d="M62 56h18v8H62z" fill="#2f1c0e"/>`,
+    `<path d="M20 84C12 50 40 20 84 12C82 50 54 78 20 84z" fill="${GOLD}" stroke="${DARK}" stroke-width="3"/>` +
+      `<path d="M20 84L76 22" stroke="${DARK}" stroke-width="3"/>` +
+      `<path d="M23 87l-5-6L9 96z" fill="${DARK}" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M58 64h26v22H58z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M62 56h18v8H62z" fill="${DARK}"/>`,
   ),
   wheel: group(
     `<circle cx="50" cy="50" r="38" stroke="${BRONZE}" stroke-width="8"/>` +
