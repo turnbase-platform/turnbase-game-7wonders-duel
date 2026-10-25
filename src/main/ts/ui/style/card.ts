@@ -44,6 +44,7 @@ export const CARD = `
 .glyph.is-pile { width: calc(1em + (var(--n) - 1) * .25em); height: calc(1em + (var(--n) - 1) * .25em); }
 .glyph__pile { position: absolute; display: inline-flex; left: calc(var(--i) * 1em); top: calc(var(--i) * 1em); width: 1em; height: 1em; }
 .glyph.has-corner { margin: 0 calc(var(--u) * .02) 0 calc(var(--u) * .05); }
+.glyph.is-better { margin-right: -.2em; } .glyph.is-better + .glyph { margin-left: 0; }
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 /* On a pile the corners belong to the card on top, which is the one at the front right. */

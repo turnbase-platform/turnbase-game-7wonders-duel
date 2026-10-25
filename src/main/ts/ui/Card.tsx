@@ -11,7 +11,7 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
   const tint = glyph.tint === null ? "" : ` tint-${glyph.tint}`;
   return (
     <span
-      className={`glyph${glyph.pile.length > 1 ? " is-pile" : ""}${tint}${glyph.corners.length > 0 ? " has-corner" : ""}`}
+      className={`glyph${glyph.pile.length > 1 ? " is-pile" : ""}${tint}${glyph.corners.length > 0 ? " has-corner" : ""}${glyph.icon === "better" ? " is-better" : ""}`}
       title={glyph.title}
       style={{ "--n": glyph.pile.length } as CSSProperties}
     >
