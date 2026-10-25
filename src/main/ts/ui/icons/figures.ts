@@ -16,6 +16,7 @@ interface Figure {
 }
 
 const DIGIT_HEIGHT = 0.71;
+// A VP number is .62 of its laurel's width, as on the cards (`.glyph b`), and sits a little below centre.
 
 const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
   agriculture: [
@@ -23,9 +24,9 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
     {
       outlines: ["M83.5 76.7"],
       text: "4",
-      x: 94.6,
-      y: 67.6,
-      size: 42,
+      x: 96.1,
+      y: 72.4,
+      size: 32,
       fill: "#fff",
       edge: true,
     },
@@ -35,9 +36,9 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
     {
       outlines: ["M90.3 107.4", "M84.3 106.2"],
       text: "3",
-      x: 89.2,
-      y: 96,
-      size: 46,
+      x: 85.2,
+      y: 96.8,
+      size: 32,
       fill: "#fff",
       edge: true,
     },
@@ -46,9 +47,9 @@ const FIGURES: Readonly<Partial<Record<string, readonly Figure[]>>> = {
     {
       outlines: ["M59.7 92 80.8", "M59.7 92l"],
       text: "7",
-      x: 71.7,
-      y: 68.3,
-      size: 60,
+      x: 68.9,
+      y: 75,
+      size: 54,
       fill: "#fff",
       edge: true,
     },
