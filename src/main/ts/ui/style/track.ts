@@ -2,7 +2,7 @@
 // from defeat red through limestone to victory gold, capitals in the seat colours, a pawn, and the
 // shields-to-go badges.
 export const TRACK = `
-.strip { display: block; gap: 12px; padding: 10px 10px 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 2px 6px #0003; }
+.strip { display: block; gap: 12px; }
 .track { flex: 1; min-width: 0; }
 .trk { display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); gap: 3px; text-align: center; max-width: 680px; margin: 0 auto; }
 .tile { --i: 0; position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 9px; color: #fff; text-shadow: 0 1px 1px #0006; border: 1px solid #0003;
