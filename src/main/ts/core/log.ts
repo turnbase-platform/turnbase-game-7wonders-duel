@@ -28,6 +28,9 @@ function describe(e: EventView, catalog: Catalog, who: Name): string {
   const cause = e.cause === null ? "" : ` (${catalog.name(e.cause)})`;
   switch (e.kind) {
     case "moved":
+      if (e.from?.zone === "structure.down" && e.to?.zone === "structure.up") {
+        return `${componentName(e.component, catalog)} was uncovered`;
+      }
       return `${componentName(e.component, catalog)} moved from ${place(e.from, who)} to ${place(e.to, who)}`;
     case "coins":
       return e.amount >= 0

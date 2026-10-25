@@ -21,7 +21,7 @@ Opponent's move             the same, played for the viewer; a spectator sees bo
 
 ## Decisions
 
-1. **`core/cues.ts` is pure.** `cuesOf(events): Cue[]` maps events to `travel | flip | coins | trade | chain | turn`
+1. **`core/cues.ts` is pure.** `cuesOf(events): Cue[]` maps events to `travel | flip | coins | chain | turn`
    cues in event order with their parent, no DOM. Tested in vitest like `log.ts`.
 2. **FLIP by `data-component`.** After every commit a hook stores each `[data-component]` rectangle. On the next
    commit that brought a step, each travel cue animates its element from the stored rectangle to the new one with
@@ -51,3 +51,23 @@ Opponent's move             the same, played for the viewer; a spectator sees bo
 
 - Whether a discarded card should fly to a visible discard pile instead of fading (needs a place for it, 15).
 - A cue played from a resync (reconnect) is never shown: a resync carries no events.
+
+## Outcome
+
+Done. Cues derive from events (`core/cues.ts`), FLIP tweens from rectangles (`core/flip.ts`), played by `ui/useChoreography.ts`; floats and the replay pulse live in the header. 182 frontend tests, 579 backend tests; bundle 234.4 KB (was 230.2).
+
+**Rulings**
+- Pawn and loot cues move to plan 15, with the track they animate.
+- A component with no old rectangle appears; one with no new rectangle (a discard) gets nothing, because no pile exists yet.
+- No trade cue: `Resolution.payTrade` emits `CoinsChanged` as well as `TradePaid`, so the coins float already shows the payment. The design table's "trade coins float to the other seat" was wrong; the payment goes to the bank.
+- A resync plays no cues; the step on screen at mount is not replayed.
+- Flying cards scale uniformly by width ratio (a pyramid card flying to a banner slot was stretched 2.5×8×).
+- A card in flight is raised with `z-index: 20` in its keyframes.
+
+**TDD caveats:** `flip.ts` and its uniform-scale change were written with the tests, never watched red. `cues.ts`, the log phrase, the hook and the header were red first.
+
+**Checked in the dev harness (seed 7):** travel plays in all three frames including the spectator; uncover flip plays; coin floats show `+N`/`−N`; rapid clicks leave no running or stuck animations; reduced motion makes zero `animate` calls and hides floats.
+
+**Deferred minors**
+- Not exercised in a browser: chain glow, play-again pulse, a Wonder build's float, portrait layout, a mid-flight screenshot.
+- Discard has no destination until a pile exists (plan 15).

@@ -1,0 +1,50 @@
+<style>
+.t{--surf:#f6f0e2;--ink:#3b3226;--me:#1f9aa8;--opp:#9a5b2a;--stone:#bdb29a;--red:#C73030;font-family:Georgia,serif;color:var(--ink)}
+.frame{background:var(--surf);border-radius:6px;padding:14px 14px 10px;box-shadow:0 2px 6px #0003;border-top:4px solid #5b4a24;max-width:680px}
+.trk{display:grid;grid-template-columns:repeat(19,1fr);gap:3px;text-align:center}
+.s{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:9px;color:#fff;text-shadow:0 1px 1px #0006;border:1px solid #0003;
+   background-image:linear-gradient(to right,#a8191a 0%,#c8503f 20%,#f4e8da 50%,#e8c97a 80%,#d49a1c 100%);
+   background-size:1900% 100%;background-position:calc(var(--i)/18*100%) 0}
+.s.near{color:var(--ink);text-shadow:none}
+.s.cap{font-size:18px;background:var(--c);background-image:none}
+.s.cap.me{--c:var(--me)}.s.cap.opp{--c:var(--opp)}
+.s .pw{width:70%;aspect-ratio:1;border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 2px #3b3226,0 2px 4px #0008}
+.s small{opacity:.75}
+/* distance badge on zone-entry tiles */
+.s .d{position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);background:var(--ink);color:#fff;text-shadow:none;border-radius:8px;font-size:9px;line-height:1;padding:2px 4px;font-weight:bold;white-space:nowrap;z-index:2}
+.s.tip::after{content:attr(data-tip);position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;text-shadow:none;font-size:10px;padding:3px 6px;border-radius:3px;white-space:nowrap;z-index:3}
+.row2{margin-top:10px}
+.z{height:26px;line-height:24px;border-radius:3px;font-size:9px;color:#8f846b;border:1px solid var(--stone);text-align:center;margin-top:12px}
+.z.cur{color:var(--ink);font-weight:bold;background:#e4dcc6;border:2px solid var(--ink);line-height:22px}
+.z.loot{color:#fff;border:1px solid #0004;font-size:10px}.z.l2{background:#b0793a}.z.l5{background:#8c4a2a}
+.z.blank{border-color:transparent}
+.z.end{font-size:10px;font-weight:bold;border-color:transparent}
+.z.end.me{color:var(--me)}.z.end.opp{color:var(--opp)}
+h3{margin:20px 0 6px}
+</style>
+
+<h2>Military track v6 — shields to go</h2>
+<p class="subtitle">Tiles keep their small absolute numbers. The entry tile of each zone and each capital carries a dark badge: shields the pawn needs to get there (+ toward the opponent's capital, − toward yours). Any other tile shows its distance on hover or tap.</p>
+
+<div class="t">
+<h3>Pawn at +2 — hovering over tile +5</h3>
+<div class="frame"><div class="trk">
+  <span class="s cap me">⛨<i class="d">−11</i></span><span class="s" style="--i:1"><small>8</small></span><span class="s" style="--i:2"><small>7</small></span><span class="s" style="--i:3"><small>6</small><i class="d">−8</i></span><span class="s" style="--i:4"><small>5</small></span><span class="s near" style="--i:5"><small>4</small></span><span class="s near" style="--i:6"><small>3</small><i class="d">−5</i></span><span class="s near" style="--i:7"><small>2</small></span><span class="s near" style="--i:8"><small>1</small></span>
+  <span class="s near" style="--i:9"><small>0</small></span>
+  <span class="s near" style="--i:10"><small>1</small></span><span class="s near" style="--i:11"><i class="pw"></i></span><span class="s near" style="--i:12"><small>3</small><i class="d">+1</i></span><span class="s near" style="--i:13"><small>4</small></span><span class="s near tip" data-tip="+3 shields" style="--i:14"><small>5</small></span><span class="s near" style="--i:15"><small>6</small><i class="d">+4</i></span><span class="s near" style="--i:16"><small>7</small></span><span class="s near" style="--i:17"><small>8</small></span><span class="s cap opp">⛨<i class="d">+7</i></span>
+  <span class="z end me">defeat</span><span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z cur" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span><span class="z end opp">win</span>
+</div></div>
+
+<h3>Pawn at −4 — pushing toward your capital, the badges flip sign and move with the pawn</h3>
+<div class="frame"><div class="trk">
+  <span class="s cap me">⛨<i class="d">−5</i></span><span class="s" style="--i:1"><small>8</small></span><span class="s" style="--i:2"><small>7</small></span><span class="s" style="--i:3"><small>6</small><i class="d">−2</i></span><span class="s" style="--i:4"><small>5</small></span><span class="s near" style="--i:5"><i class="pw"></i></span><span class="s near" style="--i:6"><small>3</small><i class="d">+1</i></span><span class="s near" style="--i:7"><small>2</small></span><span class="s near" style="--i:8"><small>1</small></span>
+  <span class="s near" style="--i:9"><small>0</small></span>
+  <span class="s near" style="--i:10"><small>1</small></span><span class="s near" style="--i:11"><small>2</small></span><span class="s near" style="--i:12"><small>3</small><i class="d">+7</i></span><span class="s near" style="--i:13"><small>4</small></span><span class="s near" style="--i:14"><small>5</small></span><span class="s near" style="--i:15"><small>6</small><i class="d">+10</i></span><span class="s near" style="--i:16"><small>7</small></span><span class="s near" style="--i:17"><small>8</small></span><span class="s cap opp">⛨<i class="d">+13</i></span>
+  <span class="z end me">defeat</span><span class="z loot l5" style="grid-column:2/5">−5 🪙</span><span class="z cur loot l2" style="grid-column:5/8">−2 🪙</span>
+  <span class="z" style="grid-column:8/10">2 VP</span><span class="z blank"></span><span class="z" style="grid-column:11/13">2 VP</span>
+  <span class="z loot l2" style="grid-column:13/16">−2 🪙</span><span class="z loot l5" style="grid-column:16/19">−5 🪙</span><span class="z end opp">win</span>
+</div></div>
+<p style="font-size:11px;max-width:620px;margin-top:14px">Badge = (tile position − pawn position) with sign by direction. The entry tile is the one nearest the centre for a zone, since entering is what triggers a token. The pawn's own tile and the tiles behind the entry (inside the zone) show no badge.</p>
+</div>

@@ -5,7 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Layout } from "../../main/ts/core/layout.js";
 import { emptySession, reduce, type Session } from "../../main/ts/core/session.js";
-import type { ServerMessage, WireAction } from "../../main/ts/core/wire.js";
+import type { EventView, ServerMessage, WireAction } from "../../main/ts/core/wire.js";
 import { Board } from "../../main/ts/ui/Board.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -287,6 +287,52 @@ describe("Board", () => {
       click(palisade());
 
       expect(dialog()?.classList.contains("is-sheet")).toBe(true);
+    });
+  });
+
+  describe("cues in the header", () => {
+    const event = (over: Partial<EventView> & Pick<EventView, "kind">): EventView => ({
+      id: 1,
+      parent: -1,
+      cause: null,
+      component: null,
+      from: null,
+      to: null,
+      player: null,
+      amount: 0,
+      pawnFrom: null,
+      pawnTo: null,
+      ...over,
+    });
+    /** The Age in play, then one more accepted action that brought these events. */
+    const after = (...events: EventView[]): Session =>
+      reduce(age(), { type: "message", message: { ...inAge(), events } });
+    const purse = (p: Player): Element | undefined =>
+      [...host.querySelectorAll(".purse")].find((e) => e.textContent.startsWith(p.displayName));
+
+    it("floats the coins a seat gained or lost off its own purse", () => {
+      show(after(event({ kind: "coins", player: TWO.id, amount: -2 })));
+
+      expect(purse(TWO)?.querySelector(".float.is-loss")?.textContent).toBe("−2");
+      expect(purse(ONE)?.querySelector(".float")).toBeNull();
+    });
+
+    it("shows a gain with a plus", () => {
+      show(after(event({ kind: "coins", player: ONE.id, amount: 3 })));
+
+      expect(purse(ONE)?.querySelector(".float.is-gain")?.textContent).toBe("+3");
+    });
+
+    it("pulses the turn marker when the seat plays again", () => {
+      show(after(event({ kind: "playAgainGranted", player: TWO.id })));
+
+      expect(host.querySelector(".turn.is-pulse")).not.toBeNull();
+    });
+
+    it("shows no cue when nothing happened", () => {
+      show(age());
+
+      expect(host.querySelector(".float, .is-pulse")).toBeNull();
     });
   });
 

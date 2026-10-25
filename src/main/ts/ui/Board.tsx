@@ -12,6 +12,7 @@ import { IconSprite } from "./icons.js";
 import { Log } from "./Log.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
+import { useChoreography } from "./useChoreography.js";
 import { useSize } from "./useSize.js";
 
 const POPOVER_WIDTH = 290;
@@ -37,6 +38,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const available = view === null ? [] : offersOf(session);
   const selected = selectedOf(selection, available);
   const anchor = useAnchor(root, selected, layout, size);
+  useChoreography(root, session.history.at(-1) ?? null);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
 

@@ -58,6 +58,17 @@ function texts(events: EventView[]): string[] {
 }
 
 describe("the event log", () => {
+  it("says a card was uncovered rather than moved from the pyramid to the pyramid", () => {
+    const uncovered = event({
+      kind: "moved",
+      component: "baths",
+      from: { zone: "structure.down", key: "2:0" },
+      to: { zone: "structure.up", key: "2:0" },
+    });
+
+    expect(texts([uncovered])).toEqual(["Baths was uncovered"]);
+  });
+
   it("says where a named component moved", () => {
     const moved = event({
       kind: "moved",

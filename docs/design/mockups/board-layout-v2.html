@@ -1,0 +1,131 @@
+<style>
+.t{--ground:#ece4d2;--surf:#f6f0e2;--ink:#3b3226;--bronze:#a8742a;--teal:#2f7f86;--stone:#bdb29a;font-family:Georgia,serif;color:var(--ink)}
+.board{background:var(--ground);border-radius:6px;padding:10px;display:grid;gap:8px}
+.hdr{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;background:var(--surf);padding:6px 10px;border-radius:4px;border-bottom:2px solid var(--stone)}
+.hdr b{font-variant:small-caps;letter-spacing:.05em}
+.strip{display:flex;gap:10px;align-items:center;background:var(--surf);border-radius:4px;padding:6px 10px;font-size:11px;flex-wrap:wrap}
+.trk{display:flex;gap:2px;flex:1;min-width:150px}.trk i{flex:1;height:16px;background:var(--stone);border-radius:2px;font-size:8px;text-align:center;font-style:normal;line-height:16px}
+.trk i.p{background:var(--bronze);color:#fff}.trk i.k{background:#c8a58d}
+.tok{display:inline-block;width:20px;height:20px;border-radius:50%;background:#6ba368;margin-right:2px;border:1px solid #0004;vertical-align:middle}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:8px}
+.main.stack{grid-template-columns:1fr}
+.pyr{background:var(--surf);border-radius:4px;padding:10px;display:flex;justify-content:center}
+.fit{position:relative;width:calc(356px*var(--s));height:calc(290px*var(--s))}
+.pw{position:absolute;left:0;top:0;width:356px;height:290px;transform:scale(var(--s));transform-origin:top left}
+.c{position:absolute;width:56px;height:75px;border-radius:4px;left:calc(var(--x)*30px);top:calc(var(--r)*52px);border:1px solid #0005;box-shadow:0 1px 2px #0004;overflow:hidden;font-size:7px;color:#fff}
+.c::before{content:"";display:block;height:13px;background:#0003}
+.c::after{content:attr(data-n);position:absolute;bottom:0;left:0;right:0;background:#0006;padding:1px 2px;text-align:center}
+.b{background:#8B6914}.g{background:#888}.u{background:#4A90D9}.n{background:#5AAD5A}.y{background:#DAA520}.r{background:#C73030}
+.d{background:repeating-linear-gradient(45deg,#6b5a3a,#6b5a3a 4px,#7d6a45 4px,#7d6a45 8px)}.d::after,.d::before{display:none}
+.dim{filter:brightness(.7) saturate(.7)}
+.take{outline:3px solid var(--bronze);box-shadow:0 0 10px 2px #e0a53a99}
+.side{display:grid;gap:8px;align-content:start;font-size:11px}
+.panel{background:var(--surf);border-radius:4px;padding:0 0 6px}
+.ptabs{display:flex;border-bottom:2px solid var(--stone)}
+.ptabs span{flex:1;text-align:center;padding:6px 0;font-size:11px}
+.ptabs .on{font-weight:bold;border-bottom:3px solid var(--bronze);margin-bottom:-2px}
+.ptabs .opp.on{border-color:var(--teal)}
+.pb{padding:6px 8px;display:grid;gap:5px}
+.row{display:flex;align-items:center;gap:4px}.row small{width:44px;opacity:.7}
+.mini{width:22px;height:30px;border-radius:3px;border:1px solid #0003;display:inline-block}
+.wond{width:46px;height:30px;border-radius:3px;background:#d8c9a0;border:1px solid #0004;display:inline-block;font-size:8px;text-align:center}
+.wond.built{background:#c99a3b}
+.phone{width:300px;margin:0 auto;border:6px solid #333;border-radius:22px;background:var(--ground);overflow:hidden}
+.phone .hdr{border-radius:0;font-size:10px}
+.phone .strip{border-radius:0;padding:4px 8px;font-size:9px;gap:6px}
+.tabs{display:flex;background:var(--surf);border-top:2px solid var(--stone)}
+.tabs span{flex:1;text-align:center;padding:8px 0;font-size:10px}
+.tabs .on{color:var(--bronze);font-weight:bold;border-top:3px solid var(--bronze);margin-top:-2px}
+.sheet{background:var(--surf);border-top:2px solid var(--bronze);padding:8px;font-size:10px;display:flex;gap:8px;align-items:flex-start}
+.btn{display:inline-block;background:var(--bronze);color:#fff;padding:3px 8px;border-radius:3px;margin:2px 2px 0 0}.btn.off{background:var(--stone)}
+.land{width:600px;margin:0 auto;border:6px solid #333;border-radius:22px;background:var(--ground);overflow:hidden}
+.land .hdr{border-radius:0;font-size:10px;padding:3px 8px}
+.land .strip{border-radius:0;padding:3px 8px;font-size:9px}
+.lbody{display:grid;grid-template-columns:1fr 190px;gap:6px;padding:6px}
+</style>
+
+<h2>Board layout v2</h2>
+<p class="subtitle">Military and tokens sit above the structure; the cities live in a right panel with one tab per city; below a width threshold the panel drops under the structure. The phone pyramid now scales to fit and is centred. Landscape added.</p>
+
+<div class="t">
+<h3>Wide (≥ 900px) — right panel beside the structure</h3>
+<div class="board">
+  <div class="hdr"><span><b>Age I</b> · your turn</span><span>Science 2/6 vs 1/6</span><span>🪙 7 &nbsp;vs&nbsp; 🪙 5</span></div>
+  <div class="strip"><b>Military</b><div class="trk"><i>-9</i><i>-6</i><i class="k">-3</i><i>0</i><i class="p">▲</i><i>0</i><i class="k">3</i><i>6</i><i>9</i></div><b>Tokens</b><span><i class="tok"></i><i class="tok"></i><i class="tok"></i><i class="tok"></i><i class="tok"></i></span></div>
+  <div class="main">
+    <div class="pyr"><div class="fit" style="--s:1"><div class="pw">
+      <i class="c d" style="--r:0;--x:4"></i><i class="c d" style="--r:0;--x:6"></i>
+      <i class="c u dim" data-n="Altar" style="--r:1;--x:3"></i><i class="c n dim" data-n="Scriptorium" style="--r:1;--x:5"></i><i class="c r dim" data-n="Garrison" style="--r:1;--x:7"></i>
+      <i class="c d" style="--r:2;--x:2"></i><i class="c d" style="--r:2;--x:4"></i><i class="c d" style="--r:2;--x:6"></i><i class="c d" style="--r:2;--x:8"></i>
+      <i class="c b dim" data-n="Lumber Yard" style="--r:3;--x:1"></i><i class="c g dim" data-n="Press" style="--r:3;--x:3"></i><i class="c y dim" data-n="Tavern" style="--r:3;--x:5"></i><i class="c b dim" data-n="Clay Pit" style="--r:3;--x:7"></i><i class="c u dim" data-n="Theatre" style="--r:3;--x:9"></i>
+      <i class="c b take" data-n="Stone Pit" style="--r:4;--x:0"></i><i class="c g take" data-n="Glassworks" style="--r:4;--x:2"></i><i class="c r take" data-n="Stable" style="--r:4;--x:4"></i><i class="c n take" data-n="Apothecary" style="--r:4;--x:6"></i><i class="c y take" data-n="Quarry" style="--r:4;--x:8"></i><i class="c u take" data-n="Baths" style="--r:4;--x:10"></i>
+    </div></div></div>
+    <div class="side">
+      <div class="panel"><div class="ptabs"><span class="opp">Opponent</span><span class="on">You</span></div>
+        <div class="pb">
+          <div class="row"><small>Coins</small>🪙 7 &nbsp; <small>Makes</small>🪵1 🪨1</div>
+          <div class="row"><small>Brown</small><i class="mini b"></i><i class="mini b"></i></div>
+          <div class="row"><small>Green</small><i class="mini n"></i></div>
+          <div class="row"><small>Yellow</small><i class="mini y"></i></div>
+          <div class="row"><small>Wonders</small><i class="wond built">Pyramids</i><i class="wond">Sphinx</i></div>
+          <div class="row"><small></small><i class="wond">Gardens</i><i class="wond">Temple</i></div>
+          <div class="row"><small>Tokens</small><i class="tok"></i></div>
+        </div></div>
+      <div class="panel"><div class="ptabs"><span class="on">Log</span></div><div class="pb">Opp. built Clay Pit<br>You gained 2 coins<br>Garrison uncovered</div></div>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:18px">Medium (≈ 600–900px) — panel under the structure</h3>
+<div class="board" style="max-width:520px">
+  <div class="hdr"><span><b>Age I</b> · your turn</span><span>🪙 7 vs 5</span></div>
+  <div class="strip"><b>Military</b><div class="trk"><i>-9</i><i>-6</i><i class="k">-3</i><i>0</i><i class="p">▲</i><i>0</i><i class="k">3</i><i>6</i><i>9</i></div><span><i class="tok"></i><i class="tok"></i><i class="tok"></i><i class="tok"></i><i class="tok"></i></span></div>
+  <div class="main stack">
+    <div class="pyr"><div class="fit" style="--s:1"><div class="pw">
+      <i class="c d" style="--r:0;--x:4"></i><i class="c d" style="--r:0;--x:6"></i>
+      <i class="c u dim" style="--r:1;--x:3"></i><i class="c n dim" style="--r:1;--x:5"></i><i class="c r dim" style="--r:1;--x:7"></i>
+      <i class="c d" style="--r:2;--x:2"></i><i class="c d" style="--r:2;--x:4"></i><i class="c d" style="--r:2;--x:6"></i><i class="c d" style="--r:2;--x:8"></i>
+      <i class="c b dim" style="--r:3;--x:1"></i><i class="c g dim" style="--r:3;--x:3"></i><i class="c y dim" style="--r:3;--x:5"></i><i class="c b dim" style="--r:3;--x:7"></i><i class="c u dim" style="--r:3;--x:9"></i>
+      <i class="c b take" style="--r:4;--x:0"></i><i class="c g take" style="--r:4;--x:2"></i><i class="c r take" style="--r:4;--x:4"></i><i class="c n take" style="--r:4;--x:6"></i><i class="c y take" style="--r:4;--x:8"></i><i class="c u take" style="--r:4;--x:10"></i>
+    </div></div></div>
+    <div class="panel"><div class="ptabs"><span class="opp">Opponent</span><span class="on">You</span><span>Log</span></div><div class="pb"><div class="row"><small>Brown</small><i class="mini b"></i><i class="mini b"></i><small style="margin-left:10px">Green</small><i class="mini n"></i><small>Yellow</small><i class="mini y"></i></div></div></div>
+  </div>
+</div>
+
+<div class="split" style="margin-top:18px">
+<div>
+<h3>Phone portrait</h3>
+<div class="phone">
+  <div class="hdr"><span><b>Age I</b> · your turn</span><span>🪙 7 / 5</span></div>
+  <div class="strip"><div class="trk"><i>-9</i><i>-6</i><i class="k">-3</i><i>0</i><i class="p">▲</i><i>0</i><i class="k">3</i><i>6</i><i>9</i></div><span><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i></span></div>
+  <div style="padding:8px 0;display:flex;justify-content:center"><div class="fit" style="--s:.78"><div class="pw">
+      <i class="c d" style="--r:0;--x:4"></i><i class="c d" style="--r:0;--x:6"></i>
+      <i class="c u dim" style="--r:1;--x:3"></i><i class="c n dim" style="--r:1;--x:5"></i><i class="c r dim" style="--r:1;--x:7"></i>
+      <i class="c d" style="--r:2;--x:2"></i><i class="c d" style="--r:2;--x:4"></i><i class="c d" style="--r:2;--x:6"></i><i class="c d" style="--r:2;--x:8"></i>
+      <i class="c b dim" style="--r:3;--x:1"></i><i class="c g dim" style="--r:3;--x:3"></i><i class="c y dim" style="--r:3;--x:5"></i><i class="c b dim" style="--r:3;--x:7"></i><i class="c u dim" style="--r:3;--x:9"></i>
+      <i class="c b take" style="--r:4;--x:0"></i><i class="c g take" style="--r:4;--x:2"></i><i class="c r take" style="--r:4;--x:4;transform:translateY(-6px)"></i><i class="c n take" style="--r:4;--x:6"></i><i class="c y take" style="--r:4;--x:8"></i><i class="c u take" style="--r:4;--x:10"></i>
+  </div></div></div>
+  <div class="sheet"><i class="c r" data-n="Stable" style="position:relative;left:0;top:0;flex:none"></i>
+    <div><b>Stable</b> · 🛡 1<br><span class="btn">Build · 1 wood</span><span class="btn off">Wonder · need 4</span><span class="btn">Discard +3🪙</span></div></div>
+  <div class="tabs"><span class="on">Structure</span><span>Cities</span><span>Log</span></div>
+</div>
+</div>
+<div>
+<h3>Phone landscape</h3>
+<div class="land">
+  <div class="hdr"><span><b>Age I</b> · your turn</span><span>Sci 2/6</span><span>🪙 7 / 5</span></div>
+  <div class="strip"><div class="trk"><i>-9</i><i>-6</i><i class="k">-3</i><i>0</i><i class="p">▲</i><i>0</i><i class="k">3</i><i>6</i><i>9</i></div><span><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i><i class="tok" style="width:14px;height:14px"></i></span></div>
+  <div class="lbody">
+    <div class="pyr" style="padding:4px"><div class="fit" style="--s:.62"><div class="pw">
+      <i class="c d" style="--r:0;--x:4"></i><i class="c d" style="--r:0;--x:6"></i>
+      <i class="c u dim" style="--r:1;--x:3"></i><i class="c n dim" style="--r:1;--x:5"></i><i class="c r dim" style="--r:1;--x:7"></i>
+      <i class="c d" style="--r:2;--x:2"></i><i class="c d" style="--r:2;--x:4"></i><i class="c d" style="--r:2;--x:6"></i><i class="c d" style="--r:2;--x:8"></i>
+      <i class="c b dim" style="--r:3;--x:1"></i><i class="c g dim" style="--r:3;--x:3"></i><i class="c y dim" style="--r:3;--x:5"></i><i class="c b dim" style="--r:3;--x:7"></i><i class="c u dim" style="--r:3;--x:9"></i>
+      <i class="c b take" style="--r:4;--x:0"></i><i class="c g take" style="--r:4;--x:2"></i><i class="c r take" style="--r:4;--x:4"></i><i class="c n take" style="--r:4;--x:6"></i><i class="c y take" style="--r:4;--x:8"></i><i class="c u take" style="--r:4;--x:10"></i>
+    </div></div></div>
+    <div class="panel"><div class="ptabs"><span class="opp">Opp.</span><span class="on">You</span><span>Log</span></div><div class="pb" style="font-size:9px"><div class="row"><small>Brown</small><i class="mini b"></i><i class="mini b"></i></div><div class="row"><small>Green</small><i class="mini n"></i></div><div class="row"><small>Wonders</small><i class="wond built">Pyr.</i><i class="wond">Sphinx</i></div></div></div>
+  </div>
+</div>
+</div>
+</div>
+</div>

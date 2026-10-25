@@ -4,7 +4,7 @@ How the game looks and moves. Adapted from the old frontend's `DESIGN.md` and `I
 (`grmp/games/seven-wonders-duel/frontend/`, read-only); every departure is listed in §10. The
 frontend is purely visual: it renders the view and reacts to events by component id (plan 12). Rules
 live in `rules/`; nothing here restates them. The layouts below were agreed against browser mockups
-on 2026-10-25; the mockups themselves are scratch and not kept.
+on 2026-10-25; the two that still guide work (`board-layout-v2`, `track-v6`) are kept in `mockups/`, the rest were scratch.
 
 ## 1. Look
 
