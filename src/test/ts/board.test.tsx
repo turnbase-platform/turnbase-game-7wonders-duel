@@ -137,6 +137,23 @@ describe("Board", () => {
     expect(sums).toEqual(["Total5"]);
   });
 
+  it("leaves the coin row out of a quote whose card costs no coins", () => {
+    const m = inAge();
+    if (m.view === null) throw new Error("no view");
+    const quotes = m.view.quotes.map((q) =>
+      q.player === TWO.id && q.component === "palisade"
+        ? { ...q, coins: 0, tradeCost: 0, total: 0, lines: [] }
+        : q,
+    );
+    show(session(TWO, { ...m, view: { ...m.view, quotes } }));
+
+    const table = hover(host.querySelector('button[aria-label="Palisade"]'))?.querySelector(
+      ".quote",
+    );
+    expect(table?.querySelector(".quote__line")).toBeNull();
+    expect(table?.querySelector(".quote__total")?.textContent).toBe("Total0");
+  });
+
   it("tells what the opponent would pay in coins only, without a table", () => {
     show(age());
 
