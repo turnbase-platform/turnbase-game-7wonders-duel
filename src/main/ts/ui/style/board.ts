@@ -36,7 +36,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .drawer .log { margin-top: 0; }
 .drawer__close { position: absolute; top: 2px; right: 6px; border: 0; background: none; font-size: 20px; cursor: pointer; }
 .city__head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 3px solid var(--seat); }
-.city__head h3 { flex: 1; margin: 0; font: 700 15px var(--serif); }
+.city__head h3 { margin: 0; font: 700 15px var(--serif); }
+.city__turn { width: 10px; height: 10px; border-radius: 50%; background: var(--seat); box-shadow: 0 0 0 3px color-mix(in srgb, var(--seat) 30%, transparent); }
+.city-col .purse--big { margin-bottom: 10px; }
 .purse--big { display: inline-grid; place-items: center; border-bottom: 0; font-size: 46px; }
 .purse--big .icon { grid-area: 1 / 1; width: 1em; height: 1em; }
 .purse--big b { grid-area: 1 / 1; font: 800 .42em / 1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
@@ -56,8 +58,6 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .tab.needs-you { border-color: var(--me); box-shadow: 0 0 0 2px var(--me); }
 .log h3 { margin: 0 0 4px; font-size: 12px; opacity: .7; font-weight: 600; }
 .city { border-left: 3px solid var(--seat); padding-left: 8px; }
-.city__line { display: flex; gap: 10px; align-items: center; }
-.city__line .glyph { display: inline-flex; align-items: center; gap: 1px; }
 .stacks, .tokens { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: flex-start; }
 .stack { display: flex; flex-direction: column; width: 56px; }
 .stack .card { --w: 56px; }

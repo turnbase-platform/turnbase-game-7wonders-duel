@@ -4,7 +4,6 @@ import type { Seats } from "../core/seats.js";
 import { seatName, type Session } from "../core/session.js";
 import type { ComponentId } from "../core/wire.js";
 import { Card, type CardSize } from "./Card.js";
-import { Icon } from "./icons.js";
 import { Purse } from "./Purse.js";
 
 export type Side = "me" | "opp";
@@ -36,7 +35,7 @@ export function Tab({ label, active, tint, onPick }: TabProps) {
   );
 }
 
-/** The city of one seat: coins and production, the Wonders, the colour stacks and progress tokens. */
+/** The city of one seat: its owner, coins, the Wonders, the colour stacks and progress tokens. */
 export function City({
   session,
   seats,
@@ -47,7 +46,7 @@ export function City({
   session: Session;
   seats: Seats;
   side: Side;
-  /** Names the city above its coins, when it stands on its own rather than under a tab. */
+  /** Names the city and marks it while its owner is to act, when it stands on its own rather than under a tab. */
   title?: string;
   /** Shows the city's coins in its head, when no header does. */
   coins?: boolean;
@@ -87,18 +86,15 @@ export function City({
   const peeked = peek === null ? undefined : catalog.get(peek);
   return (
     <section className={`city owner-${side}`}>
-      <header className="city__head">
-        {title !== undefined && <h3>{title}</h3>}
-        {coins && <Purse session={session} player={seats[side]} side={side} big />}
-        <span className="city__line">
-          {city.produces.map((r) => (
-            <span key={r.resource} className="glyph" title={`${String(r.count)} ${r.resource}`}>
-              <Icon id={r.resource} />
-              {r.count > 1 && <b>{r.count}</b>}
-            </span>
-          ))}
-        </span>
-      </header>
+      {title !== undefined && (
+        <header className="city__head">
+          <h3>{title}</h3>
+          {view.active === seats[side] && view.phase !== "OVER" && (
+            <span className="city__turn" title="To act" role="img" aria-label="To act" />
+          )}
+        </header>
+      )}
+      {coins && <Purse session={session} player={seats[side]} side={side} big />}
       {city.wonders.length > 0 && (
         <div className="wonders">
           {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
