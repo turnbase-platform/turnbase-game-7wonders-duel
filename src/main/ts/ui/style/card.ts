@@ -46,7 +46,7 @@ export const CARD = `
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 .glyph__corner b { font-size: .9em; }
-.card__banner .glyph .icon { filter: drop-shadow(0 0 .5px #fff) drop-shadow(0 0 1px #fffa); }
+.card__banner .glyph .icon { filter: drop-shadow(0 0 .5px #ffffff80); }
 .card--standard .card__banner, .card--large .card__banner {
   background-image:
     repeating-linear-gradient(45deg, #ffffff14 0 1px, transparent 1px 4px),
