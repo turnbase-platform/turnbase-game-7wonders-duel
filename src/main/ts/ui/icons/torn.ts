@@ -32,7 +32,7 @@ const TORN_CARD: Imported = (() => {
       `${polygon([...edge(1), [21, 24], [3, 24]])}</clipPath>` +
       `<clipPath id="torn-card-shape">${shape}/></clipPath>` +
       `${shape} fill="currentColor" stroke="${EDGE}" stroke-width=".5" clip-path="url(#torn-card-cut)"/>` +
-      `<g fill="none" stroke="#000" stroke-width=".9" stroke-linejoin="round" clip-path="url(#torn-card-shape)">${tear(-1)}${tear(1)}</g>`,
+      `<g fill="none" stroke="${EDGE}" stroke-width=".5" stroke-linejoin="round" clip-path="url(#torn-card-shape)">${tear(-1)}${tear(1)}</g>`,
   };
 })();
 
