@@ -6,7 +6,7 @@ import { Icon } from "./icons.js";
 /**
  * The whole price of a component as one table: per resource, what the cost asks, what the city
  * produces, what a discount waives, what is bought, and the coins that buys (B-COST, B-TRADE). The
- * coins column adds up, with the card's own coin cost, to the total. Spans in a grid rather than a
+ * coins row is the card's own coin cost; the coins column adds up to the total. Spans in a grid rather than a
  * table, because it sits inside a button.
  */
 export function QuoteTable({ quote }: { quote: QuoteView }) {
@@ -43,16 +43,22 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
           <span role="cell">{l.bought * l.unitPrice}</span>
         </span>
       ))}
+      <span role="row" className="quote__line">
+        <span role="rowheader" title="coins">
+          <Icon id="coin" />
+        </span>
+        <span role="cell">{quote.coins}</span>
+        <span role="cell">–</span>
+        <span role="cell">–</span>
+        <span role="cell">–</span>
+        <span role="cell">{quote.coins}</span>
+      </span>
       {quote.lines.length > 0 && (
-        <span role="row" className="quote__sum">
-          <span role="rowheader">Coin cost of the card</span>
-          <span role="cell">{quote.coins}</span>
+        <span role="row" className="quote__sum quote__total">
+          <span role="rowheader">Total</span>
+          <span role="cell">{quote.total}</span>
         </span>
       )}
-      <span role="row" className="quote__sum quote__total">
-        <span role="rowheader">Total</span>
-        <span role="cell">{quote.total}</span>
-      </span>
     </span>
   );
 }

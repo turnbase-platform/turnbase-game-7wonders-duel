@@ -98,7 +98,7 @@ describe("Board", () => {
 
     const covered = host.querySelector("div.slot.is-covered");
     expect(host.querySelectorAll(".slot__quote")).toHaveLength(0);
-    expect(hover(covered)?.textContent).toMatch(/Total|Free by chain/);
+    expect(hover(covered)?.querySelector(".quote [role='row']")).not.toBeNull();
   });
 
   it("quotes an unbuilt Wonder on hover in its city", () => {
@@ -130,10 +130,11 @@ describe("Board", () => {
       ".quote",
     );
     const cells = [...(table?.querySelectorAll(".quote__line [role='cell']") ?? [])];
-    expect(cells.map((c) => c.textContent)).toEqual(["2", "1", "0", "1", "3"]);
+    expect(cells.slice(0, 5).map((c) => c.textContent)).toEqual(["2", "1", "0", "1", "3"]);
+    expect(cells.slice(5).map((c) => c.textContent)).toEqual(["2", "–", "–", "–", "2"]);
     expect(table?.querySelector(".quote__line svg.icon")).not.toBeNull();
     const sums = [...(table?.querySelectorAll(".quote__sum") ?? [])].map((r) => r.textContent);
-    expect(sums).toEqual(["Coin cost of the card2", "Total5"]);
+    expect(sums).toEqual(["Total5"]);
   });
 
   it("tells what the opponent would pay in coins only, without a table", () => {
