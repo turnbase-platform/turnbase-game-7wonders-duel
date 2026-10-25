@@ -26,7 +26,7 @@ describe("present", () => {
     ]);
     expect(present(badge("points", 3))).toMatchObject([{ icon: "vp", text: "3" }]);
     expect(present(badge("coins", 4))).toMatchObject([{ icon: "coin", text: "4" }]);
-    expect(present(badge("loseCoins", 3))).toMatchObject([{ icon: "coin", text: "−3" }]);
+    expect(present(badge("loseCoins", 3))).toMatchObject([{ icon: "coin-lost", text: "3" }]);
   });
 
   it("shows what is counted for a per-card reward, tinted by card colour", () => {
@@ -101,16 +101,14 @@ describe("motifOf", () => {
     expect(motifOf(catalogEntry("agriculture"))).toBe("agriculture");
   });
 
-  it("is the loot icon for a military token", () => {
-    expect(motifOf(catalogEntry("loot-2-a"))).toBe("loot");
-  });
-
   it("prefers a replay to the coins a Wonder also gives", () => {
     expect(motifOf(catalogEntry("the-appian-way"))).toBe("play-again");
   });
 
-  it("is a known icon for every entry in the catalog", () => {
-    for (const e of catalogEntries()) {
+  it("is a known icon for every entry the board draws", () => {
+    // Military tokens are shown by the track, never as cards.
+    const drawn = catalogEntries().filter((e) => e.type !== "TOKEN" || e.tags.includes("progress"));
+    for (const e of drawn) {
       expect(motifOf(e), e.id).not.toBe("unknown");
     }
   });

@@ -3,10 +3,15 @@
 // lacks — chain symbols, the action glyphs — is drawn here to match the rulebook:
 // flat, one colour, 24×24, taking `currentColor`. The sprite is rendered once, `<Icon>` refers to a symbol in it.
 import { IMPORTED, type Imported } from "./icons/imported.js";
+import { COIN_LOST } from "./icons/coin-lost.js";
 import { SCIENCE } from "./icons/science.js";
 
 /** The full-colour artwork: imported from the old sprite or drawn after the rulebook. */
-const COLOUR: Readonly<Partial<Record<string, Imported>>> = { ...IMPORTED, ...SCIENCE };
+const COLOUR: Readonly<Partial<Record<string, Imported>>> = {
+  ...IMPORTED,
+  ...SCIENCE,
+  "coin-lost": COIN_LOST,
+};
 
 /** Filled shapes: coins, resources, the shield. */
 const solid = (inner: string): string => `<g fill="currentColor" stroke="none">${inner}</g>`;
@@ -17,7 +22,6 @@ const path = (d: string): string => `<path d="${d}"/>`;
 const paths = (...d: string[]): string => d.map(path).join("");
 
 const DRAWINGS: Record<string, string> = {
-  loot: solid(path("M8 3h8l-2 4c4 2 6 6 6 10a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5c0-4 2-8 6-10z")),
   // What a badge may count
   card: solid('<rect x="4" y="2" width="16" height="20" rx="2"/>'),
   progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),

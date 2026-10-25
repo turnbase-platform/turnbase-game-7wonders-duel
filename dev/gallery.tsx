@@ -9,7 +9,10 @@ import { IconSprite, SPRITE_IDS, Icon } from "../src/main/ts/ui/icons";
 import { injectStyles } from "../src/main/ts/ui/styles";
 
 const SIZES: CardSize[] = ["small", "standard", "large"];
-const entries = (resync as unknown as { catalog: { entries: CatalogEntry[] } }).catalog.entries;
+// Military tokens are not drawn anywhere: the track already says what they are worth.
+const entries = (
+  resync as unknown as { catalog: { entries: CatalogEntry[] } }
+).catalog.entries.filter((e) => e.type !== "TOKEN" || e.tags.includes("progress"));
 const backs = [...new Set(entries.map((e) => e.back).filter((b): b is string => b !== null))];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

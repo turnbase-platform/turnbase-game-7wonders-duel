@@ -78,12 +78,12 @@ describe("trackOf fields", () => {
   it("lays out the loot and VP fields under the tiles they cover", () => {
     const { fields } = trackOf(view, catalog, seats);
     expect(fields.map((f) => [f.kind, f.from, f.to, f.text])).toEqual([
-      ["loot", 1, 3, "−5"],
-      ["loot", 4, 6, "−2"],
+      ["loot", 1, 3, "5"],
+      ["loot", 4, 6, "2"],
       ["vp", 7, 8, "2 VP"],
       ["vp", 10, 11, "2 VP"],
-      ["loot", 12, 14, "−2"],
-      ["loot", 15, 17, "−5"],
+      ["loot", 12, 14, "2"],
+      ["loot", 15, 17, "5"],
     ]);
   });
 
@@ -93,7 +93,7 @@ describe("trackOf fields", () => {
       visible: view.visible.filter((p) => p.component !== "loot-2-a"),
     };
     const loot = trackOf(withoutOne, catalog, seats).fields.filter((f) => f.kind === "loot");
-    expect(loot.filter((f) => f.taken).map((f) => [f.from, f.text])).toEqual([[4, "−2"]]);
+    expect(loot.filter((f) => f.taken).map((f) => [f.from, f.text])).toEqual([[4, "2"]]);
   });
 
   it("follows the viewer: a spectator sees the first seat on the left", () => {

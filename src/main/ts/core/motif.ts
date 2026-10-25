@@ -21,12 +21,12 @@ const PRIORITY = [
 ];
 
 /**
- * The icon drawn large in a component's art area: a progress token is its own picture, a military
- * token is loot, anything else is the glyph of its most telling badge.
+ * The icon drawn large in a component's art area: a progress token is its own picture, anything else is the
+ * glyph of its most telling badge.
  */
 export function motifOf(entry: CatalogEntry): string {
-  if (entry.type === "TOKEN") {
-    return entry.tags.includes("progress") ? entry.id : "loot";
+  if (entry.tags.includes("progress")) {
+    return entry.id;
   }
   for (const kind of PRIORITY) {
     const badge = entry.badges.find((b) => b.kind === kind);

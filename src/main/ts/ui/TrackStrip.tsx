@@ -41,7 +41,7 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               title={f.title ?? undefined}
             >
               {f.text}
-              {f.kind === "loot" && <Icon id="coin" />}
+              {f.kind === "loot" && <Icon id="coin-lost" />}
             </span>
           ))}
         </div>

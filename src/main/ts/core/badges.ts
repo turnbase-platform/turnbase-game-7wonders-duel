@@ -65,7 +65,7 @@ export function present(badge: Badge): Glyph[] {
     case "coinsPer":
       return [glyph("coin", amount, `${amount} coins for each`), ...of.map((t) => target(t))];
     case "loseCoins":
-      return [glyph("coin", `−${amount}`, `the opponent loses ${amount} coins`)];
+      return [glyph("coin-lost", amount, `the opponent loses ${amount} coins`)];
     case "science":
       return of.map((s) => glyph(s, null, `science symbol ${s}`));
     case "chain":

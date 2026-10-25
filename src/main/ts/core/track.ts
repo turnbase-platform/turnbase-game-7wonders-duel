@@ -113,7 +113,7 @@ function fieldsOf(
     return {
       kind: "loot",
       zone: z,
-      text: signed(-coins),
+      text: String(coins),
       from: at(sign === 1 ? start : -last),
       to: at(sign === 1 ? last : -start),
       current: here(side, z),

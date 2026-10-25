@@ -69,9 +69,9 @@ export const CARD = `
   border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
 }
 .card__chain {
-  position: absolute; top: calc(var(--u) * .32); right: 2px; z-index: 1; display: grid;
-  place-items: center; padding: 1px; font-size: calc(var(--u) * .17);
-  background: #0007; border: 1px solid #0004; border-radius: var(--radius);
+  position: absolute; top: calc(var(--u) * .3); right: calc(var(--u) * .06); z-index: 1; display: grid;
+  place-items: center; font-size: calc(var(--u) * .24); color: #fff;
+  filter: drop-shadow(0 0 1px #000c) drop-shadow(0 1px 2px #0008);
 }
 .card--small .card__name, .card--small .card__cost, .card--small .card__chain { display: none; }
 .card--small .card__art { display: none; }
