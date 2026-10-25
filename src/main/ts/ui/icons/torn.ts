@@ -32,24 +32,25 @@ const TORN_CARD: Imported = (() => {
 const card = (x: number, y: number, fill: string, turn = 0): string =>
   `<rect x="${String(x)}" y="${String(y)}" width="12" height="15" rx="1.6" fill="${fill}" stroke="${EDGE}" stroke-width=".5" transform="rotate(${String(turn)} ${String(x + 6)} ${String(y + 7.5)})"/>`;
 
-/** Grey cards thrown into a heap; on the front one the price bar is crossed out: build it for free. */
-const REBUILD: Imported = {
-  viewBox: "0 0 24 24",
-  body:
-    card(0.5, 1.5, "#8b8e94", -16) +
-    card(5, 0.5, "#9a9da3", 11) +
-    card(1.5, 5.5, "#a9acb2", -5) +
-    card(8.5, 8, "#c9ccd1", 4) +
-    `<path d="M8.5 12h8.2a1.6 1.6 0 0 1 0 3.2H8.5z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4" transform="rotate(4 14.5 15.5)"/>` +
-    `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="#000" stroke-width="3" stroke-linecap="round"/>` +
-    `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="${RED}" stroke-width="1.7" stroke-linecap="round"/>`,
-};
+/** Grey cards thrown into a heap. */
+const DISCARD_PILE =
+  card(0.5, 1.5, "#8b8e94", -16) + card(5, 0.5, "#9a9da3", 11) + card(1.5, 5.5, "#a9acb2", -5);
 
-const token = (cx: number, cy: number, face: boolean): string => {
-  const disc = `<circle cx="${String(cx)}" cy="${String(cy)}" r="7" fill="#446c3c" stroke="#1e3f1c" stroke-width="1.4"/>`;
-  const ring = `<circle cx="${String(cx)}" cy="${String(cy)}" r="4.8" fill="none" stroke="#7fa874" stroke-width=".7"/>`;
-  const emblem = `<path transform="translate(${String(cx - 3)} ${String(cy - 3)}) scale(.25)" d="M12 2l8.7 5v10L12 22l-8.7-5V7z" fill="#e8dcae" stroke="none"/>`;
-  return disc + ring + (face ? emblem : "");
+/** A card whose price bar is crossed out: it costs nothing. */
+const FREE_CARD =
+  card(8.5, 8, "#c9ccd1") +
+  `<path d="M8.5 12h8.2a1.6 1.6 0 0 1 0 3.2H8.5z" fill="#6f6a60" stroke="${EDGE}" stroke-width=".4"/>` +
+  `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="#000" stroke-width="3" stroke-linecap="round"/>` +
+  `<path d="M10 10.7l5.8 5.8M15.8 10.7l-5.8 5.8" stroke="${RED}" stroke-width="1.7" stroke-linecap="round"/>`;
+
+/** A progress token of radius `r`; face up it shows its emblem, face down only the ring. */
+const token = (cx: number, cy: number, face: boolean, r = 7): string => {
+  const at = `cx="${String(cx)}" cy="${String(cy)}"`;
+  return (
+    `<circle ${at} r="${String(r)}" fill="#446c3c" stroke="#1e3f1c" stroke-width="${String(r / 5)}"/>` +
+    `<circle ${at} r="${String(r * 0.69)}" fill="none" stroke="#7fa874" stroke-width="${String(r / 10)}"/>` +
+    (face ? `<circle ${at} r="${String(r * 0.52)}" fill="#e8dcae"/>` : "")
+  );
 };
 
 /** Three progress tokens stacked diagonally: two face down under one face up. */
@@ -60,6 +61,9 @@ const DRAW_TOKEN: Imported = {
 
 export const TORN: Readonly<Record<string, Imported>> = {
   "torn-card": TORN_CARD,
-  rebuild: REBUILD,
+  "discard-pile": { viewBox: "0 0 24 24", body: DISCARD_PILE },
+  "free-card": { viewBox: "0 0 24 24", body: FREE_CARD },
+  rebuild: { viewBox: "0 0 24 24", body: DISCARD_PILE + FREE_CARD },
+  progress: { viewBox: "0 0 24 24", body: token(12, 12, true, 10) },
   "draw-token": DRAW_TOKEN,
 };

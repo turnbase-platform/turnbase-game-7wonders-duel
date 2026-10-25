@@ -20,8 +20,6 @@ const COLOUR: Readonly<Partial<Record<string, Imported>>> = {
   "coin-lost": COIN_LOST,
 };
 
-/** Filled shapes: coins, resources, the shield. */
-const solid = (inner: string): string => `<g fill="currentColor" stroke="none">${inner}</g>`;
 /** Line art: symbols and tokens. */
 const line = (inner: string): string =>
   `<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`;
@@ -31,7 +29,6 @@ const paths = (...d: string[]): string => d.map(path).join("");
 const DRAWINGS: Record<string, string> = {
   // What a badge may count
   card: `<rect x="4.3" y="2.3" width="15.4" height="19.4" rx="2" fill="currentColor" stroke="#0009" stroke-width=".5"/>`,
-  progress: solid(path("M12 2l8.7 5v10L12 22l-8.7-5V7z")),
   or: line(path("M16 3L8 21")),
   // The manual's "the city that has more": an up triangle and a down triangle, split by a slash
   better: `<g fill="currentColor" stroke="none"><path d="M3.5 9.5L7.75 2.14 12 9.5z"/><path d="M12 14.5h8.5l-4.25 7.36z"/></g><path d="M17.5 3L6.5 21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`,
