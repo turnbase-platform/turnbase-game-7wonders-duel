@@ -51,12 +51,12 @@ describe("Card", () => {
     expect(out).toContain(`icon-${chained.cost.freedBy[0]}`);
   });
 
-  it("puts the chain symbol a building gives at the top right, not in the banner", () => {
+  it("puts the chain symbol a building gives in the banner, at its right end", () => {
     const out = html(<Card entry={catalogEntry("stable")} size="standard" />);
-    expect(out).toContain("card__chain");
-    expect(out.slice(out.indexOf("card__banner"), out.indexOf("card__art"))).not.toContain(
-      "icon-horseshoe",
-    );
+    const banner = out.slice(out.indexOf("card__banner"), out.indexOf("card__art"));
+    expect(banner).toContain("has-chain");
+    expect(banner.indexOf("card__chain")).toBeGreaterThan(banner.lastIndexOf("glyph"));
+    expect(banner).toContain("icon-horseshoe");
   });
 
   it("draws a Wonder in its own variant, faded until it is built", () => {

@@ -32,8 +32,9 @@ export const CARD = `
 .card__banner {
   display: flex; flex-wrap: wrap; gap: calc(var(--u) * .02); align-items: center;
   justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
-  background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  position: relative; background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
+.card__banner.has-chain { padding-right: calc(var(--u) * .2); }
 .glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .24); }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
@@ -69,8 +70,8 @@ export const CARD = `
   border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
 }
 .card__chain {
-  position: absolute; top: calc(var(--u) * .3); right: calc(var(--u) * .06); z-index: 1; display: grid;
-  place-items: center; font-size: calc(var(--u) * .24); color: #fff;
+  position: absolute; top: 50%; right: calc(var(--u) * .04); transform: translateY(-50%); z-index: 1; display: grid;
+  place-items: center; font-size: calc(var(--u) * .17); color: #fff;
   filter: drop-shadow(0 0 1px #000c) drop-shadow(0 1px 2px #0008);
 }
 .card--small .card__name, .card--small .card__cost, .card--small .card__chain { display: none; }

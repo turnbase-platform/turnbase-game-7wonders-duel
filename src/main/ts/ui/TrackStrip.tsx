@@ -27,7 +27,7 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               {t.pawn ? (
                 <i className="pawn" aria-label="Military pawn" />
               ) : t.capital ? (
-                <Icon id="shield" />
+                <Icon id="fortress" />
               ) : (
                 <small>{t.label}</small>
               )}

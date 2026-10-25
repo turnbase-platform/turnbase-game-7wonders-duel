@@ -16,7 +16,7 @@ export const COIN_LOST: Imported = {
   viewBox: "0 0 119 119",
   body:
     `<g transform="translate(59.5 59.5) scale(.78) translate(-59.5 -59.5)">` +
-    half("coin-lost-a", LEFT, `translate(-4 0) rotate(-9 ${FOOT})`) +
-    half("coin-lost-b", RIGHT, `translate(4 0) rotate(9 ${FOOT})`) +
+    half("coin-lost-a", LEFT, `translate(-4 0) rotate(-7 ${FOOT})`) +
+    half("coin-lost-b", RIGHT, `translate(4 0) rotate(7 ${FOOT})`) +
     `</g>`,
 };

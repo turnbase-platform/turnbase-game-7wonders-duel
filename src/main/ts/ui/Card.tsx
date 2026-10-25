@@ -81,21 +81,21 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
   const glyphs = entry.badges.filter((b) => b.kind !== "chain").flatMap(present);
   return (
     <div className={classes.join(" ")} title={entry.name} data-component={entry.id}>
-      <div className="card__banner">
+      <div className={`card__banner${chain ? " has-chain" : ""}`}>
         {glyphs.map((g, i) => (
           <GlyphView key={i} glyph={g} />
         ))}
+        {chain && (
+          <span className="card__chain" title={`gives ${chain.of.join(", ")}`}>
+            <Icon id={chain.of[0] ?? "chain"} />
+          </span>
+        )}
       </div>
       <Cost entry={entry} />
       <div className="card__art">
         <Icon id={motifOf(entry)} />
       </div>
       <div className="card__name">{entry.name}</div>
-      {chain && (
-        <span className="card__chain" title={`gives ${chain.of.join(", ")}`}>
-          <Icon id={chain.of[0] ?? "chain"} />
-        </span>
-      )}
       {built && <span className="card__paid" />}
     </div>
   );
