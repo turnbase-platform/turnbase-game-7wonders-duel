@@ -10,6 +10,8 @@ export const TOKENS = `
   --wonder: #a89468; --token: #6f8f6a;
   --radius: 3px;
   --serif: Georgia, "Times New Roman", serif;
+  /* Georgia's digits are old-style: 3, 4, 5, 7 and 9 hang below the line, so a number in a coin is never centred. */
+  --figures: "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif;
   --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {

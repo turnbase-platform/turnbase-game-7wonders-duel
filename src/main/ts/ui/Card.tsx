@@ -61,7 +61,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
         </div>
       )}
       {freedBy.length > 0 && (
-        <div className="cost__bar is-chain">
+        <div className="cost__bar">
           {freedBy.map((symbol) => (
             <span key={symbol} className="cost__free" title={`free with ${symbol}`}>
               <Icon id={symbol} />
