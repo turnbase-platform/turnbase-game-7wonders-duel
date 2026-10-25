@@ -86,6 +86,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .pyramid .card { --w: var(--cw); }
 .slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.72) saturate(.65); }
+.slot__quote { position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 4px); display: inline-flex; align-items: center; gap: 3px; margin-bottom: 4px; padding: 2px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 10px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}, transform ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 2; }
+.slot__quote .icon { width: 14px; height: 14px; }
+button.slot:hover .slot__quote, button.slot:focus-visible .slot__quote { opacity: 1; transform: translate(-50%, 0); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }
 /* The selected card: the structure blurs, the card rises where it stands, its actions float beside it. */
@@ -117,5 +120,5 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 .spotlight button small { font-size: 11px; color: var(--muted); }
 .spotlight .price { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; }
 button.slot:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .slot { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .slot, .slot__quote { transition: none; } }
 `;

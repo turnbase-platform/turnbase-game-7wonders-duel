@@ -29,6 +29,7 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
       view={view}
       catalog={catalog}
       offers={offers}
+      self={session.self}
       selected={selected}
       onSelect={onSelect}
     />

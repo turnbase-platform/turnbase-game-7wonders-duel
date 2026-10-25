@@ -14,19 +14,23 @@ import {
   type PyramidSlot,
 } from "../core/pyramid.js";
 import type { Selection } from "../core/selection.js";
-import type { ComponentId, DuelView } from "../core/wire.js";
+import type { ComponentId, DuelView, PlayerId, QuoteView } from "../core/wire.js";
+import { priceText } from "./Actions.js";
 import { Card, CardBack } from "./Card.js";
+import { Icon } from "./icons.js";
 import { useSize } from "./useSize.js";
 
 interface Props {
   view: DuelView;
   catalog: Catalog;
   offers: Offer[];
+  /** Whose price is quoted on hover; null for a spectator. */
+  self: PlayerId | null;
   selected: Selection;
   onSelect: (component: ComponentId) => void;
 }
 
-export function Pyramid({ view, catalog, offers, selected, onSelect }: Props) {
+export function Pyramid({ view, catalog, offers, self, selected, onSelect }: Props) {
   const frame = useRef<HTMLDivElement>(null);
   const measured = useSize(frame);
   // The frame only ever grows within an Age, so cards leaving it never move the ones that stay.
@@ -57,6 +61,7 @@ export function Pyramid({ view, catalog, offers, selected, onSelect }: Props) {
             shift={shift}
             catalog={catalog}
             state={slotState(slot, accessible, mine, selected)}
+            quote={view.quotes.find((q) => q.player === self && q.component === slot.component)}
             onSelect={onSelect}
           />
         ))}
@@ -86,10 +91,11 @@ interface SlotProps {
   shift: number;
   catalog: Catalog;
   state: SlotState;
+  quote: QuoteView | undefined;
   onSelect: (component: ComponentId) => void;
 }
 
-function Slot({ slot, scale, shift, catalog, state, onSelect }: SlotProps) {
+function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps) {
   const style = { left: (slot.x + shift) * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
   const entry = slot.component === null ? undefined : catalog.get(slot.component);
   const face =
@@ -118,6 +124,11 @@ function Slot({ slot, scale, shift, catalog, state, onSelect }: SlotProps) {
       }}
     >
       {face}
+      {state === "takeable" && quote && (
+        <span className="slot__quote">
+          <Icon id="coin" /> {priceText(quote)}
+        </span>
+      )}
     </button>
   );
 }

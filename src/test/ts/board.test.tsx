@@ -85,6 +85,15 @@ describe("Board", () => {
     expect(host.querySelectorAll(".slot.is-covered").length).toBeGreaterThan(0);
   });
 
+  it("quotes the price on every takeable card, for hover, and on no other", () => {
+    show(age());
+
+    const quotes = [...host.querySelectorAll("button.slot .slot__quote")].map((q) => q.textContent);
+    expect(quotes).toHaveLength(host.querySelectorAll("button.slot").length);
+    expect(quotes.every((q) => /Free|coins/.test(q))).toBe(true);
+    expect(host.querySelectorAll("div.slot .slot__quote")).toHaveLength(0);
+  });
+
   it("selects a takeable card, and again lets it go", () => {
     show(age());
 
