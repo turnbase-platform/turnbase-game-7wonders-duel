@@ -89,6 +89,27 @@ describe("the session", () => {
     expect(reduce(resynced(), { type: "message", message: m }).history).toEqual([]);
   });
 
+  it("a seat skips the broadcast that its own message follows", () => {
+    const broadcast = { ...message("view-after-draft-pick"), broadcast: true };
+    const before = resynced();
+
+    expect(reduce(before, { type: "message", message: broadcast })).toBe(before);
+  });
+
+  it("a spectator applies the broadcast, which is all it gets", () => {
+    const spectator = reduce(emptySession(), {
+      type: "init",
+      context: { ...INIT, role: "spectator", self: null },
+    });
+    const watching = reduce(spectator, { type: "message", message: message("resync") });
+    const broadcast = { ...message("view-after-draft-pick"), broadcast: true };
+
+    const s = reduce(watching, { type: "message", message: broadcast });
+
+    expect(s.view).toEqual(broadcast.view);
+    expect(s.history).toHaveLength(1);
+  });
+
   it("a rejection keeps the view and is cleared by the next view", () => {
     const before = resynced();
     const rejected = reduce(before, { type: "message", message: message("rejected") });

@@ -109,7 +109,11 @@ public final class SevenWondersDuelGame implements TurnBaseGame<SevenWondersDuel
       DuelState state, List<EventRecord> events, Map<UUID, UUID> endingTeams) {
     // A broadcast reaches the seats too, so it goes first and each seat's own view lands last.
     List<Effect> effects = new ArrayList<>();
-    effects.add(Effects.broadcast(message(state, events, new Viewer.Spectator())));
+    effects.add(
+        Effects.broadcast(
+            ServerMessage.broadcast(
+                Views.of(state, rules, new Viewer.Spectator()),
+                EventViews.of(events, state, rules, new Viewer.Spectator()))));
     state.players().keySet().stream()
         .sorted(Comparator.comparing(PlayerId::value))
         .forEach(

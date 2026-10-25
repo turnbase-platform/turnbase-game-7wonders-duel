@@ -3,5 +3,6 @@
   "view" : null,
   "reason" : "not your turn",
   "events" : [ ],
-  "catalog" : null
+  "catalog" : null,
+  "broadcast" : false
 }

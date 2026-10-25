@@ -133,6 +133,8 @@ export interface ServerMessage {
   events: EventView[];
   /** Sent with a resync only. */
   catalog: CatalogView | null;
+  /** The public message sent to everybody; a seat also gets its own and skips this one. */
+  broadcast: boolean;
 }
 
 export type WireAction =

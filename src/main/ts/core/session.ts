@@ -58,7 +58,11 @@ export function reduce(session: Session, input: SessionInput): Session {
         roster: input.context.roster,
       };
     case "message":
-      return received(session, input.message);
+      // The GDK delivers a broadcast to the seats too, and each seat also gets a message of its
+      // own with what only it may see: that one is the picture, this one would only repeat it.
+      return input.message.broadcast && session.role === "player"
+        ? session
+        : received(session, input.message);
     case "playerLeft":
       return { ...session, left: [...session.left, input.player] };
     case "gameOver":

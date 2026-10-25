@@ -121,5 +121,6 @@
     "pawnFrom" : null,
     "pawnTo" : null
   } ],
-  "catalog" : null
+  "catalog" : null,
+  "broadcast" : false
 }

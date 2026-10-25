@@ -90,9 +90,29 @@ class GameActionTest {
     assertThat(result.effects())
         .contains(
             new BroadcastEffect(
-                ServerMessage.view(
+                ServerMessage.broadcast(
                     Views.of(after, BASE, spectator),
                     EventViews.of(events, after, BASE, spectator))));
+  }
+
+  @Test
+  void onlyTheBroadcastIsMarkedSoASeatCanSkipItForItsOwnView() {
+    SevenWondersDuelState before = drafting();
+    DuelState duel = Snapshots.fromSnapshot(before);
+    PlayerId mover = Draft.toMove(duel).orElseThrow();
+
+    ActionResult<SevenWondersDuelState> result =
+        GAME.onAction(
+            before,
+            action(seat(mover), new WireAction("draftWonder", offered(duel).value(), null, null)));
+
+    for (var effect : result.effects()) {
+      if (effect instanceof BroadcastEffect broadcast) {
+        assertThat(((ServerMessage) broadcast.payload()).broadcast()).isTrue();
+      } else if (effect instanceof SendToPlayerEffect send) {
+        assertThat(((ServerMessage) send.payload()).broadcast()).isFalse();
+      }
+    }
   }
 
   @Test

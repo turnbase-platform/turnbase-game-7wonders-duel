@@ -15,9 +15,16 @@ import java.util.List;
  *     for a resync and for a refusal. The view is the truth, the events only explain it.
  * @param catalog every component's static data, sent with a resync and null otherwise: ids in the
  *     view and the events are looked up here
+ * @param broadcast true for the public message that went to every client; the GDK delivers a
+ *     broadcast to the seats as well, so a seat skips it and applies the message addressed to it
  */
 public record ServerMessage(
-    String kind, DuelView view, String reason, List<EventView> events, CatalogView catalog) {
+    String kind,
+    DuelView view,
+    String reason,
+    List<EventView> events,
+    CatalogView catalog,
+    boolean broadcast) {
 
   public ServerMessage {
     events = List.copyOf(events);
@@ -30,14 +37,19 @@ public record ServerMessage(
 
   /** A picture for a client that has just (re)connected, with the catalog its ids refer to. */
   public static ServerMessage resync(DuelView view, CatalogView catalog) {
-    return new ServerMessage("view", view, null, List.of(), catalog);
+    return new ServerMessage("view", view, null, List.of(), catalog, false);
   }
 
   public static ServerMessage view(DuelView view, List<EventView> events) {
-    return new ServerMessage("view", view, null, events, null);
+    return new ServerMessage("view", view, null, events, null, false);
+  }
+
+  /** The public picture sent to everybody; a seat also gets its own and prefers that. */
+  public static ServerMessage broadcast(DuelView view, List<EventView> events) {
+    return new ServerMessage("view", view, null, events, null, true);
   }
 
   public static ServerMessage rejected(String reason) {
-    return new ServerMessage("rejected", null, reason, List.of(), null);
+    return new ServerMessage("rejected", null, reason, List.of(), null, false);
   }
 }

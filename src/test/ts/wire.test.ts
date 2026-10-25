@@ -43,6 +43,7 @@ const shape: ServerMessage = {
   reason: null,
   events: [],
   catalog: null,
+  broadcast: false,
 };
 const view: DuelView = {
   phase: "AGE",
@@ -128,6 +129,7 @@ describe("the wire fixtures", () => {
       reason: "not your turn",
       events: [],
       catalog: null,
+      broadcast: false,
     });
   });
 
