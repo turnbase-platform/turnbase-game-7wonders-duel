@@ -44,7 +44,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .drawer { position: absolute; z-index: 15; top: 8px; right: 8px; bottom: 8px; box-sizing: border-box; width: 340px; max-width: calc(100% - 16px); overflow: auto; padding: 10px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); box-shadow: 0 6px 24px #0006; }
 .drawer .log { margin-top: 0; }
 .drawer__close { position: absolute; top: 2px; right: 6px; border: 0; background: none; font-size: 20px; cursor: pointer; }
-.city__head { position: relative; display: flex; align-items: center; gap: 4px 12px; margin-bottom: 28px; padding-bottom: 4px; border-bottom: 3px solid var(--seat); }
+.city__head { position: relative; display: flex; align-items: center; gap: 4px 12px; margin-bottom: 28px; padding-bottom: 12px; border-bottom: 3px solid var(--seat); }
 .city__head h3 { margin: 0; font: 700 15px var(--serif); }
 .city__turn { width: 10px; height: 10px; border-radius: 50%; background: var(--seat); box-shadow: 0 0 0 3px color-mix(in srgb, var(--seat) 30%, transparent); }
 .city__head .purse--big { position: absolute; right: 4px; top: 100%; transform: translateY(-50%); }
@@ -59,12 +59,13 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .layout-landscape .city .card--wonder.card--standard { --w: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
-.science { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; padding: 0; list-style: none; }
-.science__symbol { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; opacity: .35; filter: grayscale(1); }
-.science__symbol .icon { width: 20px; height: 20px; }
+.science { display: flex; flex-wrap: wrap; gap: 3px; margin: 0 0 8px; padding: 0; list-style: none; }
+.city__head .science { position: absolute; right: 64px; top: 100%; transform: translateY(-50%); margin: 0; }
+.science__symbol { position: relative; display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); opacity: .5; filter: grayscale(1); }
+.science__symbol .icon { width: 15px; height: 15px; }
 .science__symbol.is-held { opacity: 1; filter: none; border-color: var(--ink); }
 .science__symbol.is-pair { box-shadow: 0 0 0 2px var(--seat); }
-.science__symbol b { position: absolute; right: -4px; bottom: -4px; min-width: 14px; border-radius: 7px; background: var(--seat); color: #fff; font: 700 10px/14px var(--figures); text-align: center; }
+.science__symbol b { position: absolute; right: -4px; bottom: -4px; min-width: 12px; border-radius: 6px; background: var(--seat); color: #fff; font: 700 9px/12px var(--figures); text-align: center; }
 .tabs { display: flex; gap: 4px; margin-bottom: 6px; }
 .tab { flex: 1; padding: 6px 8px; background: none; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
 .tab[aria-selected="true"] { background: var(--ground); font-weight: 700; }
@@ -100,8 +101,15 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .pyramid .card { --w: var(--cw); }
 .slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.85) saturate(.8); }
-.slot__quote { position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 4px); display: inline-flex; align-items: center; gap: 3px; margin-bottom: 4px; padding: 2px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 10px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}, transform ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 2; }
-.slot__quote .icon { width: 14px; height: 14px; }
+.slot__quote { position: absolute; left: 50%; bottom: 100%; transform: translate(-50%, 4px); display: block; margin-bottom: 4px; padding: 6px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}, transform ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 2; }
+.quote { display: grid; gap: 2px; text-align: right; font-variant-numeric: tabular-nums; }
+.quote__head, .quote__line { display: grid; grid-template-columns: 22px repeat(5, minmax(34px, auto)); gap: 2px 8px; align-items: center; }
+.quote__head { font-size: 10px; font-weight: 500; color: var(--muted); }
+.quote__line [role="rowheader"] { display: grid; place-items: center; }
+.quote .icon { width: 18px; height: 18px; }
+.quote__sum { display: flex; justify-content: space-between; gap: 16px; }
+.quote__line + .quote__sum, .quote__head + .quote__sum { border-top: 1px solid var(--line); padding-top: 3px; margin-top: 2px; }
+.quote__total { font-size: 13px; }
 button.slot:hover .slot__quote, button.slot:focus-visible .slot__quote { opacity: 1; transform: translate(-50%, 0); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }

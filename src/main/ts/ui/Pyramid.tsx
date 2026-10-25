@@ -15,9 +15,8 @@ import {
 } from "../core/pyramid.js";
 import type { Selection } from "../core/selection.js";
 import type { ComponentId, DuelView, PlayerId, QuoteView } from "../core/wire.js";
-import { priceText } from "./Actions.js";
 import { Card, CardBack } from "./Card.js";
-import { Icon } from "./icons.js";
+import { QuoteTable } from "./QuoteTable.js";
 import { useSize } from "./useSize.js";
 
 interface Props {
@@ -126,7 +125,7 @@ function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps
       {face}
       {state === "takeable" && quote && (
         <span className="slot__quote">
-          <Icon id="coin" /> {priceText(quote)}
+          <QuoteTable quote={quote} />
         </span>
       )}
     </button>

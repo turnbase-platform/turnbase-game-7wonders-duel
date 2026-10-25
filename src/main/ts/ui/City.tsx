@@ -102,10 +102,11 @@ export function City({
               aria-label="To act"
             />
           )}
+          <Science symbols={city.science} />
           {coins && <Purse session={session} player={seats[side]} side={side} big />}
         </header>
       )}
-      <Science symbols={city.science} />
+      {title === undefined && <Science symbols={city.science} />}
       {city.wonders.length > 0 && (
         <div className="wonders">
           {city.wonders.map((w) => peekable(w.id, "standard", w.built))}

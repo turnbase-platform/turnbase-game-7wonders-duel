@@ -34,6 +34,16 @@ export interface PendingView {
   hidden: number;
 }
 
+/** How one resource of a cost is met: needed = produced + discounted + bought. */
+export interface QuoteLineView {
+  resource: string;
+  needed: number;
+  produced: number;
+  discounted: number;
+  bought: number;
+  unitPrice: number;
+}
+
 export interface QuoteView {
   player: PlayerId;
   component: ComponentId;
@@ -42,6 +52,7 @@ export interface QuoteView {
   total: number;
   chained: boolean;
   affordable: boolean;
+  lines: QuoteLineView[];
 }
 
 export interface DuelView {

@@ -90,8 +90,34 @@ describe("Board", () => {
 
     const quotes = [...host.querySelectorAll("button.slot .slot__quote")].map((q) => q.textContent);
     expect(quotes).toHaveLength(host.querySelectorAll("button.slot").length);
-    expect(quotes.every((q) => /Free|coins/.test(q))).toBe(true);
+    expect(quotes.every((q) => /Total|Free by chain/.test(q))).toBe(true);
     expect(host.querySelectorAll("div.slot .slot__quote")).toHaveLength(0);
+  });
+
+  it("lays a quote out per resource, with coins, bought resources and the total", () => {
+    const m = inAge();
+    if (m.view === null) throw new Error("no view");
+    const quotes = m.view.quotes.map((q) =>
+      q.player === TWO.id && q.component === "palisade"
+        ? {
+            ...q,
+            coins: 2,
+            tradeCost: 3,
+            total: 5,
+            lines: [
+              { resource: "wood", needed: 2, produced: 1, discounted: 0, bought: 1, unitPrice: 3 },
+            ],
+          }
+        : q,
+    );
+    show(session(TWO, { ...m, view: { ...m.view, quotes } }));
+
+    const table = host.querySelector('button[aria-label="Palisade"] .quote');
+    const cells = [...(table?.querySelectorAll(".quote__line [role='cell']") ?? [])];
+    expect(cells.map((c) => c.textContent)).toEqual(["2", "1", "0", "1", "3"]);
+    expect(table?.querySelector(".quote__line svg.icon")).not.toBeNull();
+    const sums = [...(table?.querySelectorAll(".quote__sum") ?? [])].map((r) => r.textContent);
+    expect(sums).toEqual(["Printed coins2", "Bought resources3", "Total5"]);
   });
 
   it("selects a takeable card, and again lets it go", () => {
