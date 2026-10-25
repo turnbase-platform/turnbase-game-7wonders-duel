@@ -16,6 +16,8 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .banner { padding: 6px 10px; border-radius: var(--radius); background: #fdd; color: #600; }
 .main { flex: 1; min-height: 0; display: flex; gap: 8px; }
 .layout-medium .main, .layout-portrait .main { flex-direction: column; }
+.stage { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.layout-portrait .stage:not(:has(.structure)) { flex: none; }
 .structure { flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .board-tokens { display: flex; gap: 6px; justify-content: center; flex: none; }
 .panel { box-sizing: border-box; min-height: 0; overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; }

@@ -93,7 +93,7 @@ function fieldsOf(
     return {
       kind: "vp",
       zone: 1,
-      text: `${String(ZONE_VP[0])} VP`,
+      text: String(ZONE_VP[0]),
       from: at(sign === 1 ? 1 : -2),
       to: at(sign === 1 ? 2 : -1),
       current: here(side, 1),

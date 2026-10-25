@@ -80,8 +80,8 @@ describe("trackOf fields", () => {
     expect(fields.map((f) => [f.kind, f.from, f.to, f.text])).toEqual([
       ["loot", 1, 3, "5"],
       ["loot", 4, 6, "2"],
-      ["vp", 7, 8, "2 VP"],
-      ["vp", 10, 11, "2 VP"],
+      ["vp", 7, 8, "2"],
+      ["vp", 10, 11, "2"],
       ["loot", 12, 14, "2"],
       ["loot", 15, 17, "5"],
     ]);

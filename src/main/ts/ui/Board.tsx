@@ -74,25 +74,27 @@ export function Board({ session, send, layout: fixed }: Props) {
     <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
       <IconSprite />
       <Header session={session} seats={seats} />
-      <TrackStrip view={view} catalog={catalog} seats={seats} />
       {session.rejection !== null && <div className="banner">{session.rejection}</div>}
       <div className="main">
-        {showing("structure") && (
-          <main className="structure">
-            <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
-            <Structure
-              session={session}
-              view={view}
-              catalog={catalog}
-              offers={available}
-              selected={selected}
-              onSelect={(component) => {
-                select({ type: "toggle", component });
-              }}
-              send={send}
-            />
-          </main>
-        )}
+        <div className="stage">
+          <TrackStrip view={view} catalog={catalog} seats={seats} />
+          {showing("structure") && (
+            <main className="structure">
+              <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
+              <Structure
+                session={session}
+                view={view}
+                catalog={catalog}
+                offers={available}
+                selected={selected}
+                onSelect={(component) => {
+                  select({ type: "toggle", component });
+                }}
+                send={send}
+              />
+            </main>
+          )}
+        </div>
         {layout === "wide" && (
           <aside className="panel">
             {cities}
