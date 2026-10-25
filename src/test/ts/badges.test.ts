@@ -9,9 +9,16 @@ function badge(kind: string, amount = 0, of: string[] = [], larger = false): Bad
 }
 
 describe("present", () => {
-  it("shows a resource with its amount only when more than one", () => {
-    expect(present(badge("produces", 1, ["wood"]))).toMatchObject([{ icon: "wood", text: null }]);
-    expect(present(badge("produces", 2, ["stone"]))).toMatchObject([{ icon: "stone", text: "2" }]);
+  it("repeats a resource icon as often as the card produces it", () => {
+    expect(present(badge("produces", 1, ["wood"])).map((g) => g.icon)).toEqual(["wood"]);
+    expect(present(badge("produces", 2, ["stone"])).map((g) => g.icon)).toEqual(["stone", "stone"]);
+  });
+
+  it("shows a fixed price as one resource-at-1-coin icon per resource", () => {
+    expect(present(badge("fixedPrice", 1, ["clay", "wood"])).map((g) => g.icon)).toEqual([
+      "priced-clay",
+      "priced-wood",
+    ]);
   });
 
   it("shows one glyph per resource a card may choose from", () => {

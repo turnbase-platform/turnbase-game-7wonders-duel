@@ -81,7 +81,7 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
   const glyphs = entry.badges.filter((b) => b.kind !== "chain").flatMap(present);
   return (
     <div className={classes.join(" ")} title={entry.name} data-component={entry.id}>
-      <div className={`card__banner${chain ? " has-chain" : ""}`}>
+      <div className="card__banner">
         {glyphs.map((g, i) => (
           <GlyphView key={i} glyph={g} />
         ))}

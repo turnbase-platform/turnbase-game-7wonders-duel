@@ -31,10 +31,6 @@ function target(thing: string, per = 1): Glyph {
   return glyph(thing, null, thing === "progress" ? "progress tokens" : `${thing}s`);
 }
 
-function amountText(amount: number): string | null {
-  return amount > 1 ? String(amount) : null;
-}
-
 /**
  * The one place that knows what each badge kind looks like. Components draw the glyphs and never
  * look at `kind`, so a kind added by an expansion degrades to a generic glyph instead of throwing.
@@ -45,7 +41,9 @@ export function present(badge: Badge): Glyph[] {
   const some = badge.amount > 0;
   switch (kind) {
     case "produces":
-      return of.map((r) => glyph(r, amountText(badge.amount), `${amount} ${r}`));
+      return of.flatMap((r) =>
+        Array.from({ length: badge.amount }, () => glyph(r, null, `${amount} ${r}`)),
+      );
     case "producesOneOf":
       return of.map((r) => glyph(r, null, `one of ${of.join(", ")}`));
     case "shields":
@@ -80,10 +78,7 @@ export function present(badge: Badge): Glyph[] {
         ...of.map((t) => target(t)),
       ];
     case "fixedPrice":
-      return [
-        ...of.map((r) => glyph(r, null, `${r} costs 1 coin`)),
-        glyph("coin", "1", "1 coin each"),
-      ];
+      return of.map((r) => glyph(`priced-${r}`, null, `${r} costs 1 coin`));
     case "playAgain":
       return [glyph("play-again", null, "play again")];
     case "playAgainOnWonder":

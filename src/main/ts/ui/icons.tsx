@@ -4,12 +4,14 @@
 // flat, one colour, 24×24, taking `currentColor`. The sprite is rendered once, `<Icon>` refers to a symbol in it.
 import { IMPORTED, type Imported } from "./icons/imported.js";
 import { COIN_LOST } from "./icons/coin-lost.js";
+import { PRICED } from "./icons/priced.js";
 import { SCIENCE } from "./icons/science.js";
 
 /** The full-colour artwork: imported from the old sprite or drawn after the rulebook. */
 const COLOUR: Readonly<Partial<Record<string, Imported>>> = {
   ...IMPORTED,
   ...SCIENCE,
+  ...PRICED,
   "coin-lost": COIN_LOST,
 };
 

@@ -54,7 +54,6 @@ describe("Card", () => {
   it("puts the chain symbol a building gives in the banner, at its right end", () => {
     const out = html(<Card entry={catalogEntry("stable")} size="standard" />);
     const banner = out.slice(out.indexOf("card__banner"), out.indexOf("card__art"));
-    expect(banner).toContain("has-chain");
     expect(banner.indexOf("card__chain")).toBeGreaterThan(banner.lastIndexOf("glyph"));
     expect(banner).toContain("icon-horseshoe");
   });
