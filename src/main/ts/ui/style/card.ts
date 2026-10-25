@@ -46,7 +46,14 @@ export const CARD = `
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 .glyph__corner b { font-size: .9em; }
-.card__banner .icon { filter: drop-shadow(0 0 .6px #fff) drop-shadow(0 0 1.2px #fff); }
+.card__banner .glyph .icon { filter: drop-shadow(0 0 .5px #fff) drop-shadow(0 0 1px #fffa); }
+.card--standard .card__banner, .card--large .card__banner {
+  background-image:
+    repeating-linear-gradient(45deg, #ffffff14 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(-45deg, #00000014 0 1px, transparent 1px 4px),
+    linear-gradient(#0000001f, #0000000a);
+  box-shadow: inset 0 -1px 0 #ffffff26, inset 0 1px 2px #0000002e;
+}
 .glyph .icon-vp + b { transform: translateY(-.06em); }
 .glyph .icon-vp + b { color: #fff; text-shadow: 0 0 2px #0009, 0 0 1px #0009; }
 .glyph b {
