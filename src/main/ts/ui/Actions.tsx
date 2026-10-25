@@ -33,18 +33,19 @@ interface Props {
   onClose: () => void;
 }
 
-/** What a quote asks of the player, in words. */
+/** What a quote asks of the player, in words: the coins to pay, or why nothing is due. */
 export function priceText(quote: QuoteView): string {
-  if (quote.total === 0) return quote.chained ? "Free by chain" : "Free";
-  const trade = quote.tradeCost > 0 ? ` (${String(quote.tradeCost)} in trade)` : "";
-  return `${String(quote.total)} coins${trade}`;
+  if (quote.chained) return "Free by chain";
+  if (quote.total > 0) return `${String(quote.total)} coins`;
+  return quote.lines.length > 0 ? "Production satisfied" : "Free";
 }
 
 function Price({ quote, compact = false }: { quote: QuoteView | undefined; compact?: boolean }) {
   if (quote === undefined) return null;
   return (
     <span className="price" title={priceText(quote)}>
-      <Icon id="coin" /> {compact ? quote.total : priceText(quote)}
+      {quote.total > 0 && <Icon id="coin" />}{" "}
+      {compact && quote.total > 0 ? quote.total : priceText(quote)}
     </span>
   );
 }
