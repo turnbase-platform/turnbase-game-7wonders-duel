@@ -8,6 +8,8 @@ export interface Glyph {
   title: string;
   /** The card colour a `card` glyph stands for, otherwise null. */
   tint: string | null;
+  /** Card colours drawn as cards piled diagonally, the last on top; empty for a single card. */
+  pile: string[];
   /** What a per-card reward pays, shown on small icons in the glyph's bottom corners. */
   corners: Corner[];
 }
@@ -26,7 +28,7 @@ function glyph(
   tint: string | null = null,
   corners: Corner[] = [],
 ): Glyph {
-  return { icon, text, title, tint, corners };
+  return { icon, text, title, tint, pile: [], corners };
 }
 
 /** What a `per`/`of` entry counts or applies to: a card colour, progress tokens or Wonders. */
@@ -41,20 +43,43 @@ function target(thing: string, per = 1): Glyph {
   return glyph(thing, null, thing === "progress" ? "progress tokens" : `${thing}s`);
 }
 
-/** What a reward per counted thing looks like: the thing, with the reward on a corner of its icon. */
+/**
+ * What a reward per counted thing looks like: the things, with the reward on a corner of the icon.
+ * Card colours counted together are one pile of cards; anything else is an icon of its own.
+ */
 function reward(
-  thing: string,
+  things: string[],
   per: number,
   icon: Corner["icon"],
   amount: string,
   what: string,
-): Glyph {
-  const counted = target(thing, per);
-  return {
-    ...counted,
-    title: `${amount} ${what} for each ${counted.title}`,
-    corners: [{ icon, text: amount, side: "right" }],
-  };
+): Glyph[] {
+  const colours = things.filter((t) => t.startsWith("color:"));
+  const rest = things.filter((t) => !t.startsWith("color:"));
+  const corners: Corner[] = [{ icon, text: amount, side: "right" }];
+  const make = (g: Glyph): Glyph => ({
+    ...g,
+    title: `${amount} ${what} for each ${g.title}`,
+    corners,
+  });
+  const pile =
+    colours.length > 1
+      ? [
+          make({
+            ...glyph("card", null, `${colours.map((c) => c.slice(6)).join(" or ")} cards`),
+            pile: colours.map((c) => c.slice("color:".length)),
+          }),
+        ]
+      : colours.map((c) => make(target(c, per)));
+  return [...pile, ...rest.map((t) => make(target(t, per)))];
+}
+
+/** How many icon widths a glyph takes in the banner, which the banner fits its icons to. */
+export function span(g: Glyph): number {
+  if (g.icon === "or") {
+    return 0.4;
+  }
+  return (g.pile.length > 1 ? 1.45 : 1) + (g.corners.length > 0 ? 0.2 : 0);
 }
 
 const sameThings = (a: Badge, b: Badge): boolean => a.of.join() === b.of.join();
@@ -109,13 +134,13 @@ export function present(badge: Badge): Glyph[] {
       return [glyph("vp", amount, `${amount} victory points`)];
     case "pointsPer":
       return [
-        ...of.map((t) => reward(t, badge.per, "vp", amount, "victory points")),
         ...(badge.larger ? [glyph("better", null, "in the city that has more")] : []),
+        ...reward(of, badge.per, "vp", amount, "victory points"),
       ];
     case "coins":
       return [glyph("coin", amount, `${amount} coins`)];
     case "coinsPer":
-      return of.map((t) => reward(t, 1, "coin", amount, "coins"));
+      return reward(of, 1, "coin", amount, "coins");
     case "loseCoins":
       return [glyph("coin-lost", amount, `the opponent loses ${amount} coins`)];
     case "science":

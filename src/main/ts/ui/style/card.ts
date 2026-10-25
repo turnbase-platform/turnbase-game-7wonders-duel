@@ -30,26 +30,30 @@ export const CARD = `
 .color-purple { --c: var(--c-purple); }
 
 .card__banner {
-  display: flex; flex-wrap: wrap; gap: calc(var(--u) * .02); align-items: center;
+  --span: 4;
+  display: flex; flex-wrap: nowrap; gap: calc(var(--u) * .02); align-items: center;
   justify-content: center; min-height: calc(var(--u) * .3); padding: 1px;
   position: relative; background: #0003; color: #fff; border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
 }
 .glyph .icon-or { margin: 0 -.3em; }
-.glyph { position: relative; display: inline-flex; font-size: calc(var(--u) * .22); }
+.glyph {
+  position: relative; display: inline-flex;
+  font-size: min(calc(var(--u) * .22), calc(var(--w) * .9 / (var(--span))));
+}
+.glyph.is-pile { width: 1.45em; height: 1.45em; }
+.glyph__pile { position: absolute; display: inline-flex; left: calc(var(--i) * .4em); top: calc(var(--i) * .4em); width: 1.05em; height: 1.05em; }
 .glyph.has-corner { margin: 0 calc(var(--u) * .05); }
 .glyph__corner { position: absolute; bottom: -.15em; display: inline-flex; font-size: .5em; }
 .glyph__corner.is-right { right: -.15em; } .glyph__corner.is-left { left: -.15em; }
 .glyph__corner b { font-size: .9em; }
 .glyph b {
   position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em var(--serif);
-  color: #1b1a17; text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+  color: #1b1a17;
 }
-.glyph.tint-brown .icon { color: var(--c-brown); } .glyph.tint-grey .icon { color: var(--c-grey); }
-.glyph.tint-blue .icon { color: var(--c-blue); } .glyph.tint-green .icon { color: var(--c-green); }
-.glyph.tint-yellow .icon { color: var(--c-yellow); } .glyph.tint-red .icon { color: var(--c-red); }
-.glyph.tint-purple .icon { color: var(--c-purple); }
-.glyph.tint-brown .icon, .glyph.tint-grey .icon, .glyph.tint-blue .icon, .glyph.tint-green .icon,
-.glyph.tint-yellow .icon, .glyph.tint-red .icon, .glyph.tint-purple .icon { filter: drop-shadow(0 0 1px #fff); }
+.glyph.tint-brown .icon, .glyph__pile.tint-brown .icon { color: var(--c-brown); } .glyph.tint-grey .icon, .glyph__pile.tint-grey .icon { color: var(--c-grey); }
+.glyph.tint-blue .icon, .glyph__pile.tint-blue .icon { color: var(--c-blue); } .glyph.tint-green .icon, .glyph__pile.tint-green .icon { color: var(--c-green); }
+.glyph.tint-yellow .icon, .glyph__pile.tint-yellow .icon { color: var(--c-yellow); } .glyph.tint-red .icon, .glyph__pile.tint-red .icon { color: var(--c-red); }
+.glyph.tint-purple .icon, .glyph__pile.tint-purple .icon { color: var(--c-purple); }
 
 .card__cost {
   position: absolute; top: calc(var(--u) * .32); left: 2px; z-index: 1; display: flex;

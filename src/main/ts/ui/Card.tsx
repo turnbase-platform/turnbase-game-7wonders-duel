@@ -1,4 +1,5 @@
-import { presentAll, type Glyph } from "../core/badges.js";
+import type { CSSProperties } from "react";
+import { presentAll, span, type Glyph } from "../core/badges.js";
 import { motifOf } from "../core/motif.js";
 import type { CatalogEntry } from "../core/wire.js";
 import { Icon } from "./icons.js";
@@ -9,10 +10,22 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
   const tint = glyph.tint === null ? "" : ` tint-${glyph.tint}`;
   return (
     <span
-      className={`glyph${tint}${glyph.corners.length > 0 ? " has-corner" : ""}`}
+      className={`glyph${glyph.pile.length > 1 ? " is-pile" : ""}${tint}${glyph.corners.length > 0 ? " has-corner" : ""}`}
       title={glyph.title}
     >
-      <Icon id={glyph.icon} />
+      {glyph.pile.length > 1 ? (
+        glyph.pile.map((colour, i) => (
+          <span
+            key={colour}
+            className={`glyph__pile tint-${colour}`}
+            style={{ "--i": i } as CSSProperties}
+          >
+            <Icon id={glyph.icon} />
+          </span>
+        ))
+      ) : (
+        <Icon id={glyph.icon} />
+      )}
       {glyph.text !== null && <b>{glyph.text}</b>}
       {glyph.corners.map((c) => (
         <span key={c.side} className={`glyph__corner is-${c.side}`}>
@@ -90,7 +103,10 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
   const glyphs = presentAll(entry.badges);
   return (
     <div className={classes.join(" ")} title={entry.name} data-component={entry.id}>
-      <div className="card__banner">
+      <div
+        className="card__banner"
+        style={{ "--span": glyphs.reduce((n, g) => n + span(g), 0) } as CSSProperties}
+      >
         {glyphs.map((g, i) => (
           <GlyphView key={i} glyph={g} />
         ))}

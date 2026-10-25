@@ -11,8 +11,8 @@ type Point = readonly [number, number];
 type Point3 = readonly [number, number, number];
 
 const YAW = (35 * Math.PI) / 180;
-const PITCH = (24 * Math.PI) / 180;
-const HEIGHT = 1.25;
+const PITCH = (34 * Math.PI) / 180;
+const HEIGHT = 1.7;
 const COURSES = [0.3, 0.55, 0.78];
 
 const BASE: readonly Point3[] = [
