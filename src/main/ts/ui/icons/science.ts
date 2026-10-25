@@ -32,12 +32,13 @@ export const SCIENCE: Readonly<Record<string, Imported>> = {
       `<path d="M20 29L8 58M20 29l12 29M80 29L68 58M80 29l12 29" stroke="${DARK}" stroke-width="2"/>` +
       `<path d="M6 58h28q-14 16-28 0zM66 58h28q-14 16-28 0z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>`,
   ),
-  // Flat dial with its upright gnomon.
+  // Slab with its sloping dial and the triangular gnomon standing on it.
   sundial: group(
-    `<path d="M8 72l44-20 40 14-42 18z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M8 72l42 12v6L8 78z" fill="${DARK}"/>` +
-      `<path d="M38 16h8l4 44-12 6z" fill="${GOLD}" stroke="${DARK}" stroke-width="2"/>` +
-      `<path d="M50 60l30 8" stroke="${DARK}" stroke-width="2"/>`,
+    `<path d="M8 72l42 12v8L8 80z" fill="${DARK}" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M50 84l42-18v8L50 92z" fill="#5c3a15" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M8 72l44-20 40 14-42 18z" fill="${BRONZE}" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M68 63l20 6M68 63l12 12" stroke="${DARK}" stroke-width="2"/>` +
+      `<path d="M30 26v47l38-10z" fill="${GOLD}" stroke="${DARK}" stroke-width="2.5"/>`,
   ),
   "mortar-and-pestle": group(
     `<path d="M12 50h76c0 24-16 40-38 40S12 74 12 50z" fill="${WOOD}" stroke="${DARK}" stroke-width="3"/>` +
@@ -54,6 +55,7 @@ export const SCIENCE: Readonly<Record<string, Imported>> = {
   quill: group(
     `<path d="M20 84C12 50 40 20 84 12C82 50 54 78 20 84z" fill="#d3c8bb" stroke="#85766a" stroke-width="3"/>` +
       `<path d="M20 84L76 22" stroke="#85766a" stroke-width="3"/>` +
+      `<path d="M23 87l-5-6L9 96z" fill="#2f1c0e" stroke="#2f1c0e" stroke-width="2"/>` +
       `<path d="M58 64h26v22H58z" fill="${DARK}" stroke="#2f1c0e" stroke-width="2"/>` +
       `<path d="M62 56h18v8H62z" fill="#2f1c0e"/>`,
   ),
