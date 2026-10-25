@@ -102,14 +102,16 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.85) saturate(.8); }
 .slot__quote { position: fixed; top: 0; left: 0; display: block; padding: 6px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 20; }
-.quote { display: grid; gap: 2px; text-align: right; font-variant-numeric: tabular-nums; }
-.quote__head, .quote__line { display: grid; grid-template-columns: 22px repeat(5, minmax(34px, auto)); gap: 2px 8px; align-items: center; }
-.quote__head { font-size: 10px; font-weight: 500; color: var(--muted); }
-.quote__line [role="rowheader"] { display: grid; place-items: center; }
+.quote { display: grid; grid-template-columns: 26px repeat(5, minmax(46px, 1fr)); gap: 3px 0; text-align: center; font-variant-numeric: tabular-nums; }
+.quote [role="row"] { display: contents; }
+.quote [role="columnheader"] { font-size: 10px; font-weight: 500; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+.quote [role="rowheader"], .quote [role="cell"] { display: grid; place-items: center; min-height: 22px; }
 .quote .icon { width: 18px; height: 18px; }
-.quote__sum { display: flex; justify-content: space-between; gap: 16px; }
-.quote__line + .quote__sum, .quote__head + .quote__sum { border-top: 1px solid var(--line); padding-top: 3px; margin-top: 2px; }
+.quote__sum [role="rowheader"] { grid-column: 1 / 6; place-items: center start; padding-left: 4px; }
+.quote__sum [role="cell"] { border-left: 1px solid var(--line); }
 .quote__total { font-size: 13px; }
+.quote--brief { display: block; }
+.quote + .quote--brief { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--line); }
 button.slot { cursor: pointer; border-radius: var(--radius); }
 .slot.is-takeable { box-shadow: 0 0 0 2px var(--me), 0 0 10px 2px color-mix(in srgb, var(--me) 55%, transparent); z-index: 1; }
 /* The selected card: the structure blurs, the card rises where it stands, its actions float beside it. */

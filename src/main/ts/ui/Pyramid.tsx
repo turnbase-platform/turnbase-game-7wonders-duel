@@ -61,6 +61,7 @@ export function Pyramid({ view, catalog, offers, self, selected, onSelect }: Pro
             catalog={catalog}
             state={slotState(slot, accessible, mine, selected)}
             quote={view.quotes.find((q) => q.player === self && q.component === slot.component)}
+            rival={view.quotes.find((q) => q.player !== self && q.component === slot.component)}
             onSelect={onSelect}
           />
         ))}
@@ -91,10 +92,12 @@ interface SlotProps {
   catalog: Catalog;
   state: SlotState;
   quote: QuoteView | undefined;
+  /** What the other player would pay for the same card. */
+  rival: QuoteView | undefined;
   onSelect: (component: ComponentId) => void;
 }
 
-function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps) {
+function Slot({ slot, scale, shift, catalog, state, quote, rival, onSelect }: SlotProps) {
   const style = { left: (slot.x + shift) * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
   const entry = slot.component === null ? undefined : catalog.get(slot.component);
   const face =
@@ -107,7 +110,7 @@ function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps
     return (
       <div className={`slot is-${state}`} style={style} tabIndex={quote ? 0 : undefined}>
         {face}
-        {quote && <HoverQuote quote={quote} />}
+        {quote && <HoverQuote quote={quote} rival={rival} />}
       </div>
     );
   }
@@ -124,7 +127,7 @@ function Slot({ slot, scale, shift, catalog, state, quote, onSelect }: SlotProps
       }}
     >
       {face}
-      {quote && <HoverQuote quote={quote} />}
+      {quote && <HoverQuote quote={quote} rival={rival} />}
     </button>
   );
 }

@@ -4,15 +4,16 @@ import type { QuoteView } from "../core/wire.js";
 import { Icon } from "./icons.js";
 
 /**
- * The whole price of a component, resource by resource: what the cost asks, what the city covers,
- * what a discount waives, what is bought and at which unit price, then the coins (B-COST, B-TRADE).
- * Spans in a grid rather than a table, because it sits inside a button.
+ * The whole price of a component as one table: per resource, what the cost asks, what the city
+ * produces, what a discount waives, what is bought, and the coins that buys (B-COST, B-TRADE). The
+ * coins column adds up, with the card's own coin cost, to the total. Spans in a grid rather than a
+ * table, because it sits inside a button.
  */
 export function QuoteTable({ quote }: { quote: QuoteView }) {
   if (quote.chained) {
     return (
-      <span className="quote" role="table" aria-label="Price">
-        <span role="row" className="quote__total">
+      <span className="quote quote--brief" role="table" aria-label="Price">
+        <span role="row">
           <span role="cell">Free by chain</span>
         </span>
       </span>
@@ -22,12 +23,12 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
     <span className="quote" role="table" aria-label="Price">
       {quote.lines.length > 0 && (
         <span role="row" className="quote__head">
-          <span role="columnheader" />
-          <span role="columnheader">Cost</span>
+          <span role="columnheader" aria-label="Resource" />
+          <span role="columnheader">Needed</span>
           <span role="columnheader">City</span>
           <span role="columnheader">Discount</span>
           <span role="columnheader">Buy</span>
-          <span role="columnheader">Each</span>
+          <span role="columnheader">Coins</span>
         </span>
       )}
       {quote.lines.map((l) => (
@@ -39,23 +40,28 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
           <span role="cell">{l.produced}</span>
           <span role="cell">{l.discounted}</span>
           <span role="cell">{l.bought}</span>
-          <span role="cell">{l.unitPrice}</span>
+          <span role="cell">{l.bought * l.unitPrice}</span>
         </span>
       ))}
-      <span role="row" className="quote__sum">
-        <span role="cell">Printed coins</span>
-        <span role="cell">{quote.coins}</span>
-      </span>
       {quote.lines.length > 0 && (
         <span role="row" className="quote__sum">
-          <span role="cell">Bought resources</span>
-          <span role="cell">{quote.tradeCost}</span>
+          <span role="rowheader">Coin cost of the card</span>
+          <span role="cell">{quote.coins}</span>
         </span>
       )}
       <span role="row" className="quote__sum quote__total">
-        <span role="cell">Total</span>
+        <span role="rowheader">Total</span>
         <span role="cell">{quote.total}</span>
       </span>
+    </span>
+  );
+}
+
+/** Just the price in coins, for what another player pays. */
+export function QuoteCoins({ quote, who }: { quote: QuoteView; who: string }) {
+  return (
+    <span className="quote quote--brief" role="status">
+      {who}: {quote.chained ? "free by chain" : `${String(quote.total)} coins`}
     </span>
   );
 }
@@ -67,7 +73,19 @@ const GAP = 6;
  * is no room above, and kept inside the viewport wherever the parent sits. It is portalled to the
  * body: a filtered or clipped ancestor would otherwise trap it.
  */
-export function HoverQuote({ quote }: { quote: QuoteView }) {
+export function HoverQuote({
+  quote,
+  rival,
+  rivalName = "Opponent",
+  brief = false,
+}: {
+  quote: QuoteView;
+  /** What the other player would pay, shown as coins only. */
+  rival?: QuoteView;
+  rivalName?: string;
+  /** Only the coins, without the table. */
+  brief?: boolean;
+}) {
   const marker = useRef<HTMLSpanElement>(null);
   const box = useRef<HTMLSpanElement>(null);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -111,7 +129,8 @@ export function HoverQuote({ quote }: { quote: QuoteView }) {
       {open &&
         createPortal(
           <span ref={box} className="slot__quote">
-            <QuoteTable quote={quote} />
+            {brief ? <QuoteCoins quote={quote} who="Costs" /> : <QuoteTable quote={quote} />}
+            {rival && <QuoteCoins quote={rival} who={rivalName} />}
           </span>,
           document.body,
         )}

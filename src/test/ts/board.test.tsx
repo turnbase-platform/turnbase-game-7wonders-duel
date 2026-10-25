@@ -108,7 +108,7 @@ describe("Board", () => {
     expect(hover(wonder)?.textContent).toMatch(/Total|Free by chain/);
   });
 
-  it("lays a quote out per resource, with coins, bought resources and the total", () => {
+  it("lays a quote out per resource, with the card coins and the total", () => {
     const m = inAge();
     if (m.view === null) throw new Error("no view");
     const quotes = m.view.quotes.map((q) =>
@@ -133,7 +133,25 @@ describe("Board", () => {
     expect(cells.map((c) => c.textContent)).toEqual(["2", "1", "0", "1", "3"]);
     expect(table?.querySelector(".quote__line svg.icon")).not.toBeNull();
     const sums = [...(table?.querySelectorAll(".quote__sum") ?? [])].map((r) => r.textContent);
-    expect(sums).toEqual(["Printed coins2", "Bought resources3", "Total5"]);
+    expect(sums).toEqual(["Coin cost of the card2", "Total5"]);
+  });
+
+  it("tells what the opponent would pay in coins only, without a table", () => {
+    show(age());
+
+    const shown = hover(host.querySelector("button.slot"));
+    const rival = shown?.querySelector(".quote--brief");
+    expect(rival?.textContent).toMatch(/^Opponent: (\d+ coins|free by chain)$/);
+    expect(shown?.querySelectorAll(".quote")).toHaveLength(2);
+  });
+
+  it("shows an opponent's Wonder as its price in coins only", () => {
+    show(age());
+
+    const cell = host.querySelector(".owner-opp .wonders .peekable:not(:has(.is-built))");
+    const shown = hover(cell);
+    expect(shown?.textContent).toMatch(/^Costs: (\d+ coins|free by chain)$/);
+    expect(shown?.querySelector("[role='columnheader']")).toBeNull();
   });
 
   it("selects a takeable card, and again lets it go", () => {

@@ -84,7 +84,7 @@ export function City({
         }}
       >
         <Card entry={entry} size={size} built={built} owner={built ? side : undefined} />
-        {quote && !built && <HoverQuote quote={quote} />}
+        {quote && !built && <HoverQuote quote={quote} brief={side === "opp"} />}
       </button>
     );
   };
