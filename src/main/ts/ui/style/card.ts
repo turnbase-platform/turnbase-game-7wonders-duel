@@ -107,7 +107,7 @@ export const CARD = `
 .card--small .card__art { display: none; }
 .card--small { aspect-ratio: auto; min-height: calc(var(--u) * .3); }
 
-.card--wonder.is-unbuilt { opacity: .72; }
+.card--wonder.is-unbuilt { opacity: .92; border-style: dashed; border-color: #fff9; }
 .card--wonder.owner-me { outline: 2px solid var(--me); } .card--wonder.owner-opp { outline: 2px solid var(--opp); }
 .card__paid {
   position: absolute; right: -4px; bottom: -4px; z-index: -1; width: 24%; height: 34%;
