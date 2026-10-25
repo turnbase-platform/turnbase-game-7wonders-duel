@@ -40,8 +40,14 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               style={{ gridColumn: `${String(f.from + 1)} / ${String(f.to + 2)}` }}
               title={f.title ?? undefined}
             >
-              {f.text}
-              {f.kind === "loot" && <Icon id="coin-lost" />}
+              {f.kind === "loot" ? (
+                <span className="glyph">
+                  <Icon id="coin-lost" />
+                  <b>{f.text}</b>
+                </span>
+              ) : (
+                f.text
+              )}
             </span>
           ))}
         </div>

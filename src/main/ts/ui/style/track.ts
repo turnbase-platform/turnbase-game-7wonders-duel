@@ -16,6 +16,7 @@ export const TRACK = `
 .field { margin-top: 12px; height: 26px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 3px; border: 1px solid var(--line); border-radius: 3px; font-size: 10px; color: var(--muted); }
 .field.is-current { color: var(--ink); font-weight: 700; background: color-mix(in srgb, var(--line) 60%, var(--surface)); border: 2px solid var(--ink); }
 .field.loot { color: #fff; border-color: #0004; }
+.field .glyph { font-size: 20px; }
 .field.loot.zone-2 { background: #b0793a; } .field.loot.zone-3 { background: #8c4a2a; }
 .field.loot.is-taken { background: none; color: var(--muted); border: 1px dashed var(--muted); }
 .is-compact .strip { padding: 4px 6px; gap: 6px; }
