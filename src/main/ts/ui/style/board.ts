@@ -138,6 +138,7 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 .actions__buttons { display: flex; flex-direction: column; gap: 8px; }
 .actions__wonders { display: grid; grid-template-columns: repeat(2, auto); gap: 8px; }
 .actions__wonders button { flex: none; padding: 4px; border-radius: 6px; }
+.actions__wonders button:disabled { pointer-events: none; }
 .spotlight button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 16px; min-height: 40px; background: var(--surface); border: 1px solid var(--ink); border-radius: 20px; box-shadow: 0 4px 12px #0004; font-weight: 600; cursor: pointer; }
 .spotlight button:disabled { opacity: .5; cursor: default; }
 .spotlight button small { font-size: 11px; color: var(--muted); }

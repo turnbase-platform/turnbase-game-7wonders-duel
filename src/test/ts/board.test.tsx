@@ -142,7 +142,15 @@ describe("Board", () => {
     if (m.view === null) throw new Error("no view");
     const quotes = m.view.quotes.map((q) =>
       q.player === TWO.id && q.component === "palisade"
-        ? { ...q, coins: 0, tradeCost: 0, total: 0, lines: [] }
+        ? {
+            ...q,
+            coins: 0,
+            tradeCost: 0,
+            total: 0,
+            lines: [
+              { resource: "wood", needed: 1, produced: 1, discounted: 0, bought: 0, unitPrice: 2 },
+            ],
+          }
         : q,
     );
     show(session(TWO, { ...m, view: { ...m.view, quotes } }));
@@ -150,8 +158,22 @@ describe("Board", () => {
     const table = hover(host.querySelector('button[aria-label="Palisade"]'))?.querySelector(
       ".quote",
     );
-    expect(table?.querySelector(".quote__line")).toBeNull();
+    expect(table?.querySelectorAll(".quote__line")).toHaveLength(1);
+    expect(table?.querySelector('[title="coins"]')).toBeNull();
     expect(table?.querySelector(".quote__total")?.textContent).toBe("Total0");
+  });
+
+  it("shows no quote for a free card", () => {
+    const m = inAge();
+    if (m.view === null) throw new Error("no view");
+    const quotes = m.view.quotes.map((q) =>
+      q.player === TWO.id && q.component === "palisade"
+        ? { ...q, coins: 0, tradeCost: 0, total: 0, lines: [], chained: false }
+        : q,
+    );
+    show(session(TWO, { ...m, view: { ...m.view, quotes } }));
+
+    expect(hover(host.querySelector('button[aria-label="Palisade"]'))).toBeNull();
   });
 
   it("tells what the opponent would pay in coins only, without a table", () => {

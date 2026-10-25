@@ -74,6 +74,10 @@ export function QuoteCoins({ quote, who }: { quote: QuoteView; who: string }) {
   );
 }
 
+/** Nothing to explain: no resources, no coins, no chain. */
+const isFree = (quote: QuoteView): boolean =>
+  !quote.chained && quote.total === 0 && quote.lines.length === 0;
+
 const GAP = 6;
 
 /**
@@ -135,6 +139,7 @@ export function HoverQuote({
     <>
       <span ref={marker} hidden />
       {open &&
+        !isFree(quote) &&
         createPortal(
           <span ref={box} className="slot__quote">
             {brief ? <QuoteCoins quote={quote} who="Costs" /> : <QuoteTable quote={quote} />}

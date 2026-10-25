@@ -5,6 +5,7 @@ import type { Offer } from "../core/moves.js";
 import type { ComponentId, DuelView, PlayerId, QuoteView, WireAction } from "../core/wire.js";
 import { Card } from "./Card.js";
 import { Icon } from "./icons.js";
+import { HoverQuote } from "./QuoteTable.js";
 
 /** Where the selected card sits in the structure area, and how big that area is, in px. */
 export interface Placement {
@@ -180,18 +181,21 @@ export function Actions({
                   (o) => o.action.type === "buildWonder" && o.action.wonder === id,
                 );
                 const wonder = catalog.get(id);
+                const quote = quoteOf(id);
                 return (
-                  <button
-                    key={id}
-                    type="button"
-                    disabled={offer === undefined}
-                    onClick={() => {
-                      if (offer) act(offer.action);
-                    }}
-                  >
-                    {wonder && <Card entry={wonder} size="standard" />}
-                    <Price quote={quoteOf(id)} compact />
-                  </button>
+                  <div key={id} className="wonderpick">
+                    <button
+                      type="button"
+                      disabled={offer === undefined}
+                      onClick={() => {
+                        if (offer) act(offer.action);
+                      }}
+                    >
+                      {wonder && <Card entry={wonder} size="standard" />}
+                      <Price quote={quote} compact />
+                    </button>
+                    {quote && <HoverQuote quote={quote} />}
+                  </div>
                 );
               })}
             </div>
