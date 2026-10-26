@@ -23,10 +23,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .structure { flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .board-tokens { display: flex; flex-direction: column; align-items: center; flex: none; }
 .board-tokens__ask { margin: 0 0 6px; font: 700 14px var(--serif); }
-.token-pick { padding: 0; background: none; border: 0; border-radius: 50%; cursor: pointer; line-height: 0; box-shadow: 0 0 0 3px var(--ink); animation: pick-pulse 1.4s ease-in-out infinite; }
-.token-pick:hover, .token-pick:focus-visible { transform: scale(1.08); }
-@keyframes pick-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--ink) 30%, transparent); } }
-@media (prefers-reduced-motion: reduce) { .token-pick { animation: none; } }
+.token-pick { padding: 0; background: none; border: 0; border-radius: 50%; cursor: pointer; line-height: 0; filter: drop-shadow(0 2px 3px #0005); transition: transform .15s, filter .15s; }
+.token-pick:hover, .token-pick:focus-visible { transform: translateY(-4px) scale(1.06); filter: drop-shadow(0 6px 6px #0006); outline: none; }
+@media (prefers-reduced-motion: reduce) { .token-pick { transition: none; } }
 .tray__tokens { display: flex; gap: 6px; justify-content: center; }
 .layout-wide .board-tokens { align-self: stretch; }
 .panel { box-sizing: border-box; min-height: 0; overflow: auto; }
