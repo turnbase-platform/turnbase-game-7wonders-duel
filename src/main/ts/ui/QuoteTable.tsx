@@ -88,7 +88,7 @@ const GAP = 6;
 export function HoverQuote({
   quote,
   rival,
-  rivalName = "Opponent",
+  rivalName = "Opponent pays",
   brief = false,
 }: {
   quote: QuoteView;
@@ -142,7 +142,11 @@ export function HoverQuote({
         !isFree(quote) &&
         createPortal(
           <span ref={box} className="slot__quote">
-            {brief ? <QuoteCoins quote={quote} who="Costs" /> : <QuoteTable quote={quote} />}
+            {brief ? (
+              <QuoteCoins quote={quote} who="Opponent pays" />
+            ) : (
+              <QuoteTable quote={quote} />
+            )}
             {rival && <QuoteCoins quote={rival} who={rivalName} />}
           </span>,
           document.body,

@@ -181,7 +181,7 @@ describe("Board", () => {
 
     const shown = hover(host.querySelector("button.slot"));
     const rival = shown?.querySelector(".quote--brief");
-    expect(rival?.textContent).toMatch(/^Opponent: (\d+ coins|free by chain)$/);
+    expect(rival?.textContent).toMatch(/^Opponent pays: (\d+ coins|free by chain)$/);
     expect(shown?.querySelectorAll(".quote")).toHaveLength(2);
   });
 
@@ -190,7 +190,7 @@ describe("Board", () => {
 
     const cell = host.querySelector(".owner-opp .wonders .peekable:not(:has(.is-built))");
     const shown = hover(cell);
-    expect(shown?.textContent).toMatch(/^Costs: (\d+ coins|free by chain)$/);
+    expect(shown?.textContent).toMatch(/^Opponent pays: (\d+ coins|free by chain)$/);
     expect(shown?.querySelector("[role='columnheader']")).toBeNull();
   });
 
