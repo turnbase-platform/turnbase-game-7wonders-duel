@@ -21,6 +21,17 @@ export function offers(session: Session): Offer[] {
   return view.phase === "WONDER_DRAFT" ? draft(view) : plays(view, self);
 }
 
+/**
+ * The pending decision is a pick among tokens lying on the board: it is made on the board itself,
+ * not in a panel of copies.
+ */
+export function isBoardPick(view: DuelView): boolean {
+  const { pending } = view;
+  if (pending === null || pending.hidden > 0 || pending.options.length === 0) return false;
+  const onBoard = new Set(view.visible.filter((p) => p.zone === "board").map((p) => p.component));
+  return pending.options.every((id) => onBoard.has(id));
+}
+
 function answers(session: Session, view: DuelView): Offer[] {
   const seats = new Set(session.roster.map((p) => p.id));
   return (view.pending?.options ?? []).map((option) =>

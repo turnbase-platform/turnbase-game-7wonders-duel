@@ -264,6 +264,33 @@ describe("Board", () => {
       expect(names).toEqual(["One", "Two"]);
     });
 
+    describe("picking a token lying on the board", () => {
+      const onBoard = (): string => {
+        const m = inAge();
+        const token = m.view?.visible.find((p) => p.zone === "board");
+        if (!token) throw new Error("no token on the board");
+        return token.component;
+      };
+
+      it("makes the board's own token the button, with no panel of copies", () => {
+        const id = onBoard();
+        show(withPending(TWO, TWO, [id]));
+
+        expect(host.querySelector(".prompt")).toBeNull();
+        click(host.querySelector(".board-tokens button.token-pick"));
+        expect(send).toHaveBeenCalledWith({ type: "answerComponent", component: id });
+      });
+
+      it("tells the others who is choosing, and offers them nothing to press", () => {
+        show(withPending(TWO, ONE, [onBoard()]));
+
+        expect(host.querySelector(".board-tokens")?.textContent).toContain(
+          "Waiting for Two to choose",
+        );
+        expect(host.querySelector(".board-tokens button")).toBeNull();
+      });
+    });
+
     it("keeps the pyramid in view beneath the prompt", () => {
       show(withPending(TWO, TWO, ["palisade"]));
 

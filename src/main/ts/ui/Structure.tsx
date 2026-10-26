@@ -1,4 +1,4 @@
-import type { Offer } from "../core/moves.js";
+import { isBoardPick, type Offer } from "../core/moves.js";
 import { seatName, type Session } from "../core/session.js";
 import type { Selection } from "../core/selection.js";
 import type { ComponentId, DuelView, WireAction } from "../core/wire.js";
@@ -35,7 +35,7 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
       onSelect={onSelect}
     />
   );
-  if (view.pending === null) return pyramid;
+  if (view.pending === null || isBoardPick(view)) return pyramid;
   return (
     <>
       <Prompt

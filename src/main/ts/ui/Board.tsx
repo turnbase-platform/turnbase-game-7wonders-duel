@@ -99,7 +99,13 @@ export function Board({ session, send, layout: fixed }: Props) {
           <TrackStrip view={view} catalog={catalog} seats={seats} />
           {showing("structure") && (
             <main className="structure">
-              <BoardTokens view={view} catalog={catalog} size={compact ? "small" : "standard"} />
+              <BoardTokens
+                session={session}
+                catalog={catalog}
+                size={compact ? "small" : "standard"}
+                offers={available}
+                send={send}
+              />
               <Structure
                 session={session}
                 view={view}
