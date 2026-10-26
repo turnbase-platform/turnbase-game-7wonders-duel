@@ -8,6 +8,7 @@ import { emptySession, reduce, type Session } from "../../main/ts/core/session.j
 import type { EventView, ServerMessage, WireAction } from "../../main/ts/core/wire.js";
 import { MOTION_MS } from "../../main/ts/ui/motion.js";
 import { Board } from "../../main/ts/ui/Board.js";
+import { QUOTE_DELAY_MS } from "../../main/ts/ui/QuoteTable.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -87,11 +88,29 @@ describe("Board", () => {
 
   /** Hovers `target` and returns the quote that floats up for it, if any. */
   const hover = (target: Element | null): Element | null => {
+    vi.useFakeTimers();
     act(() => {
       target?.dispatchEvent(new Event("pointerenter"));
     });
+    act(() => {
+      vi.advanceTimersByTime(QUOTE_DELAY_MS);
+    });
+    vi.useRealTimers();
     return document.body.querySelector(".slot__quote");
   };
+
+  it("waits for the pointer to rest before quoting", () => {
+    show(age());
+
+    vi.useFakeTimers();
+    act(() => {
+      host.querySelector("div.slot.is-covered")?.dispatchEvent(new Event("pointerenter"));
+      vi.advanceTimersByTime(QUOTE_DELAY_MS - 1);
+    });
+    const early = document.body.querySelector(".slot__quote");
+    vi.useRealTimers();
+    expect(early).toBeNull();
+  });
 
   it("quotes the price of a covered card on hover", () => {
     show(age());

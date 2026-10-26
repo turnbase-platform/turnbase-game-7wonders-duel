@@ -78,6 +78,9 @@ export function QuoteCoins({ quote, who }: { quote: QuoteView; who: string }) {
 const isFree = (quote: QuoteView): boolean =>
   !quote.chained && quote.total === 0 && quote.lines.length === 0;
 
+/** How long the pointer rests on the parent before its quote shows. */
+export const QUOTE_DELAY_MS = 500;
+
 const GAP = 6;
 
 /**
@@ -106,20 +109,30 @@ export function HoverQuote({
     const parent = marker.current?.parentElement ?? null;
     if (!parent) return;
     setAnchor(parent);
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const show = (): void => {
-      setOpen(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setOpen(true);
+      }, QUOTE_DELAY_MS);
     };
     const hide = (): void => {
+      clearTimeout(timer);
       setOpen(false);
+    };
+    // Focus the page moved itself (a dialog opening) is not the player asking: only keyboard focus counts.
+    const focus = (): void => {
+      if (parent.matches(":focus-visible")) show();
     };
     parent.addEventListener("pointerenter", show);
     parent.addEventListener("pointerleave", hide);
-    parent.addEventListener("focusin", show);
+    parent.addEventListener("focusin", focus);
     parent.addEventListener("focusout", hide);
     return () => {
+      clearTimeout(timer);
       parent.removeEventListener("pointerenter", show);
       parent.removeEventListener("pointerleave", hide);
-      parent.removeEventListener("focusin", show);
+      parent.removeEventListener("focusin", focus);
       parent.removeEventListener("focusout", hide);
     };
   }, []);
