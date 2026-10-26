@@ -19,6 +19,8 @@ export interface Placement {
 /** Room the actions need beside the card: the Wonder step, the wider of the two. */
 const BESIDE = 250;
 const GAP = 12;
+/** The blur starts this far above the pyramid, so its edge falls in the gap and not on the top cards. */
+const EDGE = 6;
 
 interface Props {
   view: DuelView;
@@ -127,7 +129,7 @@ export function Actions({
     >
       <div
         className="spotlight__scrim"
-        style={placement === null ? undefined : { top: placement.top }}
+        style={placement === null ? undefined : { top: placement.top - EDGE }}
         onClick={onClose}
       />
       <div className="spotlight__card" style={lift}>
