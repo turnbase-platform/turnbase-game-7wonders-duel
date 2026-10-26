@@ -117,7 +117,7 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 /* The selected card: the structure blurs, the card rises where it stands, its actions float beside it. */
 .spotlight { --lw: 75px; position: absolute; inset: 0; z-index: 12; pointer-events: none; }
 .spotlight > * { pointer-events: auto; }
-.spotlight__scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--ground) 35%, transparent); backdrop-filter: blur(6px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+.spotlight__scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--ground) 20%, transparent); backdrop-filter: blur(2px); mask-image: linear-gradient(to bottom, transparent, #000 28px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
 @keyframes scrim { from { opacity: 0; } }
 .spotlight__card { position: absolute; line-height: 0; transform: translateY(-6px) scale(1.1); transform-origin: 50% 60%; filter: drop-shadow(0 10px 14px #0006); animation: lift ${String(MOTION_MS.appear)}ms ${EASE} 1; }
 @keyframes lift { from { transform: none; filter: drop-shadow(0 0 0 #0000); } }
