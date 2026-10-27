@@ -61,19 +61,16 @@ describe("Card", () => {
     const unbuilt = html(<Card entry={catalogEntry("the-appian-way")} size="standard" />);
     expect(unbuilt).toContain("card--wonder");
     expect(unbuilt).toContain("is-unbuilt");
-    const built = html(
-      <Card entry={catalogEntry("the-appian-way")} size="standard" built owner="me" />,
-    );
+    const built = html(<Card entry={catalogEntry("the-appian-way")} size="standard" built />);
     expect(built).toContain("is-built");
-    expect(built).toContain("owner-me");
     expect(built).not.toContain("is-unbuilt");
   });
 
-  it("draws a progress token as its round icon alone, named by its title", () => {
+  it("draws a progress token as its round icon alone, named for assistive technology", () => {
     const out = html(<Card entry={catalogEntry("agriculture")} size="standard" />);
     expect(out).toContain('class="token token--standard"');
     expect(out).toContain("icon-agriculture");
-    expect(out).toContain('title="Agriculture"');
+    expect(out).toContain('aria-label="Agriculture"');
     expect(out).not.toContain("card__name");
   });
 

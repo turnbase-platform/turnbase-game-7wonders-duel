@@ -667,6 +667,39 @@ describe("Board", () => {
       expect(mine?.querySelector(".purse")?.textContent).toContain("3");
     });
 
+    it("tucks the card that built a Wonder under it, face down", () => {
+      show(late(ONE));
+
+      const mine = host.querySelector(".city.owner-me");
+      expect(mine?.querySelectorAll(".wonders .wonder__under .card--back")).toHaveLength(3);
+      for (const slot of mine?.querySelectorAll(".wonders .wonder") ?? []) {
+        expect(slot.querySelector(".wonder__under") !== null).toBe(
+          slot.querySelector(".card--wonder")?.classList.contains("is-built"),
+        );
+      }
+    });
+
+    it("shows a built Wonder as built when it is pointed at", () => {
+      show(late(ONE));
+      act(() => {
+        host.querySelector<HTMLElement>(".city.owner-me .wonders .peekable")?.focus();
+      });
+
+      expect(host.querySelector(".peek .wonder__under")).not.toBeNull();
+      expect(host.querySelector(".peek .card--wonder.is-built")).not.toBeNull();
+    });
+
+    it("says in a floating note what a progress token does", () => {
+      show(late(ONE));
+
+      const token = host.querySelector(".city.owner-me .tokens .token");
+      const note = hover(token);
+      expect(note?.querySelector(".tip__name")?.textContent).toBe(
+        token?.getAttribute("aria-label"),
+      );
+      expect(note?.querySelector(".tip__text")?.textContent).not.toBe("");
+    });
+
     it("shows the other city on its tab", () => {
       show(late(ONE), "medium");
       expect(host.querySelector(".city.owner-opp")).toBeNull();

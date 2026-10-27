@@ -93,6 +93,7 @@ const pawn: PawnView = { side: null, space: 0 };
 const entry: CatalogEntry = {
   id: "",
   name: "",
+  description: "",
   type: "CARD",
   tags: [],
   back: null,

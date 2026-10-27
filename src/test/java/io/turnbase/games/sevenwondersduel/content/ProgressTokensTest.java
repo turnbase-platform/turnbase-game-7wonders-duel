@@ -32,6 +32,11 @@ class ProgressTokensTest {
     return TOKENS.stream().filter(t -> t.name().equals(name)).findFirst().orElseThrow();
   }
 
+  @Test
+  void everyTokenSaysInWordsWhatItDoes() {
+    assertThat(TOKENS).allSatisfy(t -> assertThat(t.description()).isNotBlank());
+  }
+
   private static int points(Token t, ScoreContext context) {
     return t.modifiers().stream()
         .filter(Points.class::isInstance)

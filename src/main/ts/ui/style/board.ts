@@ -55,12 +55,11 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .purse--big { display: inline-grid; place-items: center; border-bottom: 0; font-size: 46px; }
 .purse--big .icon { grid-area: 1 / 1; width: 1em; height: 1em; }
 .purse--big b { grid-area: 1 / 1; font: 800 .42em / 1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
-.city-col .stack { width: 64px; } .city-col .stack .card { --w: 64px; }
-.city-col .stack .peekable + .peekable { margin-top: -61px; }
-.city-col .city .card--wonder.card--standard { --w: 148px; }
+.city-col .stack { --sw: 64px; }
+.city-col .city .wonders { --ww: 128px; }
 .city-col .city { border-left: 0; padding-left: 0; }
 .layout-landscape .panel { width: 240px; flex: none; }
-.layout-landscape .city .card--wonder.card--standard { --w: 92px; }
+.layout-landscape .city .wonders { --ww: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
 .science { display: flex; flex-wrap: wrap; gap: 3px; margin: 0 0 8px; padding: 0; list-style: none; }
@@ -78,15 +77,23 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .log h3 { margin: 0 0 4px; font-size: 12px; opacity: .7; font-weight: 600; }
 .city { border-left: 3px solid var(--seat); padding-left: 8px; }
 .stacks, .tokens { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: flex-start; }
-.stack { display: flex; flex-direction: column; width: 56px; }
-.stack .card { --w: 56px; }
-.stack .peekable + .peekable { margin-top: -60px; }
-.wonders { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.stack { --sw: 56px; display: flex; flex-direction: column; width: var(--sw); }
+.stack .card { --w: var(--sw); }
+/* Under the next card only the banner of the one before shows: its effects and chain symbol. */
+.stack .peekable + .peekable { margin-top: calc(var(--sw) * -1.0333 + 2px); }
+.wonders { --ww: 112px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .wonders .peekable { display: flex; justify-content: center; position: relative; }
-.city .card--wonder.card--standard { --w: 112px; }
+.wonders .card--wonder.card--standard { --w: var(--ww); }
+/* A built Wonder has the card that built it tucked under it, face down, sticking out on the right. */
+.wonder { position: relative; display: block; margin-right: calc(var(--ww) * .14); }
+.wonder__under { position: absolute; z-index: 0; top: 0; left: calc(var(--ww) * .14); }
+.wonder__under .card, .peek .wonder__under .card { --w: var(--ww); aspect-ratio: 4 / 3; }
+.wonder > .card { z-index: 1; }
 .peekable { padding: 0; border: 0; background: none; line-height: 0; cursor: pointer; border-radius: var(--radius); }
 .peekable:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.peek { position: sticky; bottom: 0; display: flex; justify-content: center; padding-top: 6px; pointer-events: none; }
+.peek { --ww: 240px; position: sticky; bottom: 0; display: flex; justify-content: center; padding-top: 6px; pointer-events: none; }
+.peek .card--large { --w: 200px; } .peek .card--wonder.card--large { --w: var(--ww); } .peek .token--large { width: 140px; }
+.layout-landscape .peek { --ww: 200px; } .layout-landscape .peek .card--large { --w: 160px; }
 .log { margin-top: 8px; font-size: 12px; }
 .log ol { padding-left: 18px; margin: 2px 0; }
 .log .step { opacity: .6; }
@@ -113,6 +120,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .slot { position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.85) saturate(.8); }
 .slot__quote { position: fixed; top: 0; left: 0; display: block; padding: 6px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 20; }
+.slot__quote .tip__name { display: block; } .slot__quote .tip__text { display: block; width: 220px; margin-top: 2px; white-space: normal; font-weight: 500; }
 .quote { display: grid; grid-template-columns: 26px repeat(5, minmax(46px, 1fr)); gap: 3px 0; text-align: center; font-variant-numeric: tabular-nums; }
 .quote [role="row"] { display: contents; }
 .quote [role="columnheader"] { font-size: 10px; font-weight: 500; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid var(--line); }

@@ -11,6 +11,7 @@ function entry(id: string, name: string): CatalogEntry {
   return {
     id,
     name,
+    description: "",
     type: "CARD",
     tags: [],
     back: null,

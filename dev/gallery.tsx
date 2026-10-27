@@ -50,8 +50,8 @@ function Gallery() {
         {entries
           .filter((e) => e.type === "WONDER")
           .slice(0, 4)
-          .map((e, i) => (
-            <Card key={e.id} entry={e} size="standard" built owner={i % 2 ? "opp" : "me"} />
+          .map((e) => (
+            <Card key={e.id} entry={e} size="standard" built />
           ))}
       </Section>
       <Section title="Backs">

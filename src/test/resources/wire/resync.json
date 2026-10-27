@@ -107,6 +107,7 @@
     "entries" : [ {
       "id" : "lumber-yard",
       "name" : "Lumber Yard",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -125,6 +126,7 @@
     }, {
       "id" : "logging-camp",
       "name" : "Logging Camp",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -143,6 +145,7 @@
     }, {
       "id" : "clay-pool",
       "name" : "Clay Pool",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -161,6 +164,7 @@
     }, {
       "id" : "clay-pit",
       "name" : "Clay Pit",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -179,6 +183,7 @@
     }, {
       "id" : "quarry",
       "name" : "Quarry",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -197,6 +202,7 @@
     }, {
       "id" : "stone-pit",
       "name" : "Stone Pit",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:brown" ],
       "back" : "brown",
@@ -215,6 +221,7 @@
     }, {
       "id" : "glassworks",
       "name" : "Glassworks",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:grey" ],
       "back" : "brown",
@@ -233,6 +240,7 @@
     }, {
       "id" : "press",
       "name" : "Press",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:grey" ],
       "back" : "brown",
@@ -251,6 +259,7 @@
     }, {
       "id" : "guard-tower",
       "name" : "Guard Tower",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:red" ],
       "back" : "brown",
@@ -269,6 +278,7 @@
     }, {
       "id" : "stable",
       "name" : "Stable",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:red" ],
       "back" : "brown",
@@ -296,6 +306,7 @@
     }, {
       "id" : "garrison",
       "name" : "Garrison",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:red" ],
       "back" : "brown",
@@ -323,6 +334,7 @@
     }, {
       "id" : "palisade",
       "name" : "Palisade",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:red" ],
       "back" : "brown",
@@ -347,6 +359,7 @@
     }, {
       "id" : "workshop",
       "name" : "Workshop",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:green" ],
       "back" : "brown",
@@ -374,6 +387,7 @@
     }, {
       "id" : "apothecary",
       "name" : "Apothecary",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:green" ],
       "back" : "brown",
@@ -401,6 +415,7 @@
     }, {
       "id" : "scriptorium",
       "name" : "Scriptorium",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:green" ],
       "back" : "brown",
@@ -425,6 +440,7 @@
     }, {
       "id" : "pharmacist",
       "name" : "Pharmacist",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:green" ],
       "back" : "brown",
@@ -449,6 +465,7 @@
     }, {
       "id" : "theater",
       "name" : "Theater",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:blue" ],
       "back" : "brown",
@@ -473,6 +490,7 @@
     }, {
       "id" : "altar",
       "name" : "Altar",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:blue" ],
       "back" : "brown",
@@ -497,6 +515,7 @@
     }, {
       "id" : "baths",
       "name" : "Baths",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:blue" ],
       "back" : "brown",
@@ -524,6 +543,7 @@
     }, {
       "id" : "stone-reserve",
       "name" : "Stone Reserve",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:yellow" ],
       "back" : "brown",
@@ -542,6 +562,7 @@
     }, {
       "id" : "clay-reserve",
       "name" : "Clay Reserve",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:yellow" ],
       "back" : "brown",
@@ -560,6 +581,7 @@
     }, {
       "id" : "wood-reserve",
       "name" : "Wood Reserve",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:yellow" ],
       "back" : "brown",
@@ -578,6 +600,7 @@
     }, {
       "id" : "tavern",
       "name" : "Tavern",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:1", "color:yellow" ],
       "back" : "brown",
@@ -602,6 +625,7 @@
     }, {
       "id" : "sawmill",
       "name" : "Sawmill",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:brown" ],
       "back" : "blue",
@@ -620,6 +644,7 @@
     }, {
       "id" : "brickyard",
       "name" : "Brickyard",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:brown" ],
       "back" : "blue",
@@ -638,6 +663,7 @@
     }, {
       "id" : "shelf-quarry",
       "name" : "Shelf Quarry",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:brown" ],
       "back" : "blue",
@@ -656,6 +682,7 @@
     }, {
       "id" : "glass-blower",
       "name" : "Glass-Blower",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:grey" ],
       "back" : "blue",
@@ -674,6 +701,7 @@
     }, {
       "id" : "drying-room",
       "name" : "Drying Room",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:grey" ],
       "back" : "blue",
@@ -692,6 +720,7 @@
     }, {
       "id" : "walls",
       "name" : "Walls",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:red" ],
       "back" : "blue",
@@ -713,6 +742,7 @@
     }, {
       "id" : "forum",
       "name" : "Forum",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:yellow" ],
       "back" : "blue",
@@ -734,6 +764,7 @@
     }, {
       "id" : "caravansery",
       "name" : "Caravansery",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:yellow" ],
       "back" : "blue",
@@ -758,6 +789,7 @@
     }, {
       "id" : "customs-house",
       "name" : "Customs House",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:yellow" ],
       "back" : "blue",
@@ -776,6 +808,7 @@
     }, {
       "id" : "courthouse",
       "name" : "Courthouse",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:blue" ],
       "back" : "blue",
@@ -800,6 +833,7 @@
     }, {
       "id" : "horse-breeders",
       "name" : "Horse Breeders",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:red" ],
       "back" : "blue",
@@ -824,6 +858,7 @@
     }, {
       "id" : "barracks",
       "name" : "Barracks",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:red" ],
       "back" : "blue",
@@ -842,6 +877,7 @@
     }, {
       "id" : "archery-range",
       "name" : "Archery Range",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:red" ],
       "back" : "blue",
@@ -875,6 +911,7 @@
     }, {
       "id" : "parade-ground",
       "name" : "Parade Ground",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:red" ],
       "back" : "blue",
@@ -905,6 +942,7 @@
     }, {
       "id" : "library",
       "name" : "Library",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:green" ],
       "back" : "blue",
@@ -938,6 +976,7 @@
     }, {
       "id" : "dispensary",
       "name" : "Dispensary",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:green" ],
       "back" : "blue",
@@ -968,6 +1007,7 @@
     }, {
       "id" : "school",
       "name" : "School",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:green" ],
       "back" : "blue",
@@ -1004,6 +1044,7 @@
     }, {
       "id" : "laboratory",
       "name" : "Laboratory",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:green" ],
       "back" : "blue",
@@ -1040,6 +1081,7 @@
     }, {
       "id" : "statue",
       "name" : "Statue",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:blue" ],
       "back" : "blue",
@@ -1067,6 +1109,7 @@
     }, {
       "id" : "temple",
       "name" : "Temple",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:blue" ],
       "back" : "blue",
@@ -1097,6 +1140,7 @@
     }, {
       "id" : "aqueduct",
       "name" : "Aqueduct",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:blue" ],
       "back" : "blue",
@@ -1118,6 +1162,7 @@
     }, {
       "id" : "rostrum",
       "name" : "Rostrum",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:blue" ],
       "back" : "blue",
@@ -1148,6 +1193,7 @@
     }, {
       "id" : "brewery",
       "name" : "Brewery",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:2", "color:yellow" ],
       "back" : "blue",
@@ -1172,6 +1218,7 @@
     }, {
       "id" : "arsenal",
       "name" : "Arsenal",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:red" ],
       "back" : "violet",
@@ -1196,6 +1243,7 @@
     }, {
       "id" : "pretorium",
       "name" : "Pretorium",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:red" ],
       "back" : "violet",
@@ -1214,6 +1262,7 @@
     }, {
       "id" : "fortifications",
       "name" : "Fortifications",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:red" ],
       "back" : "violet",
@@ -1241,6 +1290,7 @@
     }, {
       "id" : "siege-workshop",
       "name" : "Siege Workshop",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:red" ],
       "back" : "violet",
@@ -1265,6 +1315,7 @@
     }, {
       "id" : "circus",
       "name" : "Circus",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:red" ],
       "back" : "violet",
@@ -1289,6 +1340,7 @@
     }, {
       "id" : "academy",
       "name" : "Academy",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:green" ],
       "back" : "violet",
@@ -1322,6 +1374,7 @@
     }, {
       "id" : "study",
       "name" : "Study",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:green" ],
       "back" : "violet",
@@ -1355,6 +1408,7 @@
     }, {
       "id" : "university",
       "name" : "University",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:green" ],
       "back" : "violet",
@@ -1388,6 +1442,7 @@
     }, {
       "id" : "observatory",
       "name" : "Observatory",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:green" ],
       "back" : "violet",
@@ -1418,6 +1473,7 @@
     }, {
       "id" : "palace",
       "name" : "Palace",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1448,6 +1504,7 @@
     }, {
       "id" : "town-hall",
       "name" : "Town Hall",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1472,6 +1529,7 @@
     }, {
       "id" : "obelisk",
       "name" : "Obelisk",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1496,6 +1554,7 @@
     }, {
       "id" : "gardens",
       "name" : "Gardens",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1520,6 +1579,7 @@
     }, {
       "id" : "pantheon",
       "name" : "Pantheon",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1547,6 +1607,7 @@
     }, {
       "id" : "senate",
       "name" : "Senate",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:blue" ],
       "back" : "violet",
@@ -1574,6 +1635,7 @@
     }, {
       "id" : "chamber-of-commerce",
       "name" : "Chamber of Commerce",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:yellow" ],
       "back" : "violet",
@@ -1601,6 +1663,7 @@
     }, {
       "id" : "port",
       "name" : "Port",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:yellow" ],
       "back" : "violet",
@@ -1634,6 +1697,7 @@
     }, {
       "id" : "armory",
       "name" : "Armory",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:yellow" ],
       "back" : "violet",
@@ -1664,6 +1728,7 @@
     }, {
       "id" : "lighthouse",
       "name" : "Lighthouse",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:yellow" ],
       "back" : "violet",
@@ -1694,6 +1759,7 @@
     }, {
       "id" : "arena",
       "name" : "Arena",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "age:3", "color:yellow" ],
       "back" : "violet",
@@ -1727,6 +1793,7 @@
     }, {
       "id" : "merchants-guild",
       "name" : "Merchants Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1763,6 +1830,7 @@
     }, {
       "id" : "shipowners-guild",
       "name" : "Shipowners Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1799,6 +1867,7 @@
     }, {
       "id" : "builders-guild",
       "name" : "Builders Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1829,6 +1898,7 @@
     }, {
       "id" : "magistrates-guild",
       "name" : "Magistrates Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1862,6 +1932,7 @@
     }, {
       "id" : "scientists-guild",
       "name" : "Scientists Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1892,6 +1963,7 @@
     }, {
       "id" : "moneylenders-guild",
       "name" : "Moneylenders Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1916,6 +1988,7 @@
     }, {
       "id" : "tacticians-guild",
       "name" : "Tacticians Guild",
+      "description" : "",
       "type" : "CARD",
       "tags" : [ "color:purple", "guild" ],
       "back" : "dark-purple",
@@ -1949,6 +2022,7 @@
     }, {
       "id" : "the-appian-way",
       "name" : "The Appian Way",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -1994,6 +2068,7 @@
     }, {
       "id" : "circus-maximus",
       "name" : "Circus Maximus",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2033,6 +2108,7 @@
     }, {
       "id" : "the-colossus",
       "name" : "The Colossus",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2063,6 +2139,7 @@
     }, {
       "id" : "the-great-library",
       "name" : "The Great Library",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2096,6 +2173,7 @@
     }, {
       "id" : "the-great-lighthouse",
       "name" : "The Great Lighthouse",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2129,6 +2207,7 @@
     }, {
       "id" : "the-hanging-gardens",
       "name" : "The Hanging Gardens",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2168,6 +2247,7 @@
     }, {
       "id" : "the-mausoleum",
       "name" : "The Mausoleum",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2201,6 +2281,7 @@
     }, {
       "id" : "piraeus",
       "name" : "Piraeus",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2240,6 +2321,7 @@
     }, {
       "id" : "the-pyramids",
       "name" : "The Pyramids",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2264,6 +2346,7 @@
     }, {
       "id" : "the-sphinx",
       "name" : "The Sphinx",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2297,6 +2380,7 @@
     }, {
       "id" : "the-statue-of-zeus",
       "name" : "The Statue of Zeus",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2339,6 +2423,7 @@
     }, {
       "id" : "the-temple-of-artemis",
       "name" : "The Temple of Artemis",
+      "description" : "",
       "type" : "WONDER",
       "tags" : [ "wonder" ],
       "back" : null,
@@ -2375,6 +2460,7 @@
     }, {
       "id" : "agriculture",
       "name" : "Agriculture",
+      "description" : "Gain 6 coins now. Worth 4 victory points.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2399,6 +2485,7 @@
     }, {
       "id" : "architecture",
       "name" : "Architecture",
+      "description" : "Your future Wonders cost 2 fewer resources, of your choice.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2417,6 +2504,7 @@
     }, {
       "id" : "economy",
       "name" : "Economy",
+      "description" : "The coins your opponent spends on trading come to you instead of the bank.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2435,6 +2523,7 @@
     }, {
       "id" : "law",
       "name" : "Law",
+      "description" : "Counts as a Scales science symbol.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2453,6 +2542,7 @@
     }, {
       "id" : "masonry",
       "name" : "Masonry",
+      "description" : "Your future blue cards cost 2 fewer resources, of your choice.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2471,6 +2561,7 @@
     }, {
       "id" : "mathematics",
       "name" : "Mathematics",
+      "description" : "3 victory points for each progress token you own, this one included.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2489,6 +2580,7 @@
     }, {
       "id" : "philosophy",
       "name" : "Philosophy",
+      "description" : "Worth 7 victory points.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2507,6 +2599,7 @@
     }, {
       "id" : "strategy",
       "name" : "Strategy",
+      "description" : "Your future red cards give 1 extra shield.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2525,6 +2618,7 @@
     }, {
       "id" : "theology",
       "name" : "Theology",
+      "description" : "Your future Wonders let you play again.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2543,6 +2637,7 @@
     }, {
       "id" : "urbanism",
       "name" : "Urbanism",
+      "description" : "Gain 6 coins now, and 4 coins each time you build a Building free through a chain.",
       "type" : "TOKEN",
       "tags" : [ "progress" ],
       "back" : null,
@@ -2567,6 +2662,7 @@
     }, {
       "id" : "loot-2-a",
       "name" : "Loot 2 a",
+      "description" : "",
       "type" : "TOKEN",
       "tags" : [ "military-seat:0", "military-zone:2" ],
       "back" : null,
@@ -2585,6 +2681,7 @@
     }, {
       "id" : "loot-2-b",
       "name" : "Loot 2 b",
+      "description" : "",
       "type" : "TOKEN",
       "tags" : [ "military-seat:1", "military-zone:2" ],
       "back" : null,
@@ -2603,6 +2700,7 @@
     }, {
       "id" : "loot-5-a",
       "name" : "Loot 5 a",
+      "description" : "",
       "type" : "TOKEN",
       "tags" : [ "military-seat:0", "military-zone:3" ],
       "back" : null,
@@ -2621,6 +2719,7 @@
     }, {
       "id" : "loot-5-b",
       "name" : "Loot 5 b",
+      "description" : "",
       "type" : "TOKEN",
       "tags" : [ "military-seat:1", "military-zone:3" ],
       "back" : null,

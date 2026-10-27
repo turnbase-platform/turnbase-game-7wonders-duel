@@ -8,6 +8,7 @@ import java.util.List;
  * it may see the component in play.
  *
  * @param id the component id the views and events name
+ * @param description what the component does in words, or empty
  * @param type {@code CARD}, {@code WONDER} or {@code TOKEN}
  * @param tags the component's tags, sorted
  * @param back the back group id, or null when it has none
@@ -16,6 +17,7 @@ import java.util.List;
 public record CatalogEntry(
     String id,
     String name,
+    String description,
     String type,
     List<String> tags,
     String back,

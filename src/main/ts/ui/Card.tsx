@@ -4,6 +4,7 @@ import { inCostOrder } from "../core/cost.js";
 import { motifOf } from "../core/motif.js";
 import type { CatalogEntry } from "../core/wire.js";
 import { Icon } from "./icons.js";
+import { HoverFloat } from "./QuoteTable.js";
 
 export type CardSize = "small" | "standard" | "large";
 
@@ -79,21 +80,28 @@ interface CardProps {
   size: CardSize;
   /** A Wonder that has been constructed. */
   built?: boolean;
-  /** Whose Wonder it is, for the outline. */
-  owner?: "me" | "opp";
 }
 
 /** A progress token is round and its icon is the whole token: nothing is drawn around it. */
 function ProgressToken({ entry, size }: { entry: CatalogEntry; size: CardSize }) {
   return (
-    <div className={`token token--${size}`} title={entry.name} data-component={entry.id}>
+    <div
+      className={`token token--${size}`}
+      role="img"
+      aria-label={entry.name}
+      data-component={entry.id}
+    >
       <Icon id={entry.id} />
+      <HoverFloat>
+        <b className="tip__name">{entry.name}</b>
+        {entry.description !== "" && <span className="tip__text">{entry.description}</span>}
+      </HoverFloat>
     </div>
   );
 }
 
 /** A building, Wonder or token, drawn from its catalog entry alone. */
-export function Card({ entry, size, built = false, owner }: CardProps) {
+export function Card({ entry, size, built = false }: CardProps) {
   if (entry.type === "TOKEN" && entry.tags.includes("progress")) {
     return <ProgressToken entry={entry} size={size} />;
   }
@@ -101,9 +109,6 @@ export function Card({ entry, size, built = false, owner }: CardProps) {
   const classes = ["card", `card--${size}`];
   if (entry.type === "WONDER") {
     classes.push("card--wonder", built ? "is-built" : "is-unbuilt");
-    if (built && owner) {
-      classes.push(`owner-${owner}`);
-    }
   } else if (entry.type === "TOKEN") {
     classes.push("card--token");
   } else if (colour) {

@@ -11,6 +11,7 @@ function entry(
   return {
     id,
     name,
+    description: "",
     type,
     tags,
     back: null,

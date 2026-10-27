@@ -27,6 +27,7 @@ public final class CatalogViews {
     return new CatalogEntry(
         component.id().value(),
         component.name(),
+        component.description(),
         component.type().name(),
         component.tags().stream().map(Tag::value).sorted().toList(),
         component.back().map(BackId::value).orElse(null),

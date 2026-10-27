@@ -16,7 +16,7 @@ Light theme is warm limestone; dark theme is basalt. Both are CSS variables swit
 
 **Seat colours are per viewer.** You are always **cyan** and your opponent is always **bronze**, so
 nobody has to remember who plays which colour. A spectator sees seat 1 as cyan (left) and seat 2 as
-bronze (right). The same pair colours capitals, city tabs, outlines on built wonders and log names.
+bronze (right). The same pair colours capitals, city tabs and log names.
 
 | Token | Value (light) | Use |
 |---|---|---|
@@ -40,8 +40,9 @@ bottom. A chain badge sits at the top right when the card has one.
 
 - **Buildings**: Standard 75×100 (pyramid, tablet), Small ~38 wide (stacks, phone), Large 120×160
   (popover, sheet).
-- **Wonders**: the same anatomy at 4:3, larger, in the sandstone colour. Built: full colour, an
-  outline in the owner's colour, and a small edge of the card that paid for it at the bottom right.
+- **Wonders**: the same anatomy at 4:3, larger, in the sandstone colour. Built: full colour, with the
+  card that paid for it tucked under it face down and sticking out on the right, as on the table
+  (no coloured outline: the city already says whose it is).
   Unbuilt: faded. Large version in the popover and sheet.
 - **Art area**: a generated motif, not an empty block: the card's dominant badge as a large glyph on a
   radial highlight over the category colour. Real art can replace it later without a layout change.
@@ -97,7 +98,8 @@ A spectator sees the same board; both city tabs are "seat 1 / seat 2" and hidden
 
 Per city, in the panel: coins, resources produced and owned progress tokens on one line; below it
 **one stack per card colour**, then the Wonders. There are no colour labels, because a stack is the
-colour. Cards in a stack are offset so each one's **effects banner stays visible**; a colour with no
+colour. Cards in a stack are offset so that only each one's **banner (effects and chain symbol) stays
+visible**, no more; a colour with no
 cards takes no space. The order of the seven colours is fixed so stacks do not jump as cards are
 built. Hover or tap a stack card for the Large card.
 
@@ -151,7 +153,11 @@ interactive ones.
 
 - **Science**: six symbols per seat, owned ones lit, pairs marked, Law shown as the token it is.
 - **Progress tokens**: five on the board strip, owned ones in the city line; the three-token draw is a
-  pending prompt.
+  pending prompt. Hovering or focusing one floats a note, like the price quotes, with its name and
+  what it does; the sentence comes from the catalog (`description`, written on the token's
+  definition), not from the client.
+- **The preview** of a city card (hover or focus) is large: about 200 px for a building and 240 px
+  for a Wonder, and a built Wonder is previewed built, with its tucked card.
 - **End screen**: winner, `victoryReason`, final scores. A *breakdown* needs scoring data on the wire
   (not there yet); it is a backend item raised in plan 15 before the screen depends on it. Rematch and
   leave are the platform's, not the game's.

@@ -32,6 +32,11 @@ public interface Component {
     return Optional.empty();
   }
 
+  /** What the component does, in a sentence a player can read; empty when the badges say it all. */
+  default String description() {
+    return "";
+  }
+
   /** What constructing this component costs (B-COST-1..5); free unless stated. */
   default Cost cost() {
     return Cost.FREE;

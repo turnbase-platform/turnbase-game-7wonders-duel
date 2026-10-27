@@ -18,6 +18,7 @@ import java.util.Set;
 public record Token(
     ComponentId id,
     String name,
+    String description,
     Set<Tag> tags,
     List<Effect> effects,
     List<Modifier> modifiers,
@@ -38,19 +39,27 @@ public record Token(
     }
     String slug = name.trim().toLowerCase(Locale.ROOT).replace(' ', '-');
     return new Token(
-        ComponentId.of(slug), name.trim(), Set.of(tags), List.of(), List.of(), List.of());
+        ComponentId.of(slug), name.trim(), "", Set.of(tags), List.of(), List.of(), List.of());
+  }
+
+  /** The token with the sentence that tells a player what it does. */
+  public Token described(String text) {
+    return new Token(id, name, text, tags, effects, modifiers, triggers);
   }
 
   public Token effects(Effect... more) {
-    return new Token(id, name, tags, Fluent.append(effects, more), modifiers, triggers);
+    return new Token(
+        id, name, description, tags, Fluent.append(effects, more), modifiers, triggers);
   }
 
   public Token modifiers(Modifier... more) {
-    return new Token(id, name, tags, effects, Fluent.append(modifiers, more), triggers);
+    return new Token(
+        id, name, description, tags, effects, Fluent.append(modifiers, more), triggers);
   }
 
   public Token triggers(Trigger<?>... more) {
-    return new Token(id, name, tags, effects, modifiers, Fluent.append(triggers, more));
+    return new Token(
+        id, name, description, tags, effects, modifiers, Fluent.append(triggers, more));
   }
 
   @Override

@@ -126,6 +126,8 @@ export type ComponentType = "CARD" | "WONDER" | "TOKEN";
 export interface CatalogEntry {
   id: ComponentId;
   name: string;
+  /** What the component does in words; empty when its badges say it all. */
+  description: string;
   type: ComponentType;
   tags: string[];
   back: string | null;

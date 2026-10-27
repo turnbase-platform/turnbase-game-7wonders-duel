@@ -2,8 +2,8 @@ import { useState } from "react";
 import { cityOf } from "../core/city.js";
 import type { Seats } from "../core/seats.js";
 import { seatName, type Session } from "../core/session.js";
-import type { ComponentId } from "../core/wire.js";
-import { Card, type CardSize } from "./Card.js";
+import type { CatalogEntry, ComponentId } from "../core/wire.js";
+import { Card, CardBack, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
 import { HoverQuote } from "./QuoteTable.js";
 import { Science } from "./Science.js";
@@ -35,6 +35,32 @@ export function Tab({ label, active, tint, onPick }: TabProps) {
     >
       {label}
     </button>
+  );
+}
+
+/**
+ * A card as it lies in a city. A built Wonder shows what built it, as on the table: a card face
+ * down, tucked under the Wonder and sticking out on its right.
+ */
+function WonderSlot({
+  entry,
+  size,
+  built,
+}: {
+  entry: CatalogEntry;
+  size: CardSize;
+  built: boolean;
+}) {
+  if (entry.type !== "WONDER") return <Card entry={entry} size={size} />;
+  return (
+    <span className="wonder">
+      {built && (
+        <span className="wonder__under" aria-hidden="true">
+          <CardBack group={null} size={size} />
+        </span>
+      )}
+      <Card entry={entry} size={size} built={built} />
+    </span>
   );
 }
 
@@ -83,7 +109,7 @@ export function City({
           setPeek(null);
         }}
       >
-        <Card entry={entry} size={size} built={built} owner={built ? side : undefined} />
+        <WonderSlot entry={entry} size={size} built={built} />
         {quote && !built && <HoverQuote quote={quote} brief={side === "opp"} />}
       </button>
     );
@@ -127,7 +153,11 @@ export function City({
       )}
       {peeked && (
         <div className="peek" aria-hidden="true">
-          <Card entry={peeked} size="large" />
+          <WonderSlot
+            entry={peeked}
+            size="large"
+            built={city.wonders.some((w) => w.id === peeked.id && w.built)}
+          />
         </div>
       )}
     </section>

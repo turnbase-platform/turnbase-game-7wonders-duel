@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import type { QuoteView } from "../core/wire.js";
 import { Icon } from "./icons.js";
@@ -84,22 +84,17 @@ export const QUOTE_DELAY_MS = 500;
 const GAP = 6;
 
 /**
- * A quote that shows while its parent is hovered or focused, floating above it, or below when there
+ * A floating note that shows while its parent is hovered or focused, above it, or below when there
  * is no room above, and kept inside the viewport wherever the parent sits. It is portalled to the
  * body: a filtered or clipped ancestor would otherwise trap it.
  */
-export function HoverQuote({
-  quote,
-  rival,
-  rivalName = "Opponent pays",
-  brief = false,
+export function HoverFloat({
+  children,
+  enabled = true,
 }: {
-  quote: QuoteView;
-  /** What the other player would pay, shown as coins only. */
-  rival?: QuoteView;
-  rivalName?: string;
-  /** Only the coins, without the table. */
-  brief?: boolean;
+  children: ReactNode;
+  /** False when there is nothing to say; the parent is still watched, nothing is shown. */
+  enabled?: boolean;
 }) {
   const marker = useRef<HTMLSpanElement>(null);
   const box = useRef<HTMLSpanElement>(null);
@@ -152,18 +147,35 @@ export function HoverQuote({
     <>
       <span ref={marker} hidden />
       {open &&
-        !isFree(quote) &&
+        enabled &&
         createPortal(
           <span ref={box} className="slot__quote">
-            {brief ? (
-              <QuoteCoins quote={quote} who="Opponent pays" />
-            ) : (
-              <QuoteTable quote={quote} />
-            )}
-            {rival && <QuoteCoins quote={rival} who={rivalName} />}
+            {children}
           </span>,
           document.body,
         )}
     </>
+  );
+}
+
+/** A quote floating over its parent. */
+export function HoverQuote({
+  quote,
+  rival,
+  rivalName = "Opponent pays",
+  brief = false,
+}: {
+  quote: QuoteView;
+  /** What the other player would pay, shown as coins only. */
+  rival?: QuoteView;
+  rivalName?: string;
+  /** Only the coins, without the table. */
+  brief?: boolean;
+}) {
+  return (
+    <HoverFloat enabled={!isFree(quote)}>
+      {brief ? <QuoteCoins quote={quote} who="Opponent pays" /> : <QuoteTable quote={quote} />}
+      {rival && <QuoteCoins quote={rival} who={rivalName} />}
+    </HoverFloat>
   );
 }
