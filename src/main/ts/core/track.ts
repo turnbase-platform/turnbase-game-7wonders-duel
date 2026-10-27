@@ -32,6 +32,8 @@ export interface Field {
   current: boolean;
   /** A loot token that is no longer there. */
   taken: boolean;
+  /** What the field shows: the loot, or once it is taken the VP of its zone (B-MIL-5). */
+  icon: "coin-lost" | "vp";
   title: string | null;
 }
 
@@ -98,6 +100,7 @@ function fieldsOf(
       to: at(sign === 1 ? 2 : -1),
       current: here(side, 1),
       taken: false,
+      icon: "vp",
       title: null,
     };
   };
@@ -113,12 +116,15 @@ function fieldsOf(
     return {
       kind: "loot",
       zone: z,
-      text: String(coins),
+      text: there ? String(coins) : String(ZONE_VP[z - 1] ?? 0),
       from: at(sign === 1 ? start : -last),
       to: at(sign === 1 ? last : -start),
       current: here(side, z),
       taken: !there,
-      title: `Zone worth ${String(ZONE_VP[z - 1] ?? 0)} VP; loot ${String(coins)} coins`,
+      icon: there ? "coin-lost" : "vp",
+      title: there
+        ? `Zone worth ${String(ZONE_VP[z - 1] ?? 0)} VP; loot ${String(coins)} coins`
+        : `Zone worth ${String(ZONE_VP[z - 1] ?? 0)} VP; the loot is taken`,
     };
   };
   return [

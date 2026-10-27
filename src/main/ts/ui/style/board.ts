@@ -92,7 +92,12 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .wonder > .card { z-index: 1; }
 .peekable { padding: 0; border: 0; background: none; line-height: 0; cursor: pointer; border-radius: var(--radius); }
 .peekable:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.peek { --ww: 240px; position: sticky; bottom: 0; display: flex; justify-content: center; padding-top: 6px; pointer-events: none; }
+/* The inspected card takes no room in the column, so showing it never makes the column scroll; it rides the bottom edge of what is in view. */
+.peek { --ww: 240px; position: sticky; bottom: 0; height: 0; pointer-events: none; }
+.peek > * { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+/* Panels scroll when they must, by wheel or touch, and never draw a bar. */
+.structure, .panel, .city-col, .drawer { scrollbar-width: none; }
+.structure::-webkit-scrollbar, .panel::-webkit-scrollbar, .city-col::-webkit-scrollbar, .drawer::-webkit-scrollbar { display: none; }
 .peek .card--large { --w: 200px; } .peek .card--wonder.card--large { --w: var(--ww); } .peek .token--large { width: 140px; }
 .layout-landscape .peek { --ww: 200px; } .layout-landscape .peek .card--large { --w: 160px; }
 .log { margin-top: 8px; font-size: 12px; }

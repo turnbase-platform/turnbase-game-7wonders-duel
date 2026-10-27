@@ -173,7 +173,7 @@ component *was* to where it *is* (FLIP: record the DOM rectangle before the view
 |---|---|
 | `moved` | the component travels from its old rectangle to its new one (build, discard, wonder, draft, deal) |
 | `moved` structure.down → structure.up | flip: back turns to face, "was uncovered" |
-| `coins` | the amount floats off the coin counter and ticks it |
+| `coins` | small coins, as many as the amount, merge into the coin counter (a gain) or leave it while it shakes (a loss) |
 | `trade` | coins float from the payer to the other seat |
 | `pawn` | the pawn slides tile by tile; a loot token that is applied lifts away and reveals its VP |
 | `chain` | the chain badge on the built card lights up |

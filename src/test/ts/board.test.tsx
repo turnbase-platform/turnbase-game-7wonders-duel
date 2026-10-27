@@ -624,22 +624,26 @@ describe("Board", () => {
     it("floats the coins a seat gained or lost off its own purse", () => {
       show(after(event({ kind: "coins", player: TWO.id, amount: -2 })), "medium");
 
-      expect(purse(TWO)?.querySelector(".float.is-loss")?.textContent).toBe("−2");
-      expect(purse(ONE)?.querySelector(".float")).toBeNull();
+      const loss = purse(TWO)?.querySelector(".coinfx.is-loss");
+      expect(loss?.getAttribute("aria-label")).toBe("−2 coins");
+      expect(loss?.querySelectorAll(".coinfx__coin")).toHaveLength(2);
+      expect(purse(ONE)?.querySelector(".coinfx")).toBeNull();
     });
 
-    it("shows a gain with a plus", () => {
+    it("spawns as many small coins as were gained", () => {
       show(after(event({ kind: "coins", player: ONE.id, amount: 3 })), "medium");
 
-      expect(purse(ONE)?.querySelector(".float.is-gain")?.textContent).toBe("+3");
+      const gain = purse(ONE)?.querySelector(".coinfx.is-gain");
+      expect(gain?.getAttribute("aria-label")).toBe("+3 coins");
+      expect(gain?.querySelectorAll(".coinfx__coin")).toHaveLength(3);
     });
 
-    it("floats them off the coins in the city when wide", () => {
+    it("plays them on the coin in the city when wide", () => {
       show(after(event({ kind: "coins", player: TWO.id, amount: -2 })));
 
-      expect([...host.querySelectorAll(".city .purse .float")].map((f) => f.textContent)).toEqual([
-        "−2",
-      ]);
+      expect(
+        [...host.querySelectorAll(".city .purse .coinfx")].map((f) => f.getAttribute("aria-label")),
+      ).toEqual(["−2 coins"]);
     });
 
     it("pulses the turn marker when the seat plays again", () => {
@@ -651,7 +655,7 @@ describe("Board", () => {
     it("shows no cue when nothing happened", () => {
       show(age());
 
-      expect(host.querySelector(".float, .is-pulse")).toBeNull();
+      expect(host.querySelector(".coinfx, .is-pulse")).toBeNull();
     });
   });
 

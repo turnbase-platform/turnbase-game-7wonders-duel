@@ -90,13 +90,15 @@ describe("trackOf fields", () => {
     ]);
   });
 
-  it("marks a loot token that has been taken, and still says what it was worth", () => {
+  it("shows the zone's VP in place of a loot token that has been taken", () => {
     const withoutOne = {
       ...view,
       visible: view.visible.filter((p) => p.component !== "loot-2-a"),
     };
     const loot = trackOf(withoutOne, catalog, seats).fields.filter((f) => f.kind === "loot");
-    expect(loot.filter((f) => f.taken).map((f) => [f.from, f.text])).toEqual([[4, "2"]]);
+    expect(loot.filter((f) => f.taken).map((f) => [f.from, f.icon, f.text])).toEqual([
+      [4, "vp", "5"],
+    ]);
   });
 
   it("follows the viewer: a spectator sees the first seat on the left", () => {

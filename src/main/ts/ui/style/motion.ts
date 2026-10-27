@@ -1,15 +1,20 @@
 import { EASE, MOTION_MS } from "../motion.js";
 
-// Cues that are not a component moving (design §9): coins floating off a purse and the turn marker's
+// Cues that are not a component moving (design §9): small coins flying into and out of a purse and the turn marker's
 // pulse. Durations come from MOTION_MS; with reduced motion they are not drawn at all.
 export const MOTION = `
 .purse { position: relative; }
-.float { position: absolute; left: 50%; top: -2px; font-weight: 700; pointer-events: none; opacity: 0; animation: float ${String(MOTION_MS.coins)}ms ${EASE} 1; }
-.float.is-gain { color: var(--c-green); } .float.is-loss { color: var(--c-red); }
-/* On the big coin of a city head the amount floats beside it, not over its number. */
-.purse--big .float { left: auto; right: 100%; top: 50%; margin-right: 6px; font-size: 24px; text-shadow: 0 0 3px var(--surface), 0 0 3px var(--surface); animation-name: float-beside; }
-@keyframes float-beside { 0% { opacity: 1; transform: translateY(-50%); } 100% { opacity: 0; transform: translateY(calc(-50% - 22px)); } }
-@keyframes float { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -22px); } }
+/* Small coins merge into the purse's coin when it gains, and leave it, while it shakes, when it loses. */
+.coinfx { position: absolute; inset: 0; pointer-events: none; font-size: 14px; --r: 34px; }
+.purse--big .coinfx { --r: 64px; font-size: 22px; }
+.coinfx__coin { --x: 0; --y: 0; --delay: 0ms; --travel: 500ms; position: absolute; left: 50%; top: 50%; width: 1em; height: 1em; margin: -.5em 0 0 -.5em; line-height: 0; opacity: 0; filter: drop-shadow(0 1px 1px #0006); animation: var(--travel) var(--delay) ${EASE} both 1; }
+.coinfx__coin .icon { width: 100%; height: 100%; }
+.coinfx.is-gain .coinfx__coin { animation-name: coin-in; }
+.coinfx.is-loss .coinfx__coin { animation-name: coin-out; }
+@keyframes coin-in { 0% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(0, 0) scale(.4); } }
+@keyframes coin-out { 0% { opacity: 1; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1); } }
+.purse:has(.coinfx.is-loss) > .icon { animation: coin-shake ${String(MOTION_MS.coins)}ms linear 1; }
+@keyframes coin-shake { 0%, 100% { transform: none; } 10% { transform: translateX(-3px) rotate(-8deg); } 20% { transform: translateX(3px) rotate(8deg); } 30% { transform: translateX(-3px) rotate(-8deg); } 40% { transform: translateX(3px) rotate(8deg); } 50% { transform: translateX(-2px) rotate(-5deg); } 60% { transform: translateX(2px) rotate(5deg); } 70% { transform: none; } }
 .turn.is-pulse { display: inline-block; animation: pulse ${String(MOTION_MS.pulse)}ms ${EASE} 1; }
 @keyframes pulse { 0% { transform: scale(1); } 40% { transform: scale(1.25); } 100% { transform: scale(1); } }
 /* A discarded card burns from the bottom up: a mask sweeps the card away while a band of fire rides its edge. */
@@ -25,5 +30,5 @@ export const MOTION = `
 .starter__round { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .starter__who { font: 700 28px var(--serif); }
 @keyframes starter-life { 0% { opacity: 0; transform: translate(-50%, -30%) scale(.9); } 12% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); } 20% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -58%) scale(1); } }
-@media (prefers-reduced-motion: reduce) { .float, .burn { display: none; } .turn.is-pulse { animation: none; } .starter { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .coinfx, .burn { display: none; } .turn.is-pulse { animation: none; } .starter { animation: none; } }
 `;

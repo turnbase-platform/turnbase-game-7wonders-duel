@@ -4,7 +4,8 @@ export const MOTION_MS = {
   appear: 250,
   flip: 300,
   chain: 600,
-  coins: 500,
+  /** A whole coin cue: the small coins start one after the other and the last one lands within this. */
+  coins: 1000,
   pulse: 600,
   burn: 550,
   /** The pop-up naming who starts a round; it also covers the time the player needs to read it. */
