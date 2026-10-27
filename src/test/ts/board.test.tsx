@@ -679,6 +679,14 @@ describe("Board", () => {
       }
     });
 
+    it("colours the tucked card by the back group of the card that built the Wonder", () => {
+      show(late(ONE));
+
+      const backs = [...host.querySelectorAll(".city.owner-me .wonder__under .card--back")];
+      expect(backs).toHaveLength(3);
+      for (const back of backs) expect(back.className).not.toContain("back-none");
+    });
+
     it("shows a built Wonder as built when it is pointed at", () => {
       show(late(ONE));
       act(() => {

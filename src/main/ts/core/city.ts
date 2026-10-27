@@ -19,6 +19,8 @@ export interface ScienceCount {
 export interface CityWonder {
   id: ComponentId;
   built: boolean;
+  /** The back group of the card tucked under a built Wonder, which every viewer may know (B-BACK-3). */
+  under: string | null;
 }
 
 /** What one seat has in front of it. */
@@ -44,13 +46,24 @@ export function cityOf(view: DuelView, catalog: Catalog, player: PlayerId): City
     coins: view.players.find((p) => p.id === player)?.coins ?? 0,
     stacks: stacksOf(cards, catalog),
     wonders: [
-      ...mine("wonders.unbuilt").map((id) => ({ id, built: false })),
-      ...mine("wonders.built").map((id) => ({ id, built: true })),
+      ...mine("wonders.unbuilt").map((id) => ({ id, built: false, under: null })),
+      ...mine("wonders.built").map((id) => ({
+        id,
+        built: true,
+        under: tuckedUnder(view, catalog, id),
+      })),
     ].sort((a, b) => a.id.localeCompare(b.id)),
     tokens: built.filter(isToken),
     produces: producedBy(cards, catalog),
     science: scienceOf(built, catalog),
   };
+}
+
+/** The back of the card under a Wonder: from the card itself when the viewer knows it, else as the view sends it. */
+function tuckedUnder(view: DuelView, catalog: Catalog, wonder: ComponentId): string | null {
+  const known = view.visible.find((p) => p.zone === "underWonder" && p.key === wonder);
+  if (known) return catalog.get(known.component)?.back ?? null;
+  return view.hidden.find((h) => h.zone === "underWonder" && h.key === wonder)?.back ?? null;
 }
 
 /** Counts the symbols the catalog knows, so a symbol no card carries yet (an expansion's) appears with the first that does. */

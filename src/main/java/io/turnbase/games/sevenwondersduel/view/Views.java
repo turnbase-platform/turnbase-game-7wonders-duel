@@ -10,6 +10,7 @@ import io.turnbase.games.sevenwondersduel.cost.Quote;
 import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
+import io.turnbase.games.sevenwondersduel.id.ZoneId;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
@@ -18,6 +19,7 @@ import io.turnbase.games.sevenwondersduel.zone.Location;
 import io.turnbase.games.sevenwondersduel.zone.Placement;
 import io.turnbase.games.sevenwondersduel.zone.Placements;
 import io.turnbase.games.sevenwondersduel.zone.Visibility;
+import io.turnbase.games.sevenwondersduel.zone.Zones;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -82,9 +84,13 @@ public final class Views {
         quotes(state, rules, viewer));
   }
 
-  /** Only a face-down structure card shows its back (B-BACK-1); elsewhere nothing is shown. */
+  /**
+   * A face-down structure card shows its back (B-BACK-1), and so does a card tucked under a Wonder
+   * (B-BACK-3); elsewhere nothing is shown.
+   */
   private static String backOf(RuleSet rules, Placement placement) {
-    if (!placement.at().zone().equals(Structure.DOWN)) {
+    ZoneId zone = placement.at().zone();
+    if (!zone.equals(Structure.DOWN) && !zone.equals(Zones.UNDER_WONDER)) {
       return null;
     }
     return rules.catalog().get(placement.component()).back().map(BackId::value).orElse(null);

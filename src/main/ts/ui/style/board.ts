@@ -84,10 +84,11 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .wonders { --ww: 112px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
 .wonders .peekable { display: flex; justify-content: center; position: relative; }
 .wonders .card--wonder.card--standard { --w: var(--ww); }
-/* A built Wonder has the card that built it tucked under it, face down, sticking out on the right. */
-.wonder { position: relative; display: block; margin-right: calc(var(--ww) * .14); }
-.wonder__under { position: absolute; z-index: 0; top: 0; left: calc(var(--ww) * .14); }
-.wonder__under .card, .peek .wonder__under .card { --w: var(--ww); aspect-ratio: 4 / 3; }
+/* A built Wonder has the card that built it slid in from the right, face down: a standard card laid
+   on its side, smaller than the Wonder, with only its short edge sticking out. */
+.wonder { position: relative; display: block; margin-right: calc(var(--ww) * .1); }
+.wonder__under { position: absolute; z-index: 0; top: calc(var(--ww) * .0625); left: calc(var(--ww) * .267); }
+.wonder__under .card, .peek .wonder__under .card { --w: calc(var(--ww) * .833); aspect-ratio: 4 / 3; }
 .wonder > .card { z-index: 1; }
 .peekable { padding: 0; border: 0; background: none; line-height: 0; cursor: pointer; border-radius: var(--radius); }
 .peekable:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }

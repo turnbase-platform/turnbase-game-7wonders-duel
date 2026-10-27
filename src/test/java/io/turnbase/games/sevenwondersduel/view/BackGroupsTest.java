@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-/** B-BACK-1: a face-down card shows its back to everybody, and nothing else about it. */
+/** B-BACK-1, B-BACK-3: a face-down card shows its back to everybody, and nothing else about it. */
 class BackGroupsTest {
 
   private record Backed(ComponentId id, Optional<BackId> back) implements Component {
@@ -110,6 +110,18 @@ class BackGroupsTest {
     assertThat(Views.of(state, RULES, new Viewer.Spectator()).hidden())
         .extracting(HiddenView::back)
         .containsExactlyInAnyOrder("age1", "guild");
+  }
+
+  /** B-BACK-3. */
+  @Test
+  void aCardTuckedUnderAWonderShowsItsBackAndNothingElse() {
+    Location under = io.turnbase.games.sevenwondersduel.zone.Spots.underWonder(ComponentId.of("w"));
+    DuelState state = Fixtures.state(RULES, P1, 0, 0, ComponentId.of("c"), under);
+
+    DuelView view = Views.of(state, RULES, new Viewer.Spectator());
+
+    assertThat(view.hidden()).containsExactly(new HiddenView("underWonder", "w", "guild", 1));
+    assertThat(view.toString()).doesNotContain("component=c");
   }
 
   @Test

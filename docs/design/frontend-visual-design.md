@@ -41,8 +41,9 @@ bottom. A chain badge sits at the top right when the card has one.
 - **Buildings**: Standard 75×100 (pyramid, tablet), Small ~38 wide (stacks, phone), Large 120×160
   (popover, sheet).
 - **Wonders**: the same anatomy at 4:3, larger, in the sandstone colour. Built: full colour, with the
-  card that paid for it tucked under it face down and sticking out on the right, as on the table
-  (no coloured outline: the city already says whose it is).
+  card that paid for it slid under it from the right, face down, as on the table: a standard card
+  on its side, smaller than the Wonder, only its short edge showing, in the colour of its back
+  group (public, B-BACK-3). No coloured outline: the city already says whose it is.
   Unbuilt: faded. Large version in the popover and sheet.
 - **Art area**: a generated motif, not an empty block: the card's dominant badge as a large glyph on a
   radial highlight over the category colour. Real art can replace it later without a layout change.

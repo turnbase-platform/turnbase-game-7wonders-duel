@@ -45,21 +45,22 @@ export function Tab({ label, active, tint, onPick }: TabProps) {
 function WonderSlot({
   entry,
   size,
-  built,
+  under,
 }: {
   entry: CatalogEntry;
   size: CardSize;
-  built: boolean;
+  /** The back group of the card under a built Wonder; undefined for a Wonder not built. */
+  under?: string | null;
 }) {
   if (entry.type !== "WONDER") return <Card entry={entry} size={size} />;
   return (
     <span className="wonder">
-      {built && (
+      {under !== undefined && (
         <span className="wonder__under" aria-hidden="true">
-          <CardBack group={null} size={size} />
+          <CardBack group={under} size={size} />
         </span>
       )}
-      <Card entry={entry} size={size} built={built} />
+      <Card entry={entry} size={size} built={under !== undefined} />
     </span>
   );
 }
@@ -84,7 +85,7 @@ export function City({
   const { view, catalog } = session;
   if (view === null || catalog === null) return null;
   const city = cityOf(view, catalog, seats[side]);
-  const peekable = (id: ComponentId, size: CardSize, built = false) => {
+  const peekable = (id: ComponentId, size: CardSize, under?: string | null) => {
     const entry = catalog.get(id);
     if (entry === undefined) return null;
     const quote = view.quotes.find((q) => q.player === seats[side] && q.component === id);
@@ -109,8 +110,8 @@ export function City({
           setPeek(null);
         }}
       >
-        <WonderSlot entry={entry} size={size} built={built} />
-        {quote && !built && <HoverQuote quote={quote} brief={side === "opp"} />}
+        <WonderSlot entry={entry} size={size} under={under} />
+        {quote && under === undefined && <HoverQuote quote={quote} brief={side === "opp"} />}
       </button>
     );
   };
@@ -138,7 +139,7 @@ export function City({
       {title === undefined && <Science symbols={city.science} />}
       {city.wonders.length > 0 && (
         <div className="wonders">
-          {city.wonders.map((w) => peekable(w.id, "standard", w.built))}
+          {city.wonders.map((w) => peekable(w.id, "standard", w.built ? w.under : undefined))}
         </div>
       )}
       <div className="stacks">
@@ -156,7 +157,7 @@ export function City({
           <WonderSlot
             entry={peeked}
             size="large"
-            built={city.wonders.some((w) => w.id === peeked.id && w.built)}
+            under={city.wonders.find((w) => w.id === peeked.id && w.built)?.under}
           />
         </div>
       )}

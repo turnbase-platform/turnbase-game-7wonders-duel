@@ -255,6 +255,9 @@ hidden: both players know which group it belongs to.
 
 - **B-BACK-1** A face-down structure card exposes its back group to both players; only its identity
   is hidden. Per-viewer views must send the back group for every face-down slot.
+- **B-BACK-3** A card tucked face down under a Wonder (B-ACT-3) exposes its back group to both
+  players, as it does on the table, where the back sticks out from under the Wonder; its identity
+  stays hidden. (Owner's ruling, 2026-10-28.)
 - **B-BACK-2** Card **color** (the front: brown, grey, blue, green, yellow, red, purple — and Agora's
   white/black) is a different attribute from the **back** group. Effects only ever refer to color.
 
