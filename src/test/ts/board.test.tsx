@@ -462,6 +462,19 @@ describe("Board", () => {
     expect(host.textContent).toContain("Waiting for Two to choose");
   });
 
+  it("lays the Age's pyramid out under the starter question, since the choice rests on it", () => {
+    const view = inAge();
+    if (view.view === null) throw new Error("no view");
+    const deciding = { ...view, view: { ...view.view, deciding: TWO.id } };
+
+    show(session(TWO, deciding));
+
+    expect(host.querySelector(".pyramid")).not.toBeNull();
+    expect(host.querySelectorAll(".pyramid .card").length).toBeGreaterThan(0);
+    expect(host.querySelectorAll(".pyramid button:not(:disabled)")).toHaveLength(0);
+    expect(host.textContent).toContain("Who starts the Age?");
+  });
+
   it("shows the Wonder draft as cards during the draft", () => {
     show(session(ONE));
 

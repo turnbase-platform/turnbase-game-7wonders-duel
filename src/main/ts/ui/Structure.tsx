@@ -20,10 +20,7 @@ interface Props {
 
 /** What fills the structure area: the starter choice, the Wonder draft, or the Age's pyramid. */
 export function Structure({ session, view, catalog, offers, selected, onSelect, send }: Props) {
-  if (view.deciding !== null) {
-    return <StarterChoice session={session} deciding={view.deciding} offers={offers} send={send} />;
-  }
-  if (view.phase === "WONDER_DRAFT") {
+  if (view.deciding === null && view.phase === "WONDER_DRAFT") {
     return <Draft session={session} view={view} catalog={catalog} offers={offers} send={send} />;
   }
   const pyramid = (
@@ -36,6 +33,15 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
       onSelect={onSelect}
     />
   );
+  // Who starts the Age is decided looking at the cards, so the pyramid is laid out beneath the question.
+  if (view.deciding !== null) {
+    return (
+      <>
+        <StarterChoice session={session} deciding={view.deciding} offers={offers} send={send} />
+        {pyramid}
+      </>
+    );
+  }
   if (view.pending === null || isBoardPick(view)) return pyramid;
   return (
     <>
@@ -64,7 +70,7 @@ function StarterChoice({
 }) {
   const starters = offers.filter((o) => o.action.type === "chooseStarter");
   return (
-    <div className="phase-panel">
+    <div className="phase-panel prompt">
       <h2>Who starts the Age?</h2>
       {starters.length === 0 ? (
         <p>Waiting for {seatName(session, deciding)} to choose.</p>
