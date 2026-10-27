@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { cuesOf } from "../core/cues.js";
 import { seatName, type Session } from "../core/session.js";
@@ -34,7 +34,7 @@ const SHAKE: Keyframe[] = [
 function CoinBurst({ amount, anchor }: { amount: number; anchor: HTMLElement | null }) {
   const [at, setAt] = useState<{ x: number; y: number; size: number } | null>(null);
   const count = Math.min(Math.abs(amount), MAX_COINS);
-  const stagger = count > 1 ? Math.min(STAGGER_MS, (MOTION_MS.coins - TRAVEL_MS) / (count - 1)) : 0;
+  const stagger = staggerOf(count);
   const gain = amount > 0;
   useLayoutEffect(() => {
     const coin = anchor?.querySelector(".icon");
@@ -100,12 +100,53 @@ interface Props {
   big?: boolean;
 }
 
+/** The coins a seat shows after `landed` of the `count` small coins of a cue of `amount` have moved. */
+function shownAfter(coins: number, amount: number, count: number, landed: number): number {
+  return coins - amount + Math.round((amount * landed) / count);
+}
+
+/** The pace of a cue: how far apart its small coins start. */
+function staggerOf(count: number): number {
+  return count > 1 ? Math.min(STAGGER_MS, (MOTION_MS.coins - TRAVEL_MS) / (count - 1)) : 0;
+}
+
 /** A seat's coins, and the gains and losses of the last step flying into and out of them. */
 export function Purse({ session, player, side, named = false, big = false }: Props) {
   const step = session.history.at(-1);
-  const cues = step === undefined ? [] : cuesOf(step.events);
   const [purse, setPurse] = useState<HTMLElement | null>(null);
+  const [ticked, setTicked] = useState<{ key: string; shown: number } | null>(null);
   const coins = session.view?.players.find((p) => p.id === player)?.coins ?? 0;
+  const amount = (step === undefined ? [] : cuesOf(step.events)).reduce(
+    (sum, c) => (c.kind === "coins" && c.player === player ? sum + c.amount : sum),
+    0,
+  );
+  const key =
+    amount === 0 || step === undefined ? null : `${String(step.number)}:${String(amount)}`;
+  const count = Math.min(Math.abs(amount), MAX_COINS);
+  // The number counts with the small coins: up as each one lands, down as each one leaves.
+  useEffect(() => {
+    if (key === null || prefersReducedMotion()) return;
+    const stagger = staggerOf(count);
+    const timers = Array.from({ length: count }, (_, i) =>
+      window.setTimeout(
+        () => {
+          setTicked({ key, shown: shownAfter(coins, amount, count, i + 1) });
+        },
+        Math.round(i * stagger) + (amount > 0 ? TRAVEL_MS : 0),
+      ),
+    );
+    return () => {
+      timers.forEach((t) => {
+        window.clearTimeout(t);
+      });
+    };
+  }, [key, coins, amount, count]);
+  const shown =
+    key === null || prefersReducedMotion()
+      ? coins
+      : ticked?.key === key
+        ? ticked.shown
+        : shownAfter(coins, amount, count, 0);
   return (
     <span
       ref={setPurse}
@@ -113,19 +154,8 @@ export function Purse({ session, player, side, named = false, big = false }: Pro
       title={`${String(coins)} coins`}
     >
       {named && <small className="who">{seatName(session, player)}</small>}
-      <Icon id="coin" /> <b>{coins}</b>
-      {cues.map(
-        (c) =>
-          c.kind === "coins" &&
-          c.player === player &&
-          c.amount !== 0 && (
-            <CoinBurst
-              key={`${String(step?.number)}:${String(c.id)}`}
-              amount={c.amount}
-              anchor={purse}
-            />
-          ),
-      )}
+      <Icon id="coin" /> <b>{shown}</b>
+      {key !== null && <CoinBurst key={key} amount={amount} anchor={purse} />}
     </span>
   );
 }

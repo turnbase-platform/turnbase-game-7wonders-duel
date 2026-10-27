@@ -54,7 +54,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city__head .purse--big { position: absolute; right: 4px; top: 100%; transform: translateY(-50%); }
 .purse--big { display: inline-grid; place-items: center; border-bottom: 0; font-size: 46px; }
 .purse--big .icon { grid-area: 1 / 1; width: 1em; height: 1em; }
-.purse--big b { grid-area: 1 / 1; font: 800 .42em / 1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
+.purse--big b { grid-area: 1 / 1; position: relative; z-index: 1; font: 800 .42em / 1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
 .city-col .stack { --sw: 64px; }
 .city-col .city .wonders { --ww: 128px; }
 .city-col .city { border-left: 0; padding-left: 0; }
@@ -93,7 +93,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .peekable { padding: 0; border: 0; background: none; line-height: 0; cursor: pointer; border-radius: var(--radius); }
 .peekable:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
 /* The inspected card takes no room in the column, so showing it never makes the column scroll; it rides the bottom edge of what is in view. */
-.peek { --ww: 240px; position: sticky; bottom: 0; height: 0; pointer-events: none; }
+.peek { --ww: 240px; position: sticky; z-index: 5; bottom: 0; height: 0; pointer-events: none; }
 .peek > * { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
 /* Panels scroll when they must, by wheel or touch, and never draw a bar. */
 .structure, .panel, .city-col, .drawer { scrollbar-width: none; }
