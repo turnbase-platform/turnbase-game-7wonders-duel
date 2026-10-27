@@ -465,7 +465,7 @@ describe("Board", () => {
   it("shows the Wonder draft as cards during the draft", () => {
     show(session(ONE));
 
-    expect(host.querySelectorAll(".choice .card--wonder")).toHaveLength(4);
+    expect(host.querySelectorAll(".draft .card--wonder")).toHaveLength(4);
     expect(host.querySelector(".pyramid")).toBeNull();
   });
 

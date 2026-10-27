@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { isBoardPick, type Offer } from "../core/moves.js";
 import { seatName, type Session } from "../core/session.js";
-import type { Selection } from "../core/selection.js";
+import { selectedOf, type Selection } from "../core/selection.js";
 import type { ComponentId, DuelView, WireAction } from "../core/wire.js";
 import type { Catalog } from "../core/catalog.js";
 import { Card } from "./Card.js";
@@ -23,7 +24,7 @@ export function Structure({ session, view, catalog, offers, selected, onSelect, 
     return <StarterChoice session={session} deciding={view.deciding} offers={offers} send={send} />;
   }
   if (view.phase === "WONDER_DRAFT") {
-    return <Draft view={view} catalog={catalog} offers={offers} send={send} />;
+    return <Draft session={session} view={view} catalog={catalog} offers={offers} send={send} />;
   }
   const pyramid = (
     <Pyramid
@@ -87,41 +88,67 @@ function StarterChoice({
 }
 
 function Draft({
+  session,
   view,
   catalog,
   offers,
   send,
 }: {
+  session: Session;
   view: DuelView;
   catalog: Catalog;
   offers: Offer[];
   send: (action: WireAction) => void;
 }) {
+  const [picked, setPicked] = useState<ComponentId | null>(null);
   const offered = view.visible.filter((p) => p.zone === "draft");
+  const choice = selectedOf(picked, offers);
+  const chosen = offers.find((o) => o.target === choice);
+  const mine = offers.length > 0;
   return (
-    <div className="phase-panel">
+    <div
+      className="phase-panel draft"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") setPicked(null);
+      }}
+    >
       <h2>Choose a Wonder</h2>
       <div className="choices">
         {offered.map((p) => {
           const entry = catalog.get(p.component);
-          const take = offers.find((o) => o.target === p.component);
+          if (!entry) return null;
+          if (!mine) return <Card key={p.component} entry={entry} size="large" />;
+          const on = choice === p.component;
           return (
-            <div key={p.component} className="choice">
-              {entry && <Card entry={entry} size="standard" />}
-              {take && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    send(take.action);
-                  }}
-                >
-                  {take.label}
-                </button>
-              )}
-            </div>
+            <button
+              key={p.component}
+              type="button"
+              className={`draft__option${on ? " is-picked" : ""}`}
+              aria-pressed={on}
+              aria-label={entry.name}
+              onClick={() => {
+                setPicked(on ? null : p.component);
+              }}
+            >
+              <Card entry={entry} size="large" />
+            </button>
           );
         })}
       </div>
+      {!mine && <p>Waiting for {seatName(session, view.active)} to choose.</p>}
+      {mine && (
+        <div className="draft__confirm">
+          <button
+            type="button"
+            disabled={chosen === undefined}
+            onClick={() => {
+              if (chosen) send(chosen.action);
+            }}
+          >
+            {choice === null ? "Confirm your choice" : `Confirm ${catalog.name(choice)}`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

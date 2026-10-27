@@ -190,6 +190,15 @@ for a draft nobody has picked from yet, which is a start whoever looks at it. Th
 non-interactive, leaves by itself after `MOTION_MS.starter`, and with reduced motion is shown without
 animation.
 
+### The Wonder draft
+
+The four offered Wonders are drawn large (`clamp(128px, 22vw, 260px)` wide, two per row on a phone,
+one row of four on a desktop). Picking is two steps so a stray tap on a phone costs nothing: a click
+or tap *selects* a Wonder (it lifts and gets a yellow ring, the others dim; another click moves the
+selection, a click on the selected one or Escape drops it), and a **Confirm *name*** bar, sticky at the
+bottom edge, sends `draftWonder`. The bar is disabled until something is selected. A seat that is not
+to act sees the cards without controls and "Waiting for *Name* to choose".
+
 ## 10. Departures from the old design
 
 | Old | New | Why |

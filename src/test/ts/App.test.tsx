@@ -100,21 +100,70 @@ describe("App", () => {
     expect(host.querySelector(".city.owner-opp .purse")?.textContent).toMatch(/\d/);
   });
 
-  it("sends the matching action when a draft wonder is taken", () => {
-    show(session(ONE, message("view-after-draft-pick")));
+  describe("the Wonder draft", () => {
+    const buttons = (): HTMLButtonElement[] => [...host.querySelectorAll("button")];
+    const confirm = (): HTMLButtonElement | undefined =>
+      buttons().find((b) => b.textContent.startsWith("Confirm"));
+    const options = (): HTMLButtonElement[] => [
+      ...host.querySelectorAll<HTMLButtonElement>(".draft__option"),
+    ];
 
-    const take = [...host.querySelectorAll("button")].find((b) => b.textContent === "Take");
-    act(() => {
-      take?.click();
+    it("sends nothing when a Wonder is only selected, and offers to confirm it", () => {
+      show(session(ONE, message("view-after-draft-pick")));
+      expect(confirm()?.disabled).toBe(true);
+
+      act(() => {
+        options()[0]?.click();
+      });
+
+      expect(options()[0]?.getAttribute("aria-pressed")).toBe("true");
+      expect(confirm()?.disabled).toBe(false);
+      expect(send).not.toHaveBeenCalled();
     });
 
-    expect(send).toHaveBeenCalledWith(expect.objectContaining({ type: "draftWonder" }));
+    it("sends the matching action once the selection is confirmed", () => {
+      show(session(ONE, message("view-after-draft-pick")));
+
+      act(() => {
+        options()[1]?.click();
+      });
+      act(() => {
+        confirm()?.click();
+      });
+
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(send).toHaveBeenCalledWith(expect.objectContaining({ type: "draftWonder" }));
+    });
+
+    it("moves the selection to the Wonder clicked last, and lets Escape drop it", () => {
+      show(session(ONE, message("view-after-draft-pick")));
+
+      act(() => {
+        options()[0]?.click();
+      });
+      act(() => {
+        options()[1]?.click();
+      });
+      expect(options().map((o) => o.getAttribute("aria-pressed"))).toEqual([
+        "false",
+        "true",
+        "false",
+      ]);
+
+      act(() => {
+        options()[1]?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      });
+      expect(confirm()?.disabled).toBe(true);
+    });
   });
 
   it("shows no buttons to a spectator, and says so", () => {
     show(session(null, message("view-after-draft-pick")));
 
-    expect([...host.querySelectorAll("button")].map((b) => b.textContent)).not.toContain("Take");
+    expect(host.querySelector(".draft__option")).toBeNull();
+    expect([...host.querySelectorAll("button")].map((b) => b.textContent)).not.toContain(
+      expect.stringMatching(/^Confirm/),
+    );
     expect([...host.querySelectorAll(".city__head h3")].map((h) => h.textContent)).toEqual([
       "One",
       "Two",

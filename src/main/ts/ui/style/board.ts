@@ -95,6 +95,14 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 .choice { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .phase-panel button { padding: 6px 14px; background: var(--surface); border: 1px solid var(--ink); border-radius: var(--radius); cursor: pointer; }
+.draft .card--wonder.card--large { --w: clamp(128px, 22vw, 260px); }
+.draft__option { padding: 6px; border: 2px solid transparent; border-radius: var(--radius); background: none; line-height: 0; cursor: pointer; transition: transform ${String(MOTION_MS.travel)}ms ${EASE}, opacity ${String(MOTION_MS.travel)}ms ${EASE}; }
+.draft__option:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.draft__option.is-picked { border-color: var(--c-yellow); transform: translateY(-6px); }
+.draft:has(.is-picked) .draft__option:not(.is-picked) { opacity: .6; }
+.draft__confirm { position: sticky; bottom: 0; display: flex; justify-content: center; padding: 12px 0 calc(8px + env(safe-area-inset-bottom, 0px)); background: linear-gradient(transparent, var(--surface) 40%); }
+.phase-panel .draft__confirm button { min-height: 44px; padding: 8px 24px; font-weight: 700; }
+.phase-panel .draft__confirm button:disabled { opacity: .5; cursor: default; }
 .prompt { flex: none; border-bottom: 2px solid var(--me); }
 .prompt .card { --w: 96px; }
 .choice--hidden { display: grid; place-items: center; width: 96px; aspect-ratio: 2 / 3; border: 2px dashed var(--line); border-radius: var(--radius); color: var(--muted); font-size: 24px; }
