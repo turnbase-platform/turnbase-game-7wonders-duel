@@ -109,7 +109,8 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .pyramid-frame { width: 100%; flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; }
 .pyramid { --cw: 75px; position: relative; flex: none; }
 .pyramid .card { --w: var(--cw); }
-.slot { transition: left ${String(MOTION_MS.travel)}ms ${EASE}; position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
+.pyramid__cards { position: absolute; inset: 0; transition: transform ${String(MOTION_MS.travel)}ms ${EASE}; }
+.slot { position: absolute; padding: 0; border: 0; background: none; line-height: 0; }
 .slot.is-covered { filter: brightness(.85) saturate(.8); }
 .slot__quote { position: fixed; top: 0; left: 0; display: block; padding: 6px 8px; white-space: nowrap; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; box-shadow: 0 2px 8px #0004; opacity: 0; pointer-events: none; transition: opacity ${String(MOTION_MS.appear / 2)}ms ${EASE}; z-index: 20; }
 .quote { display: grid; grid-template-columns: 26px repeat(5, minmax(46px, 1fr)); gap: 3px 0; text-align: center; font-variant-numeric: tabular-nums; }
@@ -154,5 +155,5 @@ button.slot { cursor: pointer; border-radius: var(--radius); }
 .spotlight button small { font-size: 11px; color: var(--muted); }
 .spotlight .price { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; }
 button.slot:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) { .slot, .slot__quote { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .pyramid__cards, .slot__quote { transition: none; } }
 `;

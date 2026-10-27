@@ -6,7 +6,7 @@ export const HALF_CARD = 37.5;
 export const CARD_W = 75;
 export const CARD_H = 100;
 /** The air between two neighbours in a row, in px at scale 1. */
-export const GAP = 4;
+export const GAP = 2;
 /** What one half-card of `x` is worth in px: half a card and half a gap. */
 export const COL_STEP = HALF_CARD + GAP / 2;
 /** Rows overlap by about 30% of a card's height (design §7). */

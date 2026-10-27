@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  CARD_W,
+  COL_STEP,
   CARD_H,
   centringOf,
   fit,
@@ -91,6 +93,12 @@ describe("fit", () => {
 
   it("is 1 for an empty pyramid", () => {
     expect(fit({ width: 100, height: 100 }, { rows: 0, cols: 0 })).toBe(1);
+  });
+});
+
+describe("the grid", () => {
+  it("leaves a 2 px gap between neighbours in a row", () => {
+    expect(COL_STEP * 2 - CARD_W).toBe(2);
   });
 });
 

@@ -27,6 +27,27 @@ function measure(elements: Map<string, HTMLElement>): Rects {
   );
 }
 
+/** A copy of the card, fixed at its final rectangle; the real one stays hidden until `land`. */
+function flight(
+  el: HTMLElement,
+  rect: Rect,
+  board: HTMLElement,
+): { element: HTMLElement; land: () => void } {
+  const element = el.cloneNode(true) as HTMLElement;
+  element.dataset.flight = "";
+  element.removeAttribute("data-component");
+  element.style.cssText = `position: fixed; left: ${String(rect.left)}px; top: ${String(rect.top)}px; margin: 0; pointer-events: none; z-index: 40; width: ${String(rect.width)}px; --w: ${String(rect.width)}px;`;
+  board.append(element);
+  el.style.visibility = "hidden";
+  return {
+    element,
+    land: () => {
+      el.style.visibility = "";
+      element.remove();
+    },
+  };
+}
+
 function keyframes(t: Tween): Keyframe[] {
   switch (t.kind) {
     case "travel":
@@ -65,6 +86,8 @@ export function useChoreography(
   const [burns, setBurns] = useState<Burn[]>([]);
   const before = useRef<Rects>(new Map());
   const running = useRef<Animation[]>([]);
+  /** Puts back what a flight changed: the real card shows again and its copy is removed. */
+  const landings = useRef<(() => void)[]>([]);
   // The step already on screen when the board appears was not seen happening, so it is not replayed.
   const played = useRef<number | null>(step?.number ?? null);
 
@@ -72,6 +95,9 @@ export function useChoreography(
     const animations = running.current;
     running.current = [];
     for (const a of animations) a.finish();
+    const lands = landings.current;
+    landings.current = [];
+    for (const land of lands) land();
   };
   /** Empties the ghosts without a render when there are none, so a click is not interrupted by one. */
   const clearBurns = (): void => {
@@ -94,7 +120,14 @@ export function useChoreography(
       const cues = cuesOf(step.events);
       setBurns(burnsOf(cues, before.current));
       for (const t of tweensOf(cues, before.current, after)) {
-        const animation = elements.get(t.component)?.animate(keyframes(t), {
+        const el = elements.get(t.component);
+        const rect = after.get(t.component);
+        const flier = t.kind === "travel" && el !== undefined && rect !== undefined;
+        // A card changing areas is drawn as a copy above everything: the panels it passes through
+        // scroll and clip, and would hide it until it arrived.
+        const copy = flier ? flight(el, rect, board) : undefined;
+        if (copy !== undefined) landings.current.push(copy.land);
+        const animation = (copy?.element ?? el)?.animate(keyframes(t), {
           duration: MOTION_MS[t.kind],
           easing: EASE,
         });
@@ -102,6 +135,8 @@ export function useChoreography(
           running.current.push(animation);
           animation.onfinish = () => {
             running.current = running.current.filter((a) => a !== animation);
+            copy?.land();
+            landings.current = landings.current.filter((l) => l !== copy?.land);
           };
         }
       }

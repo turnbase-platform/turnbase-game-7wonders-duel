@@ -52,19 +52,24 @@ export function Pyramid({ view, catalog, offers, self, selected, onSelect }: Pro
           ["--cw" as string]: `${String(CARD_W * scale)}px`,
         }}
       >
-        {pyramid.slots.map((slot) => (
-          <Slot
-            key={`${String(slot.row)}:${String(slot.x)}`}
-            slot={slot}
-            scale={scale}
-            shift={shift}
-            catalog={catalog}
-            state={slotState(slot, accessible, mine, selected)}
-            quote={view.quotes.find((q) => q.player === self && q.component === slot.component)}
-            rival={view.quotes.find((q) => q.player !== self && q.component === slot.component)}
-            onSelect={onSelect}
-          />
-        ))}
+        {/* One box moves when the cards are re-centred, so every card slides together, in step. */}
+        <div
+          className="pyramid__cards"
+          style={{ transform: `translateX(${String(shift * COL_STEP * scale)}px)` }}
+        >
+          {pyramid.slots.map((slot) => (
+            <Slot
+              key={`${String(slot.row)}:${String(slot.x)}`}
+              slot={slot}
+              scale={scale}
+              catalog={catalog}
+              state={slotState(slot, accessible, mine, selected)}
+              quote={view.quotes.find((q) => q.player === self && q.component === slot.component)}
+              rival={view.quotes.find((q) => q.player !== self && q.component === slot.component)}
+              onSelect={onSelect}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -87,8 +92,6 @@ function slotState(
 interface SlotProps {
   slot: PyramidSlot;
   scale: number;
-  /** Half-cards to move right, so the remaining cards stay centred. */
-  shift: number;
   catalog: Catalog;
   state: SlotState;
   quote: QuoteView | undefined;
@@ -97,8 +100,8 @@ interface SlotProps {
   onSelect: (component: ComponentId) => void;
 }
 
-function Slot({ slot, scale, shift, catalog, state, quote, rival, onSelect }: SlotProps) {
-  const style = { left: (slot.x + shift) * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
+function Slot({ slot, scale, catalog, state, quote, rival, onSelect }: SlotProps) {
+  const style = { left: slot.x * COL_STEP * scale, top: slot.row * ROW_STEP * scale };
   const entry = slot.component === null ? undefined : catalog.get(slot.component);
   const face =
     entry === undefined ? (

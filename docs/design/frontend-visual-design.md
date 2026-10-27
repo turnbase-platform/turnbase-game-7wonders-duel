@@ -199,6 +199,15 @@ selection, a click on the selected one or Escape drops it), and a **Confirm *nam
 bottom edge, sends `draftWonder`. The bar is disabled until something is selected. A seat that is not
 to act sees the cards without controls and "Waiting for *Name* to choose".
 
+### Structure and flight
+
+Re-centring the remaining cards is one transform on a box around all the slots, so the whole
+pyramid slides together on one timer; slots never animate on their own. The gap between neighbours
+is 2 px (`GAP` in `core/pyramid.ts`). A card that changes area (built into a city, taken as a token)
+flies as a copy in a fixed layer above the board, from its old rectangle to its new one, while the
+real card stays hidden until it lands: the panels it crosses scroll and clip, and would hide the
+real element until it arrived.
+
 ## 10. Departures from the old design
 
 | Old | New | Why |

@@ -127,6 +127,25 @@ describe("useChoreography", () => {
     expect(frames[1]?.transform).toBe("none");
   });
 
+  it("flies a copy over the board and keeps the real card hidden until it lands", () => {
+    show(null);
+    at = { left: 300, top: 40 };
+    show(stepOf(1, moved("palisade")));
+
+    const real = host.querySelector<HTMLElement>('[data-component="palisade"]');
+    const copy = host.querySelector<HTMLElement>("[data-flight]");
+    expect(real?.style.visibility).toBe("hidden");
+    expect(copy?.style.position).toBe("fixed");
+    expect(copy?.style.left).toBe("300px");
+    expect(animate.mock.contexts[0]).toBe(copy);
+
+    act(() => {
+      show(stepOf(2));
+    });
+    expect(real?.style.visibility).toBe("");
+    expect(host.querySelector("[data-flight]")).toBeNull();
+  });
+
   it("plays a step once, however often the board draws again", () => {
     show(null);
     at = { left: 300, top: 40 };
