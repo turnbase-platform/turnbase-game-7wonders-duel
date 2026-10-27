@@ -4,17 +4,14 @@ import { EASE, MOTION_MS } from "../motion.js";
 // pulse. Durations come from MOTION_MS; with reduced motion they are not drawn at all.
 export const MOTION = `
 .purse { position: relative; }
-/* Small coins merge into the purse's coin when it gains, and leave it, while it shakes, when it loses. */
-.coinfx { position: absolute; inset: 0; pointer-events: none; font-size: 14px; --r: 34px; }
-.purse--big .coinfx { --r: 64px; font-size: 22px; }
-.coinfx__coin { --x: 0; --y: 0; --delay: 0ms; --travel: 500ms; position: absolute; left: 50%; top: 50%; width: 1em; height: 1em; margin: -.5em 0 0 -.5em; line-height: 0; opacity: 0; filter: drop-shadow(0 1px 1px #0006); animation: var(--travel) var(--delay) ${EASE} both 1; }
+/* Small coins rise from below into the purse's coin when it gains, and sink out of it when it loses. They sit over the whole page. */
+.coinfx { --r: 40px; position: fixed; z-index: 60; width: 0; height: 0; pointer-events: none; }
+.coinfx__coin { --x: 0; --y: 1; --delay: 0ms; --travel: 500ms; position: absolute; left: 0; top: 0; width: 1em; height: 1em; margin: -.5em 0 0 -.5em; line-height: 0; opacity: 0; filter: drop-shadow(0 1px 2px #000a); animation: var(--travel) var(--delay) ${EASE} both 1; }
 .coinfx__coin .icon { width: 100%; height: 100%; }
 .coinfx.is-gain .coinfx__coin { animation-name: coin-in; }
 .coinfx.is-loss .coinfx__coin { animation-name: coin-out; }
-@keyframes coin-in { 0% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(0, 0) scale(.4); } }
-@keyframes coin-out { 0% { opacity: 1; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1); } }
-.purse:has(.coinfx.is-loss) > .icon { animation: coin-shake ${String(MOTION_MS.coins)}ms linear 1; }
-@keyframes coin-shake { 0%, 100% { transform: none; } 10% { transform: translateX(-3px) rotate(-8deg); } 20% { transform: translateX(3px) rotate(8deg); } 30% { transform: translateX(-3px) rotate(-8deg); } 40% { transform: translateX(3px) rotate(8deg); } 50% { transform: translateX(-2px) rotate(-5deg); } 60% { transform: translateX(2px) rotate(5deg); } 70% { transform: none; } }
+@keyframes coin-in { 0% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1.1); } 20% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(0, 0) scale(.5); } }
+@keyframes coin-out { 0% { opacity: 1; transform: translate(0, 0) scale(.6); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(calc(var(--x) * var(--r)), calc(var(--y) * var(--r))) scale(1.1); } }
 .turn.is-pulse { display: inline-block; animation: pulse ${String(MOTION_MS.pulse)}ms ${EASE} 1; }
 @keyframes pulse { 0% { transform: scale(1); } 40% { transform: scale(1.25); } 100% { transform: scale(1); } }
 /* A discarded card burns from the bottom up: a mask sweeps the card away while a band of fire rides its edge. */

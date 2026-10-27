@@ -1,12 +1,18 @@
+import { useLayoutEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { cuesOf } from "../core/cues.js";
 import { seatName, type Session } from "../core/session.js";
 import { Icon } from "./icons.js";
-import { MOTION_MS } from "./motion.js";
+import { MOTION_MS, prefersReducedMotion } from "./motion.js";
 
 /** The most small coins a cue spawns; more would only be a blur. */
 const MAX_COINS = 12;
 /** How long one small coin travels, in milliseconds; the rest of the cue is the stagger between coins. */
 const TRAVEL_MS = 500;
+/** The longest wait between two small coins. */
+const STAGGER_MS = 70;
+/** One shake of the counter coin, left and back. */
+const SHAKE_MS = 110;
 /** An angle that never lines two coins up, however many there are. */
 const GOLDEN_ANGLE = 2.399963;
 
@@ -15,34 +21,72 @@ function described(amount: number): string {
   return `${amount < 0 ? "−" : "+"}${String(Math.abs(amount))} coins`;
 }
 
+const SHAKE: Keyframe[] = [
+  { transform: "translateX(-2px) rotate(-7deg)" },
+  { transform: "translateX(2px) rotate(7deg)" },
+];
+
 /**
- * Small coins as many as were gained, flying into the purse; or as many as were lost, flying out of
- * it. They start one after the other so the whole cue stays within MOTION_MS.coins.
+ * Small coins as many as were gained, rising from below into the counter coin; or as many as were
+ * lost, sinking out of it. They are drawn over the whole page, since a column would clip them, and
+ * the counter coin shakes while they arrive or leave. The whole cue stays within MOTION_MS.coins.
  */
-function CoinBurst({ amount }: { amount: number }) {
+function CoinBurst({ amount, anchor }: { amount: number; anchor: HTMLElement | null }) {
+  const [at, setAt] = useState<{ x: number; y: number; size: number } | null>(null);
   const count = Math.min(Math.abs(amount), MAX_COINS);
-  const stagger = count > 1 ? (MOTION_MS.coins - TRAVEL_MS) / (count - 1) : 0;
-  return (
+  const stagger = count > 1 ? Math.min(STAGGER_MS, (MOTION_MS.coins - TRAVEL_MS) / (count - 1)) : 0;
+  const gain = amount > 0;
+  useLayoutEffect(() => {
+    const coin = anchor?.querySelector(".icon");
+    if (!coin || prefersReducedMotion()) return;
+    const box = coin.getBoundingClientRect();
+    setAt({ x: box.left + box.width / 2, y: box.top + box.height / 2, size: box.width });
+    // A gain shakes the coin as the first small coin lands, a loss as the first one leaves.
+    const span = (count - 1) * stagger + TRAVEL_MS;
+    const delay = gain ? TRAVEL_MS * 0.7 : 0;
+    // jsdom has no Web Animations.
+    (coin as Partial<Element>).animate?.(SHAKE, {
+      duration: SHAKE_MS,
+      delay,
+      iterations: Math.max(2, Math.ceil((span - delay) / SHAKE_MS)),
+      direction: "alternate",
+      easing: "ease-in-out",
+    });
+  }, [anchor, count, stagger, gain]);
+  return createPortal(
     <span
-      className={`coinfx ${amount < 0 ? "is-loss" : "is-gain"}`}
+      className={`coinfx ${gain ? "is-gain" : "is-loss"}`}
       role="img"
       aria-label={described(amount)}
+      style={
+        at
+          ? {
+              left: at.x,
+              top: at.y,
+              fontSize: Math.max(10, at.size * 0.42),
+              ["--r" as string]: `${String(Math.max(36, at.size * 1.3))}px`,
+            }
+          : undefined
+      }
     >
-      {Array.from({ length: count }, (_, i) => (
-        <i
-          key={i}
-          className="coinfx__coin"
-          style={{
-            ["--x" as string]: Math.cos(i * GOLDEN_ANGLE).toFixed(3),
-            ["--y" as string]: Math.sin(i * GOLDEN_ANGLE).toFixed(3),
-            ["--delay" as string]: `${String(Math.round(i * stagger))}ms`,
-            ["--travel" as string]: `${String(TRAVEL_MS)}ms`,
-          }}
-        >
-          <Icon id="coin" />
-        </i>
-      ))}
-    </span>
+      {at &&
+        Array.from({ length: count }, (_, i) => (
+          <i
+            key={i}
+            className="coinfx__coin"
+            style={{
+              // They keep to a narrow column below the coin.
+              ["--x" as string]: (Math.cos(i * GOLDEN_ANGLE) * 0.6).toFixed(3),
+              ["--y" as string]: (1 + Math.sin(i * GOLDEN_ANGLE) * 0.25).toFixed(3),
+              ["--delay" as string]: `${String(Math.round(i * stagger))}ms`,
+              ["--travel" as string]: `${String(TRAVEL_MS)}ms`,
+            }}
+          >
+            <Icon id="coin" />
+          </i>
+        ))}
+    </span>,
+    document.body,
   );
 }
 
@@ -60,9 +104,11 @@ interface Props {
 export function Purse({ session, player, side, named = false, big = false }: Props) {
   const step = session.history.at(-1);
   const cues = step === undefined ? [] : cuesOf(step.events);
+  const [purse, setPurse] = useState<HTMLElement | null>(null);
   const coins = session.view?.players.find((p) => p.id === player)?.coins ?? 0;
   return (
     <span
+      ref={setPurse}
       className={`purse owner-${side}${big ? " purse--big" : ""}`}
       title={`${String(coins)} coins`}
     >
@@ -73,7 +119,11 @@ export function Purse({ session, player, side, named = false, big = false }: Pro
           c.kind === "coins" &&
           c.player === player &&
           c.amount !== 0 && (
-            <CoinBurst key={`${String(step?.number)}:${String(c.id)}`} amount={c.amount} />
+            <CoinBurst
+              key={`${String(step?.number)}:${String(c.id)}`}
+              amount={c.amount}
+              anchor={purse}
+            />
           ),
       )}
     </span>

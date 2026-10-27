@@ -618,22 +618,20 @@ describe("Board", () => {
     /** The Age in play, then one more accepted action that brought these events. */
     const after = (...events: EventView[]): Session =>
       reduce(age(), { type: "message", message: { ...inAge(), events } });
-    const purse = (p: Player): Element | undefined =>
-      [...host.querySelectorAll(".purse")].find((e) => e.textContent.startsWith(p.displayName));
 
     it("floats the coins a seat gained or lost off its own purse", () => {
       show(after(event({ kind: "coins", player: TWO.id, amount: -2 })), "medium");
 
-      const loss = purse(TWO)?.querySelector(".coinfx.is-loss");
+      const loss = document.body.querySelector(".coinfx.is-loss");
       expect(loss?.getAttribute("aria-label")).toBe("−2 coins");
       expect(loss?.querySelectorAll(".coinfx__coin")).toHaveLength(2);
-      expect(purse(ONE)?.querySelector(".coinfx")).toBeNull();
+      expect(document.body.querySelectorAll(".coinfx")).toHaveLength(1);
     });
 
     it("spawns as many small coins as were gained", () => {
       show(after(event({ kind: "coins", player: ONE.id, amount: 3 })), "medium");
 
-      const gain = purse(ONE)?.querySelector(".coinfx.is-gain");
+      const gain = document.body.querySelector(".coinfx.is-gain");
       expect(gain?.getAttribute("aria-label")).toBe("+3 coins");
       expect(gain?.querySelectorAll(".coinfx__coin")).toHaveLength(3);
     });
@@ -642,7 +640,7 @@ describe("Board", () => {
       show(after(event({ kind: "coins", player: TWO.id, amount: -2 })));
 
       expect(
-        [...host.querySelectorAll(".city .purse .coinfx")].map((f) => f.getAttribute("aria-label")),
+        [...document.body.querySelectorAll(".coinfx")].map((f) => f.getAttribute("aria-label")),
       ).toEqual(["−2 coins"]);
     });
 
@@ -655,7 +653,7 @@ describe("Board", () => {
     it("shows no cue when nothing happened", () => {
       show(age());
 
-      expect(host.querySelector(".coinfx, .is-pulse")).toBeNull();
+      expect(document.body.querySelector(".coinfx, .is-pulse")).toBeNull();
     });
   });
 
