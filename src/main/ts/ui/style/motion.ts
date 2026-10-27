@@ -20,5 +20,10 @@ export const MOTION = `
 @keyframes burn-away { 0% { mask-position: 0 0; filter: none; } 30% { filter: sepia(1) saturate(4) hue-rotate(-25deg); } 100% { mask-position: 0 100%; filter: sepia(1) brightness(.3); } }
 .burn__fire { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 38%, #ffe27a 46%, #ff7a1a 51%, #b5260a 57%, transparent 64%); animation: burn-edge ${String(MOTION_MS.burn)}ms cubic-bezier(.3,.1,.6,1) forwards; }
 @keyframes burn-edge { from { transform: translateY(125%); } to { transform: translateY(-75%); } }
-@media (prefers-reduced-motion: reduce) { .float, .burn { display: none; } .turn.is-pulse { animation: none; } }
+/* The pop-up of who starts a round: it rises in, holds, and fades out on its own. */
+.starter { position: fixed; z-index: 30; left: 50%; top: 38%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; padding: 14px 32px; background: var(--surface); color: var(--ink); border: 2px solid var(--c-yellow); border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,.35); animation: starter-life ${String(MOTION_MS.starter)}ms ${EASE} 1 forwards; }
+.starter__round { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.starter__who { font: 700 28px var(--serif); }
+@keyframes starter-life { 0% { opacity: 0; transform: translate(-50%, -30%) scale(.9); } 12% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); } 20% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -58%) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .float, .burn { display: none; } .turn.is-pulse { animation: none; } .starter { animation: none; } }
 `;

@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { emptySession, reduce, type Session } from "../../main/ts/core/session.js";
 import type { ServerMessage, WireAction } from "../../main/ts/core/wire.js";
 import { App } from "../../main/ts/ui/App.js";
+import { MOTION_MS } from "../../main/ts/ui/motion.js";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -60,6 +61,35 @@ describe("App", () => {
     show(reduce(emptySession(), { type: "init", context: INIT }));
 
     expect(host.textContent).toContain("Waiting for the game");
+  });
+
+  describe("the pop-up of who starts", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("names the starter of a fresh draft, to the starter as 'You', then leaves by itself", () => {
+      show(session(TWO));
+      expect(host.querySelector(".starter")?.textContent).toContain("You start");
+
+      act(() => {
+        vi.advanceTimersByTime(MOTION_MS.starter);
+      });
+      expect(host.querySelector(".starter")).toBeNull();
+    });
+
+    it("names the starter to the other seat and to a spectator", () => {
+      show(session(ONE));
+      expect(host.querySelector(".starter")?.textContent).toContain("Two starts");
+    });
+
+    it("is not shown to a client that arrives after the draft began", () => {
+      show(session(ONE, message("view-after-draft-pick")));
+      expect(host.querySelector(".starter")).toBeNull();
+    });
   });
 
   it("names the seat to act and every player's coins", () => {

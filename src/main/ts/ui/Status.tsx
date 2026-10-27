@@ -3,7 +3,7 @@ import type { Seats } from "../core/seats.js";
 import { seatName, type Session } from "../core/session.js";
 
 /** "Age I" in small caps: the Age's number as a Roman numeral, which the phases past the Ages lack. */
-const ROMAN = ["", "I", "II", "III"];
+export const ROMAN = ["", "I", "II", "III"];
 
 /** The step number of the last action when it granted its player another turn, else null. */
 export function replayStep(session: Session): number | null {

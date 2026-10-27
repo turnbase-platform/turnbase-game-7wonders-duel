@@ -15,10 +15,12 @@ import { Header } from "./Header.js";
 import { Icon, IconSprite } from "./icons.js";
 import { Outcome } from "./Outcome.js";
 import { Log } from "./Log.js";
+import { StarterPopup } from "./StarterPopup.js";
 import { Structure } from "./Structure.js";
 import { TrackStrip } from "./TrackStrip.js";
 import { MOTION_MS, prefersReducedMotion } from "./motion.js";
 import { useChoreography } from "./useChoreography.js";
+import { useStarterReveal } from "./useStarterReveal.js";
 import { useSize } from "./useSize.js";
 
 type Pane = "structure" | "city" | "log";
@@ -45,6 +47,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const placement = usePlacement(root, selected, layout, size);
   const shown = useLingering(selected, placement);
   const { burns, clearBurns } = useChoreography(root, session.history.at(-1) ?? null);
+  const starting = useStarterReveal(view);
   const seats = seatsOf(session);
   if (view === null || catalog === null || seats === null) return null;
 
@@ -80,6 +83,7 @@ export function Board({ session, send, layout: fixed }: Props) {
     <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
       <IconSprite />
       <Burns burns={burns} catalog={catalog} onDone={clearBurns} />
+      {starting !== null && <StarterPopup round={starting} session={session} seats={seats} />}
       {!wide && <Header session={session} seats={seats} />}
       {session.rejection !== null && <div className="banner">{session.rejection}</div>}
       <div className="main">

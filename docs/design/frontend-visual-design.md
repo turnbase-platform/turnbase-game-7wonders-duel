@@ -178,6 +178,18 @@ mid-cue finishes the cue instantly rather than queueing behind it; any click ski
 Durations are tokens, not constants scattered in code. Age transition and victory are overlays driven
 by the phase, not events. No sound.
 
+### Who starts
+
+The first player is drawn at random (B-WND-1) and each Age's starter is chosen (B-AGE-0), and neither is
+an event: `onInit`'s effects reach nobody (`GDK InitResult` carries log entries only) and a choice is a
+view change. So the pop-up "<Name> starts" / "You start" is derived from the views alone
+(`core/starter.ts`): a *round* is the Wonder draft, or an Age once its `deciding` player has chosen
+(`phase`, `age`, `active`). A round is announced once, when a view shows a round the client has not
+seen. A client that arrives mid-round (reload, late join, spectator joining) announces nothing, except
+for a draft nobody has picked from yet, which is a start whoever looks at it. The pop-up is centred,
+non-interactive, leaves by itself after `MOTION_MS.starter`, and with reduced motion is shown without
+animation.
+
 ## 10. Departures from the old design
 
 | Old | New | Why |

@@ -7,6 +7,8 @@ export const MOTION_MS = {
   coins: 500,
   pulse: 600,
   burn: 550,
+  /** The pop-up naming who starts a round; it also covers the time the player needs to read it. */
+  starter: 2400,
 } as const;
 
 export const EASE = "cubic-bezier(.2, .7, .2, 1)";
