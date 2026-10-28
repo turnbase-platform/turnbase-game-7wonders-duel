@@ -20,7 +20,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .layout-medium .main, .layout-portrait .main { flex-direction: column; }
 .stage { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
 .layout-portrait .stage:not(:has(.structure)) { flex: none; }
-.structure { padding: 4px 12px 10px; box-sizing: border-box; flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.structure { padding: 4px 0 10px; box-sizing: border-box; flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .board-tokens { display: flex; flex-direction: column; align-items: center; flex: none; }
 .board-tokens__ask { margin: 0 0 6px; font: 700 14px var(--serif); }
 .token-pick { padding: 0; background: none; border: 0; border-radius: 50%; cursor: pointer; line-height: 0; filter: drop-shadow(0 2px 3px #0005); transition: transform .15s, filter .15s; }
