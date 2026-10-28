@@ -20,11 +20,11 @@ export function TrackStrip({ view, catalog, seats }: Props) {
           {tiles.map((t, i) => (
             <span
               key={t.position}
-              className={`tile${t.capital ? ` cap ${t.capital}` : ""}${t.position <= -5 ? " defeat" : ""}`}
+              className={`tile${t.capital ? ` cap ${t.capital}` : ""}`}
               style={{ ["--i" as string]: i }}
               title={t.title ?? undefined}
             >
-              {t.capital ? <Icon id="fortress" /> : <small>{t.label}</small>}
+              {t.capital && <Icon id="fortress" />}
             </span>
           ))}
           <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }} />
