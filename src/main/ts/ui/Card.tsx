@@ -13,7 +13,8 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
   return (
     <span
       className={`glyph${glyph.pile.length > 1 ? " is-pile" : ""}${tint}${glyph.corners.length > 0 ? " has-corner" : ""}${glyph.icon === "better" ? " is-better" : ""}`}
-      title={glyph.title}
+      role="img"
+      aria-label={glyph.title}
       style={{ "--n": glyph.pile.length } as CSSProperties}
     >
       {glyph.pile.length > 1 ? (
@@ -50,7 +51,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
       {(coins > 0 || resources.length > 0) && (
         <div className="cost__bar">
           {coins > 0 && (
-            <span className="cost__coin" title={`${String(coins)} coins`}>
+            <span className="cost__coin" role="img" aria-label={`${String(coins)} coins`}>
               <Icon id="coin" />
               <b>{coins}</b>
             </span>
@@ -65,7 +66,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
       {freedBy.length > 0 && (
         <div className="cost__bar">
           {freedBy.map((symbol) => (
-            <span key={symbol} className="cost__free" title={`free with ${symbol}`}>
+            <span key={symbol} className="cost__free" role="img" aria-label={`free with ${symbol}`}>
               <Icon id={symbol} />
             </span>
           ))}
@@ -117,7 +118,7 @@ export function Card({ entry, size, built = false }: CardProps) {
   const chain = entry.badges.find((b) => b.kind === "chain");
   const glyphs = presentAll(entry.badges);
   return (
-    <div className={classes.join(" ")} title={entry.name} data-component={entry.id}>
+    <div className={classes.join(" ")} data-component={entry.id}>
       <div
         className="card__banner"
         style={{ "--span": glyphs.reduce((n, g) => n + span(g), 0) } as CSSProperties}
@@ -126,7 +127,7 @@ export function Card({ entry, size, built = false }: CardProps) {
           <GlyphView key={i} glyph={g} />
         ))}
         {chain && (
-          <span className="card__chain" title={`gives ${chain.of.join(", ")}`}>
+          <span className="card__chain" role="img" aria-label={`gives ${chain.of.join(", ")}`}>
             <Icon id={chain.of[0] ?? "chain"} />
           </span>
         )}
@@ -136,6 +137,7 @@ export function Card({ entry, size, built = false }: CardProps) {
         <Icon id={motifOf(entry)} />
       </div>
       <div className="card__name">{entry.name}</div>
+      {size === "small" && <HoverFloat>{entry.name}</HoverFloat>}
     </div>
   );
 }

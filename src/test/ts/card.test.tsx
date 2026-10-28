@@ -74,9 +74,9 @@ describe("Card", () => {
     expect(out).not.toContain("card__name");
   });
 
-  it("hides the name bar on a small card but keeps it as the title", () => {
+  it("hides the name bar on a small card and has no native title", () => {
     const out = html(<Card entry={catalogEntry("lumber-yard")} size="small" />);
-    expect(out).toContain('title="Lumber Yard"');
+    expect(out).not.toContain("title=");
   });
 });
 

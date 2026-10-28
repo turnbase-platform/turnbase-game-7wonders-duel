@@ -5,7 +5,7 @@ import type { Offer } from "../core/moves.js";
 import type { ComponentId, DuelView, PlayerId, QuoteView, WireAction } from "../core/wire.js";
 import { Card } from "./Card.js";
 import { Icon } from "./icons.js";
-import { HoverQuote } from "./QuoteTable.js";
+import { HoverFloat, HoverQuote } from "./QuoteTable.js";
 
 /** Where the selected card sits in the structure area, and how big that area is, in px. */
 export interface Placement {
@@ -46,9 +46,10 @@ export function priceText(quote: QuoteView): string {
 function Price({ quote, compact = false }: { quote: QuoteView | undefined; compact?: boolean }) {
   if (quote === undefined) return null;
   return (
-    <span className="price" title={priceText(quote)}>
+    <span className="price" aria-label={priceText(quote)}>
       {quote.total > 0 && <Icon id="coin" />}{" "}
       {compact && quote.total > 0 ? quote.total : priceText(quote)}
+      {compact && <HoverFloat>{priceText(quote)}</HoverFloat>}
     </span>
   );
 }

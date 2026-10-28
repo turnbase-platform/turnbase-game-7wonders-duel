@@ -33,7 +33,7 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
       )}
       {quote.lines.map((l) => (
         <span role="row" key={l.resource} className="quote__line">
-          <span role="rowheader" title={l.resource}>
+          <span role="rowheader" aria-label={l.resource}>
             <Icon id={l.resource} />
           </span>
           <span role="cell">{l.needed}</span>
@@ -45,7 +45,7 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
       ))}
       {quote.coins > 0 && (
         <span role="row" className="quote__line">
-          <span role="rowheader" title="coins">
+          <span role="rowheader" aria-label="coins">
             <Icon id="coin" />
           </span>
           <span role="cell">{quote.coins}</span>

@@ -5,7 +5,7 @@ import { seatName, type Session } from "../core/session.js";
 import type { CatalogEntry, ComponentId } from "../core/wire.js";
 import { Card, CardBack, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
-import { HoverQuote } from "./QuoteTable.js";
+import { HoverFloat, HoverQuote } from "./QuoteTable.js";
 import { Science } from "./Science.js";
 import { replayStep } from "./Status.js";
 
@@ -127,10 +127,11 @@ export function City({
               // A new key restarts the pulse for every action that grants a replay.
               key={replay === null ? "turn" : `pulse-${String(replay)}`}
               className={`turn city__turn${replay === null ? "" : " is-pulse"}`}
-              title="To act"
               role="img"
               aria-label="To act"
-            />
+            >
+              <HoverFloat>To act</HoverFloat>
+            </span>
           )}
           <Science symbols={city.science} />
           {coins && <Purse session={session} player={seats[side]} side={side} big />}

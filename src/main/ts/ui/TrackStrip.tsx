@@ -3,6 +3,7 @@ import type { Seats } from "../core/seats.js";
 import { trackOf } from "../core/track.js";
 import type { DuelView } from "../core/wire.js";
 import { Icon } from "./icons.js";
+import { HoverFloat } from "./QuoteTable.js";
 
 interface Props {
   view: DuelView;
@@ -22,8 +23,9 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               key={t.position}
               className={`tile${t.capital ? ` cap ${t.capital}` : ""}`}
               style={{ ["--i" as string]: i }}
-              title={t.title ?? undefined}
-            ></span>
+            >
+              <HoverFloat enabled={t.title !== null}>{t.title}</HoverFloat>
+            </span>
           ))}
           <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }} />
           {fields.map((f) => (
@@ -31,8 +33,8 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               key={f.from}
               className={`field ${f.kind} zone-${String(f.zone)}${f.current ? " is-current" : ""}${f.taken ? " is-taken" : ""}`}
               style={{ gridColumn: `${String(f.from + 1)} / ${String(f.to + 2)}` }}
-              title={f.title ?? undefined}
             >
+              <HoverFloat enabled={f.title !== null}>{f.title}</HoverFloat>
               <span className="glyph">
                 <Icon id={f.icon} />
                 <b>{f.text}</b>

@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { cuesOf } from "../core/cues.js";
 import { seatName, type Session } from "../core/session.js";
 import { Icon } from "./icons.js";
+import { HoverFloat } from "./QuoteTable.js";
 import { MOTION_MS, prefersReducedMotion } from "./motion.js";
 
 /** The most small coins a cue spawns; more would only be a blur. */
@@ -148,13 +149,10 @@ export function Purse({ session, player, side, named = false, big = false }: Pro
         ? ticked.shown
         : shownAfter(coins, amount, count, 0);
   return (
-    <span
-      ref={setPurse}
-      className={`purse owner-${side}${big ? " purse--big" : ""}`}
-      title={`${String(coins)} coins`}
-    >
+    <span ref={setPurse} className={`purse owner-${side}${big ? " purse--big" : ""}`}>
       {named && <small className="who">{seatName(session, player)}</small>}
       <Icon id="coin" /> <b>{shown}</b>
+      <HoverFloat>{`${String(coins)} coins`}</HoverFloat>
       {key !== null && <CoinBurst key={key} amount={amount} anchor={purse} />}
     </span>
   );
