@@ -73,10 +73,9 @@ export const SPRITE_IDS: readonly string[] = [...Object.keys(COLOUR), ...Object.
 
 function symbols(): string {
   return SPRITE_IDS.map((id) => {
-    const name = id.replaceAll("-", " ");
     const imported = COLOUR[id];
     const viewBox = imported?.viewBox ?? "0 0 24 24";
-    return `<symbol id="i-${id}" viewBox="${viewBox}"><title>${name}</title>${imported?.body ?? DRAWINGS[id]}</symbol>`;
+    return `<symbol id="i-${id}" viewBox="${viewBox}">${imported?.body ?? DRAWINGS[id]}</symbol>`;
   }).join("");
 }
 

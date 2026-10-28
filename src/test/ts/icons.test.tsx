@@ -25,10 +25,11 @@ describe("icon sprite", () => {
     }
   });
 
-  it("names every symbol", () => {
+  it("defines every symbol without a native tooltip", () => {
     const sprite = renderToStaticMarkup(<IconSprite />);
+    expect(sprite).not.toContain("<title>");
     for (const id of SPRITE_IDS) {
-      expect(sprite).toMatch(new RegExp(`<symbol id="i-${id}" viewBox="[\\d. ]+"><title>`));
+      expect(sprite).toMatch(new RegExp(`<symbol id="i-${id}" viewBox="[\\d. ]+">`));
     }
   });
 
