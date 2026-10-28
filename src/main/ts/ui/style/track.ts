@@ -6,7 +6,7 @@ import { EASE, MOTION_MS } from "../motion.js";
 export const TRACK = `
 .strip { display: block; gap: 12px; }
 .track { flex: 1; min-width: 0; }
-.trk { --tw: calc((100cqw - 54px) / 19); container-type: inline-size; display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); gap: 3px; text-align: center; max-width: 680px; margin: 0 auto; position: relative; }
+.trk { --tw: calc((100cqw - 54px) / 19); container-type: inline-size; display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); gap: 3px; text-align: center; max-width: min(680px, 100%); margin: 0 auto; position: relative; }
 .tile { --i: 0; position: relative; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: calc(var(--tw) * .7); color: #fff; border: 1px solid #0003;
   background-image: linear-gradient(to right, #a8191a 0%, #c8503f 20%, #f4e8da 50%, #e8c97a 80%, #d49a1c 100%);
   background-size: 1900% 100%; background-position: calc(var(--i) / 18 * 100%) 0; }
@@ -28,4 +28,7 @@ export const TRACK = `
 .field .icon-coin-lost + b { color: #e53935; }
 .field.loot.is-taken { background: none; color: var(--muted); border: 1px solid var(--line); }
 .is-compact .strip { padding: 4px 6px; gap: 6px; }
+/* The track is context, not the board: on a short frame it narrows (a tile is a fifth as tall as the strip is wide) so the pyramid keeps the height. */
+@media (min-width: 700px) { .trk { max-width: min(560px, 100%); } }
+@media (max-height: 640px) { .trk { max-width: min(420px, 100%); } .strip { padding: 4px 8px; } }
 `;

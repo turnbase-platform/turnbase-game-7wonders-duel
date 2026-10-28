@@ -82,7 +82,7 @@ export function widthOf(cols: number): number {
 }
 
 const MIN_SCALE = 0.3;
-const MAX_SCALE = 1.5;
+const MAX_SCALE = 2.2;
 
 /** The factor that makes a pyramid of this extent fit the box, in both directions. */
 export function fit(box: Size, { rows, cols }: Extent): number {

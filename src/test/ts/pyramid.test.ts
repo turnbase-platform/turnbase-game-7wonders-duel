@@ -83,8 +83,8 @@ describe("fit", () => {
     expect(fit({ width: roomy, height: tall / 2 }, extent)).toBeCloseTo(0.5);
   });
 
-  it("stops enlarging a pyramid at one and a half times a card's natural size", () => {
-    expect(fit({ width: roomy, height: roomy }, extent)).toBeLessThanOrEqual(1.5);
+  it("stops enlarging a pyramid at twice and a fifth a card's natural size", () => {
+    expect(fit({ width: roomy, height: roomy }, extent)).toBeLessThanOrEqual(2.2);
   });
 
   it("never reaches zero", () => {

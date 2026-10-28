@@ -29,7 +29,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .tray__tokens { display: flex; gap: 6px; justify-content: center; }
 .layout-wide .board-tokens { align-self: stretch; }
 .panel { box-sizing: border-box; min-height: 0; overflow: auto; }
-.layout-wide .main { display: grid; grid-template-columns: 330px minmax(0, 1fr) 330px; }
+.layout-wide .main { display: grid; grid-template-columns: clamp(190px, 24%, 330px) minmax(0, 1fr) clamp(190px, 24%, 330px); }
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
@@ -68,7 +68,18 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col .stack { --sw: 64px; }
 .city-col .city .wonders { --ww: 128px; }
 .city-col .city { border-left: 0; padding-left: 0; }
-.layout-landscape .panel { width: 240px; flex: none; }
+.layout-landscape .panel { width: clamp(160px, 22%, 240px); flex: none; }
+/* Short frames: the pyramid is the piece that matters, then the cities; the track, tokens and header give way first. */
+@media (max-height: 640px) {
+  .city-col .stack { --sw: 48px; } .city-col .city .wonders { --ww: 100px; }
+  .city-col, .panel { padding: 6px; }
+  .main, .stage, .board { gap: 4px; }
+  .board { padding: 4px; }
+  .header { padding: 2px 8px; }
+  .board-tokens .token--standard { width: 34px; }
+  .layout-wide .board-tokens { padding: 4px; }
+  .board-tokens__ask { margin-bottom: 2px; }
+}
 .layout-landscape .city .wonders { --ww: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
