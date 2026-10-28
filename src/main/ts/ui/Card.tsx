@@ -6,9 +6,13 @@ import type { CatalogEntry } from "../core/wire.js";
 import { Icon } from "./icons.js";
 import { HoverFloat } from "./QuoteTable.js";
 
+/** A resource id as a player reads it. */
+const nameOf = (id: string): string =>
+  id.charAt(0).toUpperCase() + id.slice(1).replaceAll("-", " ");
+
 export type CardSize = "small" | "standard" | "large";
 
-function GlyphView({ glyph }: { glyph: Glyph }) {
+function GlyphView({ glyph, tips }: { glyph: Glyph; tips: boolean }) {
   const tint = glyph.tint === null ? "" : ` tint-${glyph.tint}`;
   return (
     <span
@@ -37,11 +41,12 @@ function GlyphView({ glyph }: { glyph: Glyph }) {
           <b>{c.text}</b>
         </span>
       ))}
+      <HoverFloat enabled={tips}>{glyph.title}</HoverFloat>
     </span>
   );
 }
 
-function Cost({ entry }: { entry: CatalogEntry }) {
+function Cost({ entry, tips }: { entry: CatalogEntry; tips: boolean }) {
   const { coins, resources, freedBy } = entry.cost;
   if (coins === 0 && resources.length === 0 && freedBy.length === 0) {
     return null;
@@ -54,11 +59,15 @@ function Cost({ entry }: { entry: CatalogEntry }) {
             <span className="cost__coin" role="img" aria-label={`${String(coins)} coins`}>
               <Icon id="coin" />
               <b>{coins}</b>
+              <HoverFloat enabled={tips}>{`${String(coins)} coins`}</HoverFloat>
             </span>
           )}
           {inCostOrder(resources).flatMap((r) =>
             Array.from({ length: r.count }, (_, i) => (
-              <Icon key={`${r.resource}${String(i)}`} id={r.resource} />
+              <span key={`${r.resource}${String(i)}`} className="cost__res">
+                <Icon id={r.resource} />
+                <HoverFloat enabled={tips}>{nameOf(r.resource)}</HoverFloat>
+              </span>
             )),
           )}
         </div>
@@ -68,6 +77,7 @@ function Cost({ entry }: { entry: CatalogEntry }) {
           {freedBy.map((symbol) => (
             <span key={symbol} className="cost__free" role="img" aria-label={`free with ${symbol}`}>
               <Icon id={symbol} />
+              <HoverFloat enabled={tips}>{`Free with ${symbol}`}</HoverFloat>
             </span>
           ))}
         </div>
@@ -124,15 +134,16 @@ export function Card({ entry, size, built = false }: CardProps) {
         style={{ "--span": glyphs.reduce((n, g) => n + span(g), 0) } as CSSProperties}
       >
         {glyphs.map((g, i) => (
-          <GlyphView key={i} glyph={g} />
+          <GlyphView key={i} glyph={g} tips={size !== "small"} />
         ))}
         {chain && (
           <span className="card__chain" role="img" aria-label={`gives ${chain.of.join(", ")}`}>
             <Icon id={chain.of[0] ?? "chain"} />
+            <HoverFloat enabled={size !== "small"}>{`Gives ${chain.of.join(", ")}`}</HoverFloat>
           </span>
         )}
       </div>
-      <Cost entry={entry} />
+      <Cost entry={entry} tips={size !== "small"} />
       <div className="card__art">
         <Icon id={motifOf(entry)} />
       </div>

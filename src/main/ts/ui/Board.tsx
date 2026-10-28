@@ -14,6 +14,7 @@ import { DiscardPile } from "./DiscardPile.js";
 import { Header } from "./Header.js";
 import { Icon, IconSprite } from "./icons.js";
 import { Outcome } from "./Outcome.js";
+import { HoverFloat } from "./QuoteTable.js";
 import { Log } from "./Log.js";
 import { StarterPopup } from "./StarterPopup.js";
 import { Structure } from "./Structure.js";
@@ -151,6 +152,7 @@ export function Board({ session, send, layout: fixed }: Props) {
                 }}
               >
                 <Icon id="discard-pile" /> {discardedOf(view).length}
+                <HoverFloat>Discard pile</HoverFloat>
               </button>
               {!phone && (
                 <button

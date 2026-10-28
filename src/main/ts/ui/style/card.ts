@@ -80,6 +80,7 @@ export const CARD = `
   height: .6em; padding: 0 calc(var(--u) * .05) 0 calc(var(--u) * .02); background: #6f6a6099;
   border-radius: 0 calc(var(--u) * .1) calc(var(--u) * .1) 0;
 }
+.cost__res { display: inline-flex; }
 .cost__coin { position: relative; display: inline-flex; }
 .cost__coin b { position: absolute; inset: 0; display: grid; place-items: center; font: 800 .62em/1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
 .cost__free {
