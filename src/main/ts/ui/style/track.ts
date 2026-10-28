@@ -10,7 +10,10 @@ export const TRACK = `
 .tile { --i: 0; position: relative; aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: calc(var(--tw) * .7); color: #fff; border: 1px solid #0003;
   background-image: linear-gradient(to right, #a8191a 0%, #c8503f 20%, #f4e8da 50%, #e8c97a 80%, #d49a1c 100%);
   background-size: 1900% 100%; background-position: calc(var(--i) / 18 * 100%) 0; }
-.tile.cap { background: var(--c); background-image: none; color: #fff; }
+.tile.cap { --wall: var(--c); border: 0; border-radius: 2px 2px 3px 3px; background: linear-gradient(to bottom, color-mix(in srgb, var(--wall) 78%, #fff), var(--wall) 40%, color-mix(in srgb, var(--wall) 70%, #000));
+  clip-path: polygon(0 0, 24% 0, 24% 11%, 38% 11%, 38% 0, 62% 0, 62% 11%, 76% 11%, 76% 0, 100% 0, 100% 100%, 0 100%); }
+.tile.cap::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, transparent 0 17%, #0002 17% 19%); }
+.tile.cap::after { content: ""; position: absolute; bottom: 0; width: 46%; height: 42%; border-radius: 999px 999px 0 0; background: linear-gradient(to bottom, #0007, #000b); box-shadow: 0 0 0 max(1px, .08em) #fff5; }
 .tile.cap.me { --c: var(--me); } .tile.cap.opp { --c: var(--opp); }
 .pawn { --at: 9; position: absolute; top: 0; left: 0; width: var(--tw); aspect-ratio: 2 / 3; font-size: var(--tw); display: flex; align-items: center; justify-content: center; pointer-events: none; transform: translateX(calc(var(--at) * (100% + 3px))); transition: transform ${String(MOTION_MS.travel)}ms ${EASE}; }
 .pawn::after { content: ""; width: .8em; height: .8em; margin-top: -.15em; border-radius: 50%; box-sizing: border-box; border: max(2px, .07em) solid #fff; background: radial-gradient(ellipse at 35% 30%, #ee6a62, var(--c-red) 55%, #9a2222); box-shadow: 0 .14em 0 -.02em #8a1c1c, 0 .14em 0 max(1px, .03em) #fff, 0 .3em .2em #0007; }

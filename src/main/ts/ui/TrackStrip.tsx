@@ -23,9 +23,7 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               className={`tile${t.capital ? ` cap ${t.capital}` : ""}`}
               style={{ ["--i" as string]: i }}
               title={t.title ?? undefined}
-            >
-              {t.capital && <Icon id="fortress" />}
-            </span>
+            ></span>
           ))}
           <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }} />
           {fields.map((f) => (
