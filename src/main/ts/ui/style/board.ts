@@ -132,7 +132,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .quote [role="columnheader"] { font-size: 10px; font-weight: 500; color: var(--muted); padding-bottom: 3px; border-bottom: 1px solid var(--line); }
 .quote [role="rowheader"], .quote [role="cell"] { display: grid; place-items: center; min-height: 22px; }
 .quote .icon { width: 18px; height: 18px; }
-.quote__sum [role="rowheader"] { grid-column: 1 / 6; place-items: center start; padding-left: 4px; }
+.quote__sum [role="rowheader"] { grid-column: 1 / 6; place-items: center end; padding-right: 6px; }
 .quote__sum [role="cell"] { border-left: 1px solid var(--line); }
 .quote__total { font-size: 13px; }
 .quote--brief { display: block; }

@@ -21,7 +21,7 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
   }
   return (
     <span className="quote" role="table" aria-label="Price">
-      {quote.lines.length > 0 && (
+      {quote.lines.length + quote.coins > 0 && (
         <span role="row" className="quote__head">
           <span role="columnheader" aria-label="Resource" />
           <span role="columnheader">Needed</span>
@@ -55,12 +55,10 @@ export function QuoteTable({ quote }: { quote: QuoteView }) {
           <span role="cell">{quote.coins}</span>
         </span>
       )}
-      {(quote.lines.length > 0 || quote.coins === 0) && (
-        <span role="row" className="quote__sum quote__total">
-          <span role="rowheader">Total</span>
-          <span role="cell">{quote.total}</span>
-        </span>
-      )}
+      <span role="row" className="quote__sum quote__total">
+        <span role="rowheader">Total</span>
+        <span role="cell">{quote.total}</span>
+      </span>
     </span>
   );
 }

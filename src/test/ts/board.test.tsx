@@ -182,6 +182,24 @@ describe("Board", () => {
     expect(table?.querySelector(".quote__total")?.textContent).toBe("Total0");
   });
 
+  it("gives a coin-only quote the same table: head, coin row and total", () => {
+    const m = inAge();
+    if (m.view === null) throw new Error("no view");
+    const quotes = m.view.quotes.map((q) =>
+      q.player === TWO.id && q.component === "palisade"
+        ? { ...q, coins: 2, tradeCost: 0, total: 2, lines: [] }
+        : q,
+    );
+    show(session(TWO, { ...m, view: { ...m.view, quotes } }));
+
+    const table = hover(host.querySelector('button[aria-label="Palisade"]'))?.querySelector(
+      ".quote",
+    );
+    expect(table?.querySelector(".quote__head")).not.toBeNull();
+    expect(table?.querySelectorAll(".quote__line")).toHaveLength(1);
+    expect(table?.querySelector(".quote__total")?.textContent).toBe("Total2");
+  });
+
   it("shows no quote for a free card", () => {
     const m = inAge();
     if (m.view === null) throw new Error("no view");
