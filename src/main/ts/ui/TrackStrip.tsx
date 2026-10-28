@@ -27,16 +27,7 @@ export function TrackStrip({ view, catalog, seats }: Props) {
               {t.capital ? <Icon id="fortress" /> : <small>{t.label}</small>}
             </span>
           ))}
-          <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }}>
-            <svg viewBox="0 0 24 28" aria-hidden="true">
-              <ellipse cx="12" cy="25" rx="9" ry="2.6" className="pawn__base" />
-              <path
-                className="pawn__body"
-                d="M12 9.5c-2.7 0-4.3 1.7-4.3 3.7 0 1.3.7 2.3 1.6 2.900C8 17.5 6.8 20 6.3 23.3h11.4C17.2 20 16 17.500 14.7 16.100c.9-.6 1.6-1.6 1.6-2.900 0-2-1.6-3.7-4.3-3.7z"
-              />
-              <circle cx="12" cy="6" r="4.2" className="pawn__body" />
-            </svg>
-          </i>
+          <i className="pawn" aria-label="Military pawn" style={{ ["--at" as string]: pawn }} />
           {fields.map((f) => (
             <span
               key={f.from}
