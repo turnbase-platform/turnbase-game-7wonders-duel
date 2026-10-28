@@ -19,8 +19,8 @@ describe("layoutFor", () => {
 
   it("is landscape when a wide container is too short for the panels to stack", () => {
     expect(layoutFor({ width: 844, height: 390 })).toBe("landscape");
-    expect(layoutFor({ width: 1100, height: 449 })).toBe("landscape");
-    expect(layoutFor({ width: 1100, height: 450 })).toBe("wide");
+    expect(layoutFor({ width: 1100, height: 639 })).toBe("landscape");
+    expect(layoutFor({ width: 1100, height: 640 })).toBe("wide");
   });
 
   it("does not take a short, narrow container for landscape", () => {

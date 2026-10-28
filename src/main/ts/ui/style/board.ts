@@ -20,7 +20,7 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .layout-medium .main, .layout-portrait .main { flex-direction: column; }
 .stage { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
 .layout-portrait .stage:not(:has(.structure)) { flex: none; }
-.structure { flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.structure { padding: 4px 12px 10px; box-sizing: border-box; flex: 1; min-width: 0; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .board-tokens { display: flex; flex-direction: column; align-items: center; flex: none; }
 .board-tokens__ask { margin: 0 0 6px; font: 700 14px var(--serif); }
 .token-pick { padding: 0; background: none; border: 0; border-radius: 50%; cursor: pointer; line-height: 0; filter: drop-shadow(0 2px 3px #0005); transition: transform .15s, filter .15s; }
@@ -66,23 +66,19 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .purse--big .icon { grid-area: 1 / 1; width: 1em; height: 1em; }
 .purse--big b { grid-area: 1 / 1; position: relative; z-index: 1; font: 800 .42em / 1 var(--figures); font-variant-numeric: lining-nums; color: #1b1a17; text-shadow: 0 0 2px #fff; }
 .city-col .stack { --sw: 64px; }
-.city-col .city .wonders { --ww: 128px; }
+.city-col .city .wonders { --ww-max: 128px; }
 .city-col .city { border-left: 0; padding-left: 0; }
 .layout-landscape .panel { width: clamp(160px, 22%, 240px); flex: none; }
-/* Short frames: the pyramid is the piece that matters, then the cities; the track, tokens and header give way first. */
-@media (max-height: 640px) {
-  .city-col .stack { --sw: 48px; } .city-col .city .wonders { --ww: 100px; }
-  .city-col, .panel { padding: 6px; }
-  .main, .stage, .board { gap: 4px; }
-  .board { padding: 4px; }
-  .header { padding: 2px 8px; }
-  .board-tokens .token--standard { width: 34px; }
-  .layout-wide .board-tokens { padding: 4px; }
-  .board-tokens__ask { margin-bottom: 2px; }
-}
-.layout-landscape .city .wonders { --ww: 92px; }
+.layout-landscape .city .wonders { --ww-max: 92px; }
 .layout-medium .panel { max-height: 40%; flex: none; }
 .layout-portrait .panel { flex: 1; }
+/* Short frames: the stage is the strip beside the structure, the stagebar beneath both. */
+.is-rail .stage { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "strip structure" "bar bar"; }
+.is-rail .structure { grid-area: structure; }
+.is-rail .stagebar { grid-area: bar; }
+.is-rail .board-tokens:not(:has(.board-tokens__ask)) { position: absolute; z-index: 2; right: 6px; top: 6px; padding: 4px; }
+.is-rail .tray__tokens { flex-direction: column; gap: 4px; }
+.is-rail .structure:has(.board-tokens:not(:has(.board-tokens__ask))) { padding-right: 52px; }
 .science { display: flex; flex-wrap: wrap; gap: 3px; margin: 0 0 8px; padding: 0; list-style: none; }
 .city__head .science { position: absolute; right: 64px; top: 100%; transform: translateY(-50%); margin: 0; }
 .science__symbol { position: relative; display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); filter: grayscale(1); }
@@ -102,8 +98,9 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .stack .card { --w: var(--sw); }
 /* Under the next card only the banner of the one before shows: its effects and chain symbol. */
 .stack .peekable + .peekable { margin-top: calc(var(--sw) * -1.0333 + 2px); }
-.wonders { --ww: 112px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.wonders .peekable { display: flex; justify-content: center; position: relative; }
+.wonders { --ww-max: 112px; container-type: inline-size; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+/* Two columns always: a Wonder (and the card tucked under it) is never wider than half of what it is given. */
+.wonders .peekable { --ww: min(var(--ww-max), calc((100cqw - 8px) / 2.2)); display: flex; justify-content: center; position: relative; }
 .wonders .card--wonder.card--standard { --w: var(--ww); }
 /* A built Wonder has the card that built it slid in from the right, face down: a standard card laid
    on its side, smaller than the Wonder, with only its short edge sticking out. */

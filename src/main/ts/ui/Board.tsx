@@ -55,6 +55,7 @@ export function Board({ session, send, layout: fixed }: Props) {
   const phone = layout === "portrait";
   const wide = layout === "wide";
   const compact = layout === "landscape" || phone;
+  const rail = layout === "landscape";
   const showing = (wanted: Pane): boolean => !phone || pane === wanted;
   const goTo = (next: Pane, which?: Side): void => {
     setPane(next);
@@ -81,7 +82,10 @@ export function Board({ session, send, layout: fixed }: Props) {
   );
 
   return (
-    <div ref={root} className={`board layout-${layout}${compact ? " is-compact" : ""}`}>
+    <div
+      ref={root}
+      className={`board layout-${layout}${compact ? " is-compact" : ""}${rail ? " is-rail" : ""}`}
+    >
       <IconSprite />
       <Burns burns={burns} catalog={catalog} onDone={clearBurns} />
       {starting !== null && <StarterPopup round={starting} session={session} seats={seats} />}

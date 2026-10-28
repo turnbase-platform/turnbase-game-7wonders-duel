@@ -7,8 +7,8 @@ export interface Size {
 
 const WIDE = 900;
 const MEDIUM = 600;
-/** Below this height a wide container is a phone on its side: there is no room to stack panels. */
-const SHORT = 450;
+/** Below this height a wide container is a phone on its side or a short window: there is no room to stack panels, and the track stands up. */
+const SHORT = 640;
 
 /** Which arrangement of the panels fits a container (design §3). */
 export function layoutFor({ width, height }: Size): Layout {

@@ -32,7 +32,7 @@ export function TrackStrip({ view, catalog, seats }: Props) {
             <span
               key={f.from}
               className={`field ${f.kind} zone-${String(f.zone)}${f.current ? " is-current" : ""}${f.taken ? " is-taken" : ""}`}
-              style={{ gridColumn: `${String(f.from + 1)} / ${String(f.to + 2)}` }}
+              style={{ ["--from" as string]: f.from, ["--to" as string]: f.to }}
             >
               <HoverFloat enabled={f.title !== null}>{f.title}</HoverFloat>
               <span className="glyph">
