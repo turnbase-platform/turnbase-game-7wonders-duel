@@ -57,6 +57,18 @@ export interface QuoteView {
   lines: QuoteLineView[];
 }
 
+export interface ScoreLineView {
+  line: string;
+  points: number;
+}
+
+/** One player's final score, the lines in display order (B-END-2). */
+export interface ScoreView {
+  player: PlayerId;
+  lines: ScoreLineView[];
+  total: number;
+}
+
 export interface DuelView {
   phase: Phase;
   active: PlayerId;
@@ -68,6 +80,7 @@ export interface DuelView {
   pawnSpace: number;
   victoryWinner: PlayerId | null;
   victoryReason: VictoryReason | null;
+  scores: ScoreView[];
   visible: PlacedView[];
   hidden: HiddenView[];
   pending: PendingView | null;

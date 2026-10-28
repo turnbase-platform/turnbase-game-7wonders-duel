@@ -33,9 +33,19 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
 .city-col { box-sizing: border-box; min-height: 0; overflow: auto; }
 /* One surface for every board component: the strip, the token tray, the panels and the city columns. */
 .strip, .layout-wide .board-tokens, .panel, .city-col { padding: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: none; }
-.outcome { flex: none; text-align: center; padding: 8px 12px; background: var(--surface); border: 2px solid var(--ink); border-radius: 6px; }
-.outcome h2 { margin: 0; font: 700 22px var(--serif); }
-.outcome p { margin: 2px 0 0; color: var(--muted); }
+.outcome__scrim { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--ground) 45%, transparent); backdrop-filter: blur(6px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+.outcome { max-width: min(100%, 420px); max-height: calc(100dvh - 32px); overflow: auto; text-align: center; padding: 20px 24px; background: var(--surface); border: 2px solid var(--ink); border-radius: 12px; box-shadow: 0 8px 32px #0006; }
+.outcome h2 { margin: 0; font: 700 30px var(--serif); }
+.outcome p { margin: 4px 0 0; color: var(--muted); }
+.outcome button, .outcome__reopen { margin-top: 14px; padding: 6px 14px; font: inherit; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; cursor: pointer; }
+.outcome__reopen { position: fixed; top: 8px; left: 50%; transform: translateX(-50%); z-index: 30; margin: 0; }
+.outcome__scores { width: 100%; margin-top: 14px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.outcome__scores th, .outcome__scores td { padding: 4px 8px; border-bottom: 1px solid var(--line); }
+.outcome__scores thead th { font-size: 12px; font-weight: 600; color: var(--muted); }
+.outcome__scores tbody th { text-align: left; font-weight: 500; }
+.outcome__scores td, .outcome__scores thead th:not(:first-child) { text-align: right; }
+.outcome__scores tfoot th { text-align: left; } .outcome__scores tfoot th, .outcome__scores tfoot td { font-size: 16px; font-weight: 700; border-bottom: 0; border-top: 2px solid var(--ink); }
+.outcome__scores .is-winner { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .stagebar { flex: none; display: flex; justify-content: space-between; align-items: center; }
 .logbtn, .pilebtn { padding: 3px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; }
 .pilebtn { display: inline-flex; align-items: center; gap: 6px; } .logbtn { margin-left: auto; }

@@ -11,6 +11,7 @@ import io.turnbase.games.sevenwondersduel.id.BackId;
 import io.turnbase.games.sevenwondersduel.id.ComponentId;
 import io.turnbase.games.sevenwondersduel.id.PlayerId;
 import io.turnbase.games.sevenwondersduel.id.ZoneId;
+import io.turnbase.games.sevenwondersduel.scoring.Scoring;
 import io.turnbase.games.sevenwondersduel.state.DuelState;
 import io.turnbase.games.sevenwondersduel.state.Phase;
 import io.turnbase.games.sevenwondersduel.structure.Structure;
@@ -78,6 +79,7 @@ public final class Views {
             ? null
             : state.victory().winner().value(),
         state.victory() == null ? null : state.victory().reason().name(),
+        scores(state, rules),
         visible,
         collapsed,
         pending(state, rules, viewer),
@@ -94,6 +96,25 @@ public final class Views {
       return null;
     }
     return rules.catalog().get(placement.component()).back().map(BackId::value).orElse(null);
+  }
+
+  /** Public once the game is over: the whole board is in view then. */
+  private static List<ScoreView> scores(DuelState state, RuleSet rules) {
+    if (state.victory() == null) {
+      return List.of();
+    }
+    return state.players().keySet().stream()
+        .sorted(PLAYER_ORDER)
+        .map(id -> Scoring.score(state, rules, id))
+        .map(
+            card ->
+                new ScoreView(
+                    card.player().value(),
+                    card.lines().entrySet().stream()
+                        .map(e -> new ScoreLineView(e.getKey(), e.getValue()))
+                        .toList(),
+                    card.total()))
+        .toList();
   }
 
   private static List<PlayerView> players(DuelState state) {

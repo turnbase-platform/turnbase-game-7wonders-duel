@@ -56,6 +56,7 @@ const view: DuelView = {
   pawnSpace: 0,
   victoryWinner: null,
   victoryReason: null,
+  scores: [],
   visible: [],
   hidden: [],
   pending: null,

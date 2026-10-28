@@ -21,12 +21,18 @@ public final class Scoring {
   public static final String MILITARY = "military";
   public static final String COINS = "coins";
   public static final String BLUE = "blue";
-  public static final String BUILDINGS = "buildings";
+  public static final String GREEN = "green";
+  public static final String YELLOW = "yellow";
+  public static final String PURPLE = "purple";
+
+  /** A card of no printed colour (only a fixture has one). */
+  public static final String OTHER = "other";
+
   public static final String WONDERS = "wonders";
   public static final String PROGRESS = "progress";
 
   private static final List<String> LINES =
-      List.of(MILITARY, BLUE, BUILDINGS, WONDERS, PROGRESS, COINS);
+      List.of(BLUE, GREEN, YELLOW, PURPLE, WONDERS, PROGRESS, COINS, MILITARY);
 
   private Scoring() {}
 
@@ -70,7 +76,18 @@ public final class Scoring {
     return decided > 0 ? a.player() : b.player();
   }
 
-  private static final Tag BLUE_CARD = Tag.color("blue");
+  private static final String COLOUR_PREFIX = Tag.color("").value();
+
+  /** A card scores in the line named after its colour, so an expansion's colour adds a line. */
+  private static String colourOf(Component component) {
+    return component.tags().stream()
+        .map(Tag::value)
+        .filter(v -> v.startsWith(COLOUR_PREFIX))
+        .map(v -> v.substring(COLOUR_PREFIX.length()))
+        .findFirst()
+        .orElse(OTHER);
+  }
+
   private static final int COINS_PER_POINT = 3;
 
   /** The pawn leans towards a player's capital; the other player scores its zone. */
@@ -87,7 +104,7 @@ public final class Scoring {
     return switch (component.type()) {
       case WONDER -> WONDERS;
       case TOKEN -> PROGRESS;
-      case CARD -> component.tags().contains(BLUE_CARD) ? BLUE : BUILDINGS;
+      case CARD -> colourOf(component);
     };
   }
 }

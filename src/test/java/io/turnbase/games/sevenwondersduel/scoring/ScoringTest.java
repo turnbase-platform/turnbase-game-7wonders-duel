@@ -56,7 +56,7 @@ class ScoringTest {
   @Test
   void fixedPointsLandInTheLineOfTheirComponent() {
     Part blue = Part.of("blue", ComponentType.CARD, Points.fixed(3)).tagged(Tag.color("blue"));
-    Part green = Part.of("green", ComponentType.CARD, Points.fixed(2));
+    Part green = Part.of("green", ComponentType.CARD, Points.fixed(2)).tagged(Tag.color("green"));
     Part wonder = Part.of("wonder", ComponentType.WONDER, Points.fixed(4));
     Part token = Part.of("token", ComponentType.TOKEN, Points.fixed(5));
     RuleSet rules = rules(blue, green, wonder, token);
@@ -75,7 +75,7 @@ class ScoringTest {
     Scorecard card = Scoring.score(s, rules, P1);
 
     assertThat(card.line("blue")).isEqualTo(3);
-    assertThat(card.line("buildings")).isEqualTo(2);
+    assertThat(card.line("green")).isEqualTo(2);
     assertThat(card.line("wonders")).isEqualTo(4);
     assertThat(card.line("progress")).isEqualTo(5);
     assertThat(card.total()).isEqualTo(14);
@@ -114,7 +114,7 @@ class ScoringTest {
     RuleSet rules = rules(card);
     DuelState s = state(rules, card.id(), city(P1));
 
-    assertThat(Scoring.score(s, rules, P1).line("buildings")).isEqualTo(3);
+    assertThat(Scoring.score(s, rules, P1).line("other")).isEqualTo(3);
   }
 
   @Test
@@ -150,6 +150,7 @@ class ScoringTest {
     DuelState s = state(rules);
 
     assertThat(Scoring.score(s, rules, P1).lines().keySet())
-        .containsExactly("military", "blue", "buildings", "wonders", "progress", "coins");
+        .containsExactly(
+            "blue", "green", "yellow", "purple", "wonders", "progress", "coins", "military");
   }
 }

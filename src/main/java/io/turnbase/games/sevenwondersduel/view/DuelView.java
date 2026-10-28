@@ -17,6 +17,7 @@ import java.util.UUID;
  * @param pawnSpace the pawn's distance from the centre
  * @param victoryWinner the winner, or null while running or for a shared victory
  * @param victoryReason name of the {@code Victory.Reason}, null while the game is running
+ * @param scores both players' final scores once the game is over, empty before
  * @param visible every component the viewer may identify, in placement order
  * @param hidden the rest, by place
  * @param pending the decision waiting for an answer, or null
@@ -34,6 +35,7 @@ public record DuelView(
     int pawnSpace,
     UUID victoryWinner,
     String victoryReason,
+    List<ScoreView> scores,
     List<PlacedView> visible,
     List<HiddenView> hidden,
     PendingView pending,

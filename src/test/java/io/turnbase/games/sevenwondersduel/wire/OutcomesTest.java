@@ -59,7 +59,16 @@ class OutcomesTest {
     Map<String, String> stats = outcome.teamResults().get(0).stats();
     assertThat(stats)
         .containsEntry("reason", "SCIENCE")
-        .containsKeys("military", "blue", "buildings", "wonders", "progress", "coins", "total");
+        .containsKeys(
+            "blue",
+            "green",
+            "yellow",
+            "purple",
+            "wonders",
+            "progress",
+            "coins",
+            "military",
+            "total");
     assertThat(outcome.playerResults()).hasSize(2);
   }
 

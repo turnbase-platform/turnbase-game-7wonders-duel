@@ -19,6 +19,63 @@
     "pawnSpace" : 2,
     "victoryWinner" : "00000000-0000-0000-0000-000000000001",
     "victoryReason" : "POINTS",
+    "scores" : [ {
+      "player" : "00000000-0000-0000-0000-000000000001",
+      "lines" : [ {
+        "line" : "blue",
+        "points" : 14
+      }, {
+        "line" : "green",
+        "points" : 1
+      }, {
+        "line" : "yellow",
+        "points" : 0
+      }, {
+        "line" : "purple",
+        "points" : 20
+      }, {
+        "line" : "wonders",
+        "points" : 10
+      }, {
+        "line" : "progress",
+        "points" : 0
+      }, {
+        "line" : "coins",
+        "points" : 2
+      }, {
+        "line" : "military",
+        "points" : 0
+      } ],
+      "total" : 47
+    }, {
+      "player" : "00000000-0000-0000-0000-000000000002",
+      "lines" : [ {
+        "line" : "blue",
+        "points" : 0
+      }, {
+        "line" : "green",
+        "points" : 9
+      }, {
+        "line" : "yellow",
+        "points" : 0
+      }, {
+        "line" : "purple",
+        "points" : 0
+      }, {
+        "line" : "wonders",
+        "points" : 14
+      }, {
+        "line" : "progress",
+        "points" : 0
+      }, {
+        "line" : "coins",
+        "points" : 8
+      }, {
+        "line" : "military",
+        "points" : 2
+      } ],
+      "total" : 33
+    } ],
     "visible" : [ {
       "component" : "theology",
       "zone" : "board",

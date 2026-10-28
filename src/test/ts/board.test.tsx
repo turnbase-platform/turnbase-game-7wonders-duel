@@ -342,7 +342,7 @@ describe("Board", () => {
 
     it("says the viewer won, and how", () => {
       show(over(TWO, TWO, "MILITARY"));
-      expect(outcome()).toBe("You winby Military Supremacy");
+      expect(outcome()).toContain("You winby Military Supremacy");
     });
 
     it("names the winner to the loser and to a spectator", () => {
@@ -350,6 +350,42 @@ describe("Board", () => {
       expect(outcome()).toContain("Two wins");
       show(over(null, TWO, "POINTS"));
       expect(outcome()).toContain("Two wins");
+    });
+
+    it("lays a points victory out per category and player, then puts the card aside", () => {
+      const m = over(TWO, ONE, "POINTS");
+      if (m.view === null) throw new Error("no view");
+      const lines = (n: number) =>
+        ["blue", "green", "yellow", "purple", "wonders", "progress", "coins", "military"].map(
+          (line, i) => ({ line, points: n + i }),
+        );
+      const score = (player: string, n: number) => ({
+        player,
+        lines: lines(n),
+        total: lines(n).reduce((t, l) => t + l.points, 0),
+      });
+      show({
+        ...m,
+        view: { ...m.view, scores: [score(ONE.id, 1), score(TWO.id, 2)] },
+      });
+      const rows = [...host.querySelectorAll(".outcome__scores tr")].map((r) => r.textContent);
+      expect(rows[0]).toBe("CategoryYouOne");
+      expect(rows.slice(1, 9).map((r) => r.replace(/\d+/g, ""))).toEqual([
+        "Blue cards",
+        "Green cards",
+        "Yellow cards",
+        "Guilds",
+        "Wonders",
+        "Progress tokens",
+        "Coins",
+        "Military track",
+      ]);
+      expect(rows[9]).toBe("Total4436");
+      act(() => {
+        host.querySelector<HTMLButtonElement>(".outcome button")?.click();
+      });
+      expect(host.querySelector(".outcome")).toBeNull();
+      expect(host.querySelector(".outcome__reopen")).not.toBeNull();
     });
 
     it("calls it a draw without a winner, and shows nothing while the game runs", () => {

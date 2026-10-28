@@ -204,12 +204,12 @@ class GuildsTest {
   }
 
   @Test
-  void guildPointsCountInTheBuildingsLineNeverTheBlueTieBreak() {
+  void guildPointsCountInThePurpleLineNeverTheBlueTieBreak() {
     var card =
         Scoring.score(
             state(0, 0, "magistrates-guild", List.of("theater", "baths"), List.of()), RULES, P1);
 
-    assertThat(card.line(Scoring.BUILDINGS)).isEqualTo(2);
+    assertThat(card.line(Scoring.PURPLE)).isEqualTo(2);
     assertThat(card.line(Scoring.BLUE)).isEqualTo(6);
   }
 

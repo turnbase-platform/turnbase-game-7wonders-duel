@@ -19,6 +19,7 @@
     "pawnSpace" : 0,
     "victoryWinner" : null,
     "victoryReason" : null,
+    "scores" : [ ],
     "visible" : [ {
       "component" : "theology",
       "zone" : "board",
