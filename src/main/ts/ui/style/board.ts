@@ -107,18 +107,24 @@ body { margin: 0; background: var(--ground); color: var(--ink); font: 14px var(-
    on its side, smaller than the Wonder, with only its short edge sticking out. */
 .wonder { position: relative; display: block; margin-right: calc(var(--ww) * .1); }
 .wonder__under { position: absolute; z-index: 0; top: calc(var(--ww) * .0625); left: calc(var(--ww) * .267); }
-.wonder__under .card, .peek .wonder__under .card { --w: calc(var(--ww) * .833); aspect-ratio: 4 / 3; }
+.wonder__under .card, .cityview .wonder__under .card { --w: calc(var(--ww) * .833); aspect-ratio: 4 / 3; }
 .wonder > .card { z-index: 1; }
 .peekable { padding: 0; border: 0; background: none; line-height: 0; cursor: pointer; border-radius: var(--radius); }
 .peekable:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-/* The inspected card takes no room in the column, so showing it never makes the column scroll; it rides the bottom edge of what is in view. */
-.peek { --ww: 240px; position: sticky; z-index: 5; bottom: 0; height: 0; pointer-events: none; }
-.peek > * { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+.peekable { transition: transform ${String(MOTION_MS.appear / 2)}ms ${EASE}, filter ${String(MOTION_MS.appear / 2)}ms ${EASE}; }
+/* Pointed at: a Wonder or token lifts a little; a stacked card rises to the top of its stack, where it lies, to show whole. */
+.wonders .peekable:hover, .tokens .peekable:hover { transform: translateY(-2px); filter: drop-shadow(0 4px 5px #0005); }
+.stack .peekable { position: relative; }
+.stack .peekable:hover, .stack .peekable:focus-visible { z-index: 3; filter: drop-shadow(0 3px 5px #0006); }
+/* The city card in view: fixed over its panel, which blurs behind it; a click anywhere puts it away. */
+.cityview { position: fixed; z-index: 12; display: grid; place-items: center; overflow: hidden; box-sizing: border-box; padding: 8px; cursor: pointer; background: color-mix(in srgb, var(--ground) 20%, transparent); backdrop-filter: blur(3px); animation: scrim ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+.cityview__card { --ww: 200px; display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 100%; line-height: 0; filter: drop-shadow(0 10px 14px #0006); animation: lift ${String(MOTION_MS.appear)}ms ${EASE} 1; }
+.cityview__quote { padding: 6px 8px; line-height: 1.3; font-size: 12px; font-weight: 600; background: var(--surface); border: 1px solid var(--ink); border-radius: 8px; }
 /* Panels scroll when they must, by wheel or touch, and never draw a bar. */
 .structure, .panel, .city-col, .drawer { scrollbar-width: none; }
 .structure::-webkit-scrollbar, .panel::-webkit-scrollbar, .city-col::-webkit-scrollbar, .drawer::-webkit-scrollbar { display: none; }
-.peek .card--large { --w: 200px; } .peek .card--wonder.card--large { --w: var(--ww); } .peek .token--large { width: 140px; }
-.layout-landscape .peek { --ww: 200px; } .layout-landscape .peek .card--large { --w: 160px; }
+.cityview .card--large { --w: 200px; } .cityview .card--wonder.card--large { --w: var(--ww); } .cityview .token--large { width: 140px; }
+.layout-landscape .cityview__card { --ww: 160px; } .layout-landscape .cityview .card--large { --w: 160px; }
 .log { margin-top: 8px; font-size: 12px; }
 .log ol { padding-left: 18px; margin: 2px 0; }
 .log .step { opacity: .6; }

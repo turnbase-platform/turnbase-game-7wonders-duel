@@ -11,7 +11,7 @@ function boardElements(root: HTMLElement): Map<string, HTMLElement> {
   const found = new Map<string, HTMLElement>();
   for (const el of root.querySelectorAll<HTMLElement>("[data-component]")) {
     const id = el.dataset.component;
-    if (id !== undefined && !found.has(id) && el.closest('[role="dialog"], .peek') === null) {
+    if (id !== undefined && !found.has(id) && el.closest('[role="dialog"], .cityview') === null) {
       found.set(id, el);
     }
   }

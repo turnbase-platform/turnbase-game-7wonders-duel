@@ -73,7 +73,7 @@ export function QuoteCoins({ quote, who }: { quote: QuoteView; who: string }) {
 }
 
 /** Nothing to explain: no resources, no coins, no chain. */
-const isFree = (quote: QuoteView): boolean =>
+export const isFree = (quote: QuoteView): boolean =>
   !quote.chained && quote.total === 0 && quote.lines.length === 0;
 
 /** How long the pointer rests on the parent before its quote shows. */

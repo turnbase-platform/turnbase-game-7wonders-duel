@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { cityOf } from "../core/city.js";
 import type { Seats } from "../core/seats.js";
 import { seatName, type Session } from "../core/session.js";
 import type { CatalogEntry, ComponentId } from "../core/wire.js";
 import { Card, CardBack, type CardSize } from "./Card.js";
 import { Purse } from "./Purse.js";
-import { HoverFloat, HoverQuote } from "./QuoteTable.js";
+import { HoverFloat, HoverQuote, isFree, QuoteCoins, QuoteTable } from "./QuoteTable.js";
 import { Science } from "./Science.js";
 import { replayStep } from "./Status.js";
 
@@ -82,6 +83,7 @@ export function City({
   coins?: boolean;
 }) {
   const [peek, setPeek] = useState<ComponentId | null>(null);
+  const root = useRef<HTMLElement>(null);
   const { view, catalog } = session;
   if (view === null || catalog === null) return null;
   const city = cityOf(view, catalog, seats[side]);
@@ -89,25 +91,14 @@ export function City({
     const entry = catalog.get(id);
     if (entry === undefined) return null;
     const quote = view.quotes.find((q) => q.player === seats[side] && q.component === id);
-    const show = (): void => {
-      setPeek(id);
-    };
     return (
       <button
         key={id}
         type="button"
         className="peekable"
         aria-label={entry.name}
-        onMouseEnter={show}
-        onFocus={show}
         onClick={() => {
-          setPeek(peek === id ? null : id);
-        }}
-        onMouseLeave={() => {
-          setPeek(null);
-        }}
-        onBlur={() => {
-          setPeek(null);
+          setPeek(id);
         }}
       >
         <WonderSlot entry={entry} size={size} under={under} />
@@ -117,8 +108,12 @@ export function City({
   };
   const replay = replayStep(session);
   const peeked = peek === null ? undefined : catalog.get(peek);
+  const peekedQuote =
+    peeked?.type === "WONDER" && !city.wonders.some((w) => w.id === peeked.id && w.built)
+      ? view.quotes.find((q) => q.player === seats[side] && q.component === peeked.id)
+      : undefined;
   return (
-    <section className={`city owner-${side}`}>
+    <section ref={root} className={`city owner-${side}`}>
       {title !== undefined && (
         <header className="city__head">
           <h3>{title}</h3>
@@ -154,14 +149,65 @@ export function City({
         <div className="tokens">{city.tokens.map((id) => peekable(id, "standard"))}</div>
       )}
       {peeked && (
-        <div className="peek" aria-hidden="true">
+        <CityView
+          panel={root.current?.closest<HTMLElement>(".city-col, .panel") ?? root.current}
+          onClose={() => {
+            setPeek(null);
+          }}
+        >
           <WonderSlot
             entry={peeked}
             size="large"
             under={city.wonders.find((w) => w.id === peeked.id && w.built)?.under}
           />
-        </div>
+          {peekedQuote && !isFree(peekedQuote) && (
+            <div className="cityview__quote">
+              {side === "opp" ? (
+                <QuoteCoins quote={peekedQuote} who="Opponent pays" />
+              ) : (
+                <QuoteTable quote={peekedQuote} />
+              )}
+            </div>
+          )}
+        </CityView>
       )}
     </section>
+  );
+}
+
+/**
+ * A card of the city shown large over its panel: the panel blurs behind it, and a click anywhere (or
+ * Escape) puts it away. It is fixed over the panel's box, so a scrolled panel is covered whole.
+ */
+function CityView({
+  panel,
+  onClose,
+  children,
+}: {
+  panel: HTMLElement | null;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  useEffect(() => {
+    const key = (e: KeyboardEvent): void => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", key);
+    return () => {
+      document.removeEventListener("keydown", key);
+    };
+  }, [onClose]);
+  if (panel === null) return null;
+  const at = panel.getBoundingClientRect();
+  return createPortal(
+    <div
+      className="cityview"
+      role="presentation"
+      style={{ top: at.top, left: at.left, width: at.width, height: at.height }}
+      onClick={onClose}
+    >
+      <div className="cityview__card">{children}</div>
+    </div>,
+    document.body,
   );
 }

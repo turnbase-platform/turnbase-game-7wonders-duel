@@ -743,14 +743,12 @@ describe("Board", () => {
       for (const back of backs) expect(back.className).not.toContain("back-none");
     });
 
-    it("shows a built Wonder as built when it is pointed at", () => {
+    it("shows a built Wonder as built when it is clicked", () => {
       show(late(ONE));
-      act(() => {
-        host.querySelector<HTMLElement>(".city.owner-me .wonders .peekable")?.focus();
-      });
+      click(host.querySelector(".city.owner-me .wonders .peekable"));
 
-      expect(host.querySelector(".peek .wonder__under")).not.toBeNull();
-      expect(host.querySelector(".peek .card--wonder.is-built")).not.toBeNull();
+      expect(document.body.querySelector(".cityview .wonder__under")).not.toBeNull();
+      expect(document.body.querySelector(".cityview .card--wonder.is-built")).not.toBeNull();
     });
 
     it("says in a floating note what a progress token does", () => {
@@ -772,13 +770,33 @@ describe("Board", () => {
       expect(host.querySelector(".city.owner-opp")).not.toBeNull();
     });
 
-    it("shows the large card for a stacked card the viewer points at", () => {
+    it("shows the large card for a clicked city card, and any click puts it away", () => {
       show(late(ONE));
+      expect(document.body.querySelector(".cityview")).toBeNull();
+      click(host.querySelector(".stack .peekable"));
+
+      expect(document.body.querySelector(".cityview .card--large")).not.toBeNull();
+      click(document.body.querySelector(".cityview .card"));
+      expect(document.body.querySelector(".cityview")).toBeNull();
+    });
+
+    it("puts the large card away on Escape", () => {
+      show(late(ONE));
+      click(host.querySelector(".stack .peekable"));
       act(() => {
-        host.querySelector<HTMLElement>(".stack .peekable")?.focus();
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
       });
 
-      expect(host.querySelector(".peek .card--large")).not.toBeNull();
+      expect(document.body.querySelector(".cityview")).toBeNull();
+    });
+
+    it("keeps the cost of an unbuilt Wonder on show while it is in view", () => {
+      show(age());
+      click(host.querySelector(".city.owner-me .wonders .peekable:not(:has(.is-built))"));
+
+      expect(document.body.querySelector(".cityview .cityview__quote")?.textContent).toMatch(
+        /Total|Free by chain|coins/,
+      );
     });
   });
 });
