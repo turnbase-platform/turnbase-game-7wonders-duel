@@ -102,7 +102,8 @@ Per city, in the panel: coins, resources produced and owned progress tokens on o
 colour. Cards in a stack are offset so that only each one's **banner (effects and chain symbol) stays
 visible**, no more; a colour with no
 cards takes no space. The order of the seven colours is fixed so stacks do not jump as cards are
-built. Hover or tap a stack card for the Large card.
+built. Pointing at a stack card raises it to the top of its stack, where it lies, so it shows whole;
+clicking it opens the city preview (§ below).
 
 ## 5. Acting
 
@@ -157,8 +158,13 @@ interactive ones.
   pending prompt. Hovering or focusing one floats a note, like the price quotes, with its name and
   what it does; the sentence comes from the catalog (`description`, written on the token's
   definition), not from the client.
-- **The preview** of a city card (hover or focus) is large: about 200 px for a building and 240 px
-  for a Wonder, and a built Wonder is previewed built, with its tucked card.
+- **The preview** of a city card opens on click or tap, over that city's panel only (the panel
+  blurs, the pyramid and the other city stay sharp), like the spotlight of a selected card. It is
+  large: about 200 px for a building and 240 px for a Wonder, and a built Wonder is previewed built,
+  with its tucked card. A click anywhere, or Escape, puts it away. An unbuilt Wonder keeps its cost
+  quote on show under the card while previewed (the full table for your city, coins only for the
+  opponent's); on the city itself the quote still appears on hover. Hover alone only gives
+  feedback: a stack card rises whole, a Wonder or token lifts a little.
 - **End screen**: winner, `victoryReason`, final scores. A *breakdown* needs scoring data on the wire
   (not there yet); it is a backend item raised in plan 15 before the screen depends on it. Rematch and
   leave are the platform's, not the game's.

@@ -5,8 +5,11 @@ backend (Java 21, runs in Espresso) compiles against `io.turnbase:turnbase-sdk` 
 and the frontend (React 19) bundles `@turnbase/gdk`. A dependency on `turnbase-game-host` or
 `turnbase-common` is banned by the enforcer.
 
-**Status: skeleton.** Two players alternate an `END_TURN` action for six turns, then the game is a
-draw; leaving forfeits. The manifest, bundle, hooks and UI wiring are real; the rules are not.
+**Status: the base game is complete** — setup and Wonder draft, three Ages, cost solver and trading,
+military, science, tokens, guilds, scoring and every victory — with the full React UI (pyramid,
+cities, military track, token tray, log, choreography). The expansions (Agora, Pantheon, Extra
+Wonders) are not implemented; the engine is built so they are additions. Rules: `docs/rules/`; build
+plan: `docs/implementation/`.
 
 ```bash
 ./mvnw verify                  # backend: Spotless, unit tests, JaCoCo ≥ 70 %
@@ -17,6 +20,9 @@ npm ci && npm run lint && npm run typecheck && npm test && npm run build
 `95364554-17f0-4ce6-b3ca-0976638b484a` is the game's fixed id: the platform's seeder takes the file-name stem as `game_id`
 (`local-environment.md` §6). Copy the zip into the directory `turnbase.seed.bundles-dir` names to
 seed it into a local stack.
+
+Frontend dev loop (the real game in-process, Vite with HMR; needs JDK 21): `npm run dev`, then
+<http://localhost:5173/dev/> for seat 1, seat 2 and a spectator.
 
 `vendor/turnbase-gdk-0.1.0.tgz` is `npm pack` of `turnbase-sdk`'s FE half — a bootstrap stand-in for
 the npm package until the SDK's first release tag exists (`conventions.md` §5).
