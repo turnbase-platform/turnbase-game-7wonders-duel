@@ -8,6 +8,12 @@
   "backend": { "path": "backend/sevenwondersduel.jar", "entryPoint": "io.turnbase.games.sevenwondersduel.SevenWondersDuelGame" },
   "frontend": { "entryPoint": "frontend/main.js" },
   "infoDoc": "INFO.md",
+  "credits": {
+    "designers": ["Antoine Bauza", "Bruno Cathala"],
+    "artists": ["Miguel Coimbra"],
+    "publisher": "Repos Production",
+    "year": 2015
+  },
   "tags": ["cards", "strategy", "two-player"],
   "capabilities": { "ai": false, "spectators": true, "midGameJoin": false },
   "teamTemplates": [

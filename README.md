@@ -5,6 +5,10 @@ backend (Java 21, runs in Espresso) compiles against `io.turnbase:turnbase-sdk` 
 and the frontend (React 19) bundles `@turnbase/gdk`. A dependency on `turnbase-game-host` or
 `turnbase-common` is banned by the enforcer.
 
+**Credits.** 7 Wonders Duel (2015) was designed by Antoine Bauza and Bruno Cathala, with art by
+Miguel Coimbra, and is published by Repos Production. This repository is an independent
+implementation; the credits are carried in `manifest.json` (`credits`) and shown on the game's page.
+
 **Status: the base game is complete** — setup and Wonder draft, three Ages, cost solver and trading,
 military, science, tokens, guilds, scoring and every victory — with the full React UI (pyramid,
 cities, military track, token tray, log, choreography). The expansions (Agora, Pantheon, Extra
