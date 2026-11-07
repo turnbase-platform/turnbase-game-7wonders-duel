@@ -40,3 +40,15 @@ the npm package until the SDK's first release tag exists (`conventions.md` §5).
 | Events sent to clients | `GameMessage.java` |
 | Hooks: init, action, player-left, resync | `SevenWondersDuelGame.java` |
 | Frontend model (pure reducers) / screen | `model.ts` / `App.tsx` |
+
+## Third-party licences
+
+What this repository distributes is audited for its dependencies' licences (allowed families:
+`docs/implementation/conventions.md` §6 *Third-party licences*). The report is generated, not committed:
+
+```bash
+./mvnw org.codehaus.mojo:license-maven-plugin:2.8.0:add-third-party -Dlicense.excludedScopes=test,provided
+# -> target/generated-sources/license/THIRD-PARTY.txt
+```
+
+The SDK is `provided`, so the backend jar carries no third-party code. The frontend: `npm run licenses` (pinned checker, `licenses.csv`, git-ignored); `main.js` bundles React (MIT). The bundle embeds no fonts.

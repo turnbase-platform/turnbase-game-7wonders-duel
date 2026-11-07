@@ -16,7 +16,8 @@
     "format:check": "prettier --check \"{src,dev}/**/*.{ts,tsx}\" vite.config.ts",
     "test": "vitest run --coverage",
     "dev": "scripts/dev.sh",
-    "dev:seed": "scripts/dev.sh"
+    "dev:seed": "scripts/dev.sh",
+    "licenses": "npx --yes license-checker-rseidelsohn@5.0.1 --production --excludePrivatePackages --onlyAllow 'MIT;ISC;Apache-2.0;BSD-2-Clause;BSD-3-Clause;0BSD;OFL-1.1' --excludePackages '@turnbase/gdk@0.1.0' --csv --out licenses.csv"
   },
   "dependencies": {
     "@turnbase/gdk": "file:vendor/turnbase-gdk-0.1.0.tgz",

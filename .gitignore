@@ -14,3 +14,4 @@ coverage/
 
 # Official rulebooks (copyrighted; kept locally only)
 *.pdf
+licenses.csv
