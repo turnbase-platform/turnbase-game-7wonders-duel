@@ -1,6 +1,6 @@
 // The pure half of the dev harness host page: what it says to a game iframe, and how it reads
 // the dev server's stream. Kept apart from the DOM so it is tested like any other module.
-import type { InitContext, Player } from "@turnbase/gdk";
+import type { InitContext, Player } from "@turnbase-platform/gdk";
 
 export const VIEWERS = ["1", "2", "spectator"] as const;
 export type Viewer = (typeof VIEWERS)[number];

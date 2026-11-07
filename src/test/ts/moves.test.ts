@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import type { InitContext, Player } from "@turnbase/gdk";
+import type { InitContext, Player } from "@turnbase-platform/gdk";
 import { describe, expect, it } from "vitest";
 import { offers } from "../../main/ts/core/moves.js";
 import { emptySession, reduce, type Session } from "../../main/ts/core/session.js";

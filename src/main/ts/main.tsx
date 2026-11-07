@@ -1,4 +1,4 @@
-import { TurnBaseClient } from "@turnbase/gdk";
+import { TurnBaseClient } from "@turnbase-platform/gdk";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { emptySession, reduce, type SessionInput } from "./core/session.js";

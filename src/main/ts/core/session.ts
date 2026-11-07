@@ -1,4 +1,4 @@
-import type { InitContext, Player, Role } from "@turnbase/gdk";
+import type { InitContext, Player, Role } from "@turnbase-platform/gdk";
 import { makeCatalog, type Catalog } from "./catalog.js";
 import type { DuelView, EventView, PlayerId, ServerMessage } from "./wire.js";
 

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import type { InitContext, Player } from "@turnbase/gdk";
+import type { InitContext, Player } from "@turnbase-platform/gdk";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";

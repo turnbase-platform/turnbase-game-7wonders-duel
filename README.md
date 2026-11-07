@@ -1,8 +1,8 @@
 # turnbase-game-7wonders-duel
 
 7 Wonders Duel for TurnBase. A **consumer** of the published GDK, like `turnbase-game-tictactoe`: the
-backend (Java 21, runs in Espresso) compiles against `io.turnbase:turnbase-sdk` (scope `provided`)
-and the frontend (React 19) bundles `@turnbase/gdk`. A dependency on `turnbase-game-host` or
+backend (Java 21, runs in Espresso) compiles against `io.github.turnbase-platform:turnbase-sdk` (scope `provided`)
+and the frontend (React 19) bundles `@turnbase-platform/gdk`. A dependency on `turnbase-game-host` or
 `turnbase-common` is banned by the enforcer.
 
 **Credits.** 7 Wonders Duel (2015) was designed by Antoine Bauza and Bruno Cathala, with art by

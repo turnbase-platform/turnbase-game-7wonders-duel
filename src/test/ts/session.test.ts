@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import type { InitContext } from "@turnbase/gdk";
+import type { InitContext } from "@turnbase-platform/gdk";
 import { describe, expect, it } from "vitest";
 import {
   emptySession,
