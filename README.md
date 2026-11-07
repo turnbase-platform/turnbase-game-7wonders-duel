@@ -1,5 +1,7 @@
 # turnbase-game-7wonders-duel
 
+> Part of [TurnBase](https://github.com/turnbase-platform/turnbase), a platform for turn-based multiplayer games — this is a game built on the SDK. Start at the [umbrella README](https://github.com/turnbase-platform/turnbase#readme).
+
 7 Wonders Duel for TurnBase. A **consumer** of the published GDK, like `turnbase-game-tictactoe`: the
 backend (Java 21, runs in Espresso) compiles against `io.github.turnbase-platform:turnbase-sdk` (scope `provided`)
 and the frontend (React 19) bundles `@turnbase-platform/gdk`. A dependency on `turnbase-game-host` or
@@ -52,3 +54,11 @@ What this repository distributes is audited for its dependencies' licences (allo
 ```
 
 The SDK is `provided`, so the backend jar carries no third-party code. The frontend: `npm run licenses` (pinned checker, `licenses.csv`, git-ignored); `main.js` bundles React (MIT). The bundle embeds no fonts.
+
+## Layout
+
+See the umbrella's [`ARCHITECTURE.md`](https://github.com/turnbase-platform/turnbase/blob/master/ARCHITECTURE.md).
+
+## Licence
+
+Apache-2.0, see [`LICENSE`](LICENSE).
