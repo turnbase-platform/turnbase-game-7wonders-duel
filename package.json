@@ -1,6 +1,7 @@
 {
   "name": "turnbase-game-7wonders-duel-frontend",
   "version": "0.1.0",
+  "license": "Apache-2.0",
   "private": true,
   "type": "module",
   "description": "7 Wonders Duel game frontend (React) — bundled to frontend/main.js in the game bundle.",

@@ -7,6 +7,14 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <name>turnbase-game-7wonders-duel</name>
   <description>7 Wonders Duel for TurnBase — a two-player card-drafting game. A consumer of the published GDK: it depends on
     io.turnbase:turnbase-sdk and nothing else from the platform.</description>
