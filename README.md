@@ -11,6 +11,11 @@ and the frontend (React 19) bundles `@turnbase-platform/gdk`. A dependency on `t
 Miguel Coimbra, and is published by Repos Production. This repository is an independent
 implementation; the credits are carried in `manifest.json` (`credits`) and shown on the game's page.
 
+**Disclaimer.** Unofficial and independent: not affiliated with or endorsed by the designers, the artist or the
+publisher. The repository contains no original artwork and no rulebook text; the visuals are original and
+`docs/rules/` paraphrases the rules. The Apache-2.0 licence covers the code only; the game's name and rules
+remain their owners'. See [`NOTICE`](NOTICE).
+
 **Status: the base game is complete** — setup and Wonder draft, three Ages, cost solver and trading,
 military, science, tokens, guilds, scoring and every victory — with the full React UI (pyramid,
 cities, military track, token tray, log, choreography). The expansions (Agora, Pantheon, Extra

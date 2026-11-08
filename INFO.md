@@ -11,3 +11,6 @@ The Agora, Pantheon and Extra Wonders expansions are not part of this edition.
 This is an implementation of the board game *7 Wonders Duel* (2015), designed by Antoine Bauza and
 Bruno Cathala, with art by Miguel Coimbra, published by Repos Production. All credit for the game
 design belongs to them.
+
+This is an unofficial, independent implementation, not affiliated with or endorsed by the designers, the
+artist or the publisher. It uses no original artwork; the visuals are original to this project.

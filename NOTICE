@@ -1,0 +1,14 @@
+turnbase-game-7wonders-duel
+Copyright 2026 the TurnBase contributors
+
+Licensed under the Apache License, Version 2.0 (see LICENSE). The licence covers this
+repository's source code only.
+
+7 Wonders Duel (2015) is a board game designed by Antoine Bauza and Bruno Cathala, with art
+by Miguel Coimbra, published by Repos Production. The game's name, rules and artwork belong
+to their respective owners.
+
+This is an unofficial, independent implementation. It is not affiliated with, endorsed by or
+sponsored by the designers, the artist or the publisher. It contains no original artwork, no
+rulebook text and no assets from the board game; the visuals are original to this project
+and the rules documentation in docs/rules/ is a paraphrase.
