@@ -30,8 +30,8 @@ seed it into a local stack.
 Frontend dev loop (the real game in-process, Vite with HMR; needs JDK 21): `npm run dev`, then
 <http://localhost:5173/dev/> for seat 1, seat 2 and a spectator.
 
-`vendor/turnbase-gdk-0.1.0.tgz` is `npm pack` of `turnbase-sdk`'s FE half — a bootstrap stand-in for
-the npm package until the SDK's first release tag exists (`conventions.md` §5).
+`@turnbase-platform/gdk` is the `npm pack` tarball attached to the `turnbase-sdk` `v0.1.0` GitHub Release,
+depended on by URL (ADR-0022).
 
 ## Where the rules go
 

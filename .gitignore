@@ -10,7 +10,6 @@ node_modules/
 dist/
 *.tgz
 coverage/
-!vendor/*.tgz
 
 # Official rulebooks (copyrighted; kept locally only)
 *.pdf
